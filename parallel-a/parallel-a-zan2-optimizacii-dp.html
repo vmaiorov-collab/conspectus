@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Занятие 2. Параллель A — Оптимизации DP</title>
+<script>(function(){try{var t=localStorage.getItem("conspectusTheme");if(!t){t=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";localStorage.setItem("conspectusTheme",t)}document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
 <style>
   :root{
     --bg:#f7f5f1; --card:#ffffff; --ink:#1f2937; --muted:#6b7280;
@@ -11,6 +12,21 @@
     --tag:#eef2ff; --tag-ink:#4338ca; --warn:#fff7ed; --warn-ink:#c2410c;
     --code-bg:#0f172a; --code-ink:#e2e8f0; --green:#d1fae5; --green-ink:#065f46;
   }
+  html[data-theme="dark"]{
+    --bg:#0f172a; --card:#1e293b; --ink:#e2e8f0; --muted:#94a3b8;
+    --accent:#60a5fa; --accent-soft:#1e293b; --line:#334155;
+    --tag:#1e3a5f; --tag-ink:#93c5fd; --warn:#422006; --warn-ink:#fdba74;
+    --code-bg:#020617; --code-ink:#e2e8f0; --green:#052e16; --green-ink:#6ee7b7;
+  }
+  html[data-theme="dark"] body{color-scheme:dark}
+  html[data-theme="dark"] header.hero{background:linear-gradient(135deg,#0f172a,#1e3a8a)}
+  html[data-theme="dark"] th{background:#0f172a}
+  html[data-theme="dark"] tr:nth-child(even) td{background:#16213a}
+  html[data-theme="dark"] code{background:#0b1220}
+  html[data-theme="dark"] .formula,html[data-theme="dark"] .ascii{background:#111c33}
+  .theme-toggle{position:fixed; right:18px; top:18px; z-index:50; width:44px; height:44px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--ink); font-size:1.15rem; cursor:pointer; box-shadow:0 2px 10px rgba(0,0,0,.12); transition:transform .15s, border-color .15s}
+  .theme-toggle:hover{border-color:var(--accent); transform:scale(1.06)}
+  @media print{.theme-toggle{display:none}}
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; line-height:1.65; font-size:16px}
@@ -63,6 +79,7 @@
 </style>
 </head>
 <body>
+<button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему" title="Светлая / тёмная тема">🌙</button>
 <div class="wrap">
 
 <header class="hero">
@@ -252,5 +269,20 @@ Slope trick применяется к задачам, где ДП-функции
 !function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t(require("katex")):"function"==typeof define&&define.amd?define(["katex"],t):"object"==typeof exports?exports.renderMathInElement=t(require("katex")):e.renderMathInElement=t(e.katex)}("undefined"!=typeof self?self:this,(function(e){return function(){"use strict";var t={771:function(t){t.exports=e}},n={};function r(e){var o=n[e];if(void 0!==o)return o.exports;var i=n[e]={exports:{}};return t[e](i,i.exports,r),i.exports}r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,{a:t}),t},r.d=function(e,t){for(var n in t)r.o(t,n)&&!r.o(e,n)&&Object.defineProperty(e,n,{enumerable:!0,get:t[n]})},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)};var o={};return function(){r.d(o,{default:function(){return d}});var e=r(771),t=r.n(e);const n=function(e,t,n){let r=n,o=0;const i=e.length;for(;r<t.length;){const n=t[r];if(o<=0&&t.slice(r,r+i)===e)return r;"\\"===n?r++:"{"===n?o++:"}"===n&&o--,r++}return-1},i=/^\\begin{/;var a=function(e,t){let r;const o=[],a=new RegExp("("+t.map((e=>e.left.replace(/[-/\\^$*+?.()|[\]{}]/g,"\\$&"))).join("|")+")");for(;r=e.search(a),-1!==r;){r>0&&(o.push({type:"text",data:e.slice(0,r)}),e=e.slice(r));const a=t.findIndex((t=>e.startsWith(t.left)));if(r=n(t[a].right,e,t[a].left.length),-1===r)break;const l=e.slice(0,r+t[a].right.length),s=i.test(l)?l:e.slice(t[a].left.length,r);o.push({type:"math",data:s,rawData:l,display:t[a].display}),e=e.slice(r+t[a].right.length)}return""!==e&&o.push({type:"text",data:e}),o};const l=function(e,n){const r=a(e,n.delimiters);if(1===r.length&&"text"===r[0].type)return null;const o=document.createDocumentFragment();for(let e=0;e<r.length;e++)if("text"===r[e].type)o.appendChild(document.createTextNode(r[e].data));else{const i=document.createElement("span");let a=r[e].data;n.displayMode=r[e].display;try{n.preProcess&&(a=n.preProcess(a)),t().render(a,i,n)}catch(i){if(!(i instanceof t().ParseError))throw i;n.errorCallback("KaTeX auto-render: Failed to parse `"+r[e].data+"` with ",i),o.appendChild(document.createTextNode(r[e].rawData));continue}o.appendChild(i)}return o},s=function(e,t){for(let n=0;n<e.childNodes.length;n++){const r=e.childNodes[n];if(3===r.nodeType){let o=r.textContent,i=r.nextSibling,a=0;for(;i&&i.nodeType===Node.TEXT_NODE;)o+=i.textContent,i=i.nextSibling,a++;const s=l(o,t);if(s){for(let e=0;e<a;e++)r.nextSibling.remove();n+=s.childNodes.length-1,e.replaceChild(s,r)}else n+=a}else if(1===r.nodeType){const e=" "+r.className+" ";-1===t.ignoredTags.indexOf(r.nodeName.toLowerCase())&&t.ignoredClasses.every((t=>-1===e.indexOf(" "+t+" ")))&&s(r,t)}}};var d=function(e,t){if(!e)throw new Error("No element provided to render");const n={};for(const e in t)t.hasOwnProperty(e)&&(n[e]=t[e]);n.delimiters=n.delimiters||[{left:"$$",right:"$$",display:!0},{left:"\\(",right:"\\)",display:!1},{left:"\\begin{equation}",right:"\\end{equation}",display:!0},{left:"\\begin{align}",right:"\\end{align}",display:!0},{left:"\\begin{alignat}",right:"\\end{alignat}",display:!0},{left:"\\begin{gather}",right:"\\end{gather}",display:!0},{left:"\\begin{CD}",right:"\\end{CD}",display:!0},{left:"\\[",right:"\\]",display:!0}],n.ignoredTags=n.ignoredTags||["script","noscript","style","textarea","pre","code","option"],n.ignoredClasses=n.ignoredClasses||[],n.errorCallback=n.errorCallback||console.error,n.macros=n.macros||{},s(e,n)}}(),o=o.default}()}));
 </script>
 <script>document.addEventListener("DOMContentLoaded",()=>{renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false});});</script>
+<script>
+(function(){
+  var root = document.documentElement;
+  var btn = document.getElementById("theme-toggle");
+  if(!btn) return;
+  function apply(t){ root.setAttribute("data-theme", t); btn.textContent = t === "dark" ? "☀️" : "🌙"; }
+  var saved = (function(){ try { return localStorage.getItem("conspectusTheme"); } catch(e){ return null; } })();
+  apply(saved || root.getAttribute("data-theme") || "light");
+  btn.addEventListener("click", function(){
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    apply(next);
+    try { localStorage.setItem("conspectusTheme", next); } catch(e){}
+  });
+})();
+</script>
 </body>
 </html>
