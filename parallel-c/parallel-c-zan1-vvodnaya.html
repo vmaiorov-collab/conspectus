@@ -91,6 +91,42 @@
     .toplink{display:none} .card,.toc{box-shadow:none} body{background:#fff}
     header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}
   }
+
+/* ===== Redesign (unified look with navigator) ===== */
+:root{
+  --bg:#eef2f7;
+  --shadow-sm:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);
+  --shadow-md:0 10px 30px -12px rgba(15,23,42,.25);
+  --shadow-lg:0 24px 60px -24px rgba(15,23,42,.4);
+}
+html[data-theme="dark"]{
+  --bg:#0b1220; --card:#151f30; --line:#263246; --muted:#8b9bb4;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.4);
+  --shadow-md:0 12px 30px -12px rgba(0,0,0,.6);
+  --shadow-lg:0 24px 60px -24px rgba(0,0,0,.7);
+}
+html[data-theme="dark"] header.hero{background:radial-gradient(1200px 400px at 20% -10%,rgba(96,165,250,.35),transparent),linear-gradient(135deg,#0b1220,#1e3a8a)}
+html[data-theme="dark"] h3{color:var(--ink)}
+header.hero{background:radial-gradient(1200px 400px at 20% -10%,rgba(255,255,255,.28),transparent),linear-gradient(135deg,#1e3a8a,#2563eb 60%,#7c3aed); border-radius:22px; padding:44px 40px; margin-bottom:32px; box-shadow:var(--shadow-lg); position:relative; overflow:hidden}
+header.hero::after{content:""; position:absolute; right:-60px; top:-60px; width:220px; height:220px; border-radius:50%; background:radial-gradient(circle,rgba(255,255,255,.16),transparent 70%)}
+header.hero h1{font-size:1.85rem; letter-spacing:-.02em; font-weight:800}
+header.hero .sub{font-size:1rem}
+.chip{background:rgba(255,255,255,.16); backdrop-filter:blur(4px); padding:5px 13px; border:1px solid rgba(255,255,255,.14)}
+h2{font-size:1.3rem; letter-spacing:-.01em}
+.card{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow-sm); transition:transform .16s, box-shadow .16s, border-color .16s}
+.card:hover{transform:translateY(-2px); box-shadow:var(--shadow-md); border-color:#c7dbff}
+.toc{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow-sm)}
+.note{border-radius:0 12px 12px 0}
+.warn{border-radius:0 12px 12px 0}
+.good{border-radius:0 12px 12px 0}
+table{border-radius:12px; box-shadow:var(--shadow-sm)}
+pre{border-radius:12px; box-shadow:var(--shadow-md)}
+.formula{border-radius:12px}
+.ascii{border-radius:12px}
+.ts{border-radius:999px}
+.toplink{box-shadow:var(--shadow-md)}
+@media(max-width:680px){header.hero{padding:30px 22px; border-radius:18px}}
+@media print{.card,.toc,table,pre,.toplink{box-shadow:none} body{background:#fff}}
 </style>
 </head>
 <body>
