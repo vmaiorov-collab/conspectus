@@ -32,6 +32,14 @@
   a:hover{text-decoration:underline}
   .card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:8px 20px; margin:14px 0; transition:border-color .15s, box-shadow .15s}
   .card:hover{border-color:#c7dbff; box-shadow:0 2px 12px rgba(37,99,235,.06)}
+  .toolbar{display:flex; gap:10px; align-items:center; margin:6px 0 0}
+  .search{flex:1; position:relative}
+  .search input{width:100%; padding:11px 14px 11px 38px; border:1px solid var(--line); border-radius:10px; background:var(--card); color:var(--ink); font-size:.95rem; outline:none; transition:border-color .15s, box-shadow .15s}
+  .search input:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+  .search .icon{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:.9rem; pointer-events:none}
+  .toolbar .btn-sm{padding:9px 14px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--muted); font-size:.85rem; font-weight:600; cursor:pointer; transition:border-color .15s, color .15s}
+  .toolbar .btn-sm:hover{border-color:var(--accent); color:var(--accent)}
+  .nores{color:var(--muted); text-align:center; padding:30px 0; display:none}
   .parallel{display:flex; align-items:center; gap:16px; cursor:pointer; user-select:none; padding:12px 0}
   .parallel .badge{width:52px; height:52px; flex:0 0 52px; border-radius:12px; background:var(--accent-soft); color:var(--accent); display:flex; align-items:center; justify-content:center; font-size:1.3rem; font-weight:700}
   .parallel .info{flex:1}
@@ -74,7 +82,16 @@
 </header>
 
 <h2>Параллели</h2>
+<div class="toolbar">
+  <div class="search">
+    <span class="icon">🔍</span>
+    <input id="q" type="search" placeholder="Поиск по лекциям…" autocomplete="off">
+  </div>
+  <button class="btn-sm" id="expand-all" type="button">Развернуть все</button>
+  <button class="btn-sm" id="collapse-all" type="button">Свернуть все</button>
+</div>
 <div id="tree"></div>
+<div class="nores" id="nores">Ничего не найдено.</div>
 
 <div class="actions">
   <a class="btn btn-primary" href="https://github.com/vmaiorov-collab/conspectus/issues/new?template=feedback.yml" target="_blank" rel="noopener">Оставить отзыв ↗</a>
@@ -160,6 +177,36 @@ DATA.forEach((p) => {
 document.getElementById("pcount").textContent = DATA.length;
 document.getElementById("lcount").textContent = totalLessons;
 document.getElementById("lchip").textContent = totalLessons + " лекций";
+
+const heads = Array.from(document.querySelectorAll(".parallel"));
+function setAllOpen(open){
+  heads.forEach(h => h.classList.toggle("open", open));
+}
+document.getElementById("expand-all").addEventListener("click", () => setAllOpen(true));
+document.getElementById("collapse-all").addEventListener("click", () => setAllOpen(false));
+
+const q = document.getElementById("q");
+const nores = document.getElementById("nores");
+q.addEventListener("input", () => {
+  const t = q.value.trim().toLowerCase();
+  let visible = 0;
+  document.querySelectorAll("#tree .card").forEach((card) => {
+    const head = card.querySelector(".parallel");
+    const name = card.querySelector(".name").textContent.toLowerCase();
+    let cardVisible = 0;
+    card.querySelectorAll(".lesson").forEach((a) => {
+      const title = a.querySelector(".title").textContent.toLowerCase();
+      const num = a.querySelector(".num").textContent.toLowerCase();
+      const hit = !t || name.includes(t) || title.includes(t) || num.includes(t);
+      a.style.display = hit ? "" : "none";
+      if (hit) cardVisible++;
+    });
+    card.style.display = cardVisible ? "" : "none";
+    if (t && cardVisible) head.classList.add("open");
+    visible += cardVisible;
+  });
+  nores.style.display = visible ? "none" : "";
+});
 
 (function(){
   const root = document.documentElement;
