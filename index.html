@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Конспекты лекций</title>
+<style>
+  :root{
+    --bg:#f7f5f1; --card:#ffffff; --ink:#1f2937; --muted:#6b7280;
+    --accent:#2563eb; --accent-soft:#eef4ff; --line:#e5e7eb;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; line-height:1.65; font-size:16px}
+  .wrap{max-width:960px; margin:0 auto; padding:32px 20px 90px}
+  header.hero{background:linear-gradient(135deg,#1e3a8a,#2563eb); color:#fff; border-radius:16px; padding:36px 32px; margin-bottom:28px}
+  header.hero h1{margin:0 0 10px; font-size:1.6rem; line-height:1.25}
+  header.hero .sub{opacity:.92; font-size:.97rem}
+  header.hero .meta{margin-top:14px; display:flex; flex-wrap:wrap; gap:8px}
+  .chip{background:rgba(255,255,255,.16); padding:4px 12px; border-radius:999px; font-size:.82rem}
+  h2{font-size:1.35rem; margin:2.2em 0 .6em; padding-bottom:.35em; border-bottom:2px solid var(--line)}
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:8px 20px; margin:14px 0; transition:border-color .15s, box-shadow .15s}
+  .card:hover{border-color:#c7dbff; box-shadow:0 2px 12px rgba(37,99,235,.06)}
+  .parallel{display:flex; align-items:center; gap:16px; cursor:pointer; user-select:none; padding:12px 0}
+  .parallel .badge{width:52px; height:52px; flex:0 0 52px; border-radius:12px; background:var(--accent-soft); color:var(--accent); display:flex; align-items:center; justify-content:center; font-size:1.3rem; font-weight:700}
+  .parallel .info{flex:1}
+  .parallel .info .name{font-weight:700; font-size:1.12rem}
+  .parallel .info .meta{color:var(--muted); font-size:.9rem; margin-top:2px}
+  .parallel .chev{color:var(--muted); transition:transform .18s; font-size:1rem}
+  .parallel.open .chev{transform:rotate(90deg)}
+  .lessons{display:none; margin:0 0 12px; padding-top:6px; border-top:1px dashed var(--line)}
+  .parallel.open + .lessons{display:block}
+  .lesson{display:flex; align-items:center; gap:12px; padding:11px 14px; border:1px solid var(--line); border-radius:10px; margin:9px 0; transition:background .15s, border-color .15s; color:var(--ink)}
+  .lesson:hover{background:var(--accent-soft); border-color:#c7dbff; text-decoration:none}
+  .lesson .num{font-weight:700; color:var(--accent); min-width:78px; font-size:.9rem}
+  .lesson .title{flex:1}
+  .lesson .go{color:var(--muted); font-size:.85rem; white-space:nowrap}
+  .empty{color:var(--muted); font-size:.92rem; padding:8px 2px}
+  footer{margin-top:50px; padding-top:20px; border-top:1px solid var(--line); color:var(--muted); font-size:.85rem}
+  @media(max-width:680px){header.hero{padding:26px 20px} .wrap{padding:16px 12px 60px} .lesson .go{display:none}}
+  @media print{.chev{display:none} .lessons{display:block !important} .card{box-shadow:none} body{background:#fff} header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>Конспекты лекций</h1>
+  <div class="sub">Выберите параллель, затем лекцию — конспект откроется в новой вкладке.</div>
+  <div class="meta">
+    <span class="chip">5 параллелей</span>
+    <span class="chip" id="lchip">0 лекций</span>
+    <span class="chip">Офлайн HTML</span>
+  </div>
+</header>
+
+<h2>Параллели</h2>
+<div id="tree"></div>
+
+<footer>
+  Всего параллелей: <span id="pcount">0</span> · Всего лекций: <span id="lcount">0</span>
+</footer>
+
+</div>
+
+<script>
+const DATA = [
+  { key: "a",  name: "Параллель A",  badge: "A",  url: "https://www.youtube.com/playlist?list=PLPEbYG2GETx8", lessons: [
+    { n: "Занятие 2", title: "Оптимизации DP", href: "parallel-a/parallel-a-zan2-optimizacii-dp.html" }
+  ]},
+  { key: "ap", name: "Параллель A'", badge: "A'", url: "https://www.youtube.com/playlist?list=PLVEPlEFLCYes", lessons: [
+    { n: "Занятие 1", title: "Корневые эвристики", href: "parallel-ap/parallel-ap-zan1-kornevye.html" },
+    { n: "Занятие 2", title: "Структуры данных 1", href: "parallel-ap/parallel-ap-zan2-struktury.html" }
+  ]},
+  { key: "b",  name: "Параллель B",  badge: "B",  url: "https://www.youtube.com/playlist?list=PLfU-HktHP470", lessons: [
+    { n: "Занятие 2", title: "Строки 1", href: "parallel-b/parallel-b-zan2-stroki.html" }
+  ]},
+  { key: "bp", name: "Параллель B'", badge: "B'", url: "https://www.youtube.com/playlist?list=PLP5aGLvQB07Y", lessons: [
+    { n: "Занятие 1", title: "C++", href: "parallel-bp/parallel-bp-zan1-cpp.html" },
+    { n: "Занятие 2", title: "Поиски", href: "parallel-bp/parallel-bp-zan2-poiski.html" }
+  ]},
+  { key: "c",  name: "Параллель C",  badge: "C",  url: "https://www.youtube.com/playlist?list=PLNeWOJRrsoEA", lessons: [
+    { n: "Занятие 1", title: "Вводная лекция", href: "parallel-c/parallel-c-zan1-vvodnaya.html" },
+    { n: "Занятие 2", title: "Оценка сложности и сортировки", href: "parallel-c/parallel-c-zan2-slozhnost-sortirovki.html" }
+  ]}
+];
+
+const tree = document.getElementById("tree");
+let totalLessons = 0;
+
+function plural(n){
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return "конспект";
+  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return "конспекта";
+  return "конспектов";
+}
+
+DATA.forEach((p) => {
+  const card = document.createElement("div");
+  card.className = "card";
+
+  const head = document.createElement("div");
+  head.className = "parallel";
+  head.innerHTML = `
+    <div class="badge">${p.badge}</div>
+    <div class="info">
+      <div class="name">${p.name}</div>
+      <div class="meta">${p.lessons.length} ${plural(p.lessons.length)} · <a href="${p.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">плейлист ↗</a></div>
+    </div>
+    <div class="chev">▶</div>`;
+
+  const list = document.createElement("div");
+  list.className = "lessons";
+
+  p.lessons.forEach((l) => {
+    totalLessons++;
+    const a = document.createElement("a");
+    a.className = "lesson";
+    a.href = l.href;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.innerHTML = `<span class="num">${l.n}</span><span class="title">${l.title}</span><span class="go">открыть ↗</span>`;
+    list.appendChild(a);
+  });
+
+  head.addEventListener("click", () => head.classList.toggle("open"));
+
+  card.appendChild(head);
+  card.appendChild(list);
+  tree.appendChild(card);
+});
+
+document.getElementById("pcount").textContent = DATA.length;
+document.getElementById("lcount").textContent = totalLessons;
+document.getElementById("lchip").textContent = totalLessons + " лекций";
+</script>
+</body>
+</html>
