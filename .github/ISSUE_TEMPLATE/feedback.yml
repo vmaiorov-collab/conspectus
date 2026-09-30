@@ -1,0 +1,49 @@
+name: Отзыв / предложение
+about: Сообщить об ошибке в конспекте или предложить улучшение
+labels: ["конспект"]
+body:
+  - type: markdown
+    attributes:
+      value: "Спасибо за обратную связь! Опишите проблему или идею как можно конкретнее."
+  - type: dropdown
+    id: parallel
+    attributes:
+      label: Параллель
+      options:
+        - A
+        - "A'"
+        - B
+        - "B'"
+        - C
+        - Навигатор / сайт
+    validations:
+      required: true
+  - type: input
+    id: lecture
+    attributes:
+      label: Лекция / файл
+      placeholder: "Например: parallel-ap/parallel-ap-zan1-kornevye.html"
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Тип отзыва
+      options:
+        - Ошибка в содержании
+        - Опечатка / оформление
+        - Непонятное объяснение
+        - Идея / улучшение
+        - Другое
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: Что не так / что улучшить
+      placeholder: "Опишите подробно. Если ошибка — укажите место и корректный вариант."
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Дополнительно
+      placeholder: "Скриншоты, ссылки, таймкоды (необязательно)"

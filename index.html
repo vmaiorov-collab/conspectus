@@ -38,6 +38,13 @@
   .lesson .title{flex:1}
   .lesson .go{color:var(--muted); font-size:.85rem; white-space:nowrap}
   .empty{color:var(--muted); font-size:.92rem; padding:8px 2px}
+  .actions{display:flex; flex-wrap:wrap; gap:10px; margin:26px 0 0}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border-radius:10px; font-size:.92rem; font-weight:600; transition:background .15s, border-color .15s, transform .1s}
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:var(--accent); color:#fff}
+  .btn-primary:hover{background:#1d4ed8; text-decoration:none}
+  .btn-ghost{background:var(--card); color:var(--accent); border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:#c7dbff; background:var(--accent-soft); text-decoration:none}
   footer{margin-top:50px; padding-top:20px; border-top:1px solid var(--line); color:var(--muted); font-size:.85rem}
   @media(max-width:680px){header.hero{padding:26px 20px} .wrap{padding:16px 12px 60px} .lesson .go{display:none}}
   @media print{.chev{display:none} .lessons{display:block !important} .card{box-shadow:none} body{background:#fff} header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
@@ -58,6 +65,11 @@
 
 <h2>Параллели</h2>
 <div id="tree"></div>
+
+<div class="actions">
+  <a class="btn btn-primary" href="https://github.com/vmaiorov-collab/conspectus/issues/new?template=feedback.yml" target="_blank" rel="noopener">Оставить отзыв ↗</a>
+  <a class="btn btn-ghost" href="https://github.com/vmaiorov-collab/conspectus/discussions" target="_blank" rel="noopener">Обсуждения ↗</a>
+</div>
 
 <footer>
   Всего параллелей: <span id="pcount">0</span> · Всего лекций: <span id="lcount">0</span>
