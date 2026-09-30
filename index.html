@@ -43,14 +43,9 @@
   .parallel.open + .lessons{display:block}
   .lesson{display:flex; align-items:center; gap:12px; padding:11px 14px; border:1px solid var(--line); border-radius:10px; margin:9px 0; transition:background .15s, border-color .15s; color:var(--ink)}
   .lesson:hover{background:var(--accent-soft); border-color:#c7dbff; text-decoration:none}
-  .lesson .check{flex:0 0 auto; width:20px; height:20px; margin:0; accent-color:var(--accent); cursor:pointer}
   .lesson .num{font-weight:700; color:var(--accent); min-width:78px; font-size:.9rem}
   .lesson .title{flex:1}
   .lesson .go{color:var(--muted); font-size:.85rem; white-space:nowrap}
-  .lesson.done .title{text-decoration:line-through; opacity:.6}
-  .progress{margin:4px 0 0; font-size:.88rem; color:var(--muted)}
-  .progress .bar{height:8px; border-radius:999px; background:var(--line); overflow:hidden; margin-top:6px}
-  .progress .bar span{display:block; height:100%; width:0; background:var(--accent); transition:width .25s}
   .empty{color:var(--muted); font-size:.92rem; padding:8px 2px}
   .actions{display:flex; flex-wrap:wrap; gap:10px; margin:26px 0 0}
   .btn{display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border-radius:10px; font-size:.92rem; font-weight:600; transition:background .15s, border-color .15s, transform .1s}
@@ -79,10 +74,6 @@
 </header>
 
 <h2>Параллели</h2>
-<div class="progress">
-  <span id="progress-label">Прочитано 0 из 0</span>
-  <div class="bar"><span id="progress-bar"></span></div>
-</div>
 <div id="tree"></div>
 
 <div class="actions">
@@ -152,19 +143,7 @@ DATA.forEach((p) => {
     a.href = l.href;
     a.target = "_blank";
     a.rel = "noopener";
-    a.dataset.key = l.href;
-    a.innerHTML = `<input type="checkbox" class="check" aria-label="Отметить прочитанным"><span class="num">${l.n}</span><span class="title">${l.title}</span><span class="go">открыть ↗</span>`;
-    const box = a.querySelector(".check");
-    box.checked = isDone(l.href);
-    if (box.checked) a.classList.add("done");
-    box.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      box.checked = !box.checked;
-      setDone(l.href, box.checked);
-      a.classList.toggle("done", box.checked);
-      updateProgress();
-    });
+    a.innerHTML = `<span class="num">${l.n}</span><span class="title">${l.title}</span><span class="go">открыть ↗</span>`;
     list.appendChild(a);
   });
 
@@ -178,25 +157,6 @@ DATA.forEach((p) => {
 document.getElementById("pcount").textContent = DATA.length;
 document.getElementById("lcount").textContent = totalLessons;
 document.getElementById("lchip").textContent = totalLessons + " лекций";
-
-const DONE_KEY = "conspectusDone";
-function getDone(){
-  try { return JSON.parse(localStorage.getItem(DONE_KEY) || "{}") || {}; } catch(e){ return {}; }
-}
-function isDone(href){ return !!getDone()[href]; }
-function setDone(href, val){
-  const d = getDone();
-  if (val) d[href] = 1; else delete d[href];
-  try { localStorage.setItem(DONE_KEY, JSON.stringify(d)); } catch(e){}
-}
-function updateProgress(){
-  const done = Object.keys(getDone()).length;
-  const label = document.getElementById("progress-label");
-  const bar = document.getElementById("progress-bar");
-  if (label) label.textContent = "Прочитано " + done + " из " + totalLessons;
-  if (bar) bar.style.width = totalLessons ? Math.round(done / totalLessons * 100) + "%" : "0%";
-}
-updateProgress();
 
 (function(){
   const root = document.documentElement;
