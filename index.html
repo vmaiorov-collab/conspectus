@@ -7,63 +7,91 @@
 <script data-goatcounter="https://vmaiorov.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <style>
   :root{
-    --bg:#f7f5f1; --card:#ffffff; --ink:#1f2937; --muted:#6b7280;
+    --bg:#eef2f7; --card:#ffffff; --ink:#1f2937; --muted:#6b7280;
     --accent:#2563eb; --accent-soft:#eef4ff; --line:#e5e7eb;
+    --shadow-sm:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);
+    --shadow-md:0 10px 30px -12px rgba(15,23,42,.25);
+    --shadow-lg:0 24px 60px -24px rgba(15,23,42,.4);
   }
   html[data-theme="dark"]{
-    --bg:#0f172a; --card:#1e293b; --ink:#e2e8f0; --muted:#94a3b8;
-    --accent:#60a5fa; --accent-soft:#1e293b; --line:#334155;
+    --bg:#0b1220; --card:#151f30; --ink:#e2e8f0; --muted:#8b9bb4;
+    --accent:#60a5fa; --accent-soft:#16233a; --line:#263246;
+    --shadow-sm:0 1px 3px rgba(0,0,0,.4);
+    --shadow-md:0 12px 30px -12px rgba(0,0,0,.6);
+    --shadow-lg:0 24px 60px -24px rgba(0,0,0,.7);
   }
   html[data-theme="dark"] body{color-scheme:dark}
-  html[data-theme="dark"] header.hero{background:linear-gradient(135deg,#0f172a,#1e3a8a)}
+  html[data-theme="dark"] header.hero{background:radial-gradient(1200px 400px at 20% -10%,rgba(96,165,250,.35),transparent),linear-gradient(135deg,#0b1220,#1e3a8a)}
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; line-height:1.65; font-size:16px}
-  .wrap{max-width:960px; margin:0 auto; padding:32px 20px 90px}
-  header.hero{background:linear-gradient(135deg,#1e3a8a,#2563eb); color:#fff; border-radius:16px; padding:36px 32px; margin-bottom:28px}
-  header.hero h1{margin:0 0 10px; font-size:1.6rem; line-height:1.25}
-  header.hero .sub{opacity:.92; font-size:.97rem}
-  header.hero .meta{margin-top:14px; display:flex; flex-wrap:wrap; gap:8px}
-  .chip{background:rgba(255,255,255,.16); padding:4px 12px; border-radius:999px; font-size:.82rem}
-  .theme-toggle{position:fixed; right:18px; top:18px; z-index:50; width:44px; height:44px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--ink); font-size:1.15rem; cursor:pointer; box-shadow:0 2px 10px rgba(0,0,0,.12); transition:transform .15s, border-color .15s}
-  .theme-toggle:hover{border-color:var(--accent); transform:scale(1.06)}
-  h2{font-size:1.35rem; margin:2.2em 0 .6em; padding-bottom:.35em; border-bottom:2px solid var(--line)}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; line-height:1.6; font-size:16px; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px; margin:0 auto; padding:40px 20px 90px}
+
+  header.hero{
+    background:radial-gradient(1200px 400px at 20% -10%,rgba(255,255,255,.28),transparent),linear-gradient(135deg,#1e3a8a,#2563eb 60%,#7c3aed);
+    color:#fff; border-radius:22px; padding:44px 40px; margin-bottom:32px;
+    box-shadow:var(--shadow-lg); position:relative; overflow:hidden;
+  }
+  header.hero::after{content:""; position:absolute; right:-60px; top:-60px; width:220px; height:220px; border-radius:50%; background:radial-gradient(circle,rgba(255,255,255,.16),transparent 70%)}
+  header.hero h1{margin:0 0 10px; font-size:1.9rem; line-height:1.2; letter-spacing:-.02em; font-weight:800}
+  header.hero .sub{opacity:.92; font-size:1rem; max-width:560px}
+  header.hero .meta{margin-top:18px; display:flex; flex-wrap:wrap; gap:8px; position:relative; z-index:1}
+  .chip{background:rgba(255,255,255,.16); backdrop-filter:blur(4px); padding:5px 13px; border-radius:999px; font-size:.82rem; font-weight:500; border:1px solid rgba(255,255,255,.14)}
+
+  .theme-toggle{position:fixed; right:18px; top:18px; z-index:50; width:44px; height:44px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--ink); font-size:1.15rem; cursor:pointer; box-shadow:var(--shadow-md); transition:transform .18s, border-color .18s}
+  .theme-toggle:hover{border-color:var(--accent); transform:scale(1.08)}
+
+  h2{font-size:1.3rem; margin:2.4em 0 .8em; padding-bottom:.4em; border-bottom:2px solid var(--line); letter-spacing:-.01em; font-weight:700}
   a{color:var(--accent); text-decoration:none}
-  a:hover{text-decoration:underline}
-  .card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:8px 20px; margin:14px 0; transition:border-color .15s, box-shadow .15s}
-  .card:hover{border-color:#c7dbff; box-shadow:0 2px 12px rgba(37,99,235,.06)}
-  .toolbar{display:flex; gap:10px; align-items:center; margin:6px 0 0}
+  a:hover{text-decoration:none}
+
+  .card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:6px 20px; margin:14px 0; box-shadow:var(--shadow-sm); transition:transform .16s, box-shadow .16s, border-color .16s; overflow:hidden}
+  .card:hover{transform:translateY(-2px); box-shadow:var(--shadow-md); border-color:color-mix(in srgb,var(--pc,var(--accent)) 35%,var(--line))}
+
+  .toolbar{display:flex; gap:10px; align-items:center; margin:4px 0 6px}
   .search{flex:1; position:relative}
-  .search input{width:100%; padding:11px 14px 11px 38px; border:1px solid var(--line); border-radius:10px; background:var(--card); color:var(--ink); font-size:.95rem; outline:none; transition:border-color .15s, box-shadow .15s}
-  .search input:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(37,99,235,.12)}
-  .search .icon{position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:.9rem; pointer-events:none}
-  .toolbar .btn-sm{padding:9px 14px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--muted); font-size:.85rem; font-weight:600; cursor:pointer; transition:border-color .15s, color .15s}
-  .toolbar .btn-sm:hover{border-color:var(--accent); color:var(--accent)}
-  .nores{color:var(--muted); text-align:center; padding:30px 0; display:none}
-  .parallel{display:flex; align-items:center; gap:16px; cursor:pointer; user-select:none; padding:12px 0}
-  .parallel .badge{width:52px; height:52px; flex:0 0 52px; border-radius:12px; background:var(--accent-soft); color:var(--accent); display:flex; align-items:center; justify-content:center; font-size:1.3rem; font-weight:700}
-  .parallel .info{flex:1}
-  .parallel .info .name{font-weight:700; font-size:1.12rem}
-  .parallel .info .meta{color:var(--muted); font-size:.9rem; margin-top:2px}
-  .parallel .chev{color:var(--muted); transition:transform .18s; font-size:1rem}
-  .parallel.open .chev{transform:rotate(90deg)}
-  .lessons{display:none; margin:0 0 12px; padding-top:6px; border-top:1px dashed var(--line)}
-  .parallel.open + .lessons{display:block}
-  .lesson{display:flex; align-items:center; gap:12px; padding:11px 14px; border:1px solid var(--line); border-radius:10px; margin:9px 0; transition:background .15s, border-color .15s; color:var(--ink)}
-  .lesson:hover{background:var(--accent-soft); border-color:#c7dbff; text-decoration:none}
-  .lesson .num{font-weight:700; color:var(--accent); min-width:78px; font-size:.9rem}
+  .search input{width:100%; padding:12px 16px 12px 40px; border:1px solid var(--line); border-radius:12px; background:var(--card); color:var(--ink); font-size:.95rem; outline:none; box-shadow:var(--shadow-sm); transition:border-color .15s, box-shadow .15s}
+  .search input:focus{border-color:var(--accent); box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
+  .search .icon{position:absolute; left:13px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:.9rem; pointer-events:none}
+  .toolbar .btn-sm{padding:10px 14px; border-radius:11px; border:1px solid var(--line); background:var(--card); color:var(--muted); font-size:.85rem; font-weight:600; cursor:pointer; box-shadow:var(--shadow-sm); transition:border-color .15s, color .15s, transform .1s}
+  .toolbar .btn-sm:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-1px)}
+  .nores{color:var(--muted); text-align:center; padding:40px 0; display:none; font-size:.95rem}
+
+  .parallel{display:flex; align-items:center; gap:16px; cursor:pointer; user-select:none; padding:14px 0}
+  .parallel .badge{width:54px; height:54px; flex:0 0 54px; border-radius:14px; background:linear-gradient(135deg,color-mix(in srgb,var(--pc,var(--accent)) 85%,#000 8%),color-mix(in srgb,var(--pc,var(--accent)) 100%,#fff 0%)); color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.25rem; font-weight:800; box-shadow:0 6px 14px -6px color-mix(in srgb,var(--pc,var(--accent)) 60%,transparent)}
+  .parallel .info{flex:1; min-width:0}
+  .parallel .info .name{font-weight:700; font-size:1.14rem; letter-spacing:-.01em}
+  .parallel .info .meta{color:var(--muted); font-size:.88rem; margin-top:2px}
+  .parallel .meta a{color:var(--muted); border-bottom:1px dashed var(--line)}
+  .parallel .meta a:hover{color:var(--accent)}
+  .parallel .chev{color:var(--muted); transition:transform .2s; font-size:.85rem; width:22px; height:22px; border-radius:6px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line)}
+  .parallel.open .chev{transform:rotate(90deg); color:var(--pc,var(--accent)); border-color:var(--pc,var(--accent))}
+
+  .lessons{display:none; margin:0 0 14px; padding:14px 0 0}
+  .parallel.open + .lessons{display:block; animation:fade .25s ease}
+  @keyframes fade{from{opacity:0; transform:translateY(-4px)}to{opacity:1; transform:none}}
+
+  .lesson{display:flex; align-items:center; gap:12px; padding:12px 14px; border:1px solid var(--line); border-radius:12px; margin:8px 0; transition:background .15s, border-color .15s, transform .12s; color:var(--ink); background:var(--card)}
+  .lesson:hover{background:var(--accent-soft); border-color:color-mix(in srgb,var(--pc,var(--accent)) 40%,var(--line)); transform:translateX(3px); text-decoration:none}
+  .lesson .num{font-weight:700; color:var(--muted); min-width:76px; font-size:.85rem}
+  .lesson:hover .num{color:var(--pc,var(--accent))}
   .lesson .title{flex:1}
-  .lesson .go{color:var(--muted); font-size:.85rem; white-space:nowrap}
+  .lesson .go{color:var(--muted); font-size:.82rem; white-space:nowrap; opacity:0; transform:translateX(-4px); transition:opacity .15s, transform .15s}
+  .lesson:hover .go{opacity:1; transform:none}
+
   .empty{color:var(--muted); font-size:.92rem; padding:8px 2px}
-  .actions{display:flex; flex-wrap:wrap; gap:10px; margin:26px 0 0}
-  .btn{display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border-radius:10px; font-size:.92rem; font-weight:600; transition:background .15s, border-color .15s, transform .1s}
+  .actions{display:flex; flex-wrap:wrap; gap:10px; margin:28px 0 0}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:12px; font-size:.92rem; font-weight:600; transition:background .15s, border-color .15s, transform .1s, box-shadow .15s}
   .btn:active{transform:translateY(1px)}
-  .btn-primary{background:var(--accent); color:#fff}
-  .btn-primary:hover{background:#1d4ed8; text-decoration:none}
-  .btn-ghost{background:var(--card); color:var(--accent); border:1px solid var(--line)}
-  .btn-ghost:hover{border-color:#c7dbff; background:var(--accent-soft); text-decoration:none}
-  footer{margin-top:50px; padding-top:20px; border-top:1px solid var(--line); color:var(--muted); font-size:.85rem}
-  @media(max-width:680px){header.hero{padding:26px 20px} .wrap{padding:16px 12px 60px} .lesson .go{display:none}}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),#7c3aed); color:#fff; box-shadow:0 8px 20px -8px rgba(124,58,237,.6)}
+  .btn-primary:hover{filter:brightness(1.05); text-decoration:none; transform:translateY(-1px)}
+  .btn-ghost{background:var(--card); color:var(--accent); border:1px solid var(--line); box-shadow:var(--shadow-sm)}
+  .btn-ghost:hover{border-color:var(--accent); background:var(--accent-soft); text-decoration:none}
+
+  footer{margin-top:56px; padding-top:22px; border-top:1px solid var(--line); color:var(--muted); font-size:.85rem}
+  footer a{color:var(--muted); border-bottom:1px dashed var(--line)}
+  footer a:hover{color:var(--accent)}
+  @media(max-width:680px){header.hero{padding:30px 22px; border-radius:18px} .wrap{padding:24px 14px 60px} .lesson .go{display:none} .toolbar{flex-wrap:wrap} .toolbar .btn-sm{flex:1}}
   @media print{.chev{display:none} .lessons{display:block !important} .card{box-shadow:none} body{background:#fff} header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
 </style>
 </head>
@@ -109,21 +137,21 @@
 
 <script>
 const DATA = [
-  { key: "a",  name: "Параллель A",  badge: "A",  url: "https://www.youtube.com/playlist?list=PLPEbYG2GETx8", lessons: [
+  { key: "a",  name: "Параллель A",  badge: "A",  color: "#3b82f6", url: "https://www.youtube.com/playlist?list=PLPEbYG2GETx8", lessons: [
     { n: "Занятие 2", title: "Оптимизации DP", href: "parallel-a/parallel-a-zan2-optimizacii-dp.html" }
   ]},
-  { key: "ap", name: "Параллель A'", badge: "A'", url: "https://www.youtube.com/playlist?list=PLVEPlEFLCYes", lessons: [
+  { key: "ap", name: "Параллель A'", badge: "A'", color: "#8b5cf6", url: "https://www.youtube.com/playlist?list=PLVEPlEFLCYes", lessons: [
     { n: "Занятие 1", title: "Корневые эвристики", href: "parallel-ap/parallel-ap-zan1-kornevye.html" },
     { n: "Занятие 2", title: "Структуры данных 1", href: "parallel-ap/parallel-ap-zan2-struktury.html" }
   ]},
-  { key: "b",  name: "Параллель B",  badge: "B",  url: "https://www.youtube.com/playlist?list=PLfU-HktHP470", lessons: [
+  { key: "b",  name: "Параллель B",  badge: "B",  color: "#10b981", url: "https://www.youtube.com/playlist?list=PLfU-HktHP470", lessons: [
     { n: "Занятие 2", title: "Строки 1", href: "parallel-b/parallel-b-zan2-stroki.html" }
   ]},
-  { key: "bp", name: "Параллель B'", badge: "B'", url: "https://www.youtube.com/playlist?list=PLP5aGLvQB07Y", lessons: [
+  { key: "bp", name: "Параллель B'", badge: "B'", color: "#f59e0b", url: "https://www.youtube.com/playlist?list=PLP5aGLvQB07Y", lessons: [
     { n: "Занятие 1", title: "C++", href: "parallel-bp/parallel-bp-zan1-cpp.html" },
     { n: "Занятие 2", title: "Поиски", href: "parallel-bp/parallel-bp-zan2-poiski.html" }
   ]},
-  { key: "c",  name: "Параллель C",  badge: "C",  url: "https://www.youtube.com/playlist?list=PLNeWOJRrsoEA", lessons: [
+  { key: "c",  name: "Параллель C",  badge: "C",  color: "#ef4444", url: "https://www.youtube.com/playlist?list=PLNeWOJRrsoEA", lessons: [
     { n: "Занятие 1", title: "Вводная лекция", href: "parallel-c/parallel-c-zan1-vvodnaya.html" },
     { n: "Занятие 2", title: "Оценка сложности и сортировки", href: "parallel-c/parallel-c-zan2-slozhnost-sortirovki.html" }
   ]}
@@ -142,6 +170,7 @@ function plural(n){
 DATA.forEach((p) => {
   const card = document.createElement("div");
   card.className = "card";
+  card.style.setProperty("--pc", p.color);
 
   const head = document.createElement("div");
   head.className = "parallel";
