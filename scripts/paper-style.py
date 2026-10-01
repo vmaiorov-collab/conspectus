@@ -8,6 +8,7 @@
     python3 scripts/paper-style.py            # все конспекты
     python3 scripts/paper-style.py file.html  # отдельные файлы
 """
+import html
 import re
 import sys
 from pathlib import Path
@@ -247,6 +248,30 @@ html[data-theme] .algo .bscell.R{background:var(--f-orange-bg); color:var(--f-on
 html[data-theme] .algo .bscell.mid{background:var(--f-yellow-bg); color:var(--f-on)}
 html[data-theme] .algo .bscell.found{box-shadow:0 0 0 3px color-mix(in srgb,var(--f-green) 40%,transparent)}
 
+/* блоки кода */
+html[data-theme]{
+  --code-paper:#f4f0e7; --code-head:#ebe5d8; --code-line:#e0d9ca; --code-text:#2b2925;
+  --hl-c:#8d877b; --hl-k:#1f4fd1; --hl-t:#7a3fb8; --hl-s:#2e7d32; --hl-n:#b4540a; --hl-f:#8a5a00; --hl-p:#b8372a;
+}
+html[data-theme="dark"]{
+  --code-paper:#1c1b19; --code-head:#232220; --code-line:#2e2d2a; --code-text:#e6e2d9;
+  --hl-c:#7f7a70; --hl-k:#8fb0ff; --hl-t:#c9a6ff; --hl-s:#a5d68f; --hl-n:#f2a96a; --hl-f:#e9d18e; --hl-p:#f08c7c;
+}
+html[data-theme] .code{margin:18px 0; border:1px solid var(--code-line); border-radius:8px; background:var(--code-paper); overflow:hidden}
+html[data-theme] .code-head{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:6px 8px 6px 14px; background:var(--code-head); border-bottom:1px solid var(--code-line); font-family:var(--mono); font-size:.72rem; color:var(--muted); letter-spacing:.03em}
+html[data-theme] .code-head .copy{font:inherit; color:var(--muted); background:none; border:1px solid transparent; border-radius:5px; padding:3px 9px; cursor:pointer; transition:color .15s, border-color .15s, background-color .15s}
+html[data-theme] .code-head .copy:hover{color:var(--ink); border-color:var(--code-line); background:var(--code-paper)}
+html[data-theme] .code pre{margin:0; border:0; border-radius:0; background:none; color:var(--code-text); padding:14px 16px; font-size:.84rem; line-height:1.6; tab-size:4; overflow-x:auto}
+html[data-theme] .code pre code{font-family:var(--mono); background:none; color:inherit; padding:0}
+html[data-theme] .hl .c{color:var(--hl-c); font-style:italic}
+html[data-theme] .hl .k{color:var(--hl-k); font-weight:600}
+html[data-theme] .hl .t{color:var(--hl-t)}
+html[data-theme] .hl .s{color:var(--hl-s)}
+html[data-theme] .hl .n{color:var(--hl-n)}
+html[data-theme] .hl .f{color:var(--hl-f)}
+html[data-theme] .hl .p{color:var(--hl-p)}
+@media print{html[data-theme] .code-head .copy{display:none}}
+
 /* плавная смена темы */
 html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:background-color .3s ease, color .3s ease, border-color .3s ease !important}
 
@@ -268,7 +293,12 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 
 THEME_ANIM_JS = (
     '<script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){'
-    'var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);</script>'
+    'var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);'
+    'document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".code .copy");if(!b)return;'
+    'var pre=b.closest(".code").querySelector("pre"),t=pre.innerText;'
+    'function ok(){b.textContent="скопировано ✓";setTimeout(function(){b.textContent="копировать"},1600)}'
+    'function sel(){var r=document.createRange();r.selectNodeContents(pre);var x=getSelection();x.removeAllRanges();x.addRange(r);b.textContent="выделено — нажмите ⌘C"}'
+    'if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>'
 )
 
 OLD_TOP = (
@@ -284,6 +314,61 @@ OLD_LABEL = 'textContent = t === "dark" ? "☀️" : "🌙";'
 NEW_LABEL = 'textContent = t === "dark" ? "светлая тема" : "тёмная тема";'
 
 
+# ---------- подсветка C++ ----------
+KEYWORDS = set("""if else for while do return break continue switch case default struct class public private protected
+const constexpr static auto using namespace template typename new delete true false nullptr sizeof operator inline
+this virtual friend enum typedef goto try catch throw noexcept mutable explicit""".split())
+TYPES = set("""int long short double float char bool void unsigned signed size_t string vector map set multiset unordered_map
+unordered_set pair queue deque stack priority_queue array bitset ll ld ull ui __int128 int64_t uint64_t int32_t uint32_t
+tuple function list greater less std mt19937 complex istream ostream""".split())
+TOKEN = re.compile(r"""(?P<c>//[^\n]*|/\*.*?\*/)|(?P<p>^[ \t]*\#[^\n]*)|(?P<s>"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])')|(?P<n>\b(?:0[xX][0-9a-fA-F]+|\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)[uUlLfF]*\b)|(?P<w>[A-Za-z_]\w*)""", re.M | re.S)
+
+
+def highlight(code: str) -> str:
+    out, i = [], 0
+    for m in TOKEN.finditer(code):
+        out.append(html.escape(code[i:m.start()], quote=False))
+        tok = html.escape(m.group(0), quote=False)
+        kind = m.lastgroup
+        if kind == "w":
+            w = m.group(0)
+            rest = code[m.end():m.end() + 3].lstrip()
+            if w in KEYWORDS:
+                kind = "k"
+            elif w in TYPES:
+                kind = "t"
+            elif rest.startswith("("):
+                kind = "f"
+            else:
+                kind = None
+        out.append(f'<span class="{kind}">{tok}</span>' if kind else tok)
+        i = m.end()
+    out.append(html.escape(code[i:], quote=False))
+    return "".join(out)
+
+
+def looks_like_cpp(code: str) -> bool:
+    return any(x in code for x in (";", "{", "//", "#include", "cin", "cout"))
+
+
+CODE_WRAP = re.compile(r'<div class="code"><div class="code-head">.*?</div><pre class="hl"><code>(.*?)</code></pre></div>', re.S)
+PLAIN = re.compile(r"<pre><code>(.*?)</code></pre>", re.S)
+
+
+def wrap_code(s: str) -> str:
+    def render(raw_html):
+        code = html.unescape(re.sub(r"<[^>]+>", "", raw_html))
+        cpp = looks_like_cpp(code)
+        body = highlight(code) if cpp else html.escape(code, quote=False)
+        label = "C++" if cpp else "текст"
+        return (f'<div class="code"><div class="code-head"><span>{label}</span>'
+                f'<button class="copy" type="button">копировать</button></div>'
+                f'<pre class="hl"><code>{body}</code></pre></div>')
+    s = CODE_WRAP.sub(lambda m: render(m.group(1)), s)
+    s = PLAIN.sub(lambda m: render(m.group(1)), s)
+    return s
+
+
 def apply(path: Path) -> str:
     s = path.read_text(encoding="utf-8")
     block = f'<style id="paper">{CSS}</style>\n{THEME_ANIM_JS}\n'
@@ -293,6 +378,7 @@ def apply(path: Path) -> str:
         s = s.replace("</head>", block + "</head>", 1)
     s = s.replace(OLD_TOP, NEW_TOP, 1)
     s = s.replace(OLD_LABEL, NEW_LABEL)
+    s = wrap_code(s)
     path.write_text(s, encoding="utf-8")
     ok = '<div class="top">' in s and NEW_LABEL in s
     return "ok" if ok else "проверьте вручную: не найдена шапка или переключатель темы"
