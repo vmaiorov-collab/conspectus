@@ -70,7 +70,7 @@
 
   #tree{border-top:1px solid var(--ink)}
   .card{border-bottom:1px solid var(--line)}
-  .parallel{display:grid; grid-template-columns:48px 1fr auto; align-items:center; gap:14px; padding:16px 4px; cursor:pointer; user-select:none}
+  .parallel{display:grid; grid-template-columns:48px 1fr auto; align-items:center; gap:14px; padding:16px 4px; cursor:pointer; user-select:none; transition:background-color .2s ease}
   .parallel:hover{background:var(--hover)}
   .badge{font-family:var(--mono); font-weight:700; font-size:1rem; color:var(--pc); border:1.5px solid var(--pc); border-radius:6px; height:36px; display:flex; align-items:center; justify-content:center}
   .name{font-weight:650; font-size:1.05rem}
@@ -78,15 +78,17 @@
   .side{display:flex; align-items:center; gap:16px; color:var(--muted); font-size:.85rem}
   .side a{color:var(--muted)}
   .side a:hover{color:var(--accent)}
-  .chev{font-size:1.3rem; line-height:1; color:var(--faint); transition:transform .15s; width:14px; text-align:center}
+  .chev{font-size:1.3rem; line-height:1; color:var(--faint); transition:transform .3s cubic-bezier(.2,.7,.2,1), color .2s; width:14px; text-align:center}
   .parallel.open .chev{transform:rotate(90deg); color:var(--ink)}
 
-  .lessons{display:none; padding:0 4px 14px 66px}
-  .parallel.open + .lessons{display:block}
+  .lessons{display:grid; grid-template-rows:0fr; opacity:0; transition:grid-template-rows .32s cubic-bezier(.2,.7,.2,1), opacity .25s ease}
+  .parallel.open + .lessons{grid-template-rows:1fr; opacity:1}
+  .lessons .inner{overflow:hidden; min-height:0; padding:0 4px 0 66px}
+  .lessons .inner > :last-child{margin-bottom:14px}
   .lesson{display:flex; gap:16px; align-items:baseline; padding:9px 0; color:var(--ink); border-top:1px dashed var(--line)}
   .lesson:first-child{border-top:0}
   .lesson .num{font-family:var(--mono); font-size:.8rem; color:var(--muted); min-width:58px}
-  .lesson .title{font-family:var(--serif); font-size:1.08rem}
+  .lesson .title{font-family:var(--serif); font-size:1.08rem; transition:color .15s}
   .lesson:hover{text-decoration:none}
   .lesson:hover .title{color:var(--accent); text-decoration:underline; text-underline-offset:3px}
   .nores{color:var(--muted); padding:28px 4px; display:none}
@@ -108,10 +110,17 @@
     .section-head{margin-top:48px}
     .tools{width:100%} .tools input{flex:1; width:auto}
     .side .pl{display:none}
-    .lessons{padding-left:4px}
+    .lessons .inner{padding-left:4px}
     .ask{padding:20px}
   }
-  @media print{.top,.tools,.ask{display:none} .lessons{display:block !important}}
+  html.theme-anim, html.theme-anim *{transition:background-color .3s ease, color .3s ease, border-color .3s ease !important}
+  @view-transition{navigation:auto}
+  ::view-transition-old(root),::view-transition-new(root){animation-duration:.22s}
+  @media(prefers-reduced-motion:reduce){
+    *{transition:none !important}
+    @view-transition{navigation:none}
+  }
+  @media print{.top,.tools,.ask{display:none} .lessons{grid-template-rows:1fr !important; opacity:1 !important}}
 </style>
 </head>
 <body>
@@ -208,12 +217,15 @@ DATA.forEach((p) => {
 
   const list = document.createElement("div");
   list.className = "lessons";
+  const inner = document.createElement("div");
+  inner.className = "inner";
+  list.appendChild(inner);
   p.lessons.forEach((l) => {
     const a = document.createElement("a");
     a.className = "lesson";
     a.href = l.href;
     a.innerHTML = `<span class="num">${l.n.replace("Занятие ", "зан. ")}</span><span class="title">${l.title}</span>`;
-    list.appendChild(a);
+    inner.appendChild(a);
   });
 
   head.addEventListener("click", () => head.classList.toggle("open"));
@@ -258,6 +270,8 @@ q.addEventListener("input", () => {
   label();
   btn.addEventListener("click", function(){
     const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.classList.add("theme-anim");
+    setTimeout(() => root.classList.remove("theme-anim"), 350);
     root.setAttribute("data-theme", next);
     label();
     try { localStorage.setItem("conspectusTheme", next); } catch(e){}

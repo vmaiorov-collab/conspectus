@@ -136,11 +136,262 @@ pre{border-radius:12px; box-shadow:var(--shadow-md)}
   a.ts:hover{filter:brightness(.9); text-decoration:none; transform:translateY(-1px)}
   @media print{.back{display:none} a.ts::before{content:""}}
 </style>
+<style id="paper">
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.22s}
+html[data-theme]{
+  --bg:#f7f5f0; --card:#fffdf8; --ink:#1c1b19; --muted:#6f6a61; --faint:#a19b90;
+  --accent:#1f4fd1; --accent-soft:#eef0f6; --line:#e3ded3;
+  --tag:#ece7dc; --tag-ink:#3a362f; --warn:#faf1e1; --warn-ink:#94560c; --green:#ebf3ea; --green-ink:#2a6038;
+  --code-bg:#1d1c1a; --code-ink:#ebe7df;
+  --shadow-sm:none; --shadow-md:none; --shadow-lg:none;
+  --serif:"PT Serif",Georgia,"Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","PT Mono",Menlo,Consolas,monospace;
+  scroll-behavior:smooth;
+}
+html[data-theme="dark"]{
+  --bg:#141413; --card:#1b1b19; --ink:#e9e6df; --muted:#a29d93; --faint:#6f6b64;
+  --accent:#8fb0ff; --accent-soft:#1c1f27; --line:#2e2d2a;
+  --tag:#26251f; --tag-ink:#d9d4c9; --warn:#272116; --warn-ink:#e3b46a; --green:#17221a; --green-ink:#93cfa2;
+  --code-bg:#0e0e0d; --code-ink:#ebe7df;
+  color-scheme:dark;
+}
+html[data-theme] body{background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased}
+html[data-theme] .wrap{max-width:820px; padding:28px 24px 80px}
+
+/* верхняя строка */
+html[data-theme] .top{display:flex; justify-content:space-between; align-items:center; gap:12px; font-family:var(--mono); font-size:.8rem}
+html[data-theme] .back{display:inline; margin:0; padding:0; border:0; background:none; color:var(--muted); font:inherit}
+html[data-theme] .back:hover{color:var(--ink); text-decoration:none}
+html[data-theme] .theme-toggle{position:static; width:auto; height:auto; font:inherit; font-size:.8rem; color:var(--muted); background:none; border:1px solid var(--line); border-radius:6px; padding:4px 10px; box-shadow:none; cursor:pointer; transform:none}
+html[data-theme] .theme-toggle:hover{color:var(--ink); border-color:var(--muted); transform:none}
+
+/* шапка */
+html[data-theme] header.hero{background:none; color:var(--ink); border-radius:0; box-shadow:none; padding:52px 0 26px; margin:0 0 8px; border-bottom:1px solid var(--line); overflow:visible}
+html[data-theme] header.hero::after{display:none}
+html[data-theme] header.hero h1{font-family:var(--serif); font-weight:700; font-size:clamp(1.9rem,5vw,2.6rem); line-height:1.12; letter-spacing:-.01em; margin:0 0 14px}
+html[data-theme] header.hero .sub{font-family:var(--serif); font-size:1.12rem; line-height:1.55; opacity:1; max-width:38em}
+html[data-theme] header.hero .meta{gap:0; margin-top:16px}
+html[data-theme] .chip{background:none; backdrop-filter:none; border:0; border-radius:0; padding:0; font-family:var(--mono); font-size:.78rem; color:var(--muted)}
+html[data-theme] .chip + .chip::before{content:"·"; margin:0 .7em; color:var(--faint)}
+
+/* оглавление */
+html[data-theme] .toc{background:none; border:0; border-radius:0; box-shadow:none; padding:20px 0 24px; margin:0 0 12px; border-bottom:1px solid var(--line)}
+html[data-theme] .toc h2{font-family:var(--mono); font-size:.78rem; font-weight:500; color:var(--muted); letter-spacing:.04em; text-transform:uppercase; margin:0 0 6px; padding:0; border:0}
+html[data-theme] .toc ol{columns:2 280px; column-gap:32px; padding-left:1.5em; margin:0}
+html[data-theme] .toc li{font-family:var(--serif); break-inside:avoid; margin:0 0 .4em; color:var(--muted)}
+html[data-theme] .toc a{color:var(--ink)}
+html[data-theme] .toc a:hover{color:var(--accent); text-decoration:underline; text-underline-offset:3px}
+
+/* текст */
+html[data-theme] h2{font-family:var(--serif); font-size:1.7rem; font-weight:700; line-height:1.25; letter-spacing:-.005em; margin:2.4em 0 .6em; padding:0; border:0; scroll-margin-top:20px}
+html[data-theme] h3{font-family:var(--serif); font-size:1.25rem; font-weight:700; color:var(--ink); margin:1.8em 0 .5em; scroll-margin-top:20px}
+html[data-theme] .wrap > p, html[data-theme] .wrap > ul, html[data-theme] .wrap > ol, html[data-theme] .card p,
+html[data-theme] .card li{font-family:var(--serif); font-size:1.08rem; line-height:1.68}
+html[data-theme] .note, html[data-theme] .warn, html[data-theme] .good{font-family:var(--serif); font-size:1.04rem}
+html[data-theme] a{color:var(--accent)}
+html[data-theme] a:hover{text-decoration:underline; text-underline-offset:3px}
+html[data-theme] a.ts{display:inline-block; vertical-align:.2em; margin:0 0 0 .5em; padding:2px 7px; border-radius:4px; background:var(--tag); color:var(--tag-ink); font-family:var(--mono); font-size:.72rem; font-weight:500; letter-spacing:0; transition:background-color .15s, color .15s}
+html[data-theme] a.ts::before{content:"▶\00a0"; font-size:.85em}
+html[data-theme] a.ts:hover{background:var(--ink); color:var(--bg); text-decoration:none; filter:none; transform:none}
+html[data-theme] p > a.ts:first-child{margin:0 .4em 0 0; vertical-align:.1em}
+
+/* блоки */
+html[data-theme] .card{background:var(--card); border:1px solid var(--line); border-radius:6px; box-shadow:none; transform:none}
+html[data-theme] .card:hover{transform:none; box-shadow:none; border-color:var(--line)}
+html[data-theme] .note, html[data-theme] .warn, html[data-theme] .good{border-radius:0; border-left-width:2px; padding:12px 18px}
+html[data-theme] .note{border-left-color:var(--accent); background:var(--accent-soft)}
+html[data-theme] .warn{border-left-color:var(--warn-ink); background:var(--warn)}
+html[data-theme] .good{border-left-color:var(--green-ink); background:var(--green)}
+html[data-theme] .note .lbl, html[data-theme] .warn .lbl, html[data-theme] .good .lbl{font-family:var(--mono); font-size:.74rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase}
+html[data-theme] table{background:none; border-radius:0; box-shadow:none; font-size:.92rem}
+html[data-theme] th, html[data-theme] td{border:0; border-bottom:1px solid var(--line); padding:9px 12px}
+html[data-theme] th{background:none; color:var(--muted); font-weight:600; font-size:.82rem; border-bottom:1px solid var(--ink)}
+html[data-theme] tr:nth-child(even) td{background:none}
+html[data-theme] code{background:var(--tag); color:var(--ink); border-radius:3px; font-family:var(--mono)}
+html[data-theme] pre{background:var(--code-bg); color:var(--code-ink); border-radius:6px; box-shadow:none; font-family:var(--mono)}
+html[data-theme] pre code{background:none; color:inherit}
+html[data-theme] .formula, html[data-theme] .ascii{background:var(--card); border:1px solid var(--line); border-radius:6px}
+html[data-theme] .viz svg{border-radius:6px; box-shadow:none}
+html[data-theme] .viz figcaption, html[data-theme] .algocap{font-size:.85rem; color:var(--muted)}
+html[data-theme] .algo{border-radius:6px; box-shadow:none}
+html[data-theme] .timeline{border-left:1px solid var(--line)}
+html[data-theme] .timeline .step::before{width:9px; height:9px; left:-29px; top:8px; border:0; background:var(--ink)}
+
+html[data-theme] footer{font-size:.82rem; color:var(--muted); border-top:1px solid var(--line); margin-top:56px; padding-top:16px}
+html[data-theme] .toplink{background:var(--ink); color:var(--bg); border:0; border-radius:6px; box-shadow:none; padding:8px 14px; font-family:var(--sans); font-size:.82rem; cursor:pointer; transform:translateY(8px); transition:opacity .2s, transform .2s}
+html[data-theme] .toplink.show{transform:none}
+
+/* схемы: палитра 3B1B → цвета темы (CSS перекрывает атрибуты fill/stroke) */
+html[data-theme]{
+  --f-bg:var(--card); --f-node:#f1ece2; --f-node2:#ebe5d9; --f-node3:#dde7ef; --f-edge:#c9c1b2; --f-axis:#8f887c;
+  --f-text:var(--ink); --f-text2:#4a463e; --f-muted:var(--muted); --f-on:#1c1b19;
+  --f-blue:#1b7aa0; --f-blue-bg:#a8d4e6; --f-green:#3b8530; --f-green-bg:#bfdfae;
+  --f-orange:#c0610a; --f-orange-bg:#f1bf88; --f-yellow:#a07f00; --f-yellow-bg:#ecd568;
+  --f-red:#bf3a2b; --f-red-bg:#ecb0a6; --f-purple:#7a4cc6; --f-purple-bg:#d0bdf0;
+}
+html[data-theme="dark"]{
+  --f-bg:var(--card); --f-node:#262521; --f-node2:#22211e; --f-node3:#23384d; --f-edge:#46433d; --f-axis:#8a857b;
+  --f-text:var(--ink); --f-text2:#cfcac0; --f-muted:var(--muted); --f-on:#141413;
+  --f-blue:#58c4dd; --f-blue-bg:#58c4dd; --f-green:#83c167; --f-green-bg:#83c167;
+  --f-orange:#ff8c1a; --f-orange-bg:#ff8c1a; --f-yellow:#f2e04a; --f-yellow-bg:#f2e04a;
+  --f-red:#fc6255; --f-red-bg:#fc6255; --f-purple:#c78bff; --f-purple-bg:#c78bff;
+}
+html[data-theme] svg :not(text)[fill="#141A24"]{fill:var(--f-bg)}
+html[data-theme] svg text[fill="#141A24"]{fill:var(--f-on)}
+html[data-theme] svg [stroke="#141A24"]{stroke:var(--f-bg)}
+html[data-theme] svg :not(text)[fill="#141a24"]{fill:var(--f-bg)}
+html[data-theme] svg text[fill="#141a24"]{fill:var(--f-on)}
+html[data-theme] svg [stroke="#141a24"]{stroke:var(--f-bg)}
+html[data-theme] svg :not(text)[fill="#1E2836"]{fill:var(--f-node)}
+html[data-theme] svg text[fill="#1E2836"]{fill:var(--f-text)}
+html[data-theme] svg [stroke="#1E2836"]{stroke:var(--f-node)}
+html[data-theme] svg :not(text)[fill="#1e2836"]{fill:var(--f-node)}
+html[data-theme] svg text[fill="#1e2836"]{fill:var(--f-text)}
+html[data-theme] svg [stroke="#1e2836"]{stroke:var(--f-node)}
+html[data-theme] svg :not(text)[fill="#151F30"]{fill:var(--f-node2)}
+html[data-theme] svg text[fill="#151F30"]{fill:var(--f-text)}
+html[data-theme] svg [stroke="#151F30"]{stroke:var(--f-node2)}
+html[data-theme] svg :not(text)[fill="#151f30"]{fill:var(--f-node2)}
+html[data-theme] svg text[fill="#151f30"]{fill:var(--f-text)}
+html[data-theme] svg [stroke="#151f30"]{stroke:var(--f-node2)}
+html[data-theme] svg :not(text)[fill="#24405C"]{fill:var(--f-node3)}
+html[data-theme] svg text[fill="#24405C"]{fill:var(--f-text)}
+html[data-theme] svg [stroke="#24405C"]{stroke:var(--f-node3)}
+html[data-theme] svg :not(text)[fill="#24405c"]{fill:var(--f-node3)}
+html[data-theme] svg text[fill="#24405c"]{fill:var(--f-text)}
+html[data-theme] svg [stroke="#24405c"]{stroke:var(--f-node3)}
+html[data-theme] svg :not(text)[fill="#DFE7F1"]{fill:var(--f-text)}
+html[data-theme] svg text[fill="#DFE7F1"]{fill:var(--f-text)}
+html[data-theme] svg [stroke="#DFE7F1"]{stroke:var(--f-text)}
+html[data-theme] svg :not(text)[fill="#dfe7f1"]{fill:var(--f-text)}
+html[data-theme] svg text[fill="#dfe7f1"]{fill:var(--f-text)}
+html[data-theme] svg [stroke="#dfe7f1"]{stroke:var(--f-text)}
+html[data-theme] svg :not(text)[fill="#C2CDDE"]{fill:var(--f-text2)}
+html[data-theme] svg text[fill="#C2CDDE"]{fill:var(--f-text2)}
+html[data-theme] svg [stroke="#C2CDDE"]{stroke:var(--f-text2)}
+html[data-theme] svg :not(text)[fill="#c2cdde"]{fill:var(--f-text2)}
+html[data-theme] svg text[fill="#c2cdde"]{fill:var(--f-text2)}
+html[data-theme] svg [stroke="#c2cdde"]{stroke:var(--f-text2)}
+html[data-theme] svg :not(text)[fill="#9AA4B2"]{fill:var(--f-muted)}
+html[data-theme] svg text[fill="#9AA4B2"]{fill:var(--f-muted)}
+html[data-theme] svg [stroke="#9AA4B2"]{stroke:var(--f-axis)}
+html[data-theme] svg :not(text)[fill="#9aa4b2"]{fill:var(--f-muted)}
+html[data-theme] svg text[fill="#9aa4b2"]{fill:var(--f-muted)}
+html[data-theme] svg [stroke="#9aa4b2"]{stroke:var(--f-axis)}
+html[data-theme] svg :not(text)[fill="#7C8AA0"]{fill:var(--f-axis)}
+html[data-theme] svg text[fill="#7C8AA0"]{fill:var(--f-muted)}
+html[data-theme] svg [stroke="#7C8AA0"]{stroke:var(--f-axis)}
+html[data-theme] svg :not(text)[fill="#7c8aa0"]{fill:var(--f-axis)}
+html[data-theme] svg text[fill="#7c8aa0"]{fill:var(--f-muted)}
+html[data-theme] svg [stroke="#7c8aa0"]{stroke:var(--f-axis)}
+html[data-theme] svg :not(text)[fill="#33415A"]{fill:var(--f-edge)}
+html[data-theme] svg text[fill="#33415A"]{fill:var(--f-muted)}
+html[data-theme] svg [stroke="#33415A"]{stroke:var(--f-edge)}
+html[data-theme] svg :not(text)[fill="#33415a"]{fill:var(--f-edge)}
+html[data-theme] svg text[fill="#33415a"]{fill:var(--f-muted)}
+html[data-theme] svg [stroke="#33415a"]{stroke:var(--f-edge)}
+html[data-theme] svg :not(text)[fill="#3B4A63"]{fill:var(--f-edge)}
+html[data-theme] svg text[fill="#3B4A63"]{fill:var(--f-muted)}
+html[data-theme] svg [stroke="#3B4A63"]{stroke:var(--f-edge)}
+html[data-theme] svg :not(text)[fill="#3b4a63"]{fill:var(--f-edge)}
+html[data-theme] svg text[fill="#3b4a63"]{fill:var(--f-muted)}
+html[data-theme] svg [stroke="#3b4a63"]{stroke:var(--f-edge)}
+html[data-theme] svg :not(text)[fill="#58C4DD"]{fill:var(--f-blue-bg)}
+html[data-theme] svg text[fill="#58C4DD"]{fill:var(--f-blue)}
+html[data-theme] svg [stroke="#58C4DD"]{stroke:var(--f-blue)}
+html[data-theme] svg :not(text)[fill="#58c4dd"]{fill:var(--f-blue-bg)}
+html[data-theme] svg text[fill="#58c4dd"]{fill:var(--f-blue)}
+html[data-theme] svg [stroke="#58c4dd"]{stroke:var(--f-blue)}
+html[data-theme] svg :not(text)[fill="#83C167"]{fill:var(--f-green-bg)}
+html[data-theme] svg text[fill="#83C167"]{fill:var(--f-green)}
+html[data-theme] svg [stroke="#83C167"]{stroke:var(--f-green)}
+html[data-theme] svg :not(text)[fill="#83c167"]{fill:var(--f-green-bg)}
+html[data-theme] svg text[fill="#83c167"]{fill:var(--f-green)}
+html[data-theme] svg [stroke="#83c167"]{stroke:var(--f-green)}
+html[data-theme] svg :not(text)[fill="#FF8C1A"]{fill:var(--f-orange-bg)}
+html[data-theme] svg text[fill="#FF8C1A"]{fill:var(--f-orange)}
+html[data-theme] svg [stroke="#FF8C1A"]{stroke:var(--f-orange)}
+html[data-theme] svg :not(text)[fill="#ff8c1a"]{fill:var(--f-orange-bg)}
+html[data-theme] svg text[fill="#ff8c1a"]{fill:var(--f-orange)}
+html[data-theme] svg [stroke="#ff8c1a"]{stroke:var(--f-orange)}
+html[data-theme] svg :not(text)[fill="#FFFF00"]{fill:var(--f-yellow-bg)}
+html[data-theme] svg text[fill="#FFFF00"]{fill:var(--f-yellow)}
+html[data-theme] svg [stroke="#FFFF00"]{stroke:var(--f-yellow)}
+html[data-theme] svg :not(text)[fill="#ffff00"]{fill:var(--f-yellow-bg)}
+html[data-theme] svg text[fill="#ffff00"]{fill:var(--f-yellow)}
+html[data-theme] svg [stroke="#ffff00"]{stroke:var(--f-yellow)}
+html[data-theme] svg :not(text)[fill="#FC6255"]{fill:var(--f-red-bg)}
+html[data-theme] svg text[fill="#FC6255"]{fill:var(--f-red)}
+html[data-theme] svg [stroke="#FC6255"]{stroke:var(--f-red)}
+html[data-theme] svg :not(text)[fill="#fc6255"]{fill:var(--f-red-bg)}
+html[data-theme] svg text[fill="#fc6255"]{fill:var(--f-red)}
+html[data-theme] svg [stroke="#fc6255"]{stroke:var(--f-red)}
+html[data-theme] svg :not(text)[fill="#C78BFF"]{fill:var(--f-purple-bg)}
+html[data-theme] svg text[fill="#C78BFF"]{fill:var(--f-purple)}
+html[data-theme] svg [stroke="#C78BFF"]{stroke:var(--f-purple)}
+html[data-theme] svg :not(text)[fill="#c78bff"]{fill:var(--f-purple-bg)}
+html[data-theme] svg text[fill="#c78bff"]{fill:var(--f-purple)}
+html[data-theme] svg [stroke="#c78bff"]{stroke:var(--f-purple)}
+/* наконечники стрелок — насыщенным цветом */
+html[data-theme] svg marker [fill="#58c4dd"]{fill:var(--f-blue)}
+html[data-theme] svg marker [fill="#83c167"]{fill:var(--f-green)}
+html[data-theme] svg marker [fill="#ff8c1a"]{fill:var(--f-orange)}
+html[data-theme] svg marker [fill="#ffff00"]{fill:var(--f-yellow)}
+html[data-theme] svg marker [fill="#fc6255"]{fill:var(--f-red)}
+html[data-theme] svg marker [fill="#c78bff"]{fill:var(--f-purple)}
+html[data-theme] svg marker [fill="#3b4a63"]{fill:var(--f-axis)}
+html[data-theme] svg marker [fill="#33415a"]{fill:var(--f-axis)}
+html[data-theme] svg marker [fill="#7c8aa0"]{fill:var(--f-axis)}
+html[data-theme] svg marker [fill="#9aa4b2"]{fill:var(--f-muted)}
+html[data-theme] svg marker [fill="#dfe7f1"]{fill:var(--f-text)}
+html[data-theme] svg marker [fill="#c2cdde"]{fill:var(--f-text2)}
+html[data-theme] svg text{font-family:var(--sans)}
+html[data-theme] .viz{margin:26px 0}
+html[data-theme] .viz svg{border:1px solid var(--line); border-radius:6px; box-shadow:none; background:var(--card)}
+html[data-theme] .viz figcaption{font-family:var(--serif); font-size:.95rem; color:var(--muted); text-align:left; margin-top:10px}
+
+/* пошаговые плееры */
+html[data-theme] .algo{background:var(--card); border:1px solid var(--line); border-radius:6px; box-shadow:none}
+html[data-theme] .algo .bar{background:var(--f-edge)}
+html[data-theme] .algo .bar .v{color:var(--f-muted)}
+html[data-theme] .algo .bar.cmp{background:var(--f-yellow-bg)} html[data-theme] .algo .bar.cmp .v{color:var(--f-yellow)}
+html[data-theme] .algo .bar.swap{background:var(--f-red-bg)} html[data-theme] .algo .bar.swap .v{color:var(--f-red)}
+html[data-theme] .algo .bar.done{background:var(--f-green-bg)} html[data-theme] .algo .bar.done .v{color:var(--f-green)}
+html[data-theme] .algo .ctl input[type=range]{accent-color:var(--ink)}
+html[data-theme] .algo .ctl button{background:none; color:var(--ink); border:1px solid var(--line); border-radius:6px}
+html[data-theme] .algo .ctl button:hover{background:var(--hover,var(--tag))}
+html[data-theme] .algo .lbl, html[data-theme] .algo .bslbl{color:var(--muted)}
+html[data-theme] .algo .bscell{background:var(--f-node); border-color:var(--f-edge); color:var(--ink)}
+html[data-theme] .algo .bscell.L, html[data-theme] .algo .bscell.found{background:var(--f-green-bg); color:var(--f-on)}
+html[data-theme] .algo .bscell.R{background:var(--f-orange-bg); color:var(--f-on)}
+html[data-theme] .algo .bscell.mid{background:var(--f-yellow-bg); color:var(--f-on)}
+html[data-theme] .algo .bscell.found{box-shadow:0 0 0 3px color-mix(in srgb,var(--f-green) 40%,transparent)}
+
+/* плавная смена темы */
+html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:background-color .3s ease, color .3s ease, border-color .3s ease !important}
+
+@media(max-width:680px){
+  html[data-theme] .viz{overflow-x:auto; -webkit-overflow-scrolling:touch; margin-left:-18px; margin-right:-18px; padding:0 18px}
+  html[data-theme] .viz svg{min-width:600px}
+  html[data-theme] .viz figcaption{position:sticky; left:0; max-width:calc(100vw - 36px)}
+  html[data-theme] .wrap{padding:20px 18px 64px}
+  html[data-theme] header.hero{padding:36px 0 22px}
+  html[data-theme] h2{font-size:1.45rem}
+}
+@media(prefers-reduced-motion:reduce){
+  html[data-theme]{scroll-behavior:auto}
+  @view-transition{navigation:none}
+  html.theme-anim, html.theme-anim *{transition:none !important}
+}
+@media print{html[data-theme] .top, html[data-theme] .toplink{display:none} html[data-theme] body{background:#fff}}
+</style>
+<script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);</script>
 </head>
 <body>
-<button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему" title="Светлая / тёмная тема">🌙</button>
 <div class="wrap">
-<a class="back" href="../index.html">← Все конспекты</a>
+<div class="top"><a class="back" href="../index.html">← Все конспекты</a><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button></div>
 
 <header class="hero">
   <h1>Занятие 2. Параллель A' — Структуры данных 1</h1>
@@ -172,7 +423,7 @@ pre{border-radius:12px; box-shadow:var(--shadow-md)}
 <h2 id="s1">1. Дерево отрезков «снизу» <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=0" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">0:00:00</a></h2>
 <p>Обычное рекурсивное дерево отрезков все знают. Альтернатива — <strong>итеративное</strong> («снизу», bottom-up), которое пишется быстрее и работает заметно быстрее по константе.</p>
 <p><strong>Идея.</strong> Берём $2^k \ge n$ (ближайшая степень двойки) и массив размера $2^k + 1$ в 1-индексации. Элементу $a_i$ соответствует лист с номером $2^k + i$. У вершины $v$ дети — $2v$ и $2v+1$, а родитель — $\lfloor v/2 \rfloor$. Корень — вершина 1.</p>
-<figure class="viz"><svg viewBox="0 0 760 320" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="320" rx="14" fill="#141a24"/><text x="40" y="40" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="start" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">Дерево отрезков «снизу»: лист i ↔ узел 2ᵏ + i</text><line x1="380" y1="50" x2="250" y2="112" stroke="#3b4a63" stroke-width="2"/><line x1="380" y1="50" x2="510" y2="112" stroke="#3b4a63" stroke-width="2"/><line x1="250" y1="112" x2="170" y2="174" stroke="#3b4a63" stroke-width="2"/><line x1="250" y1="112" x2="330" y2="174" stroke="#3b4a63" stroke-width="2"/><line x1="510" y1="112" x2="450" y2="174" stroke="#3b4a63" stroke-width="2"/><line x1="510" y1="112" x2="610" y2="174" stroke="#3b4a63" stroke-width="2"/><line x1="170" y1="174" x2="120" y2="236" stroke="#3b4a63" stroke-width="2"/><line x1="170" y1="174" x2="200" y2="236" stroke="#3b4a63" stroke-width="2"/><line x1="330" y1="174" x2="280" y2="236" stroke="#3b4a63" stroke-width="2"/><line x1="330" y1="174" x2="360" y2="236" stroke="#3b4a63" stroke-width="2"/><line x1="450" y1="174" x2="440" y2="236" stroke="#3b4a63" stroke-width="2"/><line x1="450" y1="174" x2="520" y2="236" stroke="#3b4a63" stroke-width="2"/><line x1="610" y1="174" x2="600" y2="236" stroke="#3b4a63" stroke-width="2"/><line x1="610" y1="174" x2="680" y2="236" stroke="#3b4a63" stroke-width="2"/><circle cx="380" cy="50" r="15" fill="#1e2836" stroke="#58c4dd" stroke-width="2"/><text x="380" y="55" fill="#dfe7f1" font-size="12" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">1</text><circle cx="250" cy="112" r="15" fill="#1e2836" stroke="#58c4dd" stroke-width="2"/><text x="250" y="117" fill="#dfe7f1" font-size="12" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">2</text><circle cx="510" cy="112" r="15" fill="#1e2836" stroke="#58c4dd" stroke-width="2"/><text x="510" y="117" fill="#dfe7f1" font-size="12" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">3</text><circle cx="170" cy="174" r="15" fill="#1e2836" stroke="#58c4dd" stroke-width="2"/><text x="170" y="179" fill="#dfe7f1" font-size="12" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">4</text><circle cx="330" cy="174" r="15" fill="#1e2836" stroke="#58c4dd" stroke-width="2"/><text x="330" y="179" fill="#dfe7f1" font-size="12" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">5</text><circle cx="450" cy="174" r="15" fill="#1e2836" stroke="#58c4dd" stroke-width="2"/><text x="450" y="179" fill="#dfe7f1" font-size="12" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">6</text><circle cx="610" cy="174" r="15" fill="#1e2836" stroke="#58c4dd" stroke-width="2"/><text x="610" y="179" fill="#dfe7f1" font-size="12" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">7</text><circle cx="120" cy="236" r="15" fill="#1e2836" stroke="#83c167" stroke-width="2"/><text x="120" y="241" fill="#dfe7f1" font-size="12" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">8</text><circle cx="200" cy="236" r="15" fill="#1e2836" stroke="#83c167" stroke-width="2"/><text x="200" y="241" fill="#dfe7f1" font-size="12" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">9</text><circle cx="280" cy="236" r="15" fill="#1e2836" stroke="#83c167" stroke-width="2"/><text x="280" y="241" fill="#dfe7f1" font-size="12" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">10</text><circle cx="360" cy="236" r="15" fill="#1e2836" stroke="#83c167" stroke-width="2"/><text x="360" y="241" fill="#dfe7f1" font-size="12" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">11</text><circle cx="440" cy="236" r="15" fill="#1e2836" stroke="#83c167" stroke-width="2"/><text x="440" y="241" fill="#dfe7f1" font-size="12" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">12</text><circle cx="520" cy="236" r="15" fill="#1e2836" stroke="#83c167" stroke-width="2"/><text x="520" y="241" fill="#dfe7f1" font-size="12" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">13</text><circle cx="600" cy="236" r="15" fill="#1e2836" stroke="#83c167" stroke-width="2"/><text x="600" y="241" fill="#dfe7f1" font-size="12" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">14</text><circle cx="680" cy="236" r="15" fill="#1e2836" stroke="#83c167" stroke-width="2"/><text x="680" y="241" fill="#dfe7f1" font-size="12" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">15</text><text x="40" y="285" fill="#c2cdde" font-size="13" font-weight="400" text-anchor="start" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">внутренние вершины (1–7) — суммы/агрегаты; листья (8–15) — элементы</text></svg><figcaption>Итеративное дерево отрезков на 8 элементах.</figcaption></figure>
+<figure class="viz"><svg viewBox="0 0 760 470" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="470" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Дерево «снизу», 8 элементов: запрос get(1, 7)</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Вершина v: дети 2v и 2v+1, родитель v / 2. Элемент a[i] лежит в листе 8 + i.</text><line x1="362.6" y1="123.6" x2="237.4" y2="178.4" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="397.4" y1="123.6" x2="522.6" y2="178.4" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="205.7" y1="198.5" x2="154.3" y2="243.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="234.3" y1="198.5" x2="285.7" y2="243.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="525.7" y1="198.5" x2="474.3" y2="243.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="554.3" y1="198.5" x2="605.7" y2="243.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="130.6" y1="272.5" x2="109.4" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="149.4" y1="272.5" x2="170.6" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="290.6" y1="272.5" x2="269.4" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="309.4" y1="272.5" x2="330.6" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="450.6" y1="272.5" x2="429.4" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="469.4" y1="272.5" x2="490.6" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="610.6" y1="272.5" x2="589.4" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="629.4" y1="272.5" x2="650.6" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><circle cx="380.0" cy="116" r="19" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="380.0" y="121.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">1</text><circle cx="220.0" cy="186" r="19" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="220.0" y="191.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">2</text><circle cx="540.0" cy="186" r="19" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="540.0" y="191.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">3</text><circle cx="140.0" cy="256" r="19" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="140.0" y="261.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">4</text><circle cx="300.0" cy="256" r="19" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="2.5"/><text x="300.0" y="261.25" fill="#141a24" font-size="15" font-weight="700" text-anchor="middle">5</text><circle cx="318.0" cy="239" r="10" fill="#ffff00"/><text x="318.0" y="243.5" fill="#141a24" font-size="12" font-weight="700" text-anchor="middle">3</text><circle cx="460.0" cy="256" r="19" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="2.5"/><text x="460.0" y="261.25" fill="#141a24" font-size="15" font-weight="700" text-anchor="middle">6</text><circle cx="478.0" cy="239" r="10" fill="#ffff00"/><text x="478.0" y="243.5" fill="#141a24" font-size="12" font-weight="700" text-anchor="middle">4</text><circle cx="620.0" cy="256" r="19" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="620.0" y="261.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">7</text><circle cx="100.0" cy="326" r="19" fill="#1e2836" stroke="#83c167" stroke-width="2.5"/><text x="100.0" y="331.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">8</text><circle cx="180.0" cy="326" r="19" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="2.5"/><text x="180.0" y="331.25" fill="#141a24" font-size="15" font-weight="700" text-anchor="middle">9</text><circle cx="198.0" cy="309" r="10" fill="#ffff00"/><text x="198.0" y="313.5" fill="#141a24" font-size="12" font-weight="700" text-anchor="middle">1</text><circle cx="260.0" cy="326" r="19" fill="#1e2836" stroke="#83c167" stroke-width="2.5"/><text x="260.0" y="331.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">10</text><circle cx="340.0" cy="326" r="19" fill="#1e2836" stroke="#83c167" stroke-width="2.5"/><text x="340.0" y="331.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">11</text><circle cx="420.0" cy="326" r="19" fill="#1e2836" stroke="#83c167" stroke-width="2.5"/><text x="420.0" y="331.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">12</text><circle cx="500.0" cy="326" r="19" fill="#1e2836" stroke="#83c167" stroke-width="2.5"/><text x="500.0" y="331.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">13</text><circle cx="580.0" cy="326" r="19" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="2.5"/><text x="580.0" y="331.25" fill="#141a24" font-size="15" font-weight="700" text-anchor="middle">14</text><circle cx="598.0" cy="309" r="10" fill="#ffff00"/><text x="598.0" y="313.5" fill="#141a24" font-size="12" font-weight="700" text-anchor="middle">2</text><circle cx="660.0" cy="326" r="19" fill="#1e2836" stroke="#83c167" stroke-width="2.5"/><text x="660.0" y="331.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">15</text><text x="100.0" y="370" fill="#9aa4b2" font-size="14" text-anchor="middle">a[0]</text><text x="180.0" y="370" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">a[1]</text><text x="260.0" y="370" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">a[2]</text><text x="340.0" y="370" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">a[3]</text><text x="420.0" y="370" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">a[4]</text><text x="500.0" y="370" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">a[5]</text><text x="580.0" y="370" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">a[6]</text><text x="660.0" y="370" fill="#9aa4b2" font-size="14" text-anchor="middle">a[7]</text><path d="M150.0,384 v8 H610.0 v-8" stroke="#ff8c1a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="380.0" y="412" fill="#ff8c1a" font-size="14.5" font-weight="700" text-anchor="middle">[1, 7) = a[1] + (a[2]+a[3]) + (a[4]+a[5]) + a[6]</text><text x="32" y="450" fill="#c2cdde" font-size="13.5" text-anchor="start">l = 9 нечётно → берём 9;  r = 15 нечётно → берём 14.  Поднялись: l = 5, r = 7 → берём 5 и 6.  l = r — стоп.</text></svg><figcaption>Запрос идёт снизу вверх: нечётный левый конец и нечётный правый конец забираем в ответ и сдвигаем — на каждом уровне не больше двух вершин.</figcaption></figure>
 
 <h3>Обновление в точке</h3>
 <p>Зная номер листа $2^k+i$, просто поднимаемся к родителю и пересчитываем, пока не дойдём до корня:</p>
@@ -326,7 +577,7 @@ int id = lower_bound(xs.begin(), xs.end(), v) - xs.begin();</code></pre>
 <h2 id="s7">7. Сканлайн: количество различных и MEX <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=7500" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:05:00</a></h2>
 <h3>Количество различных чисел на отрезке</h3>
 <p>Для каждого запроса $[l,r]$ нужно посчитать число различных значений. Оффлайн: идём по массиву слева направо, поддерживая для каждого значения позицию его <strong>самого правого вхождения</strong> на текущем префиксе.</p>
-<figure class="viz"><svg viewBox="0 0 760 330" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="330" rx="14" fill="#141a24"/><text x="40" y="44" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="start" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">Количество различных на отрезке (оффлайн)</text><text x="40" y="86" fill="#c2cdde" font-size="13" font-weight="400" text-anchor="start" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">массив:</text><rect x="60" y="100" width="48" height="44" rx="8" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="84.0" y="128.0" fill="#dfe7f1" font-size="15" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">4</text><rect x="114" y="100" width="48" height="44" rx="8" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="138.0" y="128.0" fill="#dfe7f1" font-size="15" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">1</text><rect x="168" y="100" width="48" height="44" rx="8" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="192.0" y="128.0" fill="#dfe7f1" font-size="15" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">2</text><rect x="222" y="100" width="48" height="44" rx="8" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="246.0" y="128.0" fill="#dfe7f1" font-size="15" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">4</text><rect x="276" y="100" width="48" height="44" rx="8" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="300.0" y="128.0" fill="#dfe7f1" font-size="15" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">1</text><rect x="330" y="100" width="48" height="44" rx="8" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="354.0" y="128.0" fill="#dfe7f1" font-size="15" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">2</text><text x="40" y="190" fill="#c2cdde" font-size="13" font-weight="400" text-anchor="start" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">дерево:</text><rect x="60" y="204" width="48" height="44" rx="8" fill="#58c4dd" stroke="#33415a" stroke-width="1.5"/><text x="84.0" y="232.0" fill="#141a24" font-size="15" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">1</text><rect x="114" y="204" width="48" height="44" rx="8" fill="#58c4dd" stroke="#33415a" stroke-width="1.5"/><text x="138.0" y="232.0" fill="#141a24" font-size="15" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">1</text><rect x="168" y="204" width="48" height="44" rx="8" fill="#58c4dd" stroke="#33415a" stroke-width="1.5"/><text x="192.0" y="232.0" fill="#141a24" font-size="15" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">1</text><rect x="222" y="204" width="48" height="44" rx="8" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="246.0" y="232.0" fill="#dfe7f1" font-size="15" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">0</text><rect x="276" y="204" width="48" height="44" rx="8" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="300.0" y="232.0" fill="#dfe7f1" font-size="15" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">0</text><rect x="330" y="204" width="48" height="44" rx="8" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="354.0" y="232.0" fill="#dfe7f1" font-size="15" font-weight="600" text-anchor="middle" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">0</text><text x="40" y="290" fill="#c2cdde" font-size="13" font-weight="400" text-anchor="start" font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,sans-serif">единичка = «здесь самое правое вхождение значения»; при повторе: старую позицию в 0, новую в 1</text></svg><figcaption>Сканлайн: сумма единиц на [l, r] = число различных.</figcaption></figure>
+<figure class="viz"><svg viewBox="0 0 760 500" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="500" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Число различных на отрезке: сканлайн по r</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Ставим 1 в последнем на данный момент вхождении каждого значения, остальные — 0.</text><text x="134" y="138" fill="#9aa4b2" font-size="15" text-anchor="end" font-style="italic">a</text><rect x="153" y="112" width="46" height="38" rx="6" fill="#151f30" stroke="#7c8aa0" stroke-width="1.5"/><text x="176.0" y="136.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">4</text><text x="176.0" y="104" fill="#9aa4b2" font-size="13" text-anchor="middle">0</text><rect x="205" y="112" width="46" height="38" rx="6" fill="#151f30" stroke="#7c8aa0" stroke-width="1.5"/><text x="228.0" y="136.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><text x="228.0" y="104" fill="#9aa4b2" font-size="13" text-anchor="middle">1</text><rect x="257" y="112" width="46" height="38" rx="6" fill="#151f30" stroke="#7c8aa0" stroke-width="1.5"/><text x="280.0" y="136.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">2</text><text x="280.0" y="104" fill="#9aa4b2" font-size="13" text-anchor="middle">2</text><rect x="309" y="112" width="46" height="38" rx="6" fill="#151f30" stroke="#7c8aa0" stroke-width="1.5"/><text x="332.0" y="136.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">4</text><text x="332.0" y="104" fill="#9aa4b2" font-size="13" text-anchor="middle">3</text><rect x="361" y="112" width="46" height="38" rx="6" fill="#151f30" stroke="#7c8aa0" stroke-width="1.5"/><text x="384.0" y="136.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><text x="384.0" y="104" fill="#9aa4b2" font-size="13" text-anchor="middle">4</text><rect x="413" y="112" width="46" height="38" rx="6" fill="#151f30" stroke="#7c8aa0" stroke-width="1.5"/><text x="436.0" y="136.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">2</text><text x="436.0" y="104" fill="#9aa4b2" font-size="13" text-anchor="middle">5</text><text x="134" y="199" fill="#c2cdde" font-size="14" text-anchor="end">r = 0</text><rect x="153" y="174" width="46" height="38" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="176.0" y="198.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="205" y="174" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="257" y="174" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="309" y="174" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="361" y="174" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="413" y="174" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><text x="134" y="249" fill="#c2cdde" font-size="14" text-anchor="end">r = 1</text><rect x="153" y="224" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="176.0" y="248.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="205" y="224" width="46" height="38" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="228.0" y="248.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="257" y="224" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="309" y="224" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="361" y="224" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="413" y="224" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><text x="134" y="299" fill="#c2cdde" font-size="14" text-anchor="end">r = 2</text><rect x="153" y="274" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="176.0" y="298.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="205" y="274" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="228.0" y="298.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="257" y="274" width="46" height="38" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="280.0" y="298.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="309" y="274" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="361" y="274" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="413" y="274" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><text x="134" y="349" fill="#c2cdde" font-size="14" text-anchor="end">r = 3</text><rect x="153" y="324" width="46" height="38" rx="6" fill="#fc6255" stroke="#fc6255" stroke-width="1.5"/><text x="176.0" y="348.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">0</text><rect x="205" y="324" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="228.0" y="348.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="257" y="324" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="280.0" y="348.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="309" y="324" width="46" height="38" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="332.0" y="348.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="361" y="324" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="413" y="324" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><text x="134" y="399" fill="#ffff00" font-size="14" font-weight="700" text-anchor="end">r = 4</text><rect x="153" y="374" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="176.0" y="398.76" fill="#9aa4b2" font-size="16" font-weight="700" text-anchor="middle">0</text><rect x="205" y="374" width="46" height="38" rx="6" fill="#fc6255" stroke="#fc6255" stroke-width="1.5"/><text x="228.0" y="398.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">0</text><rect x="257" y="374" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="280.0" y="398.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="309" y="374" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="332.0" y="398.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="361" y="374" width="46" height="38" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="384.0" y="398.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="413" y="374" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="201" y="369" width="210" height="48" rx="9" fill="none" stroke="#ffff00" stroke-width="2.5"/><text x="426" y="392" fill="#ffff00" font-size="15" font-weight="700" text-anchor="start">сумма на [1, 4] = 3</text><text x="426" y="412" fill="#9aa4b2" font-size="13.5" text-anchor="start">= |{1, 2, 4}| — три различных</text><text x="134" y="449" fill="#c2cdde" font-size="14" text-anchor="end">r = 5</text><rect x="153" y="424" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="176.0" y="448.76" fill="#9aa4b2" font-size="16" font-weight="700" text-anchor="middle">0</text><rect x="205" y="424" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="228.0" y="448.76" fill="#9aa4b2" font-size="16" font-weight="700" text-anchor="middle">0</text><rect x="257" y="424" width="46" height="38" rx="6" fill="#fc6255" stroke="#fc6255" stroke-width="1.5"/><text x="280.0" y="448.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">0</text><rect x="309" y="424" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="332.0" y="448.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="361" y="424" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="384.0" y="448.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="413" y="424" width="46" height="38" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="436.0" y="448.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="32" y="466" width="16" height="16" rx="3" fill="#83c167"/><text x="56" y="479" fill="#c2cdde" font-size="14" text-anchor="start">новое последнее вхождение → 1</text><rect x="332" y="466" width="16" height="16" rx="3" fill="#fc6255"/><text x="356" y="479" fill="#c2cdde" font-size="14" text-anchor="start">прежнее вхождение того же числа → 0</text></svg><figcaption>При сдвиге $r$ значение $a_r$ «переезжает» в новую позицию. Тогда для отрезка $[l, r]$ сумма единиц равна числу различных.</figcaption></figure>
 <p>Тогда количество различных на $[l,r]$ (где $r$ — текущая позиция) — это сумма на отрезке $[l, r]$. Каждое значение даёт ровно одну единичку внутри отрезка, если оно там встречается.</p>
 <h3>MEX на отрезке</h3>
 <p>Те же идеи, но теперь дерево хранит <strong>последнее вхождение</strong> каждого значения. MEX на $[l,r]$ — минимальное $x$, у которого последнее вхождение $&lt; l$. Строим дерево отрезков на минимум по значениям и делаем <strong>спуск</strong> в первый лист с минимумом $&lt; l$.</p>
@@ -427,7 +678,7 @@ int descend(int v, int tl, int tr, int l) {
   var root = document.documentElement;
   var btn = document.getElementById("theme-toggle");
   if(!btn) return;
-  function apply(t){ root.setAttribute("data-theme", t); btn.textContent = t === "dark" ? "☀️" : "🌙"; }
+  function apply(t){ root.setAttribute("data-theme", t); btn.textContent = t === "dark" ? "светлая тема" : "тёмная тема"; }
   var saved = (function(){ try { return localStorage.getItem("conspectusTheme"); } catch(e){ return null; } })();
   apply(saved || root.getAttribute("data-theme") || "light");
   btn.addEventListener("click", function(){
