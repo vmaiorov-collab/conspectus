@@ -415,6 +415,34 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
   html.theme-anim, html.theme-anim *{transition:none !important}
 }
 @media print{html[data-theme] .top, html[data-theme] .toplink{display:none} html[data-theme] body{background:#fff}}
+/* ---------- навигация по конспекту ---------- */
+html[data-theme] .progress{position:fixed; top:0; left:0; right:0; height:3px; background:var(--accent); transform-origin:0 50%; transform:scaleX(0); z-index:50; pointer-events:none}
+html[data-theme] .side-toc{position:fixed; top:84px; right:max(16px, calc(50% - 410px - 250px)); width:220px; max-height:calc(100vh - 120px); overflow:auto;
+  font-size:.85rem; line-height:1.35; opacity:0; visibility:hidden; transform:translateX(6px); transition:opacity .25s, transform .25s, visibility .25s; z-index:20}
+html[data-theme] .side-toc.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .side-toc p{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin:0 0 8px}
+html[data-theme] .side-toc a{display:block; color:var(--muted); padding:4px 0 4px 12px; border-left:2px solid var(--line); text-decoration:none; transition:color .2s, border-color .2s}
+html[data-theme] .side-toc a:hover{color:var(--ink)}
+html[data-theme] .side-toc a.on{color:var(--ink); border-left-color:var(--accent)}
+html[data-theme] .secbtn{position:fixed; left:16px; bottom:16px; z-index:30; background:var(--card); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  padding:8px 14px; font-family:var(--sans); font-size:.82rem; cursor:pointer; opacity:0; visibility:hidden; transform:translateY(8px); transition:opacity .2s, transform .2s, visibility .2s}
+html[data-theme] .secbtn.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .secpanel{position:fixed; left:16px; right:16px; bottom:64px; max-width:420px; max-height:60vh; overflow:auto; z-index:31; background:var(--card);
+  border:1px solid var(--line); border-radius:8px; padding:10px 0; box-shadow:0 12px 32px rgba(0,0,0,.18)}
+html[data-theme] .secpanel[hidden]{display:none}
+html[data-theme] .secpanel a{display:block; padding:8px 16px; color:var(--ink); text-decoration:none; font-size:.92rem}
+html[data-theme] .secpanel a.on{color:var(--accent); font-weight:650}
+html[data-theme] .pager{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:48px 0 0; padding-top:20px; border-top:1px solid var(--ink)}
+html[data-theme] .pager a{display:block; padding:14px 16px; border:1px solid var(--line); border-radius:8px; color:var(--ink); text-decoration:none; transition:border-color .2s, background-color .2s}
+html[data-theme] .pager a:hover{border-color:var(--accent); background:var(--accent-soft)}
+html[data-theme] .pager a.next{text-align:right; grid-column:2}
+html[data-theme] .pager small{display:block; font-family:var(--mono); font-size:.75rem; color:var(--muted); margin-bottom:4px}
+html[data-theme] .pager b{font-family:var(--serif); font-size:1.08rem}
+html[data-theme] h2[id], html[data-theme] h3[id]{scroll-margin-top:24px}
+@media(min-width:1300px){html[data-theme] .secbtn, html[data-theme] .secpanel{display:none !important}}
+@media(max-width:1299px){html[data-theme] .side-toc{display:none}}
+@media(max-width:560px){html[data-theme] .pager{grid-template-columns:1fr} html[data-theme] .pager a.next{grid-column:1}}
+@media print{html[data-theme] .progress, html[data-theme] .side-toc, html[data-theme] .secbtn, html[data-theme] .secpanel, html[data-theme] .pager{display:none}}
 </style>
 <script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".code .copy");if(!b)return;var pre=b.closest(".code").querySelector("pre"),t=pre.innerText;function ok(){b.textContent="скопировано ✓";setTimeout(function(){b.textContent="копировать"},1600)}function sel(){var r=document.createRange();r.selectNodeContents(pre);var x=getSelection();x.removeAllRanges();x.addRange(r);b.textContent="выделено — нажмите ⌘C"}if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>
 </head>
@@ -484,7 +512,7 @@ $$ \log n \;\ll\; n^{\varepsilon} \;\ll\; n^{k} \;\ll\; C^{n}. $$
   $$ O\!\left(\log \frac{\min(a,b)}{\gcd(a,b)}\right). $$
   Если одно число делится на другое, потребуется одна итерация: например, $\gcd(10^9,10^9)=10^9$ получается за один шаг.</p>
 </div>
-<h3>Расширенный алгоритм Евклида</h3>
+<h3 id="s2-1">Расширенный алгоритм Евклида</h3>
 <p>Он не только возвращает $g=\gcd(a,b)$, но и коэффициенты $x,y$ с $a x+b y=g$. Рекурсия повторяет обычный Евклид, только теперь на каждом шаге нужно переписать коэффициенты.</p>
 <p>Пусть рекурсивный вызов для пары $(b,\ a\bmod b)$ нашёл $x_1,y_1$:
 $$ b\,x_1+(a\bmod b)\,y_1=g. $$
@@ -504,7 +532,7 @@ $$ x=y_1,\qquad y=x_1-\left\lfloor \frac{a}{b}\right\rfloor y_1. $$
 }</code></pre></div>
 <div class="note"><span class="lbl">Важное дополнение: границы коэффициентов</span><br>
 Если решать уравнение $ax+by=c$ расширенным Евклидом и при этом $c=\gcd(a,b)$, то в ходе работы $|x|\le b$ и $|y|\le a$. Это следствие того, что последовательность подходящих дробей даёт наименьшие по модулю частные решения; на олимпиадах этим пользуются, чтобы безопасно вычислять в <code>long long</code>.</div>
-<h3>Обратный элемент через расширенный Евклид</h3>
+<h3 id="s2-2">Обратный элемент через расширенный Евклид</h3>
 <p>Найти $x$ такое, что $a x\equiv 1\pmod n$, — это в точности решить диофантово уравнение:
 $$ a x\equiv 1\pmod n \iff a x - n y = 1. $$
 Такое уравнение разрешимо тогда и только тогда, когда $\gcd(a,n)=1$. Решение даёт расширенный Евклид, а ответ берётся по модулю $n$:
@@ -527,7 +555,7 @@ $$ \varphi(p)=p-1. $$
 $$ \varphi(p^{\alpha})=p^{\alpha}-p^{\alpha-1}=p^{\alpha-1}(p-1). $$
 Разложив $n=\prod p_i^{\alpha_i}$ и воспользовавшись мультипликативностью, получаем удобную вычислительную формулу
 $$ \varphi(n)=n\prod_{p\mid n}\left(1-\frac1p\right). $$</p>
-<h3>Теорема Эйлера</h3>
+<h3 id="s3-1">Теорема Эйлера</h3>
 <div class="good"><span class="lbl">Теорема</span><br>
 Если $\gcd(x,m)=1$, то $x^{\varphi(m)}\equiv 1\pmod m$. Частный случай для простого $p$ — малая теорема Ферма: $x^{p-1}\equiv 1\pmod p$.</div>
 <p>Отсюда получается способ обращения:
@@ -548,7 +576,7 @@ $$ x^{-1}\equiv x^{\varphi(m)-1}\pmod m, $$
     }
     <span class="k">return</span> res;
 }</code></pre></div>
-<h3>Структура modint</h3>
+<h3 id="s4-1">Структура modint</h3>
 <p>Чтобы не ловить баги при вычислениях по модулю, всю арифметику заворачивают в структуру. Она хранит одно число, приведённое к диапазону $[0,\mathrm{mod})$, и перегружает операторы.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="k">const</span> <span class="t">long</span> <span class="t">long</span> MOD = <span class="n">1</span>'<span class="n">000</span>'<span class="n">000</span>'<span class="n">007</span>;
 
@@ -572,7 +600,7 @@ mint <span class="f">pw</span>(mint a, <span class="t">long</span> <span class="
 }</code></pre></div>
 <div class="note"><span class="lbl">Совет преподавателя</span><br>
 Структуру стоит писать всегда, как только вычисления по модулю становятся чуть сложнее одного факториала. Шаблонные <code>+=</code>, <code>-=</code>, <code>*=</code> копипастятся за минуту, а выигрыш в отсутствии ошибок огромен.</div>
-<h3>Все обратные к массиву за $O(n)$</h3>
+<h3 id="s4-2">Все обратные к массиву за $O(n)$</h3>
 <p>Пусть даны $a_1,\dots,a_n$ без нулей, и нужно найти $a_i^{-1}$ по простому модулю. Достаточно одного обращения: считаем префиксные произведения $P_i=a_1\cdots a_i$, обращаем только $P_n$, а дальше идём назад и получаем
 $$ a_i^{-1}=P_n^{-1}\cdot P_{i-1}\cdot S_{i+1}, $$
 где $S_{i+1}=a_{i+1}\cdots a_n$ — суффиксное произведение, уже посчитанное. Тот же приём в частном случае факториалов даёт «обратные факториалы» за $O(n+\log p)$.</p>
@@ -614,7 +642,7 @@ $$ x\equiv \sum_{i=1}^{n} a_i\,M_i\,N_i \pmod M. $$
     m = l;
     <span class="k">return</span> <span class="k">true</span>;
 }</code></pre></div>
-<h3>Применение: хэши по нескольким модулям</h3>
+<h3 id="s5-1">Применение: хэши по нескольким модулям</h3>
 <p>Если хранить значение по нескольким маленьким простым модулям, то КТО говорит, что это эквивалентно хранению числа по модулю их произведения. Отсюда — «псевдообоснование» того, почему строковые хэши по нескольким модулям устойчивы к взлому: чем больше попарно простых модулей, тем больше период. Оговорка: произведение не простое, поэтому часть свойств поля теряется.</p>
 <figure class="viz">
 <svg viewBox="0 0 760 372" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="372" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">КТО: x ≡ 1 (mod 3) и x ≡ 2 (mod 5)</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Отмечаем числа, подходящие под каждое условие. Совпадение — каждые 3·5 = 15.</text><text x="59.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">0</text><circle cx="59.0" cy="154" r="3" fill="#33415a"/><circle cx="59.0" cy="204" r="3" fill="#33415a"/><text x="97.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">1</text><circle cx="97.0" cy="154" r="11" fill="#58c4dd"/><circle cx="97.0" cy="204" r="3" fill="#33415a"/><text x="135.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">2</text><circle cx="135.0" cy="154" r="3" fill="#33415a"/><circle cx="135.0" cy="204" r="11" fill="#83c167"/><text x="173.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">3</text><circle cx="173.0" cy="154" r="3" fill="#33415a"/><circle cx="173.0" cy="204" r="3" fill="#33415a"/><text x="211.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">4</text><circle cx="211.0" cy="154" r="11" fill="#58c4dd"/><circle cx="211.0" cy="204" r="3" fill="#33415a"/><text x="249.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">5</text><circle cx="249.0" cy="154" r="3" fill="#33415a"/><circle cx="249.0" cy="204" r="3" fill="#33415a"/><text x="287.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">6</text><circle cx="287.0" cy="154" r="3" fill="#33415a"/><circle cx="287.0" cy="204" r="3" fill="#33415a"/><rect x="308" y="80" width="34" height="150" rx="8" fill="#ffff00" stroke="#ffff00" stroke-width="2" opacity="0.18"/><text x="325.0" y="104" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">7</text><circle cx="325.0" cy="154" r="11" fill="#58c4dd"/><circle cx="325.0" cy="204" r="11" fill="#83c167"/><text x="363.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">8</text><circle cx="363.0" cy="154" r="3" fill="#33415a"/><circle cx="363.0" cy="204" r="3" fill="#33415a"/><text x="401.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">9</text><circle cx="401.0" cy="154" r="3" fill="#33415a"/><circle cx="401.0" cy="204" r="3" fill="#33415a"/><text x="439.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">10</text><circle cx="439.0" cy="154" r="11" fill="#58c4dd"/><circle cx="439.0" cy="204" r="3" fill="#33415a"/><text x="477.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">11</text><circle cx="477.0" cy="154" r="3" fill="#33415a"/><circle cx="477.0" cy="204" r="3" fill="#33415a"/><text x="515.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">12</text><circle cx="515.0" cy="154" r="3" fill="#33415a"/><circle cx="515.0" cy="204" r="11" fill="#83c167"/><text x="553.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">13</text><circle cx="553.0" cy="154" r="11" fill="#58c4dd"/><circle cx="553.0" cy="204" r="3" fill="#33415a"/><text x="591.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">14</text><circle cx="591.0" cy="154" r="3" fill="#33415a"/><circle cx="591.0" cy="204" r="3" fill="#33415a"/><text x="629.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">15</text><circle cx="629.0" cy="154" r="3" fill="#33415a"/><circle cx="629.0" cy="204" r="3" fill="#33415a"/><text x="667.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">16</text><circle cx="667.0" cy="154" r="11" fill="#58c4dd"/><circle cx="667.0" cy="204" r="3" fill="#33415a"/><text x="705.0" y="104" fill="#9aa4b2" font-size="15" text-anchor="middle">17</text><circle cx="705.0" cy="154" r="3" fill="#33415a"/><circle cx="705.0" cy="204" r="11" fill="#83c167"/><circle cx="48" cy="257" r="6" fill="#58c4dd"/><text x="70" y="262" fill="#c2cdde" font-size="14.5" text-anchor="start">x ≡ 1 (mod 3): 1, 4, 7, 10, 13, 16 — шаг 3</text><circle cx="48" cy="281" r="6" fill="#83c167"/><text x="70" y="286" fill="#c2cdde" font-size="14.5" text-anchor="start">x ≡ 2 (mod 5): 2, 7, 12, 17 — шаг 5</text><text x="40" y="340" fill="#ffff00" font-size="17" font-weight="700" text-anchor="start">Ответ: x ≡ 7 (mod 15)</text><text x="250" y="340" fill="#9aa4b2" font-size="14.5" text-anchor="start">— то есть 7, 22, 37, …: ровно одно решение на каждые 15 чисел</text></svg>
@@ -707,16 +735,16 @@ $$ \Bigl|\bigcup_{i=1}^{n} A_i\Bigr| \;=\; \sum_{\emptyset\ne S\subseteq\{1,\dot
   откуда $\sum_{s=1}^{m}(-1)^{s}\binom{m}{s}=-1$, и, меняя знак, получаем ровно $1$.</p>
   <p style="margin-bottom:0">Значит, слева и справа каждый элемент даёт $1$, и суммы равны.</p>
 </div>
-<h3>Пример: число беспорядков</h3>
+<h3 id="s9-1">Пример: число беспорядков</h3>
 <p>Беспорядок (derangement) — перестановка $\pi$ длины $n$, где $\pi(i)\ne i$ для всех $i$. Пусть $A_i$ — множество перестановок с $\pi(i)=i$. Тогда $|A_i|=(n-1)!$, а размер пересечения набора из $s$ множеств равен $(n-s)!$. Беспорядки — это дополнение объединения, поэтому
 $$ !n = n!-\sum_{s=1}^{n}(-1)^{s+1}\binom{n}{s}(n-s)! = n!\sum_{k=0}^{n}\frac{(-1)^{k}}{k!}. $$</p>
 <div class="note"><span class="lbl">Приём для отладки</span><br>
 Если включения-исключения «не сходятся», выпишите явно, чему равно каждое множество $A_i$ и пересечение произвольного набора, а затем аккуратно подставьте. Это почти всегда вскрывает потерянный знак или лишний множитель.</div>
 
 <h2 id="s10">10. Проверка простоты: Миллер–Рабин и Поллард <a class="ts" href="https://youtu.be/Muof24wh3zY?t=4709" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:18:29</a></h2>
-<h3>Тест Ферма и числа Кармайкла</h3>
+<h3 id="s10-1">Тест Ферма и числа Кармайкла</h3>
 <p>Если $n$ простое и $\gcd(x,n)=1$, то по малой теореме Ферма $x^{n-1}\equiv 1\pmod n$. Значит, если для какого-то $x$ это не выполняется — число составное. Но обратное неверно: существуют <strong>числа Кармайкла</strong> — составные $n$, для которых сравнение выполнено для всех $x$, взаимно простых с $n$ (эквивалентно: $n$ бесквадратно и для каждого простого $p\mid n$ выполнено $(p-1)\mid(n-1)$). Теста Ферма недостаточно.</p>
-<h3>Сильный тест (Миллер–Рабин)</h3>
+<h3 id="s10-2">Сильный тест (Миллер–Рабин)</h3>
 <p>Наложим более сильное условие, обязанное выполняться для простых. Запишем $n-1=2^{k}\cdot a$ с нечётным $a$. Тогда разность раскладывается в произведение:
 $$ x^{n-1}-1=(x^{a}-1)\prod_{i=0}^{k-1}\bigl(x^{a\cdot 2^{i}}+1\bigr). $$
 Если $n$ простое, произведение по модулю $n$ равно нулю, а в поле $\mathbb Z/n\mathbb Z$ нет делителей нуля, значит, хотя бы один множитель равен нулю. Отсюда проверка:</p>
@@ -748,7 +776,7 @@ $$ x^{n-1}-1=(x^{a}-1)\prod_{i=0}^{k-1}\bigl(x^{a\cdot 2^{i}}+1\bigr). $$
 }</code></pre></div>
 <div class="note"><span class="lbl">Вероятность и детерминированные базы</span><br>
 Для составного $n$ доля «плохих» оснований не превосходит $1/2$, поэтому $30$ случайных проверок дают ошибку меньше $2^{-30}$. Для $n\lt 10^{9}$ достаточно трёх заранее проверенных оснований, для $n\lt 3{,}2\cdot 10^{18}$ — десятка небольших простых. Безопасность детерминированных наборов опирается на обобщённую гипотезу Римана.</div>
-<h3>Факторизация: метод Полларда ($\rho$)</h3>
+<h3 id="s10-3">Факторизация: метод Полларда ($\rho$)</h3>
 <p>Пусть $n=pq$ с близкими $p\approx q$ — это самый трудный для разложения случай. Выбираем функцию по модулю $n$, обычно $f(x)=x^2+1\bmod n$, и строим последовательность $a_0$ (случайно), $a_{i+1}=f(a_i)$. Смотрим на $\gcd(a_i-a_j,\,n)$: он может быть $1$, $p$, $q$ или $n$. Угадали делитель — разложили. Используется <strong>алгоритм «черепахи и зайца»</strong> (Флойд): один указатель шагает на 1, другой на 2; их разность даёт нужное сравнение по модулю $p$.</p>
 <div class="good"><span class="lbl">Почему это $\tilde O(n^{1/4})$</span><br>
 По модулю $p$ та же функция задаёт «случайный» функциональный граф на $p$ вершинах. Длина хвоста и цикла в нём — порядка $\sqrt p$; столкновение $a_i\equiv a_j\pmod p$ наступает примерно за $O(\sqrt p)$ шагов. Для минимального простого множителя $p\le\sqrt n$ это $O(n^{1/4})$ шагов.</div>
@@ -813,12 +841,12 @@ $$ g(n,m,a,b)=\min\Bigl(b,\ \ g\bigl(q-1,\ a,\ (-m)\bmod a,\ (b-m)\bmod a\bigr)\
 Через минимум линейной функции по модулю решаются задачи вида «найдите $\min_x (a_ix+b_i)\bmod m$», задачи о ближайшем кратном и многие сложные задачи теории чисел, где наивный перебор по всем $x$ невозможен.</div>
 
 <h2 id="s13">13. Семинар: $\varphi$, суммы НОД и формула Мёбиуса <a class="ts" href="https://youtu.be/Muof24wh3zY?t=7516" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:05:16</a></h2>
-<h3>13.1. Количество чисел, взаимно простых с $n$ <a class="ts" href="https://youtu.be/Muof24wh3zY?t=7516" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:05:16</a></h3>
+<h3 id="s13-1">13.1. Количество чисел, взаимно простых с $n$ <a class="ts" href="https://youtu.be/Muof24wh3zY?t=7516" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:05:16</a></h3>
 <p>Задача: посчитать количество чисел от $1$ до $n$, взаимно простых с $n$ (то есть $\gcd=1$). Ответ — это $\varphi(n)$, но полезно уметь выводить формулу через включения-исключения.</p>
 <p>Разложим $n$ на <strong>различные</strong> простые делители $p_1,\dots,p_k$. Число не взаимно просто с $n$ тогда и только тогда, когда делится хотя бы на одно $p_i$. Для набора $S$ индексов чисел, делящихся на $\prod_{i\in S}p_i$, ровно $\lfloor n/\prod_{i\in S}p_i\rfloor$. Тогда
 $$ \varphi(n)=\sum_{S\subseteq\{1,\dots,k\}}(-1)^{|S|}\left\lfloor\frac{n}{\prod_{i\in S}p_i}\right\rfloor. $$
 Работает за $O(2^{k})$, где $k=\omega(n)$ — число различных простых делителей; на практике это очень мало.</p>
-<h3>13.2. Сумма НОД по всем подотрезкам за $O(n\log C)$ <a class="ts" href="https://youtu.be/Muof24wh3zY?t=7768" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:09:28</a></h3>
+<h3 id="s13-2">13.2. Сумма НОД по всем подотрезкам за $O(n\log C)$ <a class="ts" href="https://youtu.be/Muof24wh3zY?t=7768" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:09:28</a></h3>
 <p>Дан массив, нужно просуммировать $\gcd$ по всем подотрезкам; $C$ — максимальное значение. Зафиксируем правую границу $r$ и будем смотреть на $\gcd(l\dots r)$ при уменьшении $l$. Ключевой факт: при движении $l$ налево $\gcd$ может только уменьшаться и каждый раз делится на предыдущее значение, поэтому <strong>различных значений $\gcd$ на отрезке $O(\log C)$</strong>. Храним список пар «значение $\gcd$ — количество левых границ с таким значением».</p>
 <p>При сдвиге правой границы на $r+1$ добавляем новое число $a_{r+1}$: у всех старых значений берём $\gcd$ с $a_{r+1}$, приписываем новый отрезок из одной границы и склеиваем соседние равные значения. Суммарно по всем $r$ получается $O(n\log C)$.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// sum of gcd over all subsegments, O(n log C)</span>
@@ -835,7 +863,7 @@ $$ \varphi(n)=\sum_{S\subseteq\{1,\dots,k\}}(-1)^{|S|}\left\lfloor\frac{n}{\prod
     cur = nxt;
     <span class="k">for</span> (<span class="k">auto</span> [g, cnt] : cur) ans += (<span class="t">long</span> <span class="t">long</span>)g * cnt;
 }</code></pre></div>
-<h3>13.3. Сумма НОД по всем подмножествам за $O(C\log C)$ <a class="ts" href="https://youtu.be/Muof24wh3zY?t=8171" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:16:11</a></h3>
+<h3 id="s13-3">13.3. Сумма НОД по всем подмножествам за $O(C\log C)$ <a class="ts" href="https://youtu.be/Muof24wh3zY?t=8171" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:16:11</a></h3>
 <p>Дан набор чисел, нужно просуммировать $\gcd$ по всем непустым подмножествам.</p>
 <ol>
   <li>Пусть $g[d]$ — сколько чисел набора делится на $d$. Считаем за $O(C\log C)$: для каждого $d$ перебираем его кратные и суммируем счётчики.</li>
@@ -848,7 +876,7 @@ $$ \varphi(n)=\sum_{S\subseteq\{1,\dots,k\}}(-1)^{|S|}\left\lfloor\frac{n}{\prod
 <p>Такую операцию «обращения по делителям» и называют формулой (функцией) Мёбиуса; по сути это то же включение-исключение по простым делителям.</p>
 
 <h2 id="s14">14. Семинар: решёта, линейное решето и мультипликативные функции <a class="ts" href="https://youtu.be/Muof24wh3zY?t=8569" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:22:49</a></h2>
-<h3>14.1. Простые до $n$ при $O(\sqrt n)$ памяти <a class="ts" href="https://youtu.be/Muof24wh3zY?t=8569" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:22:49</a></h3>
+<h3 id="s14-1">14.1. Простые до $n$ при $O(\sqrt n)$ памяти <a class="ts" href="https://youtu.be/Muof24wh3zY?t=8569" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:22:49</a></h3>
 <p>Задача: посчитать количество и сумму простых от $1$ до $n$ за $O(n\log\log n)$ времени и $O(\sqrt n)$ памяти. Прямое решето требует $O(n)$ памяти, поэтому используем блочное (сегментное) решето.</p>
 <ol>
   <li>Решетом Эратосфена до $\sqrt n$ находим все простые $p\le\sqrt n$ --- их $O(\sqrt n)$.</li>
@@ -856,7 +884,7 @@ $$ \varphi(n)=\sum_{S\subseteq\{1,\dots,k\}}(-1)^{|S|}\left\lfloor\frac{n}{\prod
   <li>Для каждого простого храним последнее посещённое кратное, чтобы не пересчитывать левую границу блока делением.</li>
 </ol>
 <p>Суммарная работа $\sum_{p\le\sqrt n} n/p = \Theta(n\log\log n)$ (гармонический ряд по простым сходится к $\log\log n$).</p>
-<h3>14.2. Линейное решето (минимальный простой делитель) <a class="ts" href="https://youtu.be/Muof24wh3zY?t=9031" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:30:31</a></h3>
+<h3 id="s14-2">14.2. Линейное решето (минимальный простой делитель) <a class="ts" href="https://youtu.be/Muof24wh3zY?t=9031" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:30:31</a></h3>
 <p>Хотим за честное $O(n)$ найти для каждого числа его минимальный простой делитель $\mathrm{spf}(i)$. Идём по $i$ от $2$ до $n$; если $\mathrm{spf}(i)$ ещё не назначен, то $i$ простое. Затем для каждого простого $p\le\mathrm{spf}(i)$ помечаем $i\cdot p$ как имеющее $\mathrm{spf}=p$. Каждое число получает делитель ровно один раз, поэтому суммарно $O(n)$.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">vector</span>&lt;<span class="t">int</span>&gt; <span class="f">spf</span>(n + <span class="n">1</span>, <span class="n">0</span>), primes;
 <span class="k">for</span> (<span class="t">int</span> i = <span class="n">2</span>; i &lt;= n; ++i) {
@@ -866,7 +894,7 @@ $$ \varphi(n)=\sum_{S\subseteq\{1,\dots,k\}}(-1)^{|S|}\left\lfloor\frac{n}{\prod
         spf[i * p] = p;                 <span class="c">// минимальный простой делитель</span>
     }
 }</code></pre></div>
-<h3>14.3. Мультипликативные функции на линейном решете <a class="ts" href="https://youtu.be/Muof24wh3zY?t=9272" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:34:32</a></h3>
+<h3 id="s14-3">14.3. Мультипликативные функции на линейном решете <a class="ts" href="https://youtu.be/Muof24wh3zY?t=9272" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:34:32</a></h3>
 <p>Зная $\mathrm{spf}(i)$, легко считать мультипликативные функции для всех чисел.</p>
 <ul>
   <li><strong>Число делителей $\tau(i)$.</strong> Храним $e(i)$ — степень, в которой $\mathrm{spf}(i)$ входит в $i$. Если $p^2\mid i$, то $e(i)=e(i/p)+1$ и $\tau(i)=\tau(i/p)\cdot\frac{e(i)+1}{e(i/p)+1}$; иначе $e(i)=1$ и $\tau(i)=2\tau(i/p)$.</li>
@@ -874,7 +902,7 @@ $$ \varphi(n)=\sum_{S\subseteq\{1,\dots,k\}}(-1)^{|S|}\left\lfloor\frac{n}{\prod
   <li><strong>Функция Эйлера $\varphi(i)$.</strong> Если $p^2\mid i$, то $\varphi(i)=p\,\varphi(i/p)$; иначе $\varphi(i)=(p-1)\,\varphi(i/p)$, где $p=\mathrm{spf}(i)$.</li>
 </ul>
 <p>Простейшая реализация «в лоб» тоже быстра: для каждого $i$ делим на $\mathrm{spf}(i)$, пока делится, --- суммарно это почти линейно, так как степень вхождения минимального простого делителя мала.</p>
-<h3>14.4. Сумма $b_k=\sum_{k\mid i} a_i$ <a class="ts" href="https://youtu.be/Muof24wh3zY?t=9682" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:41:22</a></h3>
+<h3 id="s14-4">14.4. Сумма $b_k=\sum_{k\mid i} a_i$ <a class="ts" href="https://youtu.be/Muof24wh3zY?t=9682" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:41:22</a></h3>
 <p>Нужно для каждого $k$ посчитать сумму элементов на позициях, кратных $k$. Наивно (для каждого $k$ пройти по его кратным) это $O(n\log n)$ — гармонический ряд. Есть более экономный вариант: прогонять преобразование отдельно для каждого простого $p$, идя по массиву с шагом $p$ и прибавляя $a[i]$ к $a[i/p]$; суммарно $n/2+n/3+n/5+\dots=\Theta(n\log\log n)$.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// b[k] = sum of a[i] for i divisible by k</span>
 <span class="t">vector</span>&lt;<span class="t">long</span> <span class="t">long</span>&gt; <span class="f">b</span>(a.<span class="f">begin</span>(), a.<span class="f">end</span>());
@@ -884,7 +912,7 @@ $$ \varphi(n)=\sum_{S\subseteq\{1,\dots,k\}}(-1)^{|S|}\left\lfloor\frac{n}{\prod
 <span class="c">// теперь b[k] содержит сумму по всем i, кратным k</span></code></pre></div>
 
 <h2 id="s15">15. Семинар: НОД на отрезке, GCD-преобразование и трюк с $\varphi$ <a class="ts" href="https://youtu.be/Muof24wh3zY?t=9464" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:37:44</a></h2>
-<h3>15.1. Прибавление на отрезке и НОД на отрезке <a class="ts" href="https://youtu.be/Muof24wh3zY?t=9464" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:37:44</a></h3>
+<h3 id="s15-1">15.1. Прибавление на отрезке и НОД на отрезке <a class="ts" href="https://youtu.be/Muof24wh3zY?t=9464" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:37:44</a></h3>
 <p>Требуется поддерживать прибавление числа ко всем элементам отрезка и запрос $\gcd$ на отрезке. Ключевой факт:
 $$ \gcd(a_l,\dots,a_r)=\gcd\bigl(a_l,\ a_{l+1}-a_l,\ \dots,\ a_r-a_{r-1}\bigr). $$
 Перейдём к <strong>разностному массиву</strong> $d_i=a_i-a_{i-1}$. Прибавление на отрезке $[l,r]$ меняет только два элемента разностного массива: $d_l$ и $d_{r+1}$ (если $r\lt n$).</p>
@@ -897,7 +925,7 @@ $$ \gcd(a_l,\dots,a_r)=\gcd\bigl(a_l,\ a_{l+1}-a_l,\ \dots,\ a_r-a_{r-1}\bigr). 
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// a_l через Fenwick по разностям, gcd по разностям — деревом отрезков</span>
 <span class="c">// range_add(l, r, x): add(l, x); if (r+1 &lt; n) add(r+1, -x);</span>
 <span class="c">// range_gcd(l, r): return gcd(point_query(l), seg_gcd(l+1, r));</span></code></pre></div>
-<h3>15.2. Сумма попарных НОД и трюк с $\varphi$ <a class="ts" href="https://youtu.be/Muof24wh3zY?t=10042" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:47:22</a></h3>
+<h3 id="s15-2">15.2. Сумма попарных НОД и трюк с $\varphi$ <a class="ts" href="https://youtu.be/Muof24wh3zY?t=10042" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:47:22</a></h3>
 <p>Нужно для каждого $i$ посчитать сумму $\sum_{j\lt i}\gcd(a_i,a_j)$, а затем просуммировать по всем парам.</p>
 <p>Используем тождество
 $$ \sum_{d\mid n}\varphi(d)=n, $$
@@ -906,24 +934,24 @@ $$ \sum_{\text{pairs}}\gcd(x,y)=\sum_{d}\varphi(d)\cdot\binom{c_d}{2}, $$
 где $c_d$ — число элементов массива, делящихся на $d$. Можно считать и «на лету»: поддерживать $c_d$ и для нового $x$ добавлять $\sum_{d\mid x}\varphi(d)\cdot c_d$.</p>
 <div class="note"><span class="lbl">Развёрнутое объяснение: откуда берутся коэффициенты</span><br>
 Пусть мы хотим представить $g=\sum_{d\mid g}K_d$ для любого $g$. Тогда вклад пары с $\gcd=g$ равен $\sum_{d\mid g}K_d$, и суммирование по парам даёт $\sum_d K_d\,c'_d$, где $c'_d$ — число пар, оба элемента которых делятся на $d$. Требование $\sum_{d\mid g}K_d=g$ однозначно определяет коэффициенты: это $\varphi(d)$. Их можно посчитать «сверху вниз»: положить $K_d=d$, а затем для $d$ от большого к малому вычитать $K_m$ из всех кратных $m$ --- в результате $K_d=\varphi(d)$.</div>
-<h3>15.3. Преобразование по делителям в задаче о попарных НОД <a class="ts" href="https://youtu.be/Muof24wh3zY?t=10147" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:49:07</a></h3>
+<h3 id="s15-3">15.3. Преобразование по делителям в задаче о попарных НОД <a class="ts" href="https://youtu.be/Muof24wh3zY?t=10147" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:49:07</a></h3>
 <p>Тот же аппарат используется, чтобы для каждого нового числа $x$ быстро узнать «сколько уже добавленных чисел взаимно просты с $x$»: поддерживаем $c_d$ — количество добавленных чисел, делящихся на $d$, и отвечаем включением-исключением по бесквадратным делителям $x$:
 $$ \#\{y:\gcd(x,y)=1\}=\sum_{d\mid x}(-1)^{\omega(d)}c_d, $$
 где суммирование идёт по бесквадратным $d$. Коэффициенты $(-1)^{\omega(d)}$ — это значения функции Мёбиуса.</p>
 
 <h2 id="s16">16. Семинар: включения-исключения в задачах <a class="ts" href="https://youtu.be/Muof24wh3zY?t=10641" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:57:21</a></h2>
-<h3>16.1. «Кубастые» числа <a class="ts" href="https://youtu.be/Muof24wh3zY?t=10641" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:57:21</a></h3>
+<h3 id="s16-1">16.1. «Кубастые» числа <a class="ts" href="https://youtu.be/Muof24wh3zY?t=10641" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:57:21</a></h3>
 <p>Натуральное число называется кубастым, если его можно представить в виде $a^3 b$ с $a\gt 1$, $b\ge 1$; нужно посчитать количество кубастых чисел до $n$ (для $n\le 10^{18}$).</p>
 <p>Число кубасто тогда и только тогда, когда делится на $p^3$ для некоторого простого $p$. Обозначим $A_p$ — множество чисел, делящихся на $p^3$; нужно найти $|\bigcup_p A_p|$. Для набора различных простых $p_1,\dots,p_s$ размер пересечения равен $\lfloor n/(p_1\cdots p_s)^3\rfloor$. По формуле включений-исключений
 $$ \#=\sum_{d\ge 2,\ d\ \text{бесквадратно}}(-1)^{\omega(d)+1}\left\lfloor\frac{n}{d^3}\right\rfloor. $$
 Поскольку $d^3\le n$, достаточно $d\le n^{1/3}\le 10^6$; все нужные $d$ можно получить решетом, накопив знак $(-1)^{\omega(d)+1}$.</p>
-<h3>16.2. Массивы с ограничением сверху <a class="ts" href="https://youtu.be/Muof24wh3zY?t=11224" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:07:04</a></h3>
+<h3 id="s16-2">16.2. Массивы с ограничением сверху <a class="ts" href="https://youtu.be/Muof24wh3zY?t=11224" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:07:04</a></h3>
 <p>Сколько существует массивов длины $n$ с элементами из отрезка $[0,k]$, сумма которых равна $s$? Без ограничения сверху ответ даёт метод шаров и перегородок:
 $$ \binom{s+n-1}{n-1}. $$
 Ограничение $a_i\le k$ учитываем включением-исключением по позициям, где $a_i\ge k+1$: выбираем $c$ «плохих» позиций, вычитаем из суммы по $(k+1)$ на каждой и распределяем остаток свободно. Итог
 $$ \sum_{c=0}^{\lfloor s/(k+1)\rfloor}(-1)^{c}\binom{n}{c}\binom{s-(k+1)c+n-1}{n-1}. $$
 Это в точности коэффициент при $x^s$ у многочлена $(1+x+\dots+x^k)^n$.</p>
-<h3>16.3. Пара с максимальным НОК <a class="ts" href="https://youtu.be/Muof24wh3zY?t=11808" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:16:48</a></h3>
+<h3 id="s16-3">16.3. Пара с максимальным НОК <a class="ts" href="https://youtu.be/Muof24wh3zY?t=11808" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:16:48</a></h3>
 <p>Лёгкая версия: найти пару с минимальным (а затем с максимальным) НОК. Идея для минимума: перебрать кандидата в $\gcd$, взять два наименьших элемента массива, делящихся на него, и обновить ответ через их НОК; если найденный «НОК» не является настоящим $\gcd$, всегда существует пара не хуже, так что оптимум будет найден.</p>
 <p>Сложная версия — максимум — сводится к одной задаче о двух взаимно простых числах. Построим множество $S$ из всевозможных делителей всех $a_i$. Утверждение: максимум произведения двух <strong>взаимно простых</strong> чисел из $S$ равен максимальному НОК пары исходных чисел.</p>
 <div class="note"><span class="lbl">Развёрнутое объяснение: почему сведение работает</span><br>
@@ -937,6 +965,7 @@ $$ \#\{y\in S:\gcd(x,y)=1\}=\sum_{d\mid x,\ d\ \text{бескв.}}(-1)^{\omega(d
 </footer>
 
 
+<nav class="pager" aria-label="Соседние занятия"><a class="prev" href="../index.html"><small>← назад</small><b>Все конспекты</b></a><a class="next" href="../parallel-a/parallel-a-zan2-optimizacii-dp.html"><small>занятие 2 →</small><b>Оптимизации DP</b></a></nav>
 </div>
 
 <button class="toplink" id="topBtn">↑ наверх</button>
@@ -1055,6 +1084,43 @@ $$ \#\{y\in S:\gcd(x,y)=1\}=\sum_{d\mid x,\ d\ \text{бескв.}}(-1)^{\omega(d
     else if(k==='merge')buildMerge(cont,(cont.getAttribute('data-a')||'').split(',').map(Number),(cont.getAttribute('data-b')||'').split(',').map(Number));
     else if(k==='slope')buildSlope(cont);
   });
+})();
+</script>
+<script id="reader">
+(function(){
+  var heads = [].slice.call(document.querySelectorAll(".wrap h2[id]"));
+  if (!heads.length) return;
+  var bar = document.createElement("div"); bar.className = "progress"; document.body.appendChild(bar);
+  function label(h){ var c = h.cloneNode(true); [].forEach.call(c.querySelectorAll(".ts"), function(x){ x.remove(); });
+    return c.textContent.replace(/^\s*(?:\d+\.)+\s*/, "").trim(); }
+  function links(box){ return heads.map(function(h){ var a = document.createElement("a"); a.href = "#" + h.id; a.textContent = label(h); box.appendChild(a); return a; }); }
+  var side = document.createElement("nav"); side.className = "side-toc"; side.setAttribute("aria-label", "Разделы");
+  side.innerHTML = "<p>Разделы</p>"; var sideLinks = links(side); document.body.appendChild(side);
+  var btn = document.createElement("button"); btn.className = "secbtn"; btn.type = "button"; btn.textContent = "≡ разделы";
+  btn.setAttribute("aria-expanded", "false");
+  var panel = document.createElement("nav"); panel.className = "secpanel"; panel.hidden = true; panel.setAttribute("aria-label", "Разделы");
+  var panelLinks = links(panel); document.body.appendChild(panel); document.body.appendChild(btn);
+  function toggle(open){ panel.hidden = !open; btn.setAttribute("aria-expanded", open); }
+  btn.addEventListener("click", function(e){ e.stopPropagation(); toggle(panel.hidden); });
+  panel.addEventListener("click", function(e){ if (e.target.closest("a")) toggle(false); });
+  document.addEventListener("click", function(e){ if (!panel.hidden && !panel.contains(e.target)) toggle(false); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") toggle(false); });
+  var toc = document.querySelector(".toc"); var cur = -1; var ticking = false;
+  function update(){
+    ticking = false;
+    var max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, scrollY / max) : 0) + ")";
+    var past = toc ? toc.getBoundingClientRect().bottom < 0 : scrollY > 400;
+    side.classList.toggle("show", past); btn.classList.toggle("show", past);
+    var i = -1; for (var k = 0; k < heads.length; k++) if (heads[k].getBoundingClientRect().top < innerHeight * 0.3) i = k;
+    if (i !== cur) {
+      [sideLinks, panelLinks].forEach(function(l){ if (cur >= 0) l[cur].classList.remove("on"); if (i >= 0) l[i].classList.add("on"); });
+      if (i >= 0 && side.classList.contains("show")) { var a = sideLinks[i]; if (a.offsetTop < side.scrollTop || a.offsetTop > side.scrollTop + side.clientHeight - 30) side.scrollTop = a.offsetTop - 60; }
+      cur = i;
+    }
+  }
+  addEventListener("scroll", function(){ if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener("resize", update); update();
 })();
 </script>
 </body>

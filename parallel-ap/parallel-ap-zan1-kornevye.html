@@ -410,6 +410,34 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
   html.theme-anim, html.theme-anim *{transition:none !important}
 }
 @media print{html[data-theme] .top, html[data-theme] .toplink{display:none} html[data-theme] body{background:#fff}}
+/* ---------- навигация по конспекту ---------- */
+html[data-theme] .progress{position:fixed; top:0; left:0; right:0; height:3px; background:var(--accent); transform-origin:0 50%; transform:scaleX(0); z-index:50; pointer-events:none}
+html[data-theme] .side-toc{position:fixed; top:84px; right:max(16px, calc(50% - 410px - 250px)); width:220px; max-height:calc(100vh - 120px); overflow:auto;
+  font-size:.85rem; line-height:1.35; opacity:0; visibility:hidden; transform:translateX(6px); transition:opacity .25s, transform .25s, visibility .25s; z-index:20}
+html[data-theme] .side-toc.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .side-toc p{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin:0 0 8px}
+html[data-theme] .side-toc a{display:block; color:var(--muted); padding:4px 0 4px 12px; border-left:2px solid var(--line); text-decoration:none; transition:color .2s, border-color .2s}
+html[data-theme] .side-toc a:hover{color:var(--ink)}
+html[data-theme] .side-toc a.on{color:var(--ink); border-left-color:var(--accent)}
+html[data-theme] .secbtn{position:fixed; left:16px; bottom:16px; z-index:30; background:var(--card); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  padding:8px 14px; font-family:var(--sans); font-size:.82rem; cursor:pointer; opacity:0; visibility:hidden; transform:translateY(8px); transition:opacity .2s, transform .2s, visibility .2s}
+html[data-theme] .secbtn.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .secpanel{position:fixed; left:16px; right:16px; bottom:64px; max-width:420px; max-height:60vh; overflow:auto; z-index:31; background:var(--card);
+  border:1px solid var(--line); border-radius:8px; padding:10px 0; box-shadow:0 12px 32px rgba(0,0,0,.18)}
+html[data-theme] .secpanel[hidden]{display:none}
+html[data-theme] .secpanel a{display:block; padding:8px 16px; color:var(--ink); text-decoration:none; font-size:.92rem}
+html[data-theme] .secpanel a.on{color:var(--accent); font-weight:650}
+html[data-theme] .pager{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:48px 0 0; padding-top:20px; border-top:1px solid var(--ink)}
+html[data-theme] .pager a{display:block; padding:14px 16px; border:1px solid var(--line); border-radius:8px; color:var(--ink); text-decoration:none; transition:border-color .2s, background-color .2s}
+html[data-theme] .pager a:hover{border-color:var(--accent); background:var(--accent-soft)}
+html[data-theme] .pager a.next{text-align:right; grid-column:2}
+html[data-theme] .pager small{display:block; font-family:var(--mono); font-size:.75rem; color:var(--muted); margin-bottom:4px}
+html[data-theme] .pager b{font-family:var(--serif); font-size:1.08rem}
+html[data-theme] h2[id], html[data-theme] h3[id]{scroll-margin-top:24px}
+@media(min-width:1300px){html[data-theme] .secbtn, html[data-theme] .secpanel{display:none !important}}
+@media(max-width:1299px){html[data-theme] .side-toc{display:none}}
+@media(max-width:560px){html[data-theme] .pager{grid-template-columns:1fr} html[data-theme] .pager a.next{grid-column:1}}
+@media print{html[data-theme] .progress, html[data-theme] .side-toc, html[data-theme] .secbtn, html[data-theme] .secpanel, html[data-theme] .pager{display:none}}
 </style>
 <script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".code .copy");if(!b)return;var pre=b.closest(".code").querySelector("pre"),t=pre.innerText;function ok(){b.textContent="скопировано ✓";setTimeout(function(){b.textContent="копировать"},1600)}function sel(){var r=document.createRange();r.selectNodeContents(pre);var x=getSelection();x.removeAllRanges();x.addRange(r);b.textContent="выделено — нажмите ⌘C"}if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>
 </head>
@@ -458,23 +486,23 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
   <li><code>add(l, r, x)</code> — прибавить $x$ ко всем элементам отрезка $[l, r]$;</li>
   <li><code>sum(l, r)</code> — сумма на отрезке $[l, r]$.</li>
 </ol>
-<h3>Идея</h3>
+<h3 id="s2-1">Идея</h3>
 <p>Разобьём массив на <strong>блоки</strong> размера $K$ (последний блок может быть неполным). Для каждого блока храним две величины:</p>
 <ul>
   <li><code>sum</code> — сумму элементов блока (без учёта добавки);</li>
   <li><code>add</code> — ленивую добавку, которую нужно прибавить ко всем элементам блока.</li>
 </ul>
-<h3>Обработка запроса <code>add(l, r, x)</code></h3>
+<h3 id="s2-2">Обработка запроса <code>add(l, r, x)</code></h3>
 <p>Отрезок разбивается на три части: префикс, несколько <strong>полных блоков</strong> и суффикс.</p>
 <figure class="viz"><svg viewBox="0 0 760 380" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="380" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">add(l, r, x) на блоках: n = 20, K = 4, запрос [2, 17]</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Отрезок распадается на хвост слева, целые блоки и хвост справа.</text><rect x="52" y="116" width="128" height="24" rx="5" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><text x="116.0" y="133" fill="#9aa4b2" font-size="13.5" text-anchor="middle">блок 0</text><rect x="184" y="116" width="128" height="24" rx="5" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5" opacity="0.35"/><text x="248.0" y="133" fill="#dfe7f1" font-size="13.5" text-anchor="middle">блок 1</text><rect x="316" y="116" width="128" height="24" rx="5" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5" opacity="0.35"/><text x="380.0" y="133" fill="#dfe7f1" font-size="13.5" text-anchor="middle">блок 2</text><rect x="448" y="116" width="128" height="24" rx="5" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5" opacity="0.35"/><text x="512.0" y="133" fill="#dfe7f1" font-size="13.5" text-anchor="middle">блок 3</text><rect x="580" y="116" width="128" height="24" rx="5" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><text x="644.0" y="133" fill="#9aa4b2" font-size="13.5" text-anchor="middle">блок 4</text><rect x="51" y="150" width="31" height="36" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="66.5" y="208" fill="#9aa4b2" font-size="13" text-anchor="middle">0</text><rect x="84" y="150" width="31" height="36" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="99.5" y="208" fill="#9aa4b2" font-size="13" text-anchor="middle">1</text><rect x="117" y="150" width="31" height="36" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><rect x="117" y="150" width="31" height="36" rx="6" fill="#83c167" opacity="0.45"/><text x="132.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">2</text><rect x="150" y="150" width="31" height="36" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><rect x="150" y="150" width="31" height="36" rx="6" fill="#83c167" opacity="0.45"/><text x="165.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">3</text><rect x="183" y="150" width="31" height="36" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><rect x="183" y="150" width="31" height="36" rx="6" fill="#58c4dd" opacity="0.25"/><text x="198.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">4</text><line x1="182" y1="112" x2="182" y2="192" stroke="#7c8aa0" stroke-width="1.5" stroke-dasharray="3 4" stroke-linecap="round"/><rect x="216" y="150" width="31" height="36" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><rect x="216" y="150" width="31" height="36" rx="6" fill="#58c4dd" opacity="0.25"/><text x="231.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">5</text><rect x="249" y="150" width="31" height="36" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><rect x="249" y="150" width="31" height="36" rx="6" fill="#58c4dd" opacity="0.25"/><text x="264.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">6</text><rect x="282" y="150" width="31" height="36" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><rect x="282" y="150" width="31" height="36" rx="6" fill="#58c4dd" opacity="0.25"/><text x="297.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">7</text><rect x="315" y="150" width="31" height="36" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><rect x="315" y="150" width="31" height="36" rx="6" fill="#58c4dd" opacity="0.25"/><text x="330.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">8</text><line x1="314" y1="112" x2="314" y2="192" stroke="#7c8aa0" stroke-width="1.5" stroke-dasharray="3 4" stroke-linecap="round"/><rect x="348" y="150" width="31" height="36" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><rect x="348" y="150" width="31" height="36" rx="6" fill="#58c4dd" opacity="0.25"/><text x="363.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">9</text><rect x="381" y="150" width="31" height="36" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><rect x="381" y="150" width="31" height="36" rx="6" fill="#58c4dd" opacity="0.25"/><text x="396.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">10</text><rect x="414" y="150" width="31" height="36" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><rect x="414" y="150" width="31" height="36" rx="6" fill="#58c4dd" opacity="0.25"/><text x="429.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">11</text><rect x="447" y="150" width="31" height="36" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><rect x="447" y="150" width="31" height="36" rx="6" fill="#58c4dd" opacity="0.25"/><text x="462.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">12</text><line x1="446" y1="112" x2="446" y2="192" stroke="#7c8aa0" stroke-width="1.5" stroke-dasharray="3 4" stroke-linecap="round"/><rect x="480" y="150" width="31" height="36" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><rect x="480" y="150" width="31" height="36" rx="6" fill="#58c4dd" opacity="0.25"/><text x="495.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">13</text><rect x="513" y="150" width="31" height="36" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><rect x="513" y="150" width="31" height="36" rx="6" fill="#58c4dd" opacity="0.25"/><text x="528.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">14</text><rect x="546" y="150" width="31" height="36" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><rect x="546" y="150" width="31" height="36" rx="6" fill="#58c4dd" opacity="0.25"/><text x="561.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">15</text><rect x="579" y="150" width="31" height="36" rx="6" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="1.5"/><rect x="579" y="150" width="31" height="36" rx="6" fill="#ff8c1a" opacity="0.45"/><text x="594.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">16</text><line x1="578" y1="112" x2="578" y2="192" stroke="#7c8aa0" stroke-width="1.5" stroke-dasharray="3 4" stroke-linecap="round"/><rect x="612" y="150" width="31" height="36" rx="6" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="1.5"/><rect x="612" y="150" width="31" height="36" rx="6" fill="#ff8c1a" opacity="0.45"/><text x="627.5" y="208" fill="#dfe7f1" font-size="13" text-anchor="middle">17</text><rect x="645" y="150" width="31" height="36" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="660.5" y="208" fill="#9aa4b2" font-size="13" text-anchor="middle">18</text><rect x="678" y="150" width="31" height="36" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="693.5" y="208" fill="#9aa4b2" font-size="13" text-anchor="middle">19</text><path d="M118,226 v8 H180 v-8" stroke="#83c167" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="149.0" y="258" fill="#83c167" font-size="15" font-weight="700" text-anchor="middle">хвост</text><text x="149.0" y="280" fill="#c2cdde" font-size="14" text-anchor="middle">a[i] += x</text><text x="149.0" y="300" fill="#c2cdde" font-size="14" text-anchor="middle">по одному</text><path d="M184,226 v8 H576 v-8" stroke="#58c4dd" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="380.0" y="258" fill="#58c4dd" font-size="15" font-weight="700" text-anchor="middle">3 целых блока</text><text x="380.0" y="280" fill="#c2cdde" font-size="14" text-anchor="middle">add[блок] += x — O(1) на блок,</text><text x="380.0" y="300" fill="#c2cdde" font-size="14" text-anchor="middle">элементы не трогаем</text><path d="M580,226 v8 H642 v-8" stroke="#ff8c1a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="611.0" y="258" fill="#ff8c1a" font-size="15" font-weight="700" text-anchor="middle">хвост</text><text x="611.0" y="280" fill="#c2cdde" font-size="14" text-anchor="middle">a[i] += x</text><text x="611.0" y="300" fill="#c2cdde" font-size="14" text-anchor="middle">по одному</text><text x="32" y="352" fill="#c2cdde" font-size="14.5" text-anchor="start">Хвосты — не больше 2K элементов, блоков — не больше n/K. При K ≈ √n запрос стоит O(√n).</text></svg><figcaption>Хвосты обновляем поэлементно, а целые блоки — одной пометкой <code>add</code>; так запрос стоит $O(K + n/K)$.</figcaption></figure>
 <ul>
   <li>Префикс и суффикс обрабатываем <strong>втупую</strong> по элементам: прибавляем $x$ к каждому и обновляем <code>sum</code> соответствующего блока.</li>
   <li>Для каждого полного блока просто увеличиваем его <code>add</code> на $x$ (не трогая элементы).</li>
 </ul>
-<h3>Значение элемента и сумма</h3>
+<h3 id="s2-3">Значение элемента и сумма</h3>
 <div class="formula">Настоящее значение $a_i = a_i^{\text{исходное}} + \text{add}[\text{блок}(i)]$.</div>
 <p>Сумма на отрезке: префикс/суффикс считаем по элементам, а для полного блока $j$ прибавляем $\text{sum}[j] + \text{add}[j] \cdot \text{len}[j]$.</p>
-<h3>Сложность</h3>
+<h3 id="s2-4">Сложность</h3>
 <ul>
   <li>Префикс и суффикс — $O(K)$ операций каждый.</li>
   <li>Полных блоков не более $n/K$.</li>
@@ -519,7 +547,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
   <li><strong>Все три вершины тяжёлые.</strong> Тяжёлых вершин $\le \sqrt m$, перебираем все тройки тяжёлых вершин и проверяем попарную смежность: $O((\sqrt m)^3) = O(m\sqrt m)$.</li>
 </ul>
 
-<h3>Второй способ (переориентация рёбер) <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=1860" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">0:31:00</a></h3>
+<h3 id="s3-1">Второй способ (переориентация рёбер) <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=1860" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">0:31:00</a></h3>
 <p>Отсортируем вершины по возрастанию степени. Направим каждое ребро от вершины с меньшим индексом в сортировке к большей (то есть «вперёд»). Тогда:</p>
 <ul>
   <li>у лёгких вершин исходящих рёбер $\le K$ (и так было);</li>
@@ -590,7 +618,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 </ul>
 <p>Сложность: $\dfrac{q}{K}\cdot n + q \cdot K$. Чтобы выбрать $K$, приравниваем слагаемые:</p>
 <div class="formula">$\dfrac{q}{K}\cdot n = q\cdot K \;\Rightarrow\; K = \sqrt n$, итого $O(q\sqrt n)$.</div>
-<h3>Почему именно $K=\sqrt n$, а не $\sqrt q$ <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=6240" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:44:00</a></h3>
+<h3 id="s8-1">Почему именно $K=\sqrt n$, а не $\sqrt q$ <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=6240" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:44:00</a></h3>
 <p>Это следует из неравенства о средних: $x + y \ge 2\sqrt{xy}$. Для двух слагаемых $\dfrac{qn}{K}$ и $qK$:</p>
 <div class="formula">$\dfrac{qn}{K} + qK \ge 2\sqrt{q^2 n} = 2q\sqrt n$, и равенство при $K = \sqrt n$.</div>
 <p>То есть минимум суммы достигается, когда слагаемые равны, и правильный выбор — $K = \sqrt n$. Это работает при любом соотношении $n$ и $q$.</p>
@@ -599,7 +627,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 
 <h2 id="s9">9. Алгоритм Мо <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=7080" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:58:00</a></h2>
 <p><strong>Задача.</strong> Дан массив и $q$ запросов «mex на подотрезке $[l,r]$». MEX — минимальное неотрицательное число, не встречающееся на отрезке.</p>
-<h3>Идея Мо</h3>
+<h3 id="s9-1">Идея Мо</h3>
 <p>Пусть есть структура данных $S$, которая хранит множество и умеет: (1) вычислять ответ, (2) добавлять/удалять элемент. Для mex можно поддерживать <code>cnt[x]</code> (сколько раз $x$ в множестве) и <code>set</code> отсутствующих чисел; mex — минимум этого set.</p>
 <p>Расположим запросы (отрезки $[l_i, r_i]$) в некотором порядке. От запроса к запросу будем двигать границы $l$ и $r$, добавляя/удаляя элементы:</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="k">while</span> (L &gt; l) <span class="f">add</span>(--L);
@@ -608,7 +636,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 <span class="k">while</span> (R &gt; r) <span class="f">remove</span>(R--);
 <span class="c">// ответ = текущее значение в структуре S</span></code></pre></div>
 <p>Стоимость перехода от отрезка $[l_1,r_1]$ к $[l_2,r_2]$ равна $|l_2-l_1| + |r_2-r_1|$ — это <strong>манхэттенское расстояние</strong> между точками $(l_i, r_i)$ на плоскости. Нужно упорядочить точки так, чтобы суммарное расстояние было мало (задача коммивояжёра в манхэттенской метрике).</p>
-<h3>Порядок запросов (классический Мо)</h3>
+<h3 id="s9-2">Порядок запросов (классический Мо)</h3>
 <p>Возьмём $B$ и отсортируем запросы по паре $\left(\lfloor l/B \rfloor, r\right)$: сначала по номеру «полосы» по $l$, внутри полосы — по возрастанию $r$.</p>
 <figure class="viz">
 <svg viewBox="0 0 760 470" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="470" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Порядок Мо: полосы по l, внутри полосы — по r</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Каждая точка — запрос (l, r). Линия показывает, в каком порядке их обработать.</text><rect x="70.0" y="108.0" width="120.9" height="312.0" rx="0" fill="#58c4dd" opacity="0.07"/><text x="130.45" y="100.0" fill="#9aa4b2" font-size="14" text-anchor="middle">полоса 0</text><rect x="190.9" y="108.0" width="120.9" height="312.0" rx="0" fill="#c78bff" opacity="0.07"/><text x="251.35000000000002" y="100.0" fill="#9aa4b2" font-size="14" text-anchor="middle">полоса 1</text><line x1="190.9" y1="108.0" x2="190.9" y2="420" stroke="#7c8aa0" stroke-width="1.5" stroke-dasharray="4 4" stroke-linecap="round"/><rect x="311.8" y="108.0" width="120.9" height="312.0" rx="0" fill="#58c4dd" opacity="0.07"/><text x="372.25" y="100.0" fill="#9aa4b2" font-size="14" text-anchor="middle">полоса 2</text><line x1="311.8" y1="108.0" x2="311.8" y2="420" stroke="#7c8aa0" stroke-width="1.5" stroke-dasharray="4 4" stroke-linecap="round"/><rect x="432.70000000000005" y="108.0" width="120.9" height="312.0" rx="0" fill="#c78bff" opacity="0.07"/><text x="493.15000000000003" y="100.0" fill="#9aa4b2" font-size="14" text-anchor="middle">полоса 3</text><line x1="432.70000000000005" y1="108.0" x2="432.70000000000005" y2="420" stroke="#7c8aa0" stroke-width="1.5" stroke-dasharray="4 4" stroke-linecap="round"/><line x1="70" y1="420" x2="553.6" y2="420" stroke="#7c8aa0" stroke-width="1.5" stroke-linecap="round"/><line x1="70" y1="420" x2="70" y2="108.0" stroke="#7c8aa0" stroke-width="1.5" stroke-linecap="round"/><text x="553.6" y="444" fill="#9aa4b2" font-size="14" text-anchor="end">l →</text><text x="60" y="121.75" fill="#9aa4b2" font-size="14" text-anchor="end" font-style="italic">r</text><text x="60" y="141.25" fill="#9aa4b2" font-size="14" text-anchor="end">↑</text><text x="85.1125" y="442" fill="#9aa4b2" font-size="13" text-anchor="middle">0</text><text x="206.01250000000002" y="442" fill="#9aa4b2" font-size="13" text-anchor="middle">4</text><text x="326.9125" y="442" fill="#9aa4b2" font-size="13" text-anchor="middle">8</text><text x="447.8125" y="442" fill="#9aa4b2" font-size="13" text-anchor="middle">12</text><polyline points="115.3,351.8 175.8,293.2 85.1,234.8 145.6,156.8 236.2,117.8 296.7,195.8 206.0,254.2 266.5,293.2 357.1,215.2 387.4,176.2 326.9,137.2 417.6,117.8 447.8,117.8 508.3,137.2 478.0,156.8" stroke="#ff8c1a" stroke-width="2.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/><circle cx="115.3375" cy="351.75" r="10" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/><text x="115.3375" y="356.25" fill="#dfe7f1" font-size="12" font-weight="700" text-anchor="middle">1</text><circle cx="175.78750000000002" cy="293.25" r="10" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/><text x="175.78750000000002" y="297.75" fill="#dfe7f1" font-size="12" font-weight="700" text-anchor="middle">2</text><circle cx="85.1125" cy="234.75" r="10" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/><text x="85.1125" y="239.25" fill="#dfe7f1" font-size="12" font-weight="700" text-anchor="middle">3</text><circle cx="145.5625" cy="156.75" r="10" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/><text x="145.5625" y="161.25" fill="#dfe7f1" font-size="12" font-weight="700" text-anchor="middle">4</text><circle cx="236.2375" cy="117.75" r="10" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/><text x="236.2375" y="122.25" fill="#dfe7f1" font-size="12" font-weight="700" text-anchor="middle">5</text><circle cx="296.6875" cy="195.75" r="10" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/><text x="296.6875" y="200.25" fill="#dfe7f1" font-size="12" font-weight="700" text-anchor="middle">6</text><circle cx="206.01250000000002" cy="254.25" r="10" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/><text x="206.01250000000002" y="258.75" fill="#dfe7f1" font-size="12" font-weight="700" text-anchor="middle">7</text><circle cx="266.4625" cy="293.25" r="10" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/><text x="266.4625" y="297.75" fill="#dfe7f1" font-size="12" font-weight="700" text-anchor="middle">8</text><circle cx="357.1375" cy="215.25" r="10" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/><text x="357.1375" y="219.75" fill="#dfe7f1" font-size="12" font-weight="700" text-anchor="middle">9</text><circle cx="387.3625" cy="176.25" r="10" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/><text x="387.3625" y="180.75" fill="#dfe7f1" font-size="12" font-weight="700" text-anchor="middle">10</text><circle cx="326.9125" cy="137.25" r="10" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/><text x="326.9125" y="141.75" fill="#dfe7f1" font-size="12" font-weight="700" text-anchor="middle">11</text><circle cx="417.58750000000003" cy="117.75" r="10" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/><text x="417.58750000000003" y="122.25" fill="#dfe7f1" font-size="12" font-weight="700" text-anchor="middle">12</text><circle cx="447.8125" cy="117.75" r="10" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/><text x="447.8125" y="122.25" fill="#dfe7f1" font-size="12" font-weight="700" text-anchor="middle">13</text><circle cx="508.2625" cy="137.25" r="10" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/><text x="508.2625" y="141.75" fill="#dfe7f1" font-size="12" font-weight="700" text-anchor="middle">14</text><circle cx="478.0375" cy="156.75" r="10" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/><text x="478.0375" y="161.25" fill="#dfe7f1" font-size="12" font-weight="700" text-anchor="middle">15</text><text x="583.6" y="130" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="start">Внутри полосы</text><text x="583.6" y="152" fill="#c2cdde" font-size="14" text-anchor="start">r идёт только вверх</text><text x="583.6" y="172" fill="#c2cdde" font-size="14" text-anchor="start">или только вниз:</text><text x="583.6" y="192" fill="#c2cdde" font-size="14" text-anchor="start">O(n) на полосу.</text><text x="583.6" y="236" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="start">l прыгает лишь</text><text x="583.6" y="258" fill="#c2cdde" font-size="14" text-anchor="start">внутри полосы:</text><text x="583.6" y="278" fill="#c2cdde" font-size="14" text-anchor="start">≤ B на запрос.</text><text x="583.6" y="322" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="start">«Змейка»</text><text x="583.6" y="344" fill="#c2cdde" font-size="14" text-anchor="start">чётные полосы — вверх,</text><text x="583.6" y="364" fill="#c2cdde" font-size="14" text-anchor="start">нечётные — вниз,</text><text x="583.6" y="384" fill="#c2cdde" font-size="14" text-anchor="start">r не бегает назад.</text></svg>
@@ -616,12 +644,12 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 </figure>
 <p><strong>Оценка.</strong> Движение по $r$: внутри полосы суммарно $O(n)$, полос $n/B$, итого $O(n^2/B)$; между полосами ещё $O(n/B \cdot n)$. Движение по $l$: внутри полосы $\le B$ на переход, итого $O(qB)$.</p>
 <div class="formula">$O\!\left(qB + \dfrac{n^2}{B}\right)$; при $B = \dfrac{n}{\sqrt q}$ — $O(n\sqrt q)$.</div>
-<h3>«Змейка» <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=9240" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:34:00</a></h3>
+<h3 id="s9-3">«Змейка» <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=9240" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:34:00</a></h3>
 <p>Чтобы не возвращаться в начало каждой полосы, идём по нечётным полосам сверху вниз. Компаратор: домножаем $r$ на $(-1)^{\lfloor l/B \rfloor}$. Асимптотика та же, но константа сильно лучше.</p>
-<h3>Кривая Гильберта <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=9360" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:36:00</a></h3>
+<h3 id="s9-4">Кривая Гильберта <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=9360" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:36:00</a></h3>
 <p>Ещё более эффективный порядок — <strong>кривая Гильберта</strong> (гамильтонов путь по квадрату $2^k\times2^k$, обходящий все клетки). Есть функция <code>hilbertOrder(x, y)</code>, вычисляющая номер клетки по координатам за $O(\log)$ битовыми операциями (рекурсивно по 4 подквадратам). Точки, соседние по номерам Гильберта, близки и по манхэттенскому расстоянию — константа ещё лучше (в 2–3 раза быстрее обычного Мо).</p>
 
-<h3>Пункт Б: ускоряем структуру данных <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=10140" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:49:00</a></h3>
+<h3 id="s9-5">Пункт Б: ускоряем структуру данных <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=10140" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:49:00</a></h3>
 <p>В алгоритме Мо запросов первого типа (вычислить ответ) — $q$, а второго (добавить/удалить) — $O(n\sqrt q)$. Значит, вычисление ответа можно позволить себе делать медленнее, чем добавление.</p>
 <p>Для mex: разобьём массив <code>cnt[0..n]</code> на блоки размера $B$; для каждого блока храним, сколько в нём нулей. Добавление/удаление — $O(1)$; поиск минимального $x$ с <code>cnt[x]==0</code> — находим первый блок с ненулевым числом нулей ($O(n/B)$), внутри блока — $O(B)$. Взяв $B=\sqrt n$, получаем mex за $O(\sqrt n)$, добавление за $O(1)$, итого $O(n\sqrt q)$.</p>
 
@@ -645,7 +673,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 Этот способ универсален: работает и для чисел на вершинах, и для чисел на рёбрах, в отличие от трюка с чётностью (который — частный случай). Асимптотика та же $O(n\sqrt q)$.</div>
 
 <h2 id="s12">12. Мо с откатами и 3D-Мо <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=13920" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:52:00</a></h2>
-<h3>12.1. Количество префиксных максимумов и Мо с откатами <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=13920" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:52:00</a></h3>
+<h3 id="s12-1">12.1. Количество префиксных максимумов и Мо с откатами <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=13920" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:52:00</a></h3>
 <p><strong>Задача.</strong> Для каждого запроса $[l,r]$ посчитать, сколько элементов на отрезке являются <em>префиксными максимумами</em> (строго больше всех предыдущих).</p>
 <p>Добавление справа — просто (сравниваем с текущим максимумом); удаление справа — тоже (стек максимумов). Но <strong>добавление/удаление слева</strong> требует удаления префикса стека — амортизированно, а в обычном Мо амортизация недопустима (откаты ломают оценку).</p>
 <p><strong>Мо с откатами.</strong> Обрабатываем блоки по $l$ по-отдельности. Для блока:</p>
@@ -658,7 +686,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 <div class="warn"><span class="lbl">Почему обычный Мо нельзя</span><br>
 Если структура данных амортизированная (отдельный запрос может стоить $O(n)$), то обычный Мо может деградировать до $O(q n)$. Мо с откатами явно откатывает временные изменения, сохраняя оценку.</div>
 
-<h3>12.2. 3D-Мо (с изменениями) <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=15060" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:11:00</a></h3>
+<h3 id="s12-2">12.2. 3D-Мо (с изменениями) <a class="ts" href="https://youtu.be/bXbGYWZySLc?t=15060" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:11:00</a></h3>
 <p>Если к запросам mex на подотрезке добавляются <strong>изменения в точке</strong>, вводим третью ось — «время». Каждый запрос кодируется тройкой $(l, r, t)$, где $t$ — номер версии массива (после $t$ изменений). Переход между версиями — это применение/откат одного точечного изменения (удалить старое значение, добавить новое) за $O(1)$.</p>
 <p>Сортируем запросы по тройке $\left(\lfloor l/B \rfloor, \lfloor r/B \rfloor, t\right)$, где $B = n^{2/3}$:</p>
 <div class="formula">Сложность: $O\!\left(qB + \dfrac{q n}{B^2}\right)$; при $B = n^{2/3}$ — $O(q\, n^{2/3})$.</div>
@@ -668,6 +696,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
   Конспект подготовлен по записи занятия Яндекс Кружка. Таймкоды соответствуют исходной видеозаписи. Код на C++ приведён в виде, эквивалентном разобранному на занятии.
 </footer>
 
+<nav class="pager" aria-label="Соседние занятия"><a class="prev" href="../index.html"><small>← назад</small><b>Все конспекты</b></a><a class="next" href="../parallel-ap/parallel-ap-zan2-struktury.html"><small>занятие 2 →</small><b>Структуры данных 1</b></a></nav>
 </div>
 
 <button class="toplink" id="topBtn">↑ наверх</button>
@@ -702,5 +731,42 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 
 
 
+<script id="reader">
+(function(){
+  var heads = [].slice.call(document.querySelectorAll(".wrap h2[id]"));
+  if (!heads.length) return;
+  var bar = document.createElement("div"); bar.className = "progress"; document.body.appendChild(bar);
+  function label(h){ var c = h.cloneNode(true); [].forEach.call(c.querySelectorAll(".ts"), function(x){ x.remove(); });
+    return c.textContent.replace(/^\s*(?:\d+\.)+\s*/, "").trim(); }
+  function links(box){ return heads.map(function(h){ var a = document.createElement("a"); a.href = "#" + h.id; a.textContent = label(h); box.appendChild(a); return a; }); }
+  var side = document.createElement("nav"); side.className = "side-toc"; side.setAttribute("aria-label", "Разделы");
+  side.innerHTML = "<p>Разделы</p>"; var sideLinks = links(side); document.body.appendChild(side);
+  var btn = document.createElement("button"); btn.className = "secbtn"; btn.type = "button"; btn.textContent = "≡ разделы";
+  btn.setAttribute("aria-expanded", "false");
+  var panel = document.createElement("nav"); panel.className = "secpanel"; panel.hidden = true; panel.setAttribute("aria-label", "Разделы");
+  var panelLinks = links(panel); document.body.appendChild(panel); document.body.appendChild(btn);
+  function toggle(open){ panel.hidden = !open; btn.setAttribute("aria-expanded", open); }
+  btn.addEventListener("click", function(e){ e.stopPropagation(); toggle(panel.hidden); });
+  panel.addEventListener("click", function(e){ if (e.target.closest("a")) toggle(false); });
+  document.addEventListener("click", function(e){ if (!panel.hidden && !panel.contains(e.target)) toggle(false); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") toggle(false); });
+  var toc = document.querySelector(".toc"); var cur = -1; var ticking = false;
+  function update(){
+    ticking = false;
+    var max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, scrollY / max) : 0) + ")";
+    var past = toc ? toc.getBoundingClientRect().bottom < 0 : scrollY > 400;
+    side.classList.toggle("show", past); btn.classList.toggle("show", past);
+    var i = -1; for (var k = 0; k < heads.length; k++) if (heads[k].getBoundingClientRect().top < innerHeight * 0.3) i = k;
+    if (i !== cur) {
+      [sideLinks, panelLinks].forEach(function(l){ if (cur >= 0) l[cur].classList.remove("on"); if (i >= 0) l[i].classList.add("on"); });
+      if (i >= 0 && side.classList.contains("show")) { var a = sideLinks[i]; if (a.offsetTop < side.scrollTop || a.offsetTop > side.scrollTop + side.clientHeight - 30) side.scrollTop = a.offsetTop - 60; }
+      cur = i;
+    }
+  }
+  addEventListener("scroll", function(){ if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener("resize", update); update();
+})();
+</script>
 </body>
 </html>

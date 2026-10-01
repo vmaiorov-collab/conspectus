@@ -410,6 +410,34 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
   html.theme-anim, html.theme-anim *{transition:none !important}
 }
 @media print{html[data-theme] .top, html[data-theme] .toplink{display:none} html[data-theme] body{background:#fff}}
+/* ---------- навигация по конспекту ---------- */
+html[data-theme] .progress{position:fixed; top:0; left:0; right:0; height:3px; background:var(--accent); transform-origin:0 50%; transform:scaleX(0); z-index:50; pointer-events:none}
+html[data-theme] .side-toc{position:fixed; top:84px; right:max(16px, calc(50% - 410px - 250px)); width:220px; max-height:calc(100vh - 120px); overflow:auto;
+  font-size:.85rem; line-height:1.35; opacity:0; visibility:hidden; transform:translateX(6px); transition:opacity .25s, transform .25s, visibility .25s; z-index:20}
+html[data-theme] .side-toc.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .side-toc p{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin:0 0 8px}
+html[data-theme] .side-toc a{display:block; color:var(--muted); padding:4px 0 4px 12px; border-left:2px solid var(--line); text-decoration:none; transition:color .2s, border-color .2s}
+html[data-theme] .side-toc a:hover{color:var(--ink)}
+html[data-theme] .side-toc a.on{color:var(--ink); border-left-color:var(--accent)}
+html[data-theme] .secbtn{position:fixed; left:16px; bottom:16px; z-index:30; background:var(--card); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  padding:8px 14px; font-family:var(--sans); font-size:.82rem; cursor:pointer; opacity:0; visibility:hidden; transform:translateY(8px); transition:opacity .2s, transform .2s, visibility .2s}
+html[data-theme] .secbtn.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .secpanel{position:fixed; left:16px; right:16px; bottom:64px; max-width:420px; max-height:60vh; overflow:auto; z-index:31; background:var(--card);
+  border:1px solid var(--line); border-radius:8px; padding:10px 0; box-shadow:0 12px 32px rgba(0,0,0,.18)}
+html[data-theme] .secpanel[hidden]{display:none}
+html[data-theme] .secpanel a{display:block; padding:8px 16px; color:var(--ink); text-decoration:none; font-size:.92rem}
+html[data-theme] .secpanel a.on{color:var(--accent); font-weight:650}
+html[data-theme] .pager{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:48px 0 0; padding-top:20px; border-top:1px solid var(--ink)}
+html[data-theme] .pager a{display:block; padding:14px 16px; border:1px solid var(--line); border-radius:8px; color:var(--ink); text-decoration:none; transition:border-color .2s, background-color .2s}
+html[data-theme] .pager a:hover{border-color:var(--accent); background:var(--accent-soft)}
+html[data-theme] .pager a.next{text-align:right; grid-column:2}
+html[data-theme] .pager small{display:block; font-family:var(--mono); font-size:.75rem; color:var(--muted); margin-bottom:4px}
+html[data-theme] .pager b{font-family:var(--serif); font-size:1.08rem}
+html[data-theme] h2[id], html[data-theme] h3[id]{scroll-margin-top:24px}
+@media(min-width:1300px){html[data-theme] .secbtn, html[data-theme] .secpanel{display:none !important}}
+@media(max-width:1299px){html[data-theme] .side-toc{display:none}}
+@media(max-width:560px){html[data-theme] .pager{grid-template-columns:1fr} html[data-theme] .pager a.next{grid-column:1}}
+@media print{html[data-theme] .progress, html[data-theme] .side-toc, html[data-theme] .secbtn, html[data-theme] .secpanel, html[data-theme] .pager{display:none}}
 </style>
 <script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".code .copy");if(!b)return;var pre=b.closest(".code").querySelector("pre"),t=pre.innerText;function ok(){b.textContent="скопировано ✓";setTimeout(function(){b.textContent="копировать"},1600)}function sel(){var r=document.createRange();r.selectNodeContents(pre);var x=getSelection();x.removeAllRanges();x.addRange(r);b.textContent="выделено — нажмите ⌘C"}if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>
 </head>
@@ -449,23 +477,23 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 <h2 id="s1">1. Оценка сложности и $O$-нотация <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=0" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">0:00</a></h2>
 <p>Всю жизнь придётся оценивать, сколько работают алгоритмы. Точное время никто не считает — оно зависит от процессора, ядер и массы других вещей. Вместо этого оценивают <strong>количество операций</strong>, которые делает код.</p>
 
-<h3>Что такое $O(n)$</h3>
+<h3 id="s1-1">Что такое $O(n)$</h3>
 <div class="formula">$O(n)$ означает: код делает не больше, чем $n$, умноженное на некоторую константу.</div>
 <p>Это <strong>оценка сверху</strong>. Пример: <code>int x = 5;</code> делает константное число операций — это $O(1)$. Два цикла по $n$ делают $2n$ операций — но $2n = n \cdot \text{конст}$, значит тоже $O(n)$.</p>
 
-<h3>Важный нюанс: оценка сверху <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=234" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:54</a></h3>
+<h3 id="s1-2">Важный нюанс: оценка сверху <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=234" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:54</a></h3>
 <p>Код, который делает $n^2$ операций, <strong>можно</strong> оценить и как $O(n^3)$: ведь $n^2 \le n^3$ для $n \ge 1$. Оценка сверху — это «можно сказать грубо». Поэтому:</p>
 <div class="warn"><span class="lbl">Правило</span><br>
 $O$ — оценка сверху. Формально «код работает за $O(n^3)$» для квадратичного кода — не ложь, но желательно оценивать как можно точнее. Асимптотика не показывает скрытую константу.</div>
 <p>Скрытая константа бывает огромной. Например, сумма массива циклом — $O(n)$; но можно написать 1000 <code>if</code>-ов для каждого возможного размера — формально тоже $O(1)$, но работать будет плохо. Другой пример: <code>insert</code> в <code>set</code> — $O(\log n)$, но с константой порядка 10.</p>
 
-<h3>Родственные обозначения <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=717" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">11:57</a></h3>
+<h3 id="s1-3">Родственные обозначения <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=717" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">11:57</a></h3>
 <ul>
   <li>$\Theta(n)$ — «точная» оценка: сверху и снизу одновременно.</li>
   <li>$o(n)$ — строго меньше: если код работает за $2n$, можно сказать $O(n)$, но не $o(n)$ — для $o(n)$ нужен реально меньший порядок.</li>
 </ul>
 
-<h3>Практические ориентиры <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=493" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">8:13</a></h3>
+<h3 id="s1-4">Практические ориентиры <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=493" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">8:13</a></h3>
 <ul>
   <li>Тестирующий компьютер делает $\approx 3\cdot10^8$ простых операций в секунду (уверенный в себе — считает $5\cdot10^8$).</li>
   <li>Если в условии «2 секунды», а ваша оценка дала $\approx 10^9$ — решение не зайдёт.</li>
@@ -497,19 +525,19 @@ $O$ — оценка сверху. Формально «код работает 
 </table>
 <p>Для олимпиадного программирования можно считать, что <code>int</code> — всегда 4 байта, <code>long long</code> — 8 байт (на самом деле стандарт это не гарантирует, но на практике так). Если числа до $\sim 2\cdot10^9$ — хватает <code>int</code>; до $\sim 9\cdot10^{18}$ — <code>long long</code>.</p>
 
-<h3>Переполнение знаковых типов <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=1284" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">21:24</a></h3>
+<h3 id="s2-1">Переполнение знаковых типов <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=1284" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">21:24</a></h3>
 <p>Если положить в <code>int</code> его максимум и прибавить единицу, произойдёт переполнение.</p>
 <div class="warn"><span class="lbl">Важно</span><br>Переполнение <strong>знакового</strong> типа — это <em>неопределённое поведение</em> (UB). Программа может сделать что угодно. Переполнение <strong>unsigned</strong> — корректно: значение «ходит по кругу» по модулю $2^{32}$, это гарантировано стандартом.</div>
 
-<h3>Промежуточное переполнение <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=1490" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">24:50</a></h3>
+<h3 id="s2-2">Промежуточное переполнение <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=1490" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">24:50</a></h3>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">long</span> <span class="t">long</span> x = <span class="n">1e9</span>;
 <span class="t">long</span> <span class="t">long</span> y = x * x * <span class="n">10</span>;   <span class="c">// ОШИБКА: x * x уже переполнит int-логику</span></code></pre></div>
 <p>Проблема в том, что <code>x * x</code> вычисляется в типе операндов. Если $x$ — <code>int</code> порядка $10^9$, то $x \cdot x$ переполнится <em>до</em> присваивания в <code>long long</code>. Нужно следить за типом каждого промежуточного шага.</p>
 
-<h3><code>__int128</code> <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=1440" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">24:00</a></h3>
+<h3 id="s2-3"><code>__int128</code> <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=1440" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">24:00</a></h3>
 <p>Для очень больших промежуточных значений (например, перемножение двух <code>long long</code>) используют <code>__int128</code>. Его нельзя напрямую вводить и выводить (<code>cin</code>/<code>cout</code>), но для промежуточных вычислений он годится. Приводить нужно явно: <code>(__int128)a * b</code>.</p>
 
-<h3>Арифметика с <code>char</code> <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=1589" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">26:29</a></h3>
+<h3 id="s2-4">Арифметика с <code>char</code> <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=1589" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">26:29</a></h3>
 <p><code>char</code> внутри — это число. Буква <code>'x'</code> — номер по таблице ASCII. Поэтому:</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">char</span> c = <span class="s">'x'</span>;
 cout &lt;&lt; c - <span class="s">'a'</span>;   <span class="c">// номер буквы x в алфавите (0-индексация): 23</span></code></pre></div>
@@ -528,7 +556,7 @@ cout &lt;&lt; c - <span class="s">'a'</span>;   <span class="c">// номер б
 </code></pre></div>
 <p>Теперь «вся бабушка» — один объект. Но <code>sort(v.begin(), v.end())</code> не скомпилируется: C++ не знает, как сравнивать двух бабушек. Нужен <strong>компаратор</strong> — функция, реализующая «меньше».</p>
 
-<h3>Способ 1: функция-компаратор <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=2152" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">35:52</a></h3>
+<h3 id="s3-1">Способ 1: функция-компаратор <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=2152" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">35:52</a></h3>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">bool</span> <span class="f">cmp</span>(<span class="k">const</span> Granny&amp; left, <span class="k">const</span> Granny&amp; right) {
     <span class="k">return</span> left.salary &lt; right.salary;
 }
@@ -536,7 +564,7 @@ cout &lt;&lt; c - <span class="s">'a'</span>;   <span class="c">// номер б
 <p>Компаратор возвращает <code>true</code> тогда и только тогда, когда <code>left</code> строго меньше <code>right</code>. Если объекты равны — нужно вернуть <code>false</code> (оба порядка).</p>
 <div class="warn"><span class="lbl">Ошибка</span><br>Если компаратор возвращает <code>true</code> для <code>cmp(a, b)</code> и для <code>cmp(b, a)</code> одновременно (например, при равенстве), это нарушает контракт «меньше» — <code>sort</code> может упасть или выдать мусор.</div>
 
-<h3>Способ 2: <code>operator&lt;</code> внутри структуры <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=2432" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">40:32</a></h3>
+<h3 id="s3-2">Способ 2: <code>operator&lt;</code> внутри структуры <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=2432" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">40:32</a></h3>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="k">struct</span> Granny {
     <span class="t">int</span> age, height, salary;
     <span class="t">bool</span> <span class="k">operator</span>&lt;(<span class="k">const</span> Granny&amp; other) <span class="k">const</span> {
@@ -546,12 +574,12 @@ cout &lt;&lt; c - <span class="s">'a'</span>;   <span class="c">// номер б
 <span class="f">sort</span>(v.<span class="f">begin</span>(), v.<span class="f">end</span>());   <span class="c">// C++ сам использует operator&lt;</span></code></pre></div>
 <p>Здесь <code>this</code> — «левый» объект, <code>other</code> — «правый». Ключевое слово <code>const</code> в конце запрещает случайно менять свой объект внутри сравнения (если его убрать — 20 ошибок компиляции). После этого <code>sort</code>, <code>set</code> и другие контейнеры умеют сравнивать бабушек автоматически.</p>
 
-<h3>Способ 3: лямбда (самый «ленивый») <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=2870" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">47:50</a></h3>
+<h3 id="s3-3">Способ 3: лямбда (самый «ленивый») <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=2870" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">47:50</a></h3>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="f">sort</span>(v.<span class="f">begin</span>(), v.<span class="f">end</span>(), [](<span class="k">const</span> Granny&amp; l, <span class="k">const</span> Granny&amp; r) {
     <span class="k">return</span> l.salary &lt; r.salary;
 });</code></pre></div>
 
-<h3>Многоуровневый компаратор <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=2655" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">44:15</a></h3>
+<h3 id="s3-4">Многоуровневый компаратор <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=2655" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">44:15</a></h3>
 <p>Пусть сначала идут более взрослые, при равном возрасте — более высокие, при равном росте — с меньшей зарплатой:</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">bool</span> <span class="k">operator</span>&lt;(<span class="k">const</span> Granny&amp; o) <span class="k">const</span> {
     <span class="k">if</span> (age != o.age)     <span class="k">return</span> age &gt; o.age;      <span class="c">// старше — раньше</span>
@@ -579,14 +607,14 @@ $0.3$ в двоичной системе — бесконечная дробь, 
   <li>Умеет <strong>добавлять</strong> (<code>push_back</code>) и <strong>удалять с конца</strong> (<code>pop_back</code>).</li>
 </ol>
 
-<h3>Мини-вектор: <code>size</code> и <code>capacity</code></h3>
+<h3 id="s5-1">Мини-вектор: <code>size</code> и <code>capacity</code></h3>
 <figure class="viz"><svg viewBox="0 0 760 400" role="img" xmlns="http://www.w3.org/2000/svg"><defs><marker id="c1-ar0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#58c4dd"/></marker></defs><rect x="0" y="0" width="760" height="400" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">vector::push_back: size, capacity и удвоение</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">data — указатель на буфер из capacity ячеек; заняты первые size из них.</text><text x="192" y="118" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="end">было</text><text x="192" y="138" fill="#9aa4b2" font-size="13.5" text-anchor="end">size = 4 = capacity</text><rect x="213" y="100" width="46" height="42" rx="6" fill="#1e2836" stroke="#7c8aa0" stroke-width="1.5"/><text x="236.0" y="126.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="265" y="100" width="46" height="42" rx="6" fill="#1e2836" stroke="#7c8aa0" stroke-width="1.5"/><text x="288.0" y="126.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">2</text><rect x="317" y="100" width="46" height="42" rx="6" fill="#1e2836" stroke="#7c8aa0" stroke-width="1.5"/><text x="340.0" y="126.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">3</text><rect x="369" y="100" width="46" height="42" rx="6" fill="#1e2836" stroke="#7c8aa0" stroke-width="1.5"/><text x="392.0" y="126.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">4</text><text x="424" y="127" fill="#9aa4b2" font-size="14" text-anchor="start">capacity = 4</text><text x="432" y="186" fill="#fc6255" font-size="15" font-weight="700" text-anchor="start">push_back(5): места нет →</text><text x="432" y="206" fill="#9aa4b2" font-size="14" text-anchor="start">выделяем 8 ячеек и копируем</text><line x1="236.0" y1="150" x2="236.0" y2="206" stroke="#58c4dd" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#c1-ar0)" stroke-linecap="round"/><line x1="288.0" y1="150" x2="288.0" y2="206" stroke="#58c4dd" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#c1-ar0)" stroke-linecap="round"/><line x1="340.0" y1="150" x2="340.0" y2="206" stroke="#58c4dd" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#c1-ar0)" stroke-linecap="round"/><line x1="392.0" y1="150" x2="392.0" y2="206" stroke="#58c4dd" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#c1-ar0)" stroke-linecap="round"/><text x="192" y="230" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="end">стало</text><text x="192" y="250" fill="#9aa4b2" font-size="13.5" text-anchor="end">новый буфер ×2</text><rect x="213" y="212" width="46" height="42" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="236.0" y="238.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="265" y="212" width="46" height="42" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="288.0" y="238.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">2</text><rect x="317" y="212" width="46" height="42" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="340.0" y="238.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">3</text><rect x="369" y="212" width="46" height="42" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="392.0" y="238.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">4</text><rect x="421" y="212" width="46" height="42" rx="6" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="1.5"/><text x="444.0" y="238.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">5</text><rect x="473" y="212" width="46" height="42" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><rect x="525" y="212" width="46" height="42" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><rect x="577" y="212" width="46" height="42" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><text x="493.0" y="274" fill="#c2cdde" font-size="13.5" text-anchor="middle">↑ size</text><text x="632" y="239" fill="#9aa4b2" font-size="14" text-anchor="start">capacity = 8</text><rect x="32" y="303" width="18" height="14" rx="3" fill="#58c4dd"/><text x="62" y="316" fill="#c2cdde" font-size="14" text-anchor="start">скопировано из старого буфера (старый освобождается)</text><rect x="32" y="329" width="18" height="14" rx="3" fill="#ff8c1a"/><text x="62" y="342" fill="#c2cdde" font-size="14" text-anchor="start">новый элемент — на позицию size</text><text x="32" y="382" fill="#c2cdde" font-size="14.5" text-anchor="start">Копирований за n вставок ≤ 1 + 2 + 4 + … &lt; 2n, поэтому push_back — O(1) в среднем.</text></svg><figcaption>Пока <code>size &lt; capacity</code>, вставка — $O(1)$. Когда места нет, буфер удваивается и копируется; в сумме это всё равно $O(1)$ на вставку.</figcaption></figure>
 <p>Пока <code>size &lt; capacity</code>, <code>push_back</code> просто кладёт элемент на позицию <code>size</code> и увеличивает <code>size</code> — это $O(1)$. Когда <code>size == capacity</code>, выделяется новый буфер <strong>в два раза больше</strong>, всё копируется, и только тогда дописывается новый элемент.</p>
 
-<h3>Почему <code>push_back</code> амортизированно $O(1)$ <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=4038" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:07:18</a></h3>
+<h3 id="s5-2">Почему <code>push_back</code> амортизированно $O(1)$ <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=4038" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:07:18</a></h3>
 <p>Переаллокация стоит $O(\text{size})$, но происходит всё реже и реже. Если буфер удваивается, то суммарная стоимость $n$ операций <code>push_back</code> ограничена $O(n)$: после дорогой переаллокации размера $s$ следующие $s$ операций «бесплатны». Итого $O(1)$ <strong>амортизированно</strong> на операцию.</p>
 
-<h3>Операции</h3>
+<h3 id="s5-3">Операции</h3>
 <table>
   <tr><th>Операция</th><th>Что делает</th><th>Сложность</th></tr>
   <tr><td><code>push_back(x)</code></td><td>добавить в конец</td><td>$O(1)$ амортизированно</td></tr>
@@ -603,17 +631,17 @@ $0.3$ в двоичной системе — бесконечная дробь, 
 <p>Ещё: <code>vector&lt;int&gt; v(n, 5)</code> — создаёт вектор из $n$ элементов, равных $5$. И <code>resize</code> добавляет новые элементы со значением по умолчанию, не трогая старые; <code>assign</code> — перезаписывает всё.</p>
 
 <h2 id="s6">6. Стек, очередь, дек <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=4410" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:13:30</a></h2>
-<h3>Стек — это интерфейс над вектором</h3>
+<h3 id="s6-1">Стек — это интерфейс над вектором</h3>
 <p>Стек (LIFO — last in, first out) — это просто вектор, у которого доступ только к верхнему элементу: <code>push</code> (добавить сверху) и <code>pop</code> (убрать сверху). <code>std::stack</code> по умолчанию реализован через <code>deque</code>, но вектор «умеет всё то же самое» — проще пользоваться вектором.</p>
 
-<h3>Очередь (FIFO)</h3>
+<h3 id="s6-2">Очередь (FIFO)</h3>
 <p>Очередь — first in, first out: добавляют в конец, достают из начала. В отличие от стека, у очереди «двигается» начало, поэтому просто на статическом буфере её не сделать — начало «отмирает», а конец дописывается.</p>
 
-<h3>Очередь на циклическом буфере <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=5070" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:24:30</a></h3>
+<h3 id="s6-3">Очередь на циклическом буфере <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=5070" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:24:30</a></h3>
 <figure class="viz"><svg viewBox="0 0 760 384" role="img" xmlns="http://www.w3.org/2000/svg"><defs><marker id="c2-ar0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#83c167"/></marker><marker id="c2-ar1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ff8c1a"/></marker><marker id="c2-ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#58c4dd"/></marker></defs><rect x="0" y="0" width="760" height="384" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Очередь на циклическом буфере: capacity = 8</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">head — первый элемент, tail — куда положить следующий. Оба идут вперёд по кругу.</text><rect x="104" y="150" width="62" height="46" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="135.0" y="178.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">x4</text><text x="135.0" y="138" fill="#9aa4b2" font-size="13.5" text-anchor="middle">0</text><rect x="174" y="150" width="62" height="46" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="205.0" y="178.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">x5</text><text x="205.0" y="138" fill="#9aa4b2" font-size="13.5" text-anchor="middle">1</text><rect x="244" y="150" width="62" height="46" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><text x="275.0" y="138" fill="#9aa4b2" font-size="13.5" text-anchor="middle">2</text><rect x="314" y="150" width="62" height="46" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><text x="345.0" y="138" fill="#9aa4b2" font-size="13.5" text-anchor="middle">3</text><rect x="384" y="150" width="62" height="46" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><text x="415.0" y="138" fill="#9aa4b2" font-size="13.5" text-anchor="middle">4</text><rect x="454" y="150" width="62" height="46" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="485.0" y="178.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">x1</text><text x="485.0" y="138" fill="#9aa4b2" font-size="13.5" text-anchor="middle">5</text><rect x="524" y="150" width="62" height="46" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="555.0" y="178.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">x2</text><text x="555.0" y="138" fill="#9aa4b2" font-size="13.5" text-anchor="middle">6</text><rect x="594" y="150" width="62" height="46" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="625.0" y="178.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">x3</text><text x="625.0" y="138" fill="#9aa4b2" font-size="13.5" text-anchor="middle">7</text><line x1="485.0" y1="242" x2="485.0" y2="204" stroke="#83c167" stroke-width="2.5" marker-end="url(#c2-ar0)" stroke-linecap="round"/><text x="485.0" y="262" fill="#83c167" font-size="15" font-weight="700" text-anchor="middle">head = 5</text><text x="485.0" y="282" fill="#9aa4b2" font-size="13.5" text-anchor="middle">pop отсюда</text><line x1="275.0" y1="242" x2="275.0" y2="204" stroke="#ff8c1a" stroke-width="2.5" marker-end="url(#c2-ar1)" stroke-linecap="round"/><text x="275.0" y="262" fill="#ff8c1a" font-size="15" font-weight="700" text-anchor="middle">tail = 2</text><text x="275.0" y="282" fill="#9aa4b2" font-size="13.5" text-anchor="middle">push сюда</text><path d="M655.0,173 C695.0,173 695.0,110 625.0,110 L135.0,110 C65.0,110 65.0,173 101.0,173" stroke="#58c4dd" stroke-width="2" fill="none" stroke-dasharray="6 5" marker-end="url(#c2-ar2)" stroke-linecap="round" stroke-linejoin="round"/><text x="380.0" y="102" fill="#58c4dd" font-size="14" text-anchor="middle">после ячейки 7 — снова 0</text><text x="32" y="312" fill="#c2cdde" font-size="14.5" text-anchor="start">push:  a[tail] = x,  tail = (tail + 1) % cap</text><text x="32" y="334" fill="#c2cdde" font-size="14.5" text-anchor="start">pop:   head = (head + 1) % cap</text><text x="32" y="364" fill="#9aa4b2" font-size="14.5" text-anchor="start">Очередь сейчас: x1 x2 x3 x4 x5 — она «переехала» через край массива.</text></svg><figcaption>Указатели <code>head</code> и <code>tail</code> идут по кругу по модулю <code>capacity</code>; очередь может «переехать» через край массива.</figcaption></figure>
 <p>Держим два указателя <code>head</code> и <code>tail</code>. Добавление двигает <code>tail</code> вперёд, удаление — <code>head</code>. Когда указатель доходит до конца буфера, он «сбрасывается» в ноль (по модулю capacity). Главное требование: <code>tail</code> не должен догонять <code>head</code> — иначе очередь переполнится.</p>
 
-<h3>Дек <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=4520" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:15:20</a></h3>
+<h3 id="s6-4">Дек <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=4520" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:15:20</a></h3>
 <p>Дек (double-ended queue) умеет добавлять и удалять <strong>с обоих концов</strong>. Внутри — не сплошной массив, а указатели на блоки примерно по 16 элементов. Поэтому:</p>
 <ul>
   <li>добавление в начало/конец — $O(1)$;</li>
@@ -621,13 +649,13 @@ $0.3$ в двоичной системе — бесконечная дробь, 
 </ul>
 <p>Реально дек нужен редко — только если надо добавлять в начало <em>и</em> в конец при переменном размере.</p>
 
-<h3>Очередь на двух стеках <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=6496" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:48:16</a></h3>
+<h3 id="s6-5">Очередь на двух стеках <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=6496" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:48:16</a></h3>
 <p>Любой способ сделать стек задаёт способ сделать очередь. Держим два стека: в первый добавляем, из второго достаём. Когда второй пуст, перекладываем в него всё из первого (переворачивая порядок).</p>
 <figure class="viz"><svg viewBox="0 0 760 420" role="img" xmlns="http://www.w3.org/2000/svg"><defs><marker id="c3-ar0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9aa4b2"/></marker></defs><rect x="0" y="0" width="760" height="420" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Очередь на двух стеках: in для push, out для pop</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Когда out пуст, перекладываем в него весь in — порядок переворачивается.</text><text x="40" y="108" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="start">1. push 1, 2, 3</text><rect x="46" y="264" width="64" height="34" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="78.0" y="286.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="46" y="226" width="64" height="34" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="78.0" y="248.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">2</text><rect x="46" y="188" width="64" height="34" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="78.0" y="210.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">3</text><rect x="46" y="150" width="64" height="34" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><path d="M40,144 V304 H116 V144" stroke="#7c8aa0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="78.0" y="328" fill="#58c4dd" font-size="15" font-weight="700" text-anchor="middle">in</text><rect x="136" y="264" width="64" height="34" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><rect x="136" y="226" width="64" height="34" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><rect x="136" y="188" width="64" height="34" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><rect x="136" y="150" width="64" height="34" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><path d="M130,144 V304 H206 V144" stroke="#7c8aa0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="168.0" y="328" fill="#83c167" font-size="15" font-weight="700" text-anchor="middle">out</text><text x="290" y="108" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="start">2. pop: перекладываем</text><rect x="296" y="264" width="64" height="34" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><rect x="296" y="226" width="64" height="34" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><rect x="296" y="188" width="64" height="34" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><rect x="296" y="150" width="64" height="34" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><path d="M290,144 V304 H366 V144" stroke="#7c8aa0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="328.0" y="328" fill="#58c4dd" font-size="15" font-weight="700" text-anchor="middle">in</text><rect x="386" y="264" width="64" height="34" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="418.0" y="286.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">3</text><rect x="386" y="226" width="64" height="34" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="418.0" y="248.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">2</text><rect x="386" y="188" width="64" height="34" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="418.0" y="210.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="386" y="150" width="64" height="34" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><path d="M380,144 V304 H456 V144" stroke="#7c8aa0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="418.0" y="328" fill="#83c167" font-size="15" font-weight="700" text-anchor="middle">out</text><text x="540" y="108" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="start">3. pop вернул 1 ✓</text><rect x="546" y="264" width="64" height="34" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><rect x="546" y="226" width="64" height="34" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><rect x="546" y="188" width="64" height="34" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><rect x="546" y="150" width="64" height="34" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><path d="M540,144 V304 H616 V144" stroke="#7c8aa0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="578.0" y="328" fill="#58c4dd" font-size="15" font-weight="700" text-anchor="middle">in</text><rect x="636" y="264" width="64" height="34" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="668.0" y="286.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">3</text><rect x="636" y="226" width="64" height="34" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="668.0" y="248.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">2</text><rect x="636" y="188" width="64" height="34" rx="6" fill="#ffff00" stroke="#ffff00" stroke-width="1.5"/><text x="668.0" y="210.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="636" y="150" width="64" height="34" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><path d="M630,144 V304 H706 V144" stroke="#7c8aa0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="668.0" y="328" fill="#83c167" font-size="15" font-weight="700" text-anchor="middle">out</text><path d="M226,200 C246,200 256,200 276,200" stroke="#9aa4b2" stroke-width="2" fill="none" marker-end="url(#c3-ar0)" stroke-linecap="round" stroke-linejoin="round"/><path d="M476,200 C496,200 506,200 526,200" stroke="#9aa4b2" stroke-width="2" fill="none" marker-end="url(#c3-ar0)" stroke-linecap="round" stroke-linejoin="round"/><text x="32" y="366" fill="#c2cdde" font-size="14.5" text-anchor="start">1 пришёл первым и первым ушёл — это очередь. Каждый элемент перекладывается</text><text x="32" y="388" fill="#c2cdde" font-size="14.5" text-anchor="start">ровно один раз, поэтому все операции — O(1) амортизированно.</text></svg><figcaption>Перекладывание переворачивает порядок, и стек начинает отдавать элементы в порядке очереди. Каждый элемент перекладывается один раз.</figcaption></figure>
 <div class="good"><span class="lbl">Следствие</span><br>
 Если стек умеет хранить дополнительную информацию (например, минимум или сумму), то очередь из двух таких стеков автоматически умеет то же самое — получится «очередь с минимумом/суммой».</div>
 
-<h3>Стек с суммой (префиксные суммы) <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=6267" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:44:27</a></h3>
+<h3 id="s6-6">Стек с суммой (префиксные суммы) <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=6267" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:44:27</a></h3>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// стек хранит пары {значение, сумма всего, что ниже}</span>
 <span class="t">vector</span>&lt;<span class="t">pair</span>&lt;<span class="t">int</span>,<span class="t">long</span> <span class="t">long</span>&gt;&gt; st;
 <span class="t">void</span> <span class="f">push</span>(<span class="t">int</span> x) {
@@ -663,7 +691,7 @@ pq.<span class="f">pop</span>();                   <span class="c">// удали
 </ul>
 
 <h2 id="s9">9. <code>set</code>, <code>multiset</code>, <code>map</code> <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=7410" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:03:30</a></h2>
-<h3>set</h3>
+<h3 id="s9-1">set</h3>
 <p><code>set</code> — множество уникальных элементов, отсортированное по возрастанию. Внутри — сбалансированное двоичное дерево, поэтому все операции за $O(\log n)$.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">set</span>&lt;<span class="t">int</span>&gt; s;
 s.<span class="f">insert</span>(<span class="n">5</span>);        <span class="c">// добавить</span>
@@ -675,7 +703,7 @@ s.<span class="f">contains</span>(<span class="n">5</span>);      <span class="c
 *s.<span class="f">begin</span>();         <span class="c">// минимальный элемент</span></code></pre></div>
 <p>Проверка наличия: <code>s.count(x)</code> возвращает $0$ или $1$; или <code>s.find(x) != s.end()</code>. Две функции, о которых ещё будет отдельный разговор — <code>lower_bound</code> и <code>upper_bound</code> (но для <code>set</code> нужно использовать <strong>методы</strong>, не алгоритмы — об этом в §10).</p>
 
-<h3>multiset</h3>
+<h3 id="s9-2">multiset</h3>
 <p>Отличается тем, что хранит <strong>все копии</strong> одного элемента. Важный нюанс удаления:</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">multiset</span>&lt;<span class="t">int</span>&gt; ms;
 ms.<span class="f">erase</span>(<span class="n">2</span>);            <span class="c">// удалит ВСЕ двойки!</span>
@@ -684,7 +712,7 @@ ms.<span class="f">erase</span>(it);           <span class="c">// удалит �
 <div class="warn"><span class="lbl">Подводный камень</span><br>
 <code>ms.count(x)</code> в <code>multiset</code> работает за $O(\log n + k)$, где $k$ — количество копий $x$. Не используйте <code>count</code> для проверки наличия — есть <code>find</code>/<code>contains</code>.</div>
 
-<h3>map</h3>
+<h3 id="s9-3">map</h3>
 <p><code>map</code> — «словарь»: пары (ключ → значение), ключи отсортированы и уникальны. Устроен как <code>set</code> из пар, но сравниваются только ключи.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">map</span>&lt;<span class="t">int</span>,<span class="t">string</span>&gt; mp;
 mp[<span class="n">5</span>] = <span class="s">"hello"</span>;       <span class="c">// записать значение по ключу 5</span>
@@ -717,22 +745,22 @@ it-&gt;second;            <span class="c">// значение</span></code></pre
   <tr><td><code>next_permutation(b, e)</code></td><td>следующая перестановка</td><td>$O(n)$</td></tr>
 </table>
 
-<h3>Сортировка по убыванию <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=9190" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:33:10</a></h3>
+<h3 id="s10-1">Сортировка по убыванию <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=9190" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:33:10</a></h3>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="f">sort</span>(v.<span class="f">rbegin</span>(), v.<span class="f">rend</span>());   <span class="c">// обратные итераторы</span>
 <span class="c">// или: sort(v.begin(), v.end()); reverse(v.begin(), v.end());</span></code></pre></div>
 
-<h3>unique — удаление дубликатов <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=9560" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:39:20</a></h3>
+<h3 id="s10-2">unique — удаление дубликатов <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=9560" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:39:20</a></h3>
 <p>Работает только на <strong>отсортированном</strong> массиве: сдвигает все уникальные значения в начало и возвращает итератор на «конец уникальных». Обычно:</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="f">sort</span>(v.<span class="f">begin</span>(), v.<span class="f">end</span>());
 v.<span class="f">erase</span>(<span class="f">unique</span>(v.<span class="f">begin</span>(), v.<span class="f">end</span>()), v.<span class="f">end</span>());   <span class="c">// оставить только уникальные</span></code></pre></div>
 
-<h3>lower_bound / upper_bound <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=9710" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:41:50</a></h3>
+<h3 id="s10-3">lower_bound / upper_bound <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=9710" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:41:50</a></h3>
 <figure class="viz"><svg viewBox="0 0 760 400" role="img" xmlns="http://www.w3.org/2000/svg"><defs><marker id="c4-ar0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#58c4dd"/></marker><marker id="c4-ar1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ff8c1a"/></marker><marker id="c4-ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c78bff"/></marker></defs><rect x="0" y="0" width="760" height="400" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">lower_bound и upper_bound в отсортированном массиве</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">lower_bound — первый элемент ≥ x;  upper_bound — первый элемент &gt; x.</text><text x="110" y="134" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="end">x = 5</text><rect x="134" y="108" width="54" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="161.0" y="133.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><text x="161.0" y="100" fill="#9aa4b2" font-size="12.5" text-anchor="middle">0</text><rect x="196" y="108" width="54" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="223.0" y="133.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">3</text><text x="223.0" y="100" fill="#9aa4b2" font-size="12.5" text-anchor="middle">1</text><rect x="258" y="108" width="54" height="40" rx="6" fill="#ffff00" stroke="#ffff00" stroke-width="1.5"/><text x="285.0" y="133.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">5</text><text x="285.0" y="100" fill="#9aa4b2" font-size="12.5" text-anchor="middle">2</text><rect x="320" y="108" width="54" height="40" rx="6" fill="#ffff00" stroke="#ffff00" stroke-width="1.5"/><text x="347.0" y="133.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">5</text><text x="347.0" y="100" fill="#9aa4b2" font-size="12.5" text-anchor="middle">3</text><rect x="382" y="108" width="54" height="40" rx="6" fill="#ffff00" stroke="#ffff00" stroke-width="1.5"/><text x="409.0" y="133.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">5</text><text x="409.0" y="100" fill="#9aa4b2" font-size="12.5" text-anchor="middle">4</text><rect x="444" y="108" width="54" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="471.0" y="133.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">7</text><text x="471.0" y="100" fill="#9aa4b2" font-size="12.5" text-anchor="middle">5</text><rect x="506" y="108" width="54" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="533.0" y="133.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">9</text><text x="533.0" y="100" fill="#9aa4b2" font-size="12.5" text-anchor="middle">6</text><rect x="568" y="108" width="54" height="40" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><text x="595.0" y="134" fill="#9aa4b2" font-size="13.5" text-anchor="middle">end</text><line x1="285.0" y1="194" x2="285.0" y2="154" stroke="#58c4dd" stroke-width="2.5" marker-end="url(#c4-ar0)" stroke-linecap="round"/><text x="285.0" y="212" fill="#58c4dd" font-size="14" font-weight="700" text-anchor="middle">lower_bound</text><line x1="471.0" y1="194" x2="471.0" y2="154" stroke="#ff8c1a" stroke-width="2.5" marker-end="url(#c4-ar1)" stroke-linecap="round"/><text x="471.0" y="212" fill="#ff8c1a" font-size="14" font-weight="700" text-anchor="middle">upper_bound</text><text x="110" y="280" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="end">x = 6</text><rect x="134" y="254" width="54" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="161.0" y="279.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><text x="161.0" y="246" fill="#9aa4b2" font-size="12.5" text-anchor="middle">0</text><rect x="196" y="254" width="54" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="223.0" y="279.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">3</text><text x="223.0" y="246" fill="#9aa4b2" font-size="12.5" text-anchor="middle">1</text><rect x="258" y="254" width="54" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="285.0" y="279.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">5</text><text x="285.0" y="246" fill="#9aa4b2" font-size="12.5" text-anchor="middle">2</text><rect x="320" y="254" width="54" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="347.0" y="279.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">5</text><text x="347.0" y="246" fill="#9aa4b2" font-size="12.5" text-anchor="middle">3</text><rect x="382" y="254" width="54" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="409.0" y="279.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">5</text><text x="409.0" y="246" fill="#9aa4b2" font-size="12.5" text-anchor="middle">4</text><rect x="444" y="254" width="54" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="471.0" y="279.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">7</text><text x="471.0" y="246" fill="#9aa4b2" font-size="12.5" text-anchor="middle">5</text><rect x="506" y="254" width="54" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="533.0" y="279.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">9</text><text x="533.0" y="246" fill="#9aa4b2" font-size="12.5" text-anchor="middle">6</text><rect x="568" y="254" width="54" height="40" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><text x="595.0" y="280" fill="#9aa4b2" font-size="13.5" text-anchor="middle">end</text><line x1="471.0" y1="340" x2="471.0" y2="300" stroke="#c78bff" stroke-width="2.5" marker-end="url(#c4-ar2)" stroke-linecap="round"/><text x="471.0" y="358" fill="#c78bff" font-size="14" font-weight="700" text-anchor="middle">lower = upper</text><text x="32" y="384" fill="#c2cdde" font-size="14.5" text-anchor="start">Число пятёрок = upper − lower = 5 − 2 = 3.  Если x нет, оба указывают на первый элемент &gt; x.</text></svg><figcaption>Обе функции — бинпоиск по отсортированному диапазону за $O(\log n)$; вместе они дают отрезок элементов, равных $x$.</figcaption></figure>
 <p>Если элемента нет — обе функции укажут на первый элемент, больший $x$. Если $x$ больше всех — вернут <code>end</code>. Требуется отсортированность.</p>
 <div class="warn"><span class="lbl">set/map — только методы</span><br>
 <code>lower_bound(s.begin(), s.end(), x)</code> для <code>set</code> работает за $O(n)$! Итераторы сета не умеют быстро прыгать в середину. Используйте метод контейнера: <code>s.lower_bound(x)</code> — $O(\log n)$.</div>
 
-<h3>shuffle и генератор <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=9980" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:46:20</a></h3>
+<h3 id="s10-4">shuffle и генератор <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=9980" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:46:20</a></h3>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">mt19937</span> <span class="f">rng</span>(<span class="n">1000</span>);            <span class="c">// фиксированный seed</span>
 <span class="f">shuffle</span>(v.<span class="f">begin</span>(), v.<span class="f">end</span>(), rng);   <span class="c">// перемешать</span></code></pre></div>
 <p>С фиксированным <code>seed</code> последовательность случайных чисел всегда одна и та же — удобно для воспроизводимых тестов.</p>
@@ -745,7 +773,7 @@ v.<span class="f">erase</span>(<span class="f">unique</span>(v.<span class="f">b
   <li>использование алгоритма с нарушением предусловия (например, <code>lower_bound</code> на несортированном массиве);</li>
   <li>использование инвалидированного итератора.</li>
 </ul>
-<h3>Инвалидация итераторов <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=10232" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:50:32</a></h3>
+<h3 id="s11-1">Инвалидация итераторов <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=10232" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:50:32</a></h3>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="k">auto</span> it = s.<span class="f">begin</span>();
 s.<span class="f">erase</span>(it);   <span class="c">// итератор it теперь указывает на удалённый элемент</span>
 *it;           <span class="c">// ОШИБКА: обращение к тому, чего уже нет</span></code></pre></div>
@@ -779,7 +807,7 @@ s.<span class="f">erase</span>(it);   <span class="c">// итератор it т�
 <div class="good"><span class="lbl">Важный совет</span><br>
 Гораздо важнее случайных тестов — перебрать <strong>крайние случаи</strong>: пустой ввод, все элементы равны, минимум/максимум, размер $1$. Если структура теста позволяет — перебирать <em>всё</em>.</div>
 
-<h3>Полный перебор через next_permutation <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=11020" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:03:40</a></h3>
+<h3 id="s12-1">Полный перебор через next_permutation <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=11020" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:03:40</a></h3>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">vector</span>&lt;<span class="t">int</span>&gt; <span class="f">p</span>(n);
 <span class="f">iota</span>(p.<span class="f">begin</span>(), p.<span class="f">end</span>(), <span class="n">0</span>);           <span class="c">// 0, 1, 2, ..., n-1</span>
 <span class="k">do</span> {
@@ -787,7 +815,7 @@ s.<span class="f">erase</span>(it);   <span class="c">// итератор it т�
 } <span class="k">while</span> (<span class="f">next_permutation</span>(p.<span class="f">begin</span>(), p.<span class="f">end</span>()));   <span class="c">// все перестановки</span></code></pre></div>
 <p><code>next_permutation</code> перебирает все перестановки в лексикографическом порядке; когда доходит до последней — возвращает <code>false</code>.</p>
 
-<h3>Замер времени <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=11260" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:07:40</a></h3>
+<h3 id="s12-2">Замер времени <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=11260" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:07:40</a></h3>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="p">#include &lt;chrono&gt;</span>
 <span class="k">auto</span> start = chrono::steady_clock::<span class="f">now</span>();
 <span class="c">/* ... запускаем решение ... */</span>
@@ -815,6 +843,7 @@ cerr &lt;&lt; ms &lt;&lt; <span class="s">" ms\n"</span>;   <span class="c">// �
   Конспект подготовлен по записи занятия Яндекс кружка. Таймкоды соответствуют исходной видеозаписи. Код на C++ приведён в виде, эквивалентном разобранному на занятии.
 </footer>
 
+<nav class="pager" aria-label="Соседние занятия"><a class="prev" href="../index.html"><small>← назад</small><b>Все конспекты</b></a><a class="next" href="../parallel-bp/parallel-bp-zan2-poiski.html"><small>занятие 2 →</small><b>Поиски</b></a></nav>
 </div>
 
 <button class="toplink" id="topBtn">↑ наверх</button>
@@ -849,5 +878,42 @@ cerr &lt;&lt; ms &lt;&lt; <span class="s">" ms\n"</span>;   <span class="c">// �
 
 
 
+<script id="reader">
+(function(){
+  var heads = [].slice.call(document.querySelectorAll(".wrap h2[id]"));
+  if (!heads.length) return;
+  var bar = document.createElement("div"); bar.className = "progress"; document.body.appendChild(bar);
+  function label(h){ var c = h.cloneNode(true); [].forEach.call(c.querySelectorAll(".ts"), function(x){ x.remove(); });
+    return c.textContent.replace(/^\s*(?:\d+\.)+\s*/, "").trim(); }
+  function links(box){ return heads.map(function(h){ var a = document.createElement("a"); a.href = "#" + h.id; a.textContent = label(h); box.appendChild(a); return a; }); }
+  var side = document.createElement("nav"); side.className = "side-toc"; side.setAttribute("aria-label", "Разделы");
+  side.innerHTML = "<p>Разделы</p>"; var sideLinks = links(side); document.body.appendChild(side);
+  var btn = document.createElement("button"); btn.className = "secbtn"; btn.type = "button"; btn.textContent = "≡ разделы";
+  btn.setAttribute("aria-expanded", "false");
+  var panel = document.createElement("nav"); panel.className = "secpanel"; panel.hidden = true; panel.setAttribute("aria-label", "Разделы");
+  var panelLinks = links(panel); document.body.appendChild(panel); document.body.appendChild(btn);
+  function toggle(open){ panel.hidden = !open; btn.setAttribute("aria-expanded", open); }
+  btn.addEventListener("click", function(e){ e.stopPropagation(); toggle(panel.hidden); });
+  panel.addEventListener("click", function(e){ if (e.target.closest("a")) toggle(false); });
+  document.addEventListener("click", function(e){ if (!panel.hidden && !panel.contains(e.target)) toggle(false); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") toggle(false); });
+  var toc = document.querySelector(".toc"); var cur = -1; var ticking = false;
+  function update(){
+    ticking = false;
+    var max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, scrollY / max) : 0) + ")";
+    var past = toc ? toc.getBoundingClientRect().bottom < 0 : scrollY > 400;
+    side.classList.toggle("show", past); btn.classList.toggle("show", past);
+    var i = -1; for (var k = 0; k < heads.length; k++) if (heads[k].getBoundingClientRect().top < innerHeight * 0.3) i = k;
+    if (i !== cur) {
+      [sideLinks, panelLinks].forEach(function(l){ if (cur >= 0) l[cur].classList.remove("on"); if (i >= 0) l[i].classList.add("on"); });
+      if (i >= 0 && side.classList.contains("show")) { var a = sideLinks[i]; if (a.offsetTop < side.scrollTop || a.offsetTop > side.scrollTop + side.clientHeight - 30) side.scrollTop = a.offsetTop - 60; }
+      cur = i;
+    }
+  }
+  addEventListener("scroll", function(){ if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener("resize", update); update();
+})();
+</script>
 </body>
 </html>

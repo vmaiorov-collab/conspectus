@@ -415,6 +415,34 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
   html.theme-anim, html.theme-anim *{transition:none !important}
 }
 @media print{html[data-theme] .top, html[data-theme] .toplink{display:none} html[data-theme] body{background:#fff}}
+/* ---------- навигация по конспекту ---------- */
+html[data-theme] .progress{position:fixed; top:0; left:0; right:0; height:3px; background:var(--accent); transform-origin:0 50%; transform:scaleX(0); z-index:50; pointer-events:none}
+html[data-theme] .side-toc{position:fixed; top:84px; right:max(16px, calc(50% - 410px - 250px)); width:220px; max-height:calc(100vh - 120px); overflow:auto;
+  font-size:.85rem; line-height:1.35; opacity:0; visibility:hidden; transform:translateX(6px); transition:opacity .25s, transform .25s, visibility .25s; z-index:20}
+html[data-theme] .side-toc.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .side-toc p{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin:0 0 8px}
+html[data-theme] .side-toc a{display:block; color:var(--muted); padding:4px 0 4px 12px; border-left:2px solid var(--line); text-decoration:none; transition:color .2s, border-color .2s}
+html[data-theme] .side-toc a:hover{color:var(--ink)}
+html[data-theme] .side-toc a.on{color:var(--ink); border-left-color:var(--accent)}
+html[data-theme] .secbtn{position:fixed; left:16px; bottom:16px; z-index:30; background:var(--card); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  padding:8px 14px; font-family:var(--sans); font-size:.82rem; cursor:pointer; opacity:0; visibility:hidden; transform:translateY(8px); transition:opacity .2s, transform .2s, visibility .2s}
+html[data-theme] .secbtn.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .secpanel{position:fixed; left:16px; right:16px; bottom:64px; max-width:420px; max-height:60vh; overflow:auto; z-index:31; background:var(--card);
+  border:1px solid var(--line); border-radius:8px; padding:10px 0; box-shadow:0 12px 32px rgba(0,0,0,.18)}
+html[data-theme] .secpanel[hidden]{display:none}
+html[data-theme] .secpanel a{display:block; padding:8px 16px; color:var(--ink); text-decoration:none; font-size:.92rem}
+html[data-theme] .secpanel a.on{color:var(--accent); font-weight:650}
+html[data-theme] .pager{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:48px 0 0; padding-top:20px; border-top:1px solid var(--ink)}
+html[data-theme] .pager a{display:block; padding:14px 16px; border:1px solid var(--line); border-radius:8px; color:var(--ink); text-decoration:none; transition:border-color .2s, background-color .2s}
+html[data-theme] .pager a:hover{border-color:var(--accent); background:var(--accent-soft)}
+html[data-theme] .pager a.next{text-align:right; grid-column:2}
+html[data-theme] .pager small{display:block; font-family:var(--mono); font-size:.75rem; color:var(--muted); margin-bottom:4px}
+html[data-theme] .pager b{font-family:var(--serif); font-size:1.08rem}
+html[data-theme] h2[id], html[data-theme] h3[id]{scroll-margin-top:24px}
+@media(min-width:1300px){html[data-theme] .secbtn, html[data-theme] .secpanel{display:none !important}}
+@media(max-width:1299px){html[data-theme] .side-toc{display:none}}
+@media(max-width:560px){html[data-theme] .pager{grid-template-columns:1fr} html[data-theme] .pager a.next{grid-column:1}}
+@media print{html[data-theme] .progress, html[data-theme] .side-toc, html[data-theme] .secbtn, html[data-theme] .secpanel, html[data-theme] .pager{display:none}}
 </style>
 <script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".code .copy");if(!b)return;var pre=b.closest(".code").querySelector("pre"),t=pre.innerText;function ok(){b.textContent="скопировано ✓";setTimeout(function(){b.textContent="копировать"},1600)}function sel(){var r=document.createRange();r.selectNodeContents(pre);var x=getSelection();x.removeAllRanges();x.addRange(r);b.textContent="выделено — нажмите ⌘C"}if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>
 </head>
@@ -532,7 +560,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 Оптимизация Кнута пересчитывает всю ДП по всем $k$ за $O(n^2)$ — быстрее CHT. Неравенства на $opt$ обычно не доказывают строго, а «чувствуют» по монотонности задачи; при сомнениях проверяют стрессом.</div>
 
 <h2 id="s6">6. Разделяй и властвуй + мин-плюс свёртка <a class="ts" href="https://youtu.be/BJnmXrFOYm0?t=6420" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:47:00</a></h2>
-<h3>Разделяй и властвуй для ДП</h3>
+<h3 id="s6-1">Разделяй и властвуй для ДП</h3>
 <p>Та же задача (разбиение точек на $k$ отрезков). Считаем ДП по слоям (по числу отрезков). Внутри слоя выполняется пересчёт с <strong>монотонными оптимумами</strong>: если $i$ растёт, то оптимальный разрез тоже не убывает.</p>
 <p>Пишем рекурсивную функцию, которая знает, что оптимумы для всех $i$ на отрезке $[l, r]$ лежат в $[optL, optR]$:</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// считаем dp[][cur] по dp[][prev]; оптимумы монотонны</span>
@@ -552,7 +580,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 <div class="good"><span class="lbl">Практика</span><br>
 Разделяйка пишется за минуты и отлично ложится в кэш (идёт по элементам подряд). Очень часто заходит даже там, где асимптотически есть более быстрый, но громоздкий алгоритм.</div>
 
-<h3>Мин-плюс свёртка <a class="ts" href="https://youtu.be/BJnmXrFOYm0?t=6900" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:55:00</a></h3>
+<h3 id="s6-2">Мин-плюс свёртка <a class="ts" href="https://youtu.be/BJnmXrFOYm0?t=6900" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:55:00</a></h3>
 <p>Даны массивы $a$ и $b$; нужно посчитать $c_i = \min_{x+y=i} (a_x + b_y)$. Для произвольных массивов быстрее $O(n^2)$ не известно. Но если $a$ <strong>выпуклый</strong>, то оптимумы монотонны и работает та же разделяйка — $O(n \log n)$ (а специальными алгоритмами даже $O(n)$).</p>
 <div class="formula">$c_i = \min_{y} (a_{i-y} + b_y)$ — если $a$ выпукло, оптимальное $y$ не убывает с ростом $i$.</div>
 
@@ -566,11 +594,11 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 
 <h2 id="s8">8. Матрицы и возведение в степень <a class="ts" href="https://youtu.be/BJnmXrFOYm0?t=9660" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:41:00</a></h2>
 <p>Умножение матриц $A = B \cdot C$: $a_{ij} = \sum_k b_{ik} c_{kj}$. Оно ассоциативно (но не коммутативно), поэтому матрицу можно возводить в степень бинарным методом за $O(n^3 \log k)$.</p>
-<h3>Количество путей длины $k$ в графе</h3>
+<h3 id="s8-1">Количество путей длины $k$ в графе</h3>
 <div class="formula">$(A^k)_{ij}$ = число путей из $i$ в $j$ длины $k$, где $A$ — матрица смежности.</div>
 <figure class="viz" data-fig="dp-matrix-paths"><svg viewBox="0 0 760 360" role="img" xmlns="http://www.w3.org/2000/svg"><defs><marker id="d8-ar0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3b4a63"/></marker></defs><rect x="0" y="0" width="760" height="360" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Aᵏ[i][j] — число путей длины k из i в j</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">A — матрица смежности. Возводя её в квадрат, считаем пути из двух рёбер.</text><path d="M126.6,161.1 Q158.4,203.9 210.0,216.7" stroke="#3b4a63" stroke-width="2" fill="none" marker-end="url(#d8-ar0)" stroke-linecap="round" stroke-linejoin="round"/><line x1="211.6" y1="237.9" x2="112.1" y2="280.5" stroke="#3b4a63" stroke-width="2" marker-end="url(#d8-ar0)" stroke-linecap="round"/><path d="M107.2,169.8 Q82.5,215.5 93.4,266.2" stroke="#3b4a63" stroke-width="2" fill="none" marker-end="url(#d8-ar0)" stroke-linecap="round" stroke-linejoin="round"/><path d="M92.8,270.2 Q117.5,224.5 106.6,173.8" stroke="#3b4a63" stroke-width="2" fill="none" marker-end="url(#d8-ar0)" stroke-linecap="round" stroke-linejoin="round"/><path d="M213.4,218.9 Q181.6,176.1 130.0,163.3" stroke="#3b4a63" stroke-width="2" fill="none" marker-end="url(#d8-ar0)" stroke-linecap="round" stroke-linejoin="round"/><circle cx="110" cy="150" r="20" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="110" y="155.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">1</text><circle cx="230" cy="230" r="20" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="230" y="235.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">2</text><circle cx="90" cy="290" r="20" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="90" y="295.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">3</text><text x="390.0" y="96" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">A</text><path d="M326,110 h-6 v120 h6" stroke="#7c8aa0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M454,110 h6 v120 h-6" stroke="#7c8aa0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="333" y="113" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="350.0" y="135.4" fill="#9aa4b2" font-size="15" font-weight="700" text-anchor="middle">0</text><rect x="373" y="113" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="390.0" y="135.4" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">1</text><rect x="413" y="113" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="430.0" y="135.4" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">1</text><rect x="333" y="153" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="350.0" y="175.4" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">1</text><rect x="373" y="153" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="390.0" y="175.4" fill="#9aa4b2" font-size="15" font-weight="700" text-anchor="middle">0</text><rect x="413" y="153" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="430.0" y="175.4" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">1</text><rect x="333" y="193" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="350.0" y="215.4" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">1</text><rect x="373" y="193" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="390.0" y="215.4" fill="#9aa4b2" font-size="15" font-weight="700" text-anchor="middle">0</text><rect x="413" y="193" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="430.0" y="215.4" fill="#9aa4b2" font-size="15" font-weight="700" text-anchor="middle">0</text><text x="475" y="176" fill="#9aa4b2" font-size="24" text-anchor="middle">→</text><text x="570.0" y="96" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">A²</text><path d="M506,110 h-6 v120 h6" stroke="#7c8aa0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M634,110 h6 v120 h-6" stroke="#7c8aa0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="513" y="113" width="34" height="34" rx="6" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="1.5"/><text x="530.0" y="135.4" fill="#141a24" font-size="15" font-weight="700" text-anchor="middle">2</text><rect x="553" y="113" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="570.0" y="135.4" fill="#9aa4b2" font-size="15" font-weight="700" text-anchor="middle">0</text><rect x="593" y="113" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="610.0" y="135.4" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">1</text><rect x="513" y="153" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="530.0" y="175.4" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">1</text><rect x="553" y="153" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="570.0" y="175.4" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">1</text><rect x="593" y="153" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="610.0" y="175.4" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">1</text><rect x="513" y="193" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="530.0" y="215.4" fill="#9aa4b2" font-size="15" font-weight="700" text-anchor="middle">0</text><rect x="553" y="193" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="570.0" y="215.4" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">1</text><rect x="593" y="193" width="34" height="34" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="610.0" y="215.4" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">1</text><text x="332" y="290" fill="#ff8c1a" font-size="15" font-weight="700" text-anchor="start">(A²)₁₁ = 2: пути 1 → 2 → 1 и 1 → 3 → 1</text><text x="332" y="314" fill="#9aa4b2" font-size="14" text-anchor="start">Aᵏ — бинарным возведением за O(n³ log k)</text></svg><figcaption>Элемент $(A^2)_{ij}$ — сумма $\sum_k A_{ik}A_{kj}$, то есть число путей $i \to k \to j$.</figcaption></figure>
 <p>Пути длины $\le k$: сумма $I + A + A^2 + \dots + A^k$ считается рекурсивно (геометрическая прогрессия матриц) за $O(n^3 \log k)$.</p>
-<h3>Линейные рекурренты</h3>
+<h3 id="s8-2">Линейные рекурренты</h3>
 <p>Например, Фибоначчи: $f_i = f_{i-1} + f_{i-2}$. Храним вектор $(f_i, f_{i-1})$ и умножаем на матрицу:</p>
 <div class="formula">$\begin{pmatrix} f_{i+1} \\ f_i \end{pmatrix} = \begin{pmatrix} 1 &amp; 1 \\ 1 &amp; 0 \end{pmatrix} \begin{pmatrix} f_i \\ f_{i-1} \end{pmatrix}$.</div>
 <p>Любую линейную рекурренту $f_i = c_1 f_{i-1} + \dots + c_k f_{i-k}$ можно считать за $O(k^3 \log n)$.</p>
@@ -600,6 +628,7 @@ Slope trick применяется к задачам, где ДП-функции
   Конспект подготовлен по записи занятия Яндекс Кружка. Таймкоды соответствуют исходной видеозаписи. Код на C++ приведён в виде, эквивалентном разобранному на занятии.
 </footer>
 
+<nav class="pager" aria-label="Соседние занятия"><a class="prev" href="../parallel-a/parallel-a-zan1-matematika.html"><small>← занятие 1</small><b>Математика</b></a><a class="next" href="../index.html"><small>дальше</small><b>Все конспекты</b></a></nav>
 </div>
 
 <button class="toplink" id="topBtn">↑ наверх</button>
@@ -718,6 +747,43 @@ Slope trick применяется к задачам, где ДП-функции
     else if(k==='merge')buildMerge(cont,(cont.getAttribute('data-a')||'').split(',').map(Number),(cont.getAttribute('data-b')||'').split(',').map(Number));
     else if(k==='slope')buildSlope(cont);
   });
+})();
+</script>
+<script id="reader">
+(function(){
+  var heads = [].slice.call(document.querySelectorAll(".wrap h2[id]"));
+  if (!heads.length) return;
+  var bar = document.createElement("div"); bar.className = "progress"; document.body.appendChild(bar);
+  function label(h){ var c = h.cloneNode(true); [].forEach.call(c.querySelectorAll(".ts"), function(x){ x.remove(); });
+    return c.textContent.replace(/^\s*(?:\d+\.)+\s*/, "").trim(); }
+  function links(box){ return heads.map(function(h){ var a = document.createElement("a"); a.href = "#" + h.id; a.textContent = label(h); box.appendChild(a); return a; }); }
+  var side = document.createElement("nav"); side.className = "side-toc"; side.setAttribute("aria-label", "Разделы");
+  side.innerHTML = "<p>Разделы</p>"; var sideLinks = links(side); document.body.appendChild(side);
+  var btn = document.createElement("button"); btn.className = "secbtn"; btn.type = "button"; btn.textContent = "≡ разделы";
+  btn.setAttribute("aria-expanded", "false");
+  var panel = document.createElement("nav"); panel.className = "secpanel"; panel.hidden = true; panel.setAttribute("aria-label", "Разделы");
+  var panelLinks = links(panel); document.body.appendChild(panel); document.body.appendChild(btn);
+  function toggle(open){ panel.hidden = !open; btn.setAttribute("aria-expanded", open); }
+  btn.addEventListener("click", function(e){ e.stopPropagation(); toggle(panel.hidden); });
+  panel.addEventListener("click", function(e){ if (e.target.closest("a")) toggle(false); });
+  document.addEventListener("click", function(e){ if (!panel.hidden && !panel.contains(e.target)) toggle(false); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") toggle(false); });
+  var toc = document.querySelector(".toc"); var cur = -1; var ticking = false;
+  function update(){
+    ticking = false;
+    var max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, scrollY / max) : 0) + ")";
+    var past = toc ? toc.getBoundingClientRect().bottom < 0 : scrollY > 400;
+    side.classList.toggle("show", past); btn.classList.toggle("show", past);
+    var i = -1; for (var k = 0; k < heads.length; k++) if (heads[k].getBoundingClientRect().top < innerHeight * 0.3) i = k;
+    if (i !== cur) {
+      [sideLinks, panelLinks].forEach(function(l){ if (cur >= 0) l[cur].classList.remove("on"); if (i >= 0) l[i].classList.add("on"); });
+      if (i >= 0 && side.classList.contains("show")) { var a = sideLinks[i]; if (a.offsetTop < side.scrollTop || a.offsetTop > side.scrollTop + side.clientHeight - 30) side.scrollTop = a.offsetTop - 60; }
+      cur = i;
+    }
+  }
+  addEventListener("scroll", function(){ if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener("resize", update); update();
 })();
 </script>
 </body>

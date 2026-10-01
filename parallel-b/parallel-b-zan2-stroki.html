@@ -410,6 +410,34 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
   html.theme-anim, html.theme-anim *{transition:none !important}
 }
 @media print{html[data-theme] .top, html[data-theme] .toplink{display:none} html[data-theme] body{background:#fff}}
+/* ---------- навигация по конспекту ---------- */
+html[data-theme] .progress{position:fixed; top:0; left:0; right:0; height:3px; background:var(--accent); transform-origin:0 50%; transform:scaleX(0); z-index:50; pointer-events:none}
+html[data-theme] .side-toc{position:fixed; top:84px; right:max(16px, calc(50% - 410px - 250px)); width:220px; max-height:calc(100vh - 120px); overflow:auto;
+  font-size:.85rem; line-height:1.35; opacity:0; visibility:hidden; transform:translateX(6px); transition:opacity .25s, transform .25s, visibility .25s; z-index:20}
+html[data-theme] .side-toc.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .side-toc p{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin:0 0 8px}
+html[data-theme] .side-toc a{display:block; color:var(--muted); padding:4px 0 4px 12px; border-left:2px solid var(--line); text-decoration:none; transition:color .2s, border-color .2s}
+html[data-theme] .side-toc a:hover{color:var(--ink)}
+html[data-theme] .side-toc a.on{color:var(--ink); border-left-color:var(--accent)}
+html[data-theme] .secbtn{position:fixed; left:16px; bottom:16px; z-index:30; background:var(--card); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  padding:8px 14px; font-family:var(--sans); font-size:.82rem; cursor:pointer; opacity:0; visibility:hidden; transform:translateY(8px); transition:opacity .2s, transform .2s, visibility .2s}
+html[data-theme] .secbtn.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .secpanel{position:fixed; left:16px; right:16px; bottom:64px; max-width:420px; max-height:60vh; overflow:auto; z-index:31; background:var(--card);
+  border:1px solid var(--line); border-radius:8px; padding:10px 0; box-shadow:0 12px 32px rgba(0,0,0,.18)}
+html[data-theme] .secpanel[hidden]{display:none}
+html[data-theme] .secpanel a{display:block; padding:8px 16px; color:var(--ink); text-decoration:none; font-size:.92rem}
+html[data-theme] .secpanel a.on{color:var(--accent); font-weight:650}
+html[data-theme] .pager{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:48px 0 0; padding-top:20px; border-top:1px solid var(--ink)}
+html[data-theme] .pager a{display:block; padding:14px 16px; border:1px solid var(--line); border-radius:8px; color:var(--ink); text-decoration:none; transition:border-color .2s, background-color .2s}
+html[data-theme] .pager a:hover{border-color:var(--accent); background:var(--accent-soft)}
+html[data-theme] .pager a.next{text-align:right; grid-column:2}
+html[data-theme] .pager small{display:block; font-family:var(--mono); font-size:.75rem; color:var(--muted); margin-bottom:4px}
+html[data-theme] .pager b{font-family:var(--serif); font-size:1.08rem}
+html[data-theme] h2[id], html[data-theme] h3[id]{scroll-margin-top:24px}
+@media(min-width:1300px){html[data-theme] .secbtn, html[data-theme] .secpanel{display:none !important}}
+@media(max-width:1299px){html[data-theme] .side-toc{display:none}}
+@media(max-width:560px){html[data-theme] .pager{grid-template-columns:1fr} html[data-theme] .pager a.next{grid-column:1}}
+@media print{html[data-theme] .progress, html[data-theme] .side-toc, html[data-theme] .secbtn, html[data-theme] .secpanel, html[data-theme] .pager{display:none}}
 </style>
 <script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".code .copy");if(!b)return;var pre=b.closest(".code").querySelector("pre"),t=pre.innerText;function ok(){b.textContent="скопировано ✓";setTimeout(function(){b.textContent="копировать"},1600)}function sel(){var r=document.createRange();r.selectNodeContents(pre);var x=getSelection();x.removeAllRanges();x.addRange(r);b.textContent="выделено — нажмите ⌘C"}if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>
 </head>
@@ -488,7 +516,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 
 <h2 id="s5">5. Z-функция <a class="ts" href="https://youtu.be/NDBhDDblOMQ?t=4080" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:08:00</a></h2>
 <p><strong>Z-функция</strong> $z[i]$ строки — длина наибольшего префикса строки, совпадающего со строкой, начинающейся с позиции $i$ (то есть наибольший общий префикс всей строки и суффикса $S[i..]$).</p>
-<h3>Линейный алгоритм</h3>
+<h3 id="s5-1">Линейный алгоритм</h3>
 <p>Поддерживаем самое правое из «изведанных» совпадений — отрезок $[l, r)$, где строка $S[l..r)$ совпадает с префиксом $S[0..r-l)$.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">vector</span>&lt;<span class="t">int</span>&gt; <span class="f">z_function</span>(<span class="k">const</span> <span class="t">string</span>&amp; s) {
     <span class="t">int</span> n = s.<span class="f">size</span>();
@@ -591,33 +619,34 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
   <tr><td>L. Планарный граф</td><td>достижимость восточного берега</td><td>КСС + ДП min/max на конденсации</td></tr>
 </table>
 
-<h3>Задача E: вклад каждого ребра <a class="ts" href="https://youtu.be/NDBhDDblOMQ?t=10140" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:49:00</a></h3>
+<h3 id="s9-1">Задача E: вклад каждого ребра <a class="ts" href="https://youtu.be/NDBhDDblOMQ?t=10140" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:49:00</a></h3>
 <p>Вместо суммирования по путям, суммируем по рёбрам: ребро с весом $w$, разбивающее дерево на части размеров $c_1$ и $c_2$, участвует в $c_1 \cdot c_2$ путях. Подвесим дерево; для ребра «родитель–сын $v$»:</p>
 <div class="formula">$c_1 = sz[v],\quad c_2 = n - sz[v]$ &nbsp;⇒&nbsp; вклад $= w \cdot sz[v] \cdot (n - sz[v]) \cdot 2$.</div>
 <p>Умножение на $2$ — потому что пути $u\to v$ и $v\to u$ считаются различными. $sz[v]$ считается DFS-ом за $O(n)$.</p>
 
-<h3>Задача F: rerooting <a class="ts" href="https://youtu.be/NDBhDDblOMQ?t=10560" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:56:00</a></h3>
+<h3 id="s9-2">Задача F: rerooting <a class="ts" href="https://youtu.be/NDBhDDblOMQ?t=10560" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:56:00</a></h3>
 <p>Сначала считаем $dp[v]$ — сумму длин путей от $v$ до всех вершин <em>в её поддереве</em>. Затем, зная ответ для родителя, пересчитываем ответ для ребёнка:</p>
 <div class="formula">$ans[v] = ans[parent] + w \cdot (n - 2\cdot sz[v])$.</div>
 <p>Идея: когда мы «переносим корень» через ребро $(parent, v)$, пути, ведущие не в поддерево $v$, удлиняются на $w$ (их $n - sz[v]$ штук), а пути внутрь поддерева $v$ укорачиваются на $w$ (их $sz[v]$ штук). Второй DFS проходит дерево и пересчитывает все ответы.</p>
 
-<h3>Задача G: делимость и КСС <a class="ts" href="https://youtu.be/NDBhDDblOMQ?t=11400" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:10:00</a></h3>
+<h3 id="s9-3">Задача G: делимость и КСС <a class="ts" href="https://youtu.be/NDBhDDblOMQ?t=11400" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:10:00</a></h3>
 <p>Факты «$x_i$ делится на $x_j$» дают ориентированный граф. Внутри цикла все значения обязаны совпадать по модулю (с точностью до знака) — значит, внутри каждой компоненты сильной связности значения равны с точностью до знака. В каждой КСС можно назначить два значения ($x$ и $-x$), кроме КСС размера 1 (там только одно).</p>
 <div class="formula">Ответ $= 2 \cdot (\#\text{КСС}) - (\#\text{КСС размера } 1)$.</div>
 
-<h3>Задача I: монетка и бинпоиск <a class="ts" href="https://youtu.be/NDBhDDblOMQ?t=12000" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:20:00</a></h3>
+<h3 id="s9-4">Задача I: монетка и бинпоиск <a class="ts" href="https://youtu.be/NDBhDDblOMQ?t=12000" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:20:00</a></h3>
 <p>Нужно минимизировать максимум значений на пути из $k$ вершин. Бинпоиск по ответу $x$: оставляем только вершины со значением $\le x$. В оставшемся графе ищем цикл — если есть, можно набрать сколько угодно вершин (ответ «да»); иначе это DAG, и достаточно найти длиннейший путь и сравнить его длину с $k$.</p>
 
-<h3>Задача J: лексикографически максимальный топсорт <a class="ts" href="https://youtu.be/NDBhDDblOMQ?t=12360" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:26:00</a></h3>
+<h3 id="s9-5">Задача J: лексикографически максимальный топсорт <a class="ts" href="https://youtu.be/NDBhDDblOMQ?t=12360" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:26:00</a></h3>
 <p>Чтобы максимизировать последний элемент, потом предпоследний и т. д., строим топсорт <strong>с конца</strong>. На каждом шаге из вершин, из которых не исходит рёбер (стоков), выбираем вершину с максимальным номером, ставим её в конец и удаляем из графа (уменьшая счётчики исходящих степеней её соседей). Стоки поддерживаются во множестве/приоритетной очереди. Сложность $O((n+m)\log n)$.</p>
 
-<h3>Задача K: пропуск и КСС <a class="ts" href="https://youtu.be/NDBhDDblOMQ?t=13320" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:42:00</a></h3>
+<h3 id="s9-6">Задача K: пропуск и КСС <a class="ts" href="https://youtu.be/NDBhDDblOMQ?t=13320" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:42:00</a></h3>
 <p>Рёбра двух видов: с пропуском и без. Строим КСС по рёбрам «без пропуска». Пропуск можно потерять, если существует вершина, достижимая из вершины $1$ (по всем рёбрам), чья компонента имеет исходящее ребро (по рёбрам «без пропуска»). Тогда оставляем пропуск в этой компоненте, выходим — и вернуться не сможем.</p>
 
 <footer>
   Конспект подготовлен по записи занятия Яндекс кружка. Таймкоды соответствуют исходной видеозаписи. Код на C++ приведён в виде, эквивалентном разобранному на занятии.
 </footer>
 
+<nav class="pager" aria-label="Соседние занятия"><a class="prev" href="../parallel-b/parallel-b-zan1-grafy.html"><small>← занятие 1</small><b>Графы 1</b></a><a class="next" href="../index.html"><small>дальше</small><b>Все конспекты</b></a></nav>
 </div>
 
 <button class="toplink" id="topBtn">↑ наверх</button>
@@ -652,5 +681,42 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 
 
 
+<script id="reader">
+(function(){
+  var heads = [].slice.call(document.querySelectorAll(".wrap h2[id]"));
+  if (!heads.length) return;
+  var bar = document.createElement("div"); bar.className = "progress"; document.body.appendChild(bar);
+  function label(h){ var c = h.cloneNode(true); [].forEach.call(c.querySelectorAll(".ts"), function(x){ x.remove(); });
+    return c.textContent.replace(/^\s*(?:\d+\.)+\s*/, "").trim(); }
+  function links(box){ return heads.map(function(h){ var a = document.createElement("a"); a.href = "#" + h.id; a.textContent = label(h); box.appendChild(a); return a; }); }
+  var side = document.createElement("nav"); side.className = "side-toc"; side.setAttribute("aria-label", "Разделы");
+  side.innerHTML = "<p>Разделы</p>"; var sideLinks = links(side); document.body.appendChild(side);
+  var btn = document.createElement("button"); btn.className = "secbtn"; btn.type = "button"; btn.textContent = "≡ разделы";
+  btn.setAttribute("aria-expanded", "false");
+  var panel = document.createElement("nav"); panel.className = "secpanel"; panel.hidden = true; panel.setAttribute("aria-label", "Разделы");
+  var panelLinks = links(panel); document.body.appendChild(panel); document.body.appendChild(btn);
+  function toggle(open){ panel.hidden = !open; btn.setAttribute("aria-expanded", open); }
+  btn.addEventListener("click", function(e){ e.stopPropagation(); toggle(panel.hidden); });
+  panel.addEventListener("click", function(e){ if (e.target.closest("a")) toggle(false); });
+  document.addEventListener("click", function(e){ if (!panel.hidden && !panel.contains(e.target)) toggle(false); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") toggle(false); });
+  var toc = document.querySelector(".toc"); var cur = -1; var ticking = false;
+  function update(){
+    ticking = false;
+    var max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, scrollY / max) : 0) + ")";
+    var past = toc ? toc.getBoundingClientRect().bottom < 0 : scrollY > 400;
+    side.classList.toggle("show", past); btn.classList.toggle("show", past);
+    var i = -1; for (var k = 0; k < heads.length; k++) if (heads[k].getBoundingClientRect().top < innerHeight * 0.3) i = k;
+    if (i !== cur) {
+      [sideLinks, panelLinks].forEach(function(l){ if (cur >= 0) l[cur].classList.remove("on"); if (i >= 0) l[i].classList.add("on"); });
+      if (i >= 0 && side.classList.contains("show")) { var a = sideLinks[i]; if (a.offsetTop < side.scrollTop || a.offsetTop > side.scrollTop + side.clientHeight - 30) side.scrollTop = a.offsetTop - 60; }
+      cur = i;
+    }
+  }
+  addEventListener("scroll", function(){ if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener("resize", update); update();
+})();
+</script>
 </body>
 </html>
