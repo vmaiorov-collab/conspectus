@@ -433,6 +433,34 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
   html.theme-anim, html.theme-anim *{transition:none !important}
 }
 @media print{html[data-theme] .top, html[data-theme] .toplink{display:none} html[data-theme] body{background:#fff}}
+/* ---------- навигация по конспекту ---------- */
+html[data-theme] .progress{position:fixed; top:0; left:0; right:0; height:3px; background:var(--accent); transform-origin:0 50%; transform:scaleX(0); z-index:50; pointer-events:none}
+html[data-theme] .side-toc{position:fixed; top:84px; right:max(16px, calc(50% - 410px - 250px)); width:220px; max-height:calc(100vh - 120px); overflow:auto;
+  font-size:.85rem; line-height:1.35; opacity:0; visibility:hidden; transform:translateX(6px); transition:opacity .25s, transform .25s, visibility .25s; z-index:20}
+html[data-theme] .side-toc.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .side-toc p{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin:0 0 8px}
+html[data-theme] .side-toc a{display:block; color:var(--muted); padding:4px 0 4px 12px; border-left:2px solid var(--line); text-decoration:none; transition:color .2s, border-color .2s}
+html[data-theme] .side-toc a:hover{color:var(--ink)}
+html[data-theme] .side-toc a.on{color:var(--ink); border-left-color:var(--accent)}
+html[data-theme] .secbtn{position:fixed; left:16px; bottom:16px; z-index:30; background:var(--card); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  padding:8px 14px; font-family:var(--sans); font-size:.82rem; cursor:pointer; opacity:0; visibility:hidden; transform:translateY(8px); transition:opacity .2s, transform .2s, visibility .2s}
+html[data-theme] .secbtn.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .secpanel{position:fixed; left:16px; right:16px; bottom:64px; max-width:420px; max-height:60vh; overflow:auto; z-index:31; background:var(--card);
+  border:1px solid var(--line); border-radius:8px; padding:10px 0; box-shadow:0 12px 32px rgba(0,0,0,.18)}
+html[data-theme] .secpanel[hidden]{display:none}
+html[data-theme] .secpanel a{display:block; padding:8px 16px; color:var(--ink); text-decoration:none; font-size:.92rem}
+html[data-theme] .secpanel a.on{color:var(--accent); font-weight:650}
+html[data-theme] .pager{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:48px 0 0; padding-top:20px; border-top:1px solid var(--ink)}
+html[data-theme] .pager a{display:block; padding:14px 16px; border:1px solid var(--line); border-radius:8px; color:var(--ink); text-decoration:none; transition:border-color .2s, background-color .2s}
+html[data-theme] .pager a:hover{border-color:var(--accent); background:var(--accent-soft)}
+html[data-theme] .pager a.next{text-align:right; grid-column:2}
+html[data-theme] .pager small{display:block; font-family:var(--mono); font-size:.75rem; color:var(--muted); margin-bottom:4px}
+html[data-theme] .pager b{font-family:var(--serif); font-size:1.08rem}
+html[data-theme] h2[id], html[data-theme] h3[id]{scroll-margin-top:24px}
+@media(min-width:1300px){html[data-theme] .secbtn, html[data-theme] .secpanel{display:none !important}}
+@media(max-width:1299px){html[data-theme] .side-toc{display:none}}
+@media(max-width:560px){html[data-theme] .pager{grid-template-columns:1fr} html[data-theme] .pager a.next{grid-column:1}}
+@media print{html[data-theme] .progress, html[data-theme] .side-toc, html[data-theme] .secbtn, html[data-theme] .secpanel, html[data-theme] .pager{display:none}}
 </style>
 <script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".code .copy");if(!b)return;var pre=b.closest(".code").querySelector("pre"),t=pre.innerText;function ok(){b.textContent="скопировано ✓";setTimeout(function(){b.textContent="копировать"},1600)}function sel(){var r=document.createRange();r.selectNodeContents(pre);var x=getSelection();x.removeAllRanges();x.addRange(r);b.textContent="выделено — нажмите ⌘C"}if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>
 </head>
@@ -494,7 +522,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 }
 <span class="c">// теперь a[L] == x</span></code></pre></div>
 
-<h3>Почему границы именно $0$ и $n$ <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=634" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">10:34</a></h3>
+<h3 id="s2-1">Почему границы именно $0$ и $n$ <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=634" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">10:34</a></h3>
 <ul>
   <li>После работы алгоритма в <code>L</code> лежит ответ, а <code>R = L + 1</code>.</li>
   <li>Значит, $L$ может принять любое значение от $0$ до $n-1$ — если начать с $0$ и $n$, можно «обнаружить» любой элемент.</li>
@@ -503,7 +531,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 <div class="note"><span class="lbl">Почему именно полуинтервалы $[L, R)$</span><br>
 Все функции стандартной библиотеки C++ работают именно с полуинтервалами. Кроме того, с включительными границами где-то неизбежно нужен «плюс-минус один», что очень неприятно. С полуинтервалами «жить приятно».</div>
 
-<h3>Что происходит на самом деле: мы нашли самый правый $x$ <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=943" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">15:43</a></h3>
+<h3 id="s2-2">Что происходит на самом деле: мы нашли самый правый $x$ <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=943" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">15:43</a></h3>
 <p>Наш инвариант $a[L]\le x &lt; a[R]$ на самом деле держит $L$ на последнем (самом правом) вхождении $x$, а $R$ — сразу после него. Если $x$ нет в массиве, $L$ укажет на <strong>самый правый элемент, меньший $x$</strong>, а $R$ — на <strong>самый левый, больший $x$</strong>.</p>
 <figure class="viz"><svg viewBox="0 0 760 380" role="img" xmlns="http://www.w3.org/2000/svg"><defs><marker id="p1-ar0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#83c167"/></marker><marker id="p1-ar1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ff8c1a"/></marker></defs><rect x="0" y="0" width="760" height="380" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Инвариант a[L] ≤ x &lt; a[R]: где окажутся L и R</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Считаем, что a[−1] = −∞ и a[n] = +∞, поэтому начинаем с L = −1, R = n.</text><text x="104" y="128" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="end">x = 2</text><rect x="134" y="102" width="64" height="40" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><text x="166.0" y="128" fill="#9aa4b2" font-size="14" text-anchor="middle">−∞</text><text x="166.0" y="94" fill="#9aa4b2" font-size="12.5" text-anchor="middle">-1</text><rect x="206" y="102" width="64" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="238.0" y="127.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><text x="238.0" y="94" fill="#9aa4b2" font-size="12.5" text-anchor="middle">0</text><rect x="278" y="102" width="64" height="40" rx="6" fill="#ffff00" stroke="#ffff00" stroke-width="1.5"/><text x="310.0" y="127.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">2</text><text x="310.0" y="94" fill="#9aa4b2" font-size="12.5" text-anchor="middle">1</text><rect x="350" y="102" width="64" height="40" rx="6" fill="#ffff00" stroke="#ffff00" stroke-width="1.5"/><text x="382.0" y="127.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">2</text><text x="382.0" y="94" fill="#9aa4b2" font-size="12.5" text-anchor="middle">2</text><rect x="422" y="102" width="64" height="40" rx="6" fill="#ffff00" stroke="#ffff00" stroke-width="1.5"/><text x="454.0" y="127.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">2</text><text x="454.0" y="94" fill="#9aa4b2" font-size="12.5" text-anchor="middle">3</text><rect x="494" y="102" width="64" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="526.0" y="127.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">5</text><text x="526.0" y="94" fill="#9aa4b2" font-size="12.5" text-anchor="middle">4</text><rect x="566" y="102" width="64" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="598.0" y="127.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">7</text><text x="598.0" y="94" fill="#9aa4b2" font-size="12.5" text-anchor="middle">5</text><rect x="638" y="102" width="64" height="40" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><text x="670.0" y="128" fill="#9aa4b2" font-size="14" text-anchor="middle">+∞</text><text x="670.0" y="94" fill="#9aa4b2" font-size="12.5" text-anchor="middle">6</text><line x1="454.0" y1="184" x2="454.0" y2="148" stroke="#83c167" stroke-width="2.5" marker-end="url(#p1-ar0)" stroke-linecap="round"/><text x="454.0" y="202" fill="#83c167" font-size="15" font-weight="700" text-anchor="middle">L = 3</text><line x1="526.0" y1="184" x2="526.0" y2="148" stroke="#ff8c1a" stroke-width="2.5" marker-end="url(#p1-ar1)" stroke-linecap="round"/><text x="526.0" y="202" fill="#ff8c1a" font-size="15" font-weight="700" text-anchor="middle">R = 4</text><text x="104" y="262" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="end">x = 4</text><rect x="134" y="236" width="64" height="40" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><text x="166.0" y="262" fill="#9aa4b2" font-size="14" text-anchor="middle">−∞</text><text x="166.0" y="228" fill="#9aa4b2" font-size="12.5" text-anchor="middle">-1</text><rect x="206" y="236" width="64" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="238.0" y="261.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><text x="238.0" y="228" fill="#9aa4b2" font-size="12.5" text-anchor="middle">0</text><rect x="278" y="236" width="64" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="310.0" y="261.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">2</text><text x="310.0" y="228" fill="#9aa4b2" font-size="12.5" text-anchor="middle">1</text><rect x="350" y="236" width="64" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="382.0" y="261.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">2</text><text x="382.0" y="228" fill="#9aa4b2" font-size="12.5" text-anchor="middle">2</text><rect x="422" y="236" width="64" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="454.0" y="261.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">2</text><text x="454.0" y="228" fill="#9aa4b2" font-size="12.5" text-anchor="middle">3</text><rect x="494" y="236" width="64" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="526.0" y="261.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">5</text><text x="526.0" y="228" fill="#9aa4b2" font-size="12.5" text-anchor="middle">4</text><rect x="566" y="236" width="64" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="598.0" y="261.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">7</text><text x="598.0" y="228" fill="#9aa4b2" font-size="12.5" text-anchor="middle">5</text><rect x="638" y="236" width="64" height="40" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" stroke-dasharray="4 4"/><text x="670.0" y="262" fill="#9aa4b2" font-size="14" text-anchor="middle">+∞</text><text x="670.0" y="228" fill="#9aa4b2" font-size="12.5" text-anchor="middle">6</text><line x1="454.0" y1="318" x2="454.0" y2="282" stroke="#83c167" stroke-width="2.5" marker-end="url(#p1-ar0)" stroke-linecap="round"/><text x="454.0" y="336" fill="#83c167" font-size="15" font-weight="700" text-anchor="middle">L = 3</text><line x1="526.0" y1="318" x2="526.0" y2="282" stroke="#ff8c1a" stroke-width="2.5" marker-end="url(#p1-ar1)" stroke-linecap="round"/><text x="526.0" y="336" fill="#ff8c1a" font-size="15" font-weight="700" text-anchor="middle">R = 4</text><text x="32" y="362" fill="#c2cdde" font-size="14" text-anchor="start">x есть: L — последнее вхождение x, R — сразу за ним.  x нет: L — последний &lt; x, R — первый &gt; x.</text></svg><figcaption>С инвариантом $a[L] \le x &lt; a[R]$ граница $L$ встаёт на последний элемент $\le x$, а $R$ — на первый $&gt; x$.</figcaption></figure>
 
@@ -515,17 +543,17 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 </ul>
 <p>То есть, меняя только знак сравнения, мы получаем либо левую, либо правую границу блока равных элементов.</p>
 
-<h3>Подсчёт количества вхождений $x$ <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=1339" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">22:19</a></h3>
+<h3 id="s3-1">Подсчёт количества вхождений $x$ <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=1339" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">22:19</a></h3>
 <p>Чтобы посчитать, сколько раз встречается $x$ в отсортированном массиве, найдём два индекса:</p>
 <div class="formula">$\text{количество} = (\text{первый индекс с } a_i &gt; x) - (\text{первый индекс с } a_i \ge x)$.</div>
 <p>Это разность двух бинпоисков. В терминах C++ — <code>upper_bound(x) - lower_bound(x)</code>.</p>
 
 <h2 id="s4">4. Бинпоиск без сортированности (интерактив) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=1474" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">24:34</a></h2>
-<h3>Задача 1: найти первую единицу <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=1474" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">24:34</a></h3>
+<h3 id="s4-1">Задача 1: найти первую единицу <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=1474" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">24:34</a></h3>
 <p>Массив размера $10^9$ нельзя ввести целиком. Но можно <strong>за одно действие спрашивать у жюри любой элемент</strong>. Гарантируется, что массив выглядит как «сначала нули, потом единицы». Дано $30$ запросов.</p>
 <p>Так как $\log_2 10^9 \approx 30$, решаем обычным бинпоиском, только вместо чтения $a[mid]$ спрашиваем жюри.</p>
 
-<h3>Задача 2: массив не отсортирован <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=1565" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">26:05</a></h3>
+<h3 id="s4-2">Задача 2: массив не отсортирован <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=1565" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">26:05</a></h3>
 <p>Теперь <strong>сортированность не гарантируется</strong>. Вместо неё даны три гарантии (1-индексация):</p>
 <ol>
   <li>каждый элемент равен либо $0$, либо $1$;</li>
@@ -554,7 +582,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 </table>
 <p>Если <code>lower_bound</code>/<code>upper_bound</code> ничего не нашли, они возвращают второй переданный аргумент (обычно <code>end</code>).</p>
 
-<h3>Подсчёт вхождений и «правый строго меньший»</h3>
+<h3 id="s5-1">Подсчёт вхождений и «правый строго меньший»</h3>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// количество элементов, равных x:</span>
 <span class="t">int</span> cnt = <span class="f">upper_bound</span>(a.<span class="f">begin</span>(), a.<span class="f">end</span>(), x) - <span class="f">lower_bound</span>(a.<span class="f">begin</span>(), a.<span class="f">end</span>(), x);
 
@@ -563,7 +591,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 <span class="k">if</span> (it == a.<span class="f">begin</span>()) { <span class="c">/* все &gt;= x */</span> }
 <span class="k">else</span> { --it; <span class="c">/* *it — правый строго меньший x */</span> }</code></pre></div>
 
-<h3>Опасность: <code>lower_bound</code> по <code>set</code>/<code>map</code> <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=2440" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">40:40</a></h3>
+<h3 id="s5-2">Опасность: <code>lower_bound</code> по <code>set</code>/<code>map</code> <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=2440" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">40:40</a></h3>
 <div class="warn"><span class="lbl">Типичная ошибка</span><br>
 <code>std::lower_bound(s.begin(), s.end(), x)</code> для <code>set</code> работает за <strong>$O(n)$</strong>, а не за $O(\log n)$: итераторы сета не поддерживают произвольный доступ, и <code>lower_bound</code> вынужден идти по контейнеру последовательно. Компилятор не выдаст даже предупреждения.</div>
 <p>Для <code>set</code>/<code>map</code>/<code>multiset</code>/<code>multimap</code> нужно использовать <strong>метод контейнера</strong>:</p>
@@ -583,7 +611,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 </div>
 <p>Сложность: $O(\log(\text{диапазон}) \cdot T_\text{checker})$.</p>
 
-<h3>6.1. Задача про дипломы <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=3133" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">52:13</a></h3>
+<h3 id="s6-1">6.1. Задача про дипломы <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=3133" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">52:13</a></h3>
 <p><strong>Условие.</strong> Есть $n$ одинаковых дипломов размером $w \times h$ (переворачивать нельзя). Нужно найти минимальную сторону $a$ квадратной доски, на которую поместятся все $n$ дипломов.</p>
 <p><strong>Границы.</strong> Если взять $a = n \cdot \max(w, h)$ — заведомо хватит (положить все в ряд). Значит, берём $L$ — слишком маленький, $R = n \cdot \max(w,h)$ — точно хватит.</p>
 <p><strong>Чекер.</strong> На доску $a\times a$ в ряд по горизонтали помещается $\lfloor a / w \rfloor$ дипломов, по вертикали $\lfloor a / h \rfloor$. Итого мест:</p>
@@ -602,11 +630,11 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 }
 cout &lt;&lt; R;   <span class="c">// минимальная сторона</span></code></pre></div>
 
-<h3>Вычисление середины без переполнения <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=3290" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">54:50</a></h3>
+<h3 id="s6-2">Вычисление середины без переполнения <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=3290" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">54:50</a></h3>
 <p>Способ <code>(L + R) / 2</code> опасен: если $L+R$ выходит за диапазон типа (например, два числа порядка $2\cdot10^9$ в <code>int</code>), произойдёт переполнение. Безопаснее:</p>
 <div class="formula">$mid = L + \dfrac{R - L}{2}$.</div>
 
-<h3>6.2. Задача про лесорубов <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=3760" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:02:40</a></h3>
+<h3 id="s6-3">6.2. Задача про лесорубов <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=3760" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:02:40</a></h3>
 <p><strong>Условие.</strong> Два лесоруба рубят $n$ деревьев. Первый рубит $a$ деревьев в день, но каждый $k$-й день отдыхает. Второй рубит $b$ деревьев в день, но каждый $m$-й день отдыхает. Найти минимальное число дней $d$, за которое будет срублено $\ge n$ деревьев.</p>
 <p><strong>Чекер.</strong> За $d$ дней первый срубит $a \cdot (d - d/k)$ (вычитаем дни отдыха), второй — $b \cdot (d - d/m)$:</p>
 <div class="formula">$a\left(d - \left\lfloor \dfrac{d}{k}\right\rfloor\right) + b\left(d - \left\lfloor \dfrac{d}{m}\right\rfloor\right) \ge n$.</div>
@@ -616,7 +644,7 @@ cout &lt;&lt; R;   <span class="c">// минимальная сторона</spa
     <span class="k">return</span> p &gt;= n;   <span class="c">// возможны промежуточные переполнения — см. §9</span>
 }</code></pre></div>
 
-<h3>6.3. Задача про коров (стойла) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=4094" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:08:14</a></h3>
+<h3 id="s6-4">6.3. Задача про коров (стойла) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=4094" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:08:14</a></h3>
 <p><strong>Условие.</strong> На прямой есть $n$ стойл в координатах $a_1 &lt; a_2 &lt; \dots &lt; a_n$. Нужно расставить $m$ коров по стойлам так, чтобы <strong>максимизировать минимальное расстояние</strong> между соседними коровами.</p>
 <p><strong>Бинпоиск по ответу</strong> $D$ — «можно ли расставить $m$ коров с расстоянием хотя бы $D$».</p>
 <p><strong>Чекер (жадно).</strong> Ставим первую корову в первое стойло. Дальше идём по стойлам и ставим корову в очередное стойло, если расстояние от последней поставленной коровы хотя бы $D$. Если в итоге поставили $\ge m$ коров — $D$ подходит.</p>
@@ -641,7 +669,7 @@ cout &lt;&lt; R;   <span class="c">// минимальная сторона</spa
 </ul>
 <p>Правило: <code>float</code> (32 бита) почти не нужен, <code>double</code> хватает для точности ~15 значащих цифр; если нужна большая точность — <code>long double</code> (80 бит). По умолчанию пишите <code>double</code>.</p>
 
-<h3>Сравнение с эпсилон <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=5141" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:25:41</a></h3>
+<h3 id="s7-1">Сравнение с эпсилон <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=5141" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:25:41</a></h3>
 <p>Из-за погрешности сравнивать вещественные числа на равенство нельзя. Вместо <code>a == b</code>:</p>
 <div class="formula">$|x - y| \le \varepsilon$, где $\varepsilon$ — малая величина (например, $10^{-9}$).</div>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">bool</span> <span class="f">eq</span>(<span class="t">double</span> x, <span class="t">double</span> y) {
@@ -651,7 +679,7 @@ cout &lt;&lt; R;   <span class="c">// минимальная сторона</spa
 Если сравнивать как <code>fabs(x - y) &lt; eps</code> с фиксированным <code>eps</code>, а сам ответ очень большой (например, $\sim 10^{16}$), то два соседних числа могут «слипнуться» в одно и вы не увидите разницу. Выбирайте $eps$ с учётом порядка величины ответа, либо пользуйтесь бинпоиском по фиксированному числу итераций (см. ниже).</div>
 
 <h2 id="s8">8. Бинпоиск по вещественным числам <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=5300" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:28:20</a></h2>
-<h3>8.1. Ноль кубической функции</h3>
+<h3 id="s8-1">8.1. Ноль кубической функции</h3>
 <p>Нужно найти любой ноль функции $f(x) = x^3 + bx^2 + cx + d$ при $a &gt; 0$. Инвариант: $f(L) &lt; 0$, $f(R) &gt; 0$. Так как при $x\to-\infty$ значение $f\to-\infty$, а при $x\to+\infty$ значение $f\to+\infty$, такие границы существуют. Берём середину и двигаем границу, сохраняя знаки:</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">double</span> L = <span class="c">/* точка, где f  0 */</span>;
 <span class="k">for</span> (<span class="t">int</span> it = <span class="n">0</span>; it &lt; <span class="n">200</span>; ++it) {   <span class="c">// фиксированное число итераций</span>
@@ -664,27 +692,27 @@ cout &lt;&lt; R;   <span class="c">// минимальная сторона</spa
 <div class="formula">$R-L$ уменьшается в $2^{iters}$ раз.</div>
 <p>Например, если начальный отрезок длины $\sim 10^{18}$ и нужно получить точность $10^{-9}$, достаточно $\log_2(10^{27}) \approx 90$ итераций; обычно пишут $200$ и не считают.</p>
 
-<h3>8.2. Квадратный корень <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=5977" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:39:37</a></h3>
+<h3 id="s8-2">8.2. Квадратный корень <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=5977" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:39:37</a></h3>
 <p>Найти $\sqrt{2}$ с заданной точностью. Функция $f(x) = x^2 - 2$, ищем ноль на отрезке $[0, 2]$ (где $f(0) = -2 &lt; 0$, $f(2) = 2 &gt; 0$). Тот же вещественный бинпоиск.</p>
-<h3>Вывод вещественных чисел <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=6055" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:40:55</a></h3>
+<h3 id="s8-3">Вывод вещественных чисел <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=6055" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:40:55</a></h3>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="p">#include &lt;iomanip&gt;</span>
 cout &lt;&lt; fixed &lt;&lt; <span class="f">setprecision</span>(<span class="n">9</span>) &lt;&lt; x;   <span class="c">// 9 знаков после запятой</span></code></pre></div>
 
 <h2 id="s9">9. Переполнение, <code>__int128</code> и «голопинг» <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=6192" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:43:12</a></h2>
-<h3>9.1. <code>__int128</code> <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=6295" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:44:55</a></h3>
+<h3 id="s9-1">9.1. <code>__int128</code> <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=6295" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:44:55</a></h3>
 <p>В чекере лесорубов (и подобных) промежуточные значения типа $a \cdot d$ могут выйти за пределы <code>long long</code> ($\approx 9\cdot10^{18}$). Для промежуточных вычислений можно использовать <code>__int128</code>:</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">__int128</span> p = (<span class="t">__int128</span>)a * (d - d / k) + (<span class="t">__int128</span>)b * (d - d / m);
 <span class="k">if</span> (p &gt;= n) ...</code></pre></div>
 <p>Ограничение: <code>__int128</code> <strong>нельзя</strong> напрямую вводить (<code>cin</code>) и выводить (<code>cout</code>) — для этого его нужно вручную преобразовывать в <code>long long</code>. Но для промежуточных вычислений он годится.</p>
 
-<h3>9.2. «Голопинг» — экспоненциальный поиск границы <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=6420" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:47:00</a></h3>
+<h3 id="s9-2">9.2. «Голопинг» — экспоненциальный поиск границы <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=6420" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:47:00</a></h3>
 <p>Если вы не знаете, какую верхнюю границу $R$ взять для бинпоиска по ответу, используйте <strong>голопинг</strong> (удвоение):</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">long</span> <span class="t">long</span> R = <span class="n">1</span>;
 <span class="k">while</span> (!<span class="f">check</span>(R)) R *= <span class="n">2</span>;   <span class="c">// удваиваем, пока не найдём «хорошую» границу</span></code></pre></div>
 <p>Это работает за тот же логарифм: найденный $R$ не более чем в $2$ раза больше минимально нужного. После этого запускаем обычный бинпоиск на $[R/2, R]$.</p>
 
 <h2 id="s10">10. Бинпоиск по производной и тернарный поиск <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=6630" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:50:30</a></h2>
-<h3>10.1. Унимодальная функция и бинпоиск по производной</h3>
+<h3 id="s10-1">10.1. Унимодальная функция и бинпоиск по производной</h3>
 <p>Есть массив, который сначала строго возрастает, а потом строго убывает (одна «вершина»). Нужно найти пик. Такая функция называется <strong>унимодальной</strong> (имеет ровно один максимум или минимум).</p>
 <p><strong>Идея.</strong> Рассмотрим разности соседних элементов $a_i - a_{i+1}$: до пика они отрицательны, после пика — положительны. Это снова «0...0 1...1»-подобная структура, только на знаке производной. Инвариант: $a_L &lt; a_{L+1}$ (мы в возрастающей части) и $a_R &gt; a_{R+1}$ (в убывающей).</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">int</span> L = <span class="n">0</span>, R = n - <span class="n">1</span>;
@@ -697,7 +725,7 @@ cout &lt;&lt; fixed &lt;&lt; <span class="f">setprecision</span>(<span class="n"
 <div class="note"><span class="lbl">Связь с производной</span><br>
 Производная — это «моментальная скорость роста» функции. Нам не важно, насколько быстро растёт функция, а только — растёт она или убывает. Поэтому вместо точной производной достаточно смотреть знак разности соседних значений.</div>
 
-<h3>10.2. Тернарный поиск <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=6944" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:55:44</a></h3>
+<h3 id="s10-2">10.2. Тернарный поиск <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=6944" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:55:44</a></h3>
 <p>Альтернативный способ найти экстремум унимодальной функции — <strong>тернарный поиск</strong>: не надо думать про знаки, берём две точки внутри отрезка.</p>
 <p>Пусть ищем максимум. Берём две точки $m_1 &lt; m_2$ внутри $[L, R]$. Если $f(m_1) &lt; f(m_2)$ — максимум точно не в $[L, m_1]$, двигаем $L = m_1$. Иначе максимум не в $[m_2, R]$, двигаем $R = m_2$.</p>
 <figure class="viz"><svg viewBox="0 0 760 400" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="400" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Тернарный поиск максимума: сравниваем f(m₁) и f(m₂)</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Функция растёт, потом убывает. Если f(m₁) &lt; f(m₂), максимум точно правее m₁.</text><rect x="70.0" y="120" width="200.0" height="210" rx="0" fill="#fc6255" opacity="0.12"/><text x="170.0" y="140" fill="#fc6255" font-size="14" font-weight="700" text-anchor="middle">отбрасываем</text><line x1="60" y1="330" x2="680" y2="330" stroke="#7c8aa0" stroke-width="1.5" stroke-linecap="round"/><polyline points="70.0,323.1 73.0,320.0 76.0,316.9 79.0,313.8 82.0,310.7 85.0,307.7 88.0,304.7 91.0,301.7 94.0,298.7 97.0,295.7 100.0,292.8 103.0,289.9 106.0,287.0 109.0,284.1 112.0,281.3 115.0,278.5 118.0,275.7 121.0,272.9 124.0,270.2 127.0,267.4 130.0,264.7 133.0,262.1 136.0,259.4 139.0,256.8 142.0,254.2 145.0,251.7 148.0,249.1 151.0,246.6 154.0,244.1 157.0,241.7 160.0,239.3 163.0,236.9 166.0,234.5 169.0,232.2 172.0,229.8 175.0,227.6 178.0,225.3 181.0,223.1 184.0,220.9 187.0,218.7 190.0,216.6 193.0,214.4 196.0,212.4 199.0,210.3 202.0,208.3 205.0,206.3 208.0,204.3 211.0,202.4 214.0,200.5 217.0,198.6 220.0,196.8 223.0,194.9 226.0,193.2 229.0,191.4 232.0,189.7 235.0,188.0 238.0,186.3 241.0,184.7 244.0,183.1 247.0,181.5 250.0,180.0 253.0,178.5 256.0,177.0 259.0,175.5 262.0,174.1 265.0,172.7 268.0,171.4 271.0,170.1 274.0,168.8 277.0,167.5 280.0,166.3 283.0,165.0 286.0,163.9 289.0,162.7 292.0,161.6 295.0,160.5 298.0,159.5 301.0,158.4 304.0,157.4 307.0,156.4 310.0,155.5 313.0,154.6 316.0,153.7 319.0,152.8 322.0,152.0 325.0,151.2 328.0,150.4 331.0,149.7 334.0,149.0 337.0,148.3 340.0,147.6 343.0,147.0 346.0,146.4 349.0,145.8 352.0,145.2 355.0,144.7 358.0,144.2 361.0,143.7 364.0,143.3 367.0,142.9 370.0,142.4 373.0,142.1 376.0,141.7 379.0,141.4 382.0,141.1 385.0,140.8 388.0,140.5 391.0,140.3 394.0,140.1 397.0,139.9 400.0,139.7 403.0,139.6 406.0,139.5 409.0,139.4 412.0,139.3 415.0,139.2 418.0,139.2 421.0,139.2 424.0,139.2 427.0,139.2 430.0,139.2 433.0,139.3 436.0,139.4 439.0,139.5 442.0,139.6 445.0,139.7 448.0,139.9 451.0,140.1 454.0,140.3 457.0,140.5 460.0,140.7 463.0,140.9 466.0,141.2 469.0,141.5 472.0,141.7 475.0,142.1 478.0,142.4 481.0,142.7 484.0,143.1 487.0,143.4 490.0,143.8 493.0,144.2 496.0,144.6 499.0,145.0 502.0,145.5 505.0,145.9 508.0,146.4 511.0,146.9 514.0,147.4 517.0,147.9 520.0,148.4 523.0,148.9 526.0,149.5 529.0,150.0 532.0,150.6 535.0,151.2 538.0,151.8 541.0,152.4 544.0,153.0 547.0,153.6 550.0,154.2 553.0,154.9 556.0,155.5 559.0,156.2 562.0,156.9 565.0,157.6 568.0,158.3 571.0,159.0 574.0,159.7 577.0,160.4 580.0,161.2 583.0,161.9 586.0,162.7 589.0,163.5 592.0,164.3 595.0,165.1 598.0,165.9 601.0,166.7 604.0,167.5 607.0,168.4 610.0,169.2 613.0,170.1 616.0,170.9 619.0,171.8 622.0,172.7 625.0,173.6 628.0,174.5 631.0,175.4 634.0,176.4 637.0,177.3 640.0,178.3 643.0,179.2 646.0,180.2 649.0,181.2 652.0,182.2 655.0,183.2 658.0,184.2 661.0,185.3 664.0,186.3 667.0,187.4 670.0,188.5" stroke="#58c4dd" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round"/><line x1="70.0" y1="330" x2="70.0" y2="323.121132988716" stroke="#7c8aa0" stroke-width="2" stroke-dasharray="5 4" stroke-linecap="round"/><text x="70.0" y="354" fill="#c2cdde" font-size="16" font-weight="700" text-anchor="middle">L</text><line x1="270.0" y1="330" x2="270.0" y2="170.49492799619776" stroke="#ffff00" stroke-width="2" stroke-dasharray="5 4" stroke-linecap="round"/><text x="270.0" y="354" fill="#ffff00" font-size="16" font-weight="700" text-anchor="middle">m₁</text><circle cx="270.0" cy="170.49492799619776" r="7" fill="#ffff00"/><text x="258.0" y="160.49492799619776" fill="#ffff00" font-size="14" font-weight="700" text-anchor="end">f(m₁)</text><line x1="470.0" y1="330" x2="470.0" y2="141.5537194792881" stroke="#ff8c1a" stroke-width="2" stroke-dasharray="5 4" stroke-linecap="round"/><text x="470.0" y="354" fill="#ff8c1a" font-size="16" font-weight="700" text-anchor="middle">m₂</text><circle cx="470.0" cy="141.5537194792881" r="7" fill="#ff8c1a"/><text x="482.0" y="131.5537194792881" fill="#ff8c1a" font-size="14" font-weight="700" text-anchor="start">f(m₂)</text><line x1="670.0" y1="330" x2="670.0" y2="188.4709499922794" stroke="#7c8aa0" stroke-width="2" stroke-dasharray="5 4" stroke-linecap="round"/><text x="670.0" y="354" fill="#c2cdde" font-size="16" font-weight="700" text-anchor="middle">R</text><text x="32" y="382" fill="#c2cdde" font-size="15" text-anchor="start">f(m₁) &lt; f(m₂) ⟹ L = m₁.  Иначе R = m₂.  За шаг остаётся 2/3 отрезка.</text></svg><figcaption>На каждом шаге выкидываем треть отрезка, где максимума точно нет; итераций $\approx \log_{3/2}\frac{R-L}{\varepsilon}$.</figcaption></figure>
@@ -713,7 +741,7 @@ cout &lt;&lt; fixed &lt;&lt; <span class="f">setprecision</span>(<span class="n"
 }</code></pre></div>
 <p><strong>Сложность.</strong> Каждый шаг отрезок уменьшается в $2/3$ раза, поэтому число итераций $\approx \log_{3/2}\!\left(\frac{R-L}{\varepsilon}\right)$. Это хуже, чем у бинпоиска по производной (там основание $2$), но тернарный поиск «позволяет меньше думать».</p>
 
-<h3>10.3. Унимодальность и выпуклость <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=7596" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:06:36</a></h3>
+<h3 id="s10-3">10.3. Унимодальность и выпуклость <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=7596" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:06:36</a></h3>
 <ul>
   <li><strong>Выпуклая</strong> функция (график «чашечкой») унимодальна; сумма выпуклых функций тоже выпукла и унимодальна.</li>
   <li>Сумма модулей $\sum |x - a_i|$ — выпуклая функция (график из ломаных), у неё есть минимум, и его можно искать тернарником.</li>
@@ -722,7 +750,7 @@ cout &lt;&lt; fixed &lt;&lt; <span class="f">setprecision</span>(<span class="n"
 <div class="warn"><span class="lbl">Плато и равенства</span><br>
 Если у функции есть <strong>плато</strong> (отрезок одинаковых значений) и это плато — ответ, то всё в порядке. Но если равенство встречается с одной стороны от экстремума, непонятно, какую границу двигать — тернарный поиск может «проиграть».</div>
 
-<h3>10.4. Пример: сумма парабол <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=7693" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:08:13</a></h3>
+<h3 id="s10-4">10.4. Пример: сумма парабол <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=7693" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:08:13</a></h3>
 <p>Нужно найти $x$, минимизирующий $\displaystyle\sum_{j} (i_j - x)^2 \cdot a_{i_j}$ для фиксированных $a_i &gt; 0$. Каждое слагаемое — парабола ветвями вверх; сумма парабол — тоже парабола ветвями вверх, то есть выпуклая и унимодальная. Значит, можно применить тернарный поиск.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// подсчёт значения функции при заданном x (O(n))</span>
 <span class="t">double</span> <span class="f">f</span>(<span class="t">double</span> x, <span class="t">vector</span>&lt;<span class="t">double</span>&gt;&amp; a, <span class="t">vector</span>&lt;<span class="t">int</span>&gt;&amp; idx) {
@@ -738,41 +766,41 @@ cout &lt;&lt; fixed &lt;&lt; <span class="f">setprecision</span>(<span class="n"
 <h2 id="s11">11. Разбор контеста <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=8144" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:15:44</a></h2>
 <p>После перерыва разбирался контест. Здесь перечислены задачи и ключевые идеи.</p>
 
-<h3>Задача A. Сортировка вагонов (тупик) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=8335" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:18:55</a></h3>
+<h3 id="s11-1">Задача A. Сортировка вагонов (тупик) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=8335" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:18:55</a></h3>
 <p>Вагоны заезжают в тупик (стек) и выезжают из него. Нужно получить на выходе последовательность $1, 2, \dots, n$.</p>
 <p><strong>Идея.</strong> Симуляция стека. Пока не встретили вагон с нужным номером — отправляем вагоны в тупик. Когда нужный вагон сверху — выводим. Если последовательность закончилась, а стек не пуст — невозможно.</p>
 
-<h3>Задача B. Рыбки (аквариумы) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=8523" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:22:03</a></h3>
+<h3 id="s11-2">Задача B. Рыбки (аквариумы) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=8523" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:22:03</a></h3>
 <p>В нескольких аквариумах рыбки рождаются с разными периодами. Нужно понять, когда вы не успеваете дойти от аквариума к аквариуму.</p>
 <p><strong>Идея.</strong> В <code>set</code> кладём события «рождение ближайшей рыбки». Достаём самое раннее, проверяем, успеваете ли дойти по времени (разница времён $\ge$ разница позиций). Не успели — стоп; успели — кладём следующее событие и обновляем позицию.</p>
 
-<h3>Задача C. Множества <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=8661" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:24:21</a></h3>
+<h3 id="s11-3">Задача C. Множества <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=8661" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:24:21</a></h3>
 <p>Поддерживаем несколько множеств чисел; операции: добавить элемент, удалить, вывести множество. Для каждого числа храним, в каких множествах оно лежит (и наоборот). Всё на <code>set</code>/<code>map</code>.</p>
 
-<h3>Задача D. Рецепты <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=8784" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:26:24</a></h3>
+<h3 id="s11-4">Задача D. Рецепты <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=8784" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:26:24</a></h3>
 <p>Есть рецепты блюд и запас ингредиентов. При «приготовить блюдо» — проверить, хватает ли каждого ингредиента; если хватает — вычесть. Классическая работа с <code>map&lt;ингредиент, количество&gt;</code>.</p>
 
-<h3>Задача E. Автобус (сидячие/стоячие) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=8908" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:28:28</a></h3>
+<h3 id="s11-5">Задача E. Автобус (сидячие/стоячие) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=8908" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:28:28</a></h3>
 <p>Люди заходят в автобус по времени, у каждого свой пункт назначения; часть сидит, часть стоит. Нужно поддерживать оптимальное размещение.</p>
 <p><strong>Идея.</strong> Два множества: «сидящие» и «стоящие». По выходу пассажира удаляем его из соответствующего множества; новых, кому «выгоднее», пересаживаем. Работа с <code>set</code> туда-сюда.</p>
 
-<h3>Задача F. Гемоглобин (стек с суммой) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=9167" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:32:47</a></h3>
+<h3 id="s11-6">Задача F. Гемоглобин (стек с суммой) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=9167" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:32:47</a></h3>
 <p>Нужно добавлять числа в стек, удалять и отвечать на сумму $k$ последних.</p>
 <p><strong>Идея.</strong> Храним параллельно <strong>стек префиксных сумм</strong>. Если в стеке лежит $1, 2, 3$, то в стеке сумм — $1, 3, 6$. Сумма последних $k$ = (верхнее значение) $-$ (значение на $k$ позиций ниже). При удалении просто делаем <code>pop</code> из обоих.</p>
 
-<h3>Задача G. Защитники (ладьи) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=9322" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:35:22</a></h3>
+<h3 id="s11-7">Задача G. Защитники (ладьи) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=9322" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:35:22</a></h3>
 <p>Клетчатое поле, операции: поставить ладью, убрать, спросить «побит ли весь прямоугольник». Ладья бьёт строку и столбец. Прямоугольник побит, если в каждой его строке ИЛИ в каждом столбце есть ладья.</p>
 <p><strong>Идея.</strong> Храним множества свободных строк и свободных столбцов, плюс счётчики ладей в каждой строке/столбце. Добавили ладью — убрали строку/столбец из «свободных»; удалили и счётчик стал $0$ — вернули обратно. Ответ на запрос: в прямоугольнике нет свободной строки или нет свободного столбца (проверяется <code>lower_bound</code> за логарифм).</p>
 
-<h3>Задача H. Гоблины (очередь с вставкой в середину) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=9640" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:40:40</a></h3>
+<h3 id="s11-8">Задача H. Гоблины (очередь с вставкой в середину) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=9640" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:40:40</a></h3>
 <p>Есть очередь: добавляют в конец, но «привилегированные» встают в середину; из начала уходят.</p>
 <p><strong>Идея.</strong> Две дека: первая и вторая половины очереди. Вставка в середину — это добавление в конец первой дека (или начало второй). Поддерживаем, чтобы половины отличались не более чем на один; при выходе/вставке перекидываем элемент между деками.</p>
 
-<h3>Задача I. Тетрис <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=9765" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:42:45</a></h3>
+<h3 id="s11-9">Задача I. Тетрис <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=9765" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:42:45</a></h3>
 <p>Блоки с заданными левым и правым краями нужно разложить по «строчкам» так, чтобы в строчке блоки не пересекались, минимизируя число строчек.</p>
 <p><strong>Идея.</strong> Сортируем блоки по левому краю. Жадно кладём очередной блок в строчку, где он помещается (первая свободная). Для каждой строчки храним «первое свободное место» (правый край последнего блока).</p>
 
-<h3>Задача J. Память (аллокатор) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=9882" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:44:42</a></h3>
+<h3 id="s11-10">Задача J. Память (аллокатор) <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=9882" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:44:42</a></h3>
 <p>Есть память размера $n$ и запросы «занять $k$» и «освободить ранее занятое». Нужно выдавать подходящий свободный кусок.</p>
 <p><strong>Идея.</strong> Храним свободные куски в <code>set</code>, отсортированном по длине. На «занять» берём <strong>самый близкий по размеру</strong> кусок (меньший, но достаточный) — он «менее ценен» для будущего; отрезаем нужное, остаток возвращаем. На «освободить» — возвращаем кусок и, если рядом есть свободные, склеиваем.</p>
 
@@ -780,6 +808,7 @@ cout &lt;&lt; fixed &lt;&lt; <span class="f">setprecision</span>(<span class="n"
   Конспект подготовлен по записи занятия Яндекс кружка. Таймкоды соответствуют исходной видеозаписи. Код на C++ приведён в виде, эквивалентном разобранному на занятии.
 </footer>
 
+<nav class="pager" aria-label="Соседние занятия"><a class="prev" href="../parallel-bp/parallel-bp-zan1-cpp.html"><small>← занятие 1</small><b>C++</b></a><a class="next" href="../index.html"><small>дальше</small><b>Все конспекты</b></a></nav>
 </div>
 
 <button class="toplink" id="topBtn">↑ наверх</button>
@@ -865,6 +894,43 @@ cout &lt;&lt; fixed &lt;&lt; <span class="f">setprecision</span>(<span class="n"
     if(kind==='sort')buildSort(cont,cont.getAttribute('data-kind'),arr);
     else if(kind==='binsearch')buildBS(cont,arr,Number(cont.getAttribute('data-target')));
   });
+})();
+</script>
+<script id="reader">
+(function(){
+  var heads = [].slice.call(document.querySelectorAll(".wrap h2[id]"));
+  if (!heads.length) return;
+  var bar = document.createElement("div"); bar.className = "progress"; document.body.appendChild(bar);
+  function label(h){ var c = h.cloneNode(true); [].forEach.call(c.querySelectorAll(".ts"), function(x){ x.remove(); });
+    return c.textContent.replace(/^\s*(?:\d+\.)+\s*/, "").trim(); }
+  function links(box){ return heads.map(function(h){ var a = document.createElement("a"); a.href = "#" + h.id; a.textContent = label(h); box.appendChild(a); return a; }); }
+  var side = document.createElement("nav"); side.className = "side-toc"; side.setAttribute("aria-label", "Разделы");
+  side.innerHTML = "<p>Разделы</p>"; var sideLinks = links(side); document.body.appendChild(side);
+  var btn = document.createElement("button"); btn.className = "secbtn"; btn.type = "button"; btn.textContent = "≡ разделы";
+  btn.setAttribute("aria-expanded", "false");
+  var panel = document.createElement("nav"); panel.className = "secpanel"; panel.hidden = true; panel.setAttribute("aria-label", "Разделы");
+  var panelLinks = links(panel); document.body.appendChild(panel); document.body.appendChild(btn);
+  function toggle(open){ panel.hidden = !open; btn.setAttribute("aria-expanded", open); }
+  btn.addEventListener("click", function(e){ e.stopPropagation(); toggle(panel.hidden); });
+  panel.addEventListener("click", function(e){ if (e.target.closest("a")) toggle(false); });
+  document.addEventListener("click", function(e){ if (!panel.hidden && !panel.contains(e.target)) toggle(false); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") toggle(false); });
+  var toc = document.querySelector(".toc"); var cur = -1; var ticking = false;
+  function update(){
+    ticking = false;
+    var max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, scrollY / max) : 0) + ")";
+    var past = toc ? toc.getBoundingClientRect().bottom < 0 : scrollY > 400;
+    side.classList.toggle("show", past); btn.classList.toggle("show", past);
+    var i = -1; for (var k = 0; k < heads.length; k++) if (heads[k].getBoundingClientRect().top < innerHeight * 0.3) i = k;
+    if (i !== cur) {
+      [sideLinks, panelLinks].forEach(function(l){ if (cur >= 0) l[cur].classList.remove("on"); if (i >= 0) l[i].classList.add("on"); });
+      if (i >= 0 && side.classList.contains("show")) { var a = sideLinks[i]; if (a.offsetTop < side.scrollTop || a.offsetTop > side.scrollTop + side.clientHeight - 30) side.scrollTop = a.offsetTop - 60; }
+      cur = i;
+    }
+  }
+  addEventListener("scroll", function(){ if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener("resize", update); update();
 })();
 </script>
 </body>

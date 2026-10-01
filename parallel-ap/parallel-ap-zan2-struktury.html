@@ -410,6 +410,34 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
   html.theme-anim, html.theme-anim *{transition:none !important}
 }
 @media print{html[data-theme] .top, html[data-theme] .toplink{display:none} html[data-theme] body{background:#fff}}
+/* ---------- навигация по конспекту ---------- */
+html[data-theme] .progress{position:fixed; top:0; left:0; right:0; height:3px; background:var(--accent); transform-origin:0 50%; transform:scaleX(0); z-index:50; pointer-events:none}
+html[data-theme] .side-toc{position:fixed; top:84px; right:max(16px, calc(50% - 410px - 250px)); width:220px; max-height:calc(100vh - 120px); overflow:auto;
+  font-size:.85rem; line-height:1.35; opacity:0; visibility:hidden; transform:translateX(6px); transition:opacity .25s, transform .25s, visibility .25s; z-index:20}
+html[data-theme] .side-toc.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .side-toc p{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin:0 0 8px}
+html[data-theme] .side-toc a{display:block; color:var(--muted); padding:4px 0 4px 12px; border-left:2px solid var(--line); text-decoration:none; transition:color .2s, border-color .2s}
+html[data-theme] .side-toc a:hover{color:var(--ink)}
+html[data-theme] .side-toc a.on{color:var(--ink); border-left-color:var(--accent)}
+html[data-theme] .secbtn{position:fixed; left:16px; bottom:16px; z-index:30; background:var(--card); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  padding:8px 14px; font-family:var(--sans); font-size:.82rem; cursor:pointer; opacity:0; visibility:hidden; transform:translateY(8px); transition:opacity .2s, transform .2s, visibility .2s}
+html[data-theme] .secbtn.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .secpanel{position:fixed; left:16px; right:16px; bottom:64px; max-width:420px; max-height:60vh; overflow:auto; z-index:31; background:var(--card);
+  border:1px solid var(--line); border-radius:8px; padding:10px 0; box-shadow:0 12px 32px rgba(0,0,0,.18)}
+html[data-theme] .secpanel[hidden]{display:none}
+html[data-theme] .secpanel a{display:block; padding:8px 16px; color:var(--ink); text-decoration:none; font-size:.92rem}
+html[data-theme] .secpanel a.on{color:var(--accent); font-weight:650}
+html[data-theme] .pager{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:48px 0 0; padding-top:20px; border-top:1px solid var(--ink)}
+html[data-theme] .pager a{display:block; padding:14px 16px; border:1px solid var(--line); border-radius:8px; color:var(--ink); text-decoration:none; transition:border-color .2s, background-color .2s}
+html[data-theme] .pager a:hover{border-color:var(--accent); background:var(--accent-soft)}
+html[data-theme] .pager a.next{text-align:right; grid-column:2}
+html[data-theme] .pager small{display:block; font-family:var(--mono); font-size:.75rem; color:var(--muted); margin-bottom:4px}
+html[data-theme] .pager b{font-family:var(--serif); font-size:1.08rem}
+html[data-theme] h2[id], html[data-theme] h3[id]{scroll-margin-top:24px}
+@media(min-width:1300px){html[data-theme] .secbtn, html[data-theme] .secpanel{display:none !important}}
+@media(max-width:1299px){html[data-theme] .side-toc{display:none}}
+@media(max-width:560px){html[data-theme] .pager{grid-template-columns:1fr} html[data-theme] .pager a.next{grid-column:1}}
+@media print{html[data-theme] .progress, html[data-theme] .side-toc, html[data-theme] .secbtn, html[data-theme] .secpanel, html[data-theme] .pager{display:none}}
 </style>
 <script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".code .copy");if(!b)return;var pre=b.closest(".code").querySelector("pre"),t=pre.innerText;function ok(){b.textContent="скопировано ✓";setTimeout(function(){b.textContent="копировать"},1600)}function sel(){var r=document.createRange();r.selectNodeContents(pre);var x=getSelection();x.removeAllRanges();x.addRange(r);b.textContent="выделено — нажмите ⌘C"}if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>
 </head>
@@ -449,7 +477,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 <p><strong>Идея.</strong> Берём $2^k \ge n$ (ближайшая степень двойки) и массив размера $2^k + 1$ в 1-индексации. Элементу $a_i$ соответствует лист с номером $2^k + i$. У вершины $v$ дети — $2v$ и $2v+1$, а родитель — $\lfloor v/2 \rfloor$. Корень — вершина 1.</p>
 <figure class="viz"><svg viewBox="0 0 760 470" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="470" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Дерево «снизу», 8 элементов: запрос get(1, 7)</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Вершина v: дети 2v и 2v+1, родитель v / 2. Элемент a[i] лежит в листе 8 + i.</text><line x1="362.6" y1="123.6" x2="237.4" y2="178.4" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="397.4" y1="123.6" x2="522.6" y2="178.4" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="205.7" y1="198.5" x2="154.3" y2="243.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="234.3" y1="198.5" x2="285.7" y2="243.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="525.7" y1="198.5" x2="474.3" y2="243.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="554.3" y1="198.5" x2="605.7" y2="243.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="130.6" y1="272.5" x2="109.4" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="149.4" y1="272.5" x2="170.6" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="290.6" y1="272.5" x2="269.4" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="309.4" y1="272.5" x2="330.6" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="450.6" y1="272.5" x2="429.4" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="469.4" y1="272.5" x2="490.6" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="610.6" y1="272.5" x2="589.4" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><line x1="629.4" y1="272.5" x2="650.6" y2="309.5" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><circle cx="380.0" cy="116" r="19" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="380.0" y="121.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">1</text><circle cx="220.0" cy="186" r="19" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="220.0" y="191.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">2</text><circle cx="540.0" cy="186" r="19" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="540.0" y="191.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">3</text><circle cx="140.0" cy="256" r="19" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="140.0" y="261.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">4</text><circle cx="300.0" cy="256" r="19" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="2.5"/><text x="300.0" y="261.25" fill="#141a24" font-size="15" font-weight="700" text-anchor="middle">5</text><circle cx="318.0" cy="239" r="10" fill="#ffff00"/><text x="318.0" y="243.5" fill="#141a24" font-size="12" font-weight="700" text-anchor="middle">3</text><circle cx="460.0" cy="256" r="19" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="2.5"/><text x="460.0" y="261.25" fill="#141a24" font-size="15" font-weight="700" text-anchor="middle">6</text><circle cx="478.0" cy="239" r="10" fill="#ffff00"/><text x="478.0" y="243.5" fill="#141a24" font-size="12" font-weight="700" text-anchor="middle">4</text><circle cx="620.0" cy="256" r="19" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="620.0" y="261.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">7</text><circle cx="100.0" cy="326" r="19" fill="#1e2836" stroke="#83c167" stroke-width="2.5"/><text x="100.0" y="331.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">8</text><circle cx="180.0" cy="326" r="19" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="2.5"/><text x="180.0" y="331.25" fill="#141a24" font-size="15" font-weight="700" text-anchor="middle">9</text><circle cx="198.0" cy="309" r="10" fill="#ffff00"/><text x="198.0" y="313.5" fill="#141a24" font-size="12" font-weight="700" text-anchor="middle">1</text><circle cx="260.0" cy="326" r="19" fill="#1e2836" stroke="#83c167" stroke-width="2.5"/><text x="260.0" y="331.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">10</text><circle cx="340.0" cy="326" r="19" fill="#1e2836" stroke="#83c167" stroke-width="2.5"/><text x="340.0" y="331.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">11</text><circle cx="420.0" cy="326" r="19" fill="#1e2836" stroke="#83c167" stroke-width="2.5"/><text x="420.0" y="331.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">12</text><circle cx="500.0" cy="326" r="19" fill="#1e2836" stroke="#83c167" stroke-width="2.5"/><text x="500.0" y="331.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">13</text><circle cx="580.0" cy="326" r="19" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="2.5"/><text x="580.0" y="331.25" fill="#141a24" font-size="15" font-weight="700" text-anchor="middle">14</text><circle cx="598.0" cy="309" r="10" fill="#ffff00"/><text x="598.0" y="313.5" fill="#141a24" font-size="12" font-weight="700" text-anchor="middle">2</text><circle cx="660.0" cy="326" r="19" fill="#1e2836" stroke="#83c167" stroke-width="2.5"/><text x="660.0" y="331.25" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="middle">15</text><text x="100.0" y="370" fill="#9aa4b2" font-size="14" text-anchor="middle">a[0]</text><text x="180.0" y="370" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">a[1]</text><text x="260.0" y="370" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">a[2]</text><text x="340.0" y="370" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">a[3]</text><text x="420.0" y="370" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">a[4]</text><text x="500.0" y="370" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">a[5]</text><text x="580.0" y="370" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">a[6]</text><text x="660.0" y="370" fill="#9aa4b2" font-size="14" text-anchor="middle">a[7]</text><path d="M150.0,384 v8 H610.0 v-8" stroke="#ff8c1a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="380.0" y="412" fill="#ff8c1a" font-size="14.5" font-weight="700" text-anchor="middle">[1, 7) = a[1] + (a[2]+a[3]) + (a[4]+a[5]) + a[6]</text><text x="32" y="450" fill="#c2cdde" font-size="13.5" text-anchor="start">l = 9 нечётно → берём 9;  r = 15 нечётно → берём 14.  Поднялись: l = 5, r = 7 → берём 5 и 6.  l = r — стоп.</text></svg><figcaption>Запрос идёт снизу вверх: нечётный левый конец и нечётный правый конец забираем в ответ и сдвигаем — на каждом уровне не больше двух вершин.</figcaption></figure>
 
-<h3>Обновление в точке</h3>
+<h3 id="s1-1">Обновление в точке</h3>
 <p>Зная номер листа $2^k+i$, просто поднимаемся к родителю и пересчитываем, пока не дойдём до корня:</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="k">const</span> <span class="t">int</span> K = <span class="n">1</span> &lt;&lt; <span class="n">20</span>;  <span class="c">// 2^k &gt;= n</span>
 <span class="t">int</span> tree[<span class="n">2</span> * K];
@@ -461,7 +489,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
         tree[i] = tree[<span class="n">2</span>*i] + tree[<span class="n">2</span>*i+<span class="n">1</span>];   <span class="c">// или min, max, ...</span>
 }</code></pre></div>
 
-<h3>Запрос на полуинтервале $[l, r)$</h3>
+<h3 id="s1-2">Запрос на полуинтервале $[l, r)$</h3>
 <p>Сдвигаем $l$ и $r$ на $K$ (в листья) и идём наверх. Пока $l &lt; r$:</p>
 <ul>
   <li>если $l$ нечётно — добавляем <code>tree[l]</code> к ответу и делаем <code>l++</code>;</li>
@@ -549,7 +577,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
   <li>любые два $S_i$ либо вложены, либо не пересекаются.</li>
 </ol>
 <p>Это позволяет построить дерево (для $n=16$ — красивая структура из отрезков-степеней двойки).</p>
-<h3>Операции</h3>
+<h3 id="s4-1">Операции</h3>
 <p><strong>Прибавить в точке</strong> ($i$-й элемент): нужно обновить все отрезки, содержащие $i$. Родитель отрезка $i$ — это $i + f(i)$:</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">void</span> <span class="f">add</span>(<span class="t">int</span> i, <span class="t">long</span> <span class="t">long</span> x) {          <span class="c">// 1-индексация</span>
     <span class="k">for</span> (; i &lt;= n; i += i &amp; (-i)) t[i] += x;
@@ -561,7 +589,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
     <span class="k">return</span> s;
 }</code></pre></div>
 <p>Обе операции — $O(\log n)$, причём по факту Фенвик быстрее даже дерева отрезков снизу (всего пара операций на итерацию).</p>
-<h3>Спуск по Фенвику <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=3900" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:05:00</a></h3>
+<h3 id="s4-2">Спуск по Фенвику <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=3900" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:05:00</a></h3>
 <p>Задача: найти минимальное $k$, такое что сумма на префиксе $[1,k]$ хотя бы $x$. Идём по степеням двойки от $\log n$ до $0$: если можем добавить блок размера $2^i$ и сумма всё ещё $&lt; x$ — добавляем.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">int</span> k = <span class="n">0</span>;
 <span class="k">for</span> (<span class="t">int</span> i = LOG; i &gt;= <span class="n">0</span>; --i) {
@@ -583,9 +611,9 @@ xs.<span class="f">erase</span>(<span class="f">unique</span>(xs.<span class="f"
 <span class="t">int</span> id = <span class="f">lower_bound</span>(xs.<span class="f">begin</span>(), xs.<span class="f">end</span>(), v) - xs.<span class="f">begin</span>();</code></pre></div>
 
 <h2 id="s6">6. Базовые применения (разностный массив, прогрессии, минимум) <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=4680" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:18:00</a></h2>
-<h3>Задача 1. Прибавление на отрезке, финальный массив (оффлайн)</h3>
+<h3 id="s6-1">Задача 1. Прибавление на отрезке, финальный массив (оффлайн)</h3>
 <p>Разностный массив $d_i = a_i - a_{i-1}$. Операция «прибавить $x$ на $[l,r]$» превращается в два изменения: $d_l \mathrel{+}= x$, $d_{r+1} \mathrel{-}= x$. В конце восстанавливаем $a$ префиксными суммами $d$. Суммарно $O(n + q)$.</p>
-<h3>Задача 2. Арифметическая прогрессия на отрезке + значение в точке</h3>
+<h3 id="s6-2">Задача 2. Арифметическая прогрессия на отрезке + значение в точке</h3>
 <p>Хотим: к $a_l$ прибавить $A$, к $a_{l+1}$ — $A+d$, …, к $a_r$ — $A+d(r-l)$. Для элемента $k$ прибавка равна $A + d\cdot k - d\cdot l$. Раскроем на две независимые части:</p>
 <div class="formula">прибавка к $a_k$ $= (\text{свободный член}) + (\text{линейный коэффициент})\cdot k$.</div>
 <ul>
@@ -593,17 +621,17 @@ xs.<span class="f">erase</span>(<span class="f">unique</span>(xs.<span class="f"
   <li>Линейный коэффициент $d$ — ещё одно прибавление константы на отрезке (в другом массиве).</li>
 </ul>
 <p>Заводим два Фенвика (или два разностных массива): один для свободных членов, второй для коэффициентов при $k$. Ответ в точке: $v_1(k) + v_2(k)\cdot k$.</p>
-<h3>Задача 3. Минимум на отрезке + прибавление</h3>
+<h3 id="s6-3">Задача 3. Минимум на отрезке + прибавление</h3>
 <p>Дерево отрезков с ленивой добавкой (см. §3, вариант «без пушей»).</p>
-<h3>Задача 5–6. Непересекающиеся отрезки (жадность и ДП)</h3>
+<h3 id="s6-4">Задача 5–6. Непересекающиеся отрезки (жадность и ДП)</h3>
 <p>Максимум непересекающихся отрезков — жадность: сортируем по правой границе, берём отрезок, если он не пересекается с последним взятым. С весами — ДП: $dp[i] = \max(dp[i-1],\ \max_{j: r_j = i} (w_j + dp[l_j-1]))$; максимум на префиксе поддерживается деревом отрезков.</p>
 
 <h2 id="s7">7. Сканлайн: количество различных и MEX <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=7500" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:05:00</a></h2>
-<h3>Количество различных чисел на отрезке</h3>
+<h3 id="s7-1">Количество различных чисел на отрезке</h3>
 <p>Для каждого запроса $[l,r]$ нужно посчитать число различных значений. Оффлайн: идём по массиву слева направо, поддерживая для каждого значения позицию его <strong>самого правого вхождения</strong> на текущем префиксе.</p>
 <figure class="viz"><svg viewBox="0 0 760 500" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="500" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Число различных на отрезке: сканлайн по r</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Ставим 1 в последнем на данный момент вхождении каждого значения, остальные — 0.</text><text x="134" y="138" fill="#9aa4b2" font-size="15" text-anchor="end" font-style="italic">a</text><rect x="153" y="112" width="46" height="38" rx="6" fill="#151f30" stroke="#7c8aa0" stroke-width="1.5"/><text x="176.0" y="136.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">4</text><text x="176.0" y="104" fill="#9aa4b2" font-size="13" text-anchor="middle">0</text><rect x="205" y="112" width="46" height="38" rx="6" fill="#151f30" stroke="#7c8aa0" stroke-width="1.5"/><text x="228.0" y="136.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><text x="228.0" y="104" fill="#9aa4b2" font-size="13" text-anchor="middle">1</text><rect x="257" y="112" width="46" height="38" rx="6" fill="#151f30" stroke="#7c8aa0" stroke-width="1.5"/><text x="280.0" y="136.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">2</text><text x="280.0" y="104" fill="#9aa4b2" font-size="13" text-anchor="middle">2</text><rect x="309" y="112" width="46" height="38" rx="6" fill="#151f30" stroke="#7c8aa0" stroke-width="1.5"/><text x="332.0" y="136.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">4</text><text x="332.0" y="104" fill="#9aa4b2" font-size="13" text-anchor="middle">3</text><rect x="361" y="112" width="46" height="38" rx="6" fill="#151f30" stroke="#7c8aa0" stroke-width="1.5"/><text x="384.0" y="136.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><text x="384.0" y="104" fill="#9aa4b2" font-size="13" text-anchor="middle">4</text><rect x="413" y="112" width="46" height="38" rx="6" fill="#151f30" stroke="#7c8aa0" stroke-width="1.5"/><text x="436.0" y="136.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">2</text><text x="436.0" y="104" fill="#9aa4b2" font-size="13" text-anchor="middle">5</text><text x="134" y="199" fill="#c2cdde" font-size="14" text-anchor="end">r = 0</text><rect x="153" y="174" width="46" height="38" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="176.0" y="198.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="205" y="174" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="257" y="174" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="309" y="174" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="361" y="174" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="413" y="174" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><text x="134" y="249" fill="#c2cdde" font-size="14" text-anchor="end">r = 1</text><rect x="153" y="224" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="176.0" y="248.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="205" y="224" width="46" height="38" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="228.0" y="248.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="257" y="224" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="309" y="224" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="361" y="224" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="413" y="224" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><text x="134" y="299" fill="#c2cdde" font-size="14" text-anchor="end">r = 2</text><rect x="153" y="274" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="176.0" y="298.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="205" y="274" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="228.0" y="298.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="257" y="274" width="46" height="38" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="280.0" y="298.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="309" y="274" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="361" y="274" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="413" y="274" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><text x="134" y="349" fill="#c2cdde" font-size="14" text-anchor="end">r = 3</text><rect x="153" y="324" width="46" height="38" rx="6" fill="#fc6255" stroke="#fc6255" stroke-width="1.5"/><text x="176.0" y="348.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">0</text><rect x="205" y="324" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="228.0" y="348.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="257" y="324" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="280.0" y="348.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="309" y="324" width="46" height="38" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="332.0" y="348.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="361" y="324" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="413" y="324" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><text x="134" y="399" fill="#ffff00" font-size="14" font-weight="700" text-anchor="end">r = 4</text><rect x="153" y="374" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="176.0" y="398.76" fill="#9aa4b2" font-size="16" font-weight="700" text-anchor="middle">0</text><rect x="205" y="374" width="46" height="38" rx="6" fill="#fc6255" stroke="#fc6255" stroke-width="1.5"/><text x="228.0" y="398.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">0</text><rect x="257" y="374" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="280.0" y="398.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="309" y="374" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="332.0" y="398.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="361" y="374" width="46" height="38" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="384.0" y="398.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="413" y="374" width="46" height="38" rx="6" fill="#151f30" opacity="0.5"/><rect x="201" y="369" width="210" height="48" rx="9" fill="none" stroke="#ffff00" stroke-width="2.5"/><text x="426" y="392" fill="#ffff00" font-size="15" font-weight="700" text-anchor="start">сумма на [1, 4] = 3</text><text x="426" y="412" fill="#9aa4b2" font-size="13.5" text-anchor="start">= |{1, 2, 4}| — три различных</text><text x="134" y="449" fill="#c2cdde" font-size="14" text-anchor="end">r = 5</text><rect x="153" y="424" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="176.0" y="448.76" fill="#9aa4b2" font-size="16" font-weight="700" text-anchor="middle">0</text><rect x="205" y="424" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="228.0" y="448.76" fill="#9aa4b2" font-size="16" font-weight="700" text-anchor="middle">0</text><rect x="257" y="424" width="46" height="38" rx="6" fill="#fc6255" stroke="#fc6255" stroke-width="1.5"/><text x="280.0" y="448.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">0</text><rect x="309" y="424" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="332.0" y="448.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="361" y="424" width="46" height="38" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="384.0" y="448.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="413" y="424" width="46" height="38" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="436.0" y="448.76" fill="#141a24" font-size="16" font-weight="700" text-anchor="middle">1</text><rect x="32" y="466" width="16" height="16" rx="3" fill="#83c167"/><text x="56" y="479" fill="#c2cdde" font-size="14" text-anchor="start">новое последнее вхождение → 1</text><rect x="332" y="466" width="16" height="16" rx="3" fill="#fc6255"/><text x="356" y="479" fill="#c2cdde" font-size="14" text-anchor="start">прежнее вхождение того же числа → 0</text></svg><figcaption>При сдвиге $r$ значение $a_r$ «переезжает» в новую позицию. Тогда для отрезка $[l, r]$ сумма единиц равна числу различных.</figcaption></figure>
 <p>Тогда количество различных на $[l,r]$ (где $r$ — текущая позиция) — это сумма на отрезке $[l, r]$. Каждое значение даёт ровно одну единичку внутри отрезка, если оно там встречается.</p>
-<h3>MEX на отрезке</h3>
+<h3 id="s7-2">MEX на отрезке</h3>
 <p>Те же идеи, но теперь дерево хранит <strong>последнее вхождение</strong> каждого значения. MEX на $[l,r]$ — минимальное $x$, у которого последнее вхождение $&lt; l$. Строим дерево отрезков на минимум по значениям и делаем <strong>спуск</strong> в первый лист с минимумом $&lt; l$.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// дерево на минимум; ищем первый x с last[x] &lt; l</span>
 <span class="t">int</span> <span class="f">descend</span>(<span class="t">int</span> v, <span class="t">int</span> tl, <span class="t">int</span> tr, <span class="t">int</span> l) {
@@ -624,26 +652,26 @@ xs.<span class="f">erase</span>(<span class="f">unique</span>(xs.<span class="f"
 <h2 id="s9">9. Задачи на «составную» информацию в вершине <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=9420" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:37:00</a></h2>
 <p>Многие задачи на дерево отрезков сводятся к тому, чтобы придумать в каждой вершине такую информацию, которую можно корректно объединять.</p>
 
-<h3>Задача 10. Пропуск точки на пути <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=9420" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:37:00</a></h3>
+<h3 id="s9-1">Задача 10. Пропуск точки на пути <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=9420" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:37:00</a></h3>
 <p>Дан массив точек $(x_i, y_i)$; обновления на отрезке; запрос: минимальная длина пути по точкам (манхэттенское расстояние между соседними), если можно <strong>пропустить одну точку</strong>.</p>
 <p>Для каждой точки $i$ определим <strong>дельту</strong> — насколько уменьшится путь, если её пропустить:</p>
 <div class="formula">$\Delta_i = \text{dist}(p_{i-1}, p_i) + \text{dist}(p_i, p_{i+1}) - \text{dist}(p_{i-1}, p_{i+1})$.</div>
 <p>Дальше нужны два дерева: одно на <strong>сумму</strong> расстояний между соседями (исходная длина пути), второе на <strong>максимум</strong> дельт. Ответ = сумма − максимум дельты. Обновление точки меняет лишь несколько соседних элементов этих массивов.</p>
 
-<h3>Задача 11. Максимальная арифметическая прогрессия с шагом 1 <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=10020" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:47:00</a></h3>
+<h3 id="s9-2">Задача 11. Максимальная арифметическая прогрессия с шагом 1 <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=10020" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:47:00</a></h3>
 <p>Запрос: максимальная по длине подпоследовательность подряд идущих элементов отрезка, являющаяся арифметической прогрессией с шагом 1; плюс прибавление на отрезке.</p>
 <p>Ключевой «рефлекс»: переход к <strong>разностному массиву</strong>. Прогрессия с шагом 1 — это подряд идущие единицы в разностном массиве. В каждой вершине дерева храним: <em>длину префикса из единиц</em>, <em>длину суффикса из единиц</em>, <em>ответ</em> (максимум подряд единиц) и длину отрезка. При слиянии двух кусков ответ = max(левый ответ, правый ответ, левый суффикс + правый префикс).</p>
 <div class="note"><span class="lbl">Обобщение на произвольный шаг</span><br>
 Если шаг произвольный, в вершине дополнительно хранят первый и последний элементы и их «шаги» — при слиянии проверяем, совпадают ли шаги на стыке.</div>
 
-<h3>Задача 12. НВП при $|a_{i+1} - a_i| \le 1$ <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=10440" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:54:00</a></h3>
+<h3 id="s9-3">Задача 12. НВП при $|a_{i+1} - a_i| \le 1$ <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=10440" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:54:00</a></h3>
 <p>Найти длину наибольшей возрастающей подпоследовательности на отрезке, если соседние элементы массива отличаются не более чем на 1.</p>
 <p><strong>Дискретная непрерывность.</strong> Если $x$ стоит левее $y$ и $x &lt; y$, то на пути между ними встретятся все значения $x, x+1, \dots, y-1, y$ (в нужном порядке) — потому что шаг между соседями $\le 1$.</p>
 <div class="formula">Длина НВП $= \max_{i&lt;j}(a_j - a_i) + 1$.</div>
 <p>Значит, в вершине дерева храним минимум, максимум и ответ; при слиянии ответ обновляется как разность максимума правого куска и минимума левого.</p>
 
 <h2 id="s10">10. Деревья, точки/сенсоры и прочее <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=11100" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:05:00</a></h2>
-<h3>Задача 13. Пары «предок–потомок» в двух деревьях <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=11100" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:05:00</a></h3>
+<h3 id="s10-1">Задача 13. Пары «предок–потомок» в двух деревьях <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=11100" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:05:00</a></h3>
 <p>Даны два дерева на одних и тех же вершинах; нужно посчитать число пар $(v,u)$, где $v$ — предок $u$ в обоих деревьях.</p>
 <p>Запустим DFS по первому дереву и вычислим времена входа/выхода: $v$ — предок $u$ $\Leftrightarrow$ $tin_1[v] \le tin_1[u] \le tout_1[v]$. То же для второго дерева. Получаем $n$ «прямоугольников» (по $v$) и $n$ «точек» (по $u$), и нужно посчитать количество пар «точка лежит в прямоугольнике».</p>
 <ul>
@@ -653,7 +681,7 @@ xs.<span class="f">erase</span>(<span class="f">unique</span>(xs.<span class="f"
 <div class="good"><span class="lbl">Идея</span><br>
 Второе решение — общий приём: <em>DFS по дереву + структура данных, хранящая информацию о вершинах на пути от корня до текущей</em>. Она пригодится в задачах на деревья.</div>
 
-<h3>Задача 14. Точки и сенсоры <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=12120" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:22:00</a></h3>
+<h3 id="s10-2">Задача 14. Точки и сенсоры <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=12120" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:22:00</a></h3>
 <p>Даны точки $(x_i, y_i, z_i)$ и сенсоры $(x'_j, y'_j, z'_j)$. Найти минимальное $D$, при котором, сдвинув все сенсоры на $+D$ по каждой координате, для каждой точки найдётся сенсор, превосходящий её покоординатно.</p>
 <p><strong>Пункты 1–2: бинпоиск по $D$.</strong> Для фиксированного $D$ нужно проверить, что для каждой точки есть сенсор $g$ с $x'_g + D \ge x_i$, $y'_g + D \ge y_i$, $z'_g + D \ge z_i$. Это 3D-запрос, но решается двумя сканлайнами:</p>
 <ul>
@@ -682,6 +710,7 @@ xs.<span class="f">erase</span>(<span class="f">unique</span>(xs.<span class="f"
   Конспект подготовлен по записи занятия Яндекс кружка. Таймкоды соответствуют исходной видеозаписи. Код на C++ приведён в виде, эквивалентном разобранному на занятии.
 </footer>
 
+<nav class="pager" aria-label="Соседние занятия"><a class="prev" href="../parallel-ap/parallel-ap-zan1-kornevye.html"><small>← занятие 1</small><b>Корневые эвристики</b></a><a class="next" href="../index.html"><small>дальше</small><b>Все конспекты</b></a></nav>
 </div>
 
 <button class="toplink" id="topBtn">↑ наверх</button>
@@ -716,5 +745,42 @@ xs.<span class="f">erase</span>(<span class="f">unique</span>(xs.<span class="f"
 
 
 
+<script id="reader">
+(function(){
+  var heads = [].slice.call(document.querySelectorAll(".wrap h2[id]"));
+  if (!heads.length) return;
+  var bar = document.createElement("div"); bar.className = "progress"; document.body.appendChild(bar);
+  function label(h){ var c = h.cloneNode(true); [].forEach.call(c.querySelectorAll(".ts"), function(x){ x.remove(); });
+    return c.textContent.replace(/^\s*(?:\d+\.)+\s*/, "").trim(); }
+  function links(box){ return heads.map(function(h){ var a = document.createElement("a"); a.href = "#" + h.id; a.textContent = label(h); box.appendChild(a); return a; }); }
+  var side = document.createElement("nav"); side.className = "side-toc"; side.setAttribute("aria-label", "Разделы");
+  side.innerHTML = "<p>Разделы</p>"; var sideLinks = links(side); document.body.appendChild(side);
+  var btn = document.createElement("button"); btn.className = "secbtn"; btn.type = "button"; btn.textContent = "≡ разделы";
+  btn.setAttribute("aria-expanded", "false");
+  var panel = document.createElement("nav"); panel.className = "secpanel"; panel.hidden = true; panel.setAttribute("aria-label", "Разделы");
+  var panelLinks = links(panel); document.body.appendChild(panel); document.body.appendChild(btn);
+  function toggle(open){ panel.hidden = !open; btn.setAttribute("aria-expanded", open); }
+  btn.addEventListener("click", function(e){ e.stopPropagation(); toggle(panel.hidden); });
+  panel.addEventListener("click", function(e){ if (e.target.closest("a")) toggle(false); });
+  document.addEventListener("click", function(e){ if (!panel.hidden && !panel.contains(e.target)) toggle(false); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") toggle(false); });
+  var toc = document.querySelector(".toc"); var cur = -1; var ticking = false;
+  function update(){
+    ticking = false;
+    var max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, scrollY / max) : 0) + ")";
+    var past = toc ? toc.getBoundingClientRect().bottom < 0 : scrollY > 400;
+    side.classList.toggle("show", past); btn.classList.toggle("show", past);
+    var i = -1; for (var k = 0; k < heads.length; k++) if (heads[k].getBoundingClientRect().top < innerHeight * 0.3) i = k;
+    if (i !== cur) {
+      [sideLinks, panelLinks].forEach(function(l){ if (cur >= 0) l[cur].classList.remove("on"); if (i >= 0) l[i].classList.add("on"); });
+      if (i >= 0 && side.classList.contains("show")) { var a = sideLinks[i]; if (a.offsetTop < side.scrollTop || a.offsetTop > side.scrollTop + side.clientHeight - 30) side.scrollTop = a.offsetTop - 60; }
+      cur = i;
+    }
+  }
+  addEventListener("scroll", function(){ if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener("resize", update); update();
+})();
+</script>
 </body>
 </html>

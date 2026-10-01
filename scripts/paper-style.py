@@ -9,11 +9,13 @@
     python3 scripts/paper-style.py file.html  # отдельные файлы
 """
 import html
+import json
 import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+SEARCH = {}
 
 CSS = r"""
 @view-transition{navigation:auto}
@@ -289,6 +291,34 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
   html.theme-anim, html.theme-anim *{transition:none !important}
 }
 @media print{html[data-theme] .top, html[data-theme] .toplink{display:none} html[data-theme] body{background:#fff}}
+/* ---------- навигация по конспекту ---------- */
+html[data-theme] .progress{position:fixed; top:0; left:0; right:0; height:3px; background:var(--accent); transform-origin:0 50%; transform:scaleX(0); z-index:50; pointer-events:none}
+html[data-theme] .side-toc{position:fixed; top:84px; right:max(16px, calc(50% - 410px - 250px)); width:220px; max-height:calc(100vh - 120px); overflow:auto;
+  font-size:.85rem; line-height:1.35; opacity:0; visibility:hidden; transform:translateX(6px); transition:opacity .25s, transform .25s, visibility .25s; z-index:20}
+html[data-theme] .side-toc.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .side-toc p{font-family:var(--mono); font-size:.72rem; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin:0 0 8px}
+html[data-theme] .side-toc a{display:block; color:var(--muted); padding:4px 0 4px 12px; border-left:2px solid var(--line); text-decoration:none; transition:color .2s, border-color .2s}
+html[data-theme] .side-toc a:hover{color:var(--ink)}
+html[data-theme] .side-toc a.on{color:var(--ink); border-left-color:var(--accent)}
+html[data-theme] .secbtn{position:fixed; left:16px; bottom:16px; z-index:30; background:var(--card); color:var(--ink); border:1px solid var(--line); border-radius:6px;
+  padding:8px 14px; font-family:var(--sans); font-size:.82rem; cursor:pointer; opacity:0; visibility:hidden; transform:translateY(8px); transition:opacity .2s, transform .2s, visibility .2s}
+html[data-theme] .secbtn.show{opacity:1; visibility:visible; transform:none}
+html[data-theme] .secpanel{position:fixed; left:16px; right:16px; bottom:64px; max-width:420px; max-height:60vh; overflow:auto; z-index:31; background:var(--card);
+  border:1px solid var(--line); border-radius:8px; padding:10px 0; box-shadow:0 12px 32px rgba(0,0,0,.18)}
+html[data-theme] .secpanel[hidden]{display:none}
+html[data-theme] .secpanel a{display:block; padding:8px 16px; color:var(--ink); text-decoration:none; font-size:.92rem}
+html[data-theme] .secpanel a.on{color:var(--accent); font-weight:650}
+html[data-theme] .pager{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:48px 0 0; padding-top:20px; border-top:1px solid var(--ink)}
+html[data-theme] .pager a{display:block; padding:14px 16px; border:1px solid var(--line); border-radius:8px; color:var(--ink); text-decoration:none; transition:border-color .2s, background-color .2s}
+html[data-theme] .pager a:hover{border-color:var(--accent); background:var(--accent-soft)}
+html[data-theme] .pager a.next{text-align:right; grid-column:2}
+html[data-theme] .pager small{display:block; font-family:var(--mono); font-size:.75rem; color:var(--muted); margin-bottom:4px}
+html[data-theme] .pager b{font-family:var(--serif); font-size:1.08rem}
+html[data-theme] h2[id], html[data-theme] h3[id]{scroll-margin-top:24px}
+@media(min-width:1300px){html[data-theme] .secbtn, html[data-theme] .secpanel{display:none !important}}
+@media(max-width:1299px){html[data-theme] .side-toc{display:none}}
+@media(max-width:560px){html[data-theme] .pager{grid-template-columns:1fr} html[data-theme] .pager a.next{grid-column:1}}
+@media print{html[data-theme] .progress, html[data-theme] .side-toc, html[data-theme] .secbtn, html[data-theme] .secpanel, html[data-theme] .pager{display:none}}
 """
 
 THEME_ANIM_JS = (
@@ -369,6 +399,105 @@ def wrap_code(s: str) -> str:
     return s
 
 
+READER_JS = """<script id="reader">
+(function(){
+  var heads = [].slice.call(document.querySelectorAll(".wrap h2[id]"));
+  if (!heads.length) return;
+  var bar = document.createElement("div"); bar.className = "progress"; document.body.appendChild(bar);
+  function label(h){ var c = h.cloneNode(true); [].forEach.call(c.querySelectorAll(".ts"), function(x){ x.remove(); });
+    return c.textContent.replace(/^\\s*(?:\\d+\\.)+\\s*/, "").trim(); }
+  function links(box){ return heads.map(function(h){ var a = document.createElement("a"); a.href = "#" + h.id; a.textContent = label(h); box.appendChild(a); return a; }); }
+  var side = document.createElement("nav"); side.className = "side-toc"; side.setAttribute("aria-label", "Разделы");
+  side.innerHTML = "<p>Разделы</p>"; var sideLinks = links(side); document.body.appendChild(side);
+  var btn = document.createElement("button"); btn.className = "secbtn"; btn.type = "button"; btn.textContent = "≡ разделы";
+  btn.setAttribute("aria-expanded", "false");
+  var panel = document.createElement("nav"); panel.className = "secpanel"; panel.hidden = true; panel.setAttribute("aria-label", "Разделы");
+  var panelLinks = links(panel); document.body.appendChild(panel); document.body.appendChild(btn);
+  function toggle(open){ panel.hidden = !open; btn.setAttribute("aria-expanded", open); }
+  btn.addEventListener("click", function(e){ e.stopPropagation(); toggle(panel.hidden); });
+  panel.addEventListener("click", function(e){ if (e.target.closest("a")) toggle(false); });
+  document.addEventListener("click", function(e){ if (!panel.hidden && !panel.contains(e.target)) toggle(false); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") toggle(false); });
+  var toc = document.querySelector(".toc"); var cur = -1; var ticking = false;
+  function update(){
+    ticking = false;
+    var max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, scrollY / max) : 0) + ")";
+    var past = toc ? toc.getBoundingClientRect().bottom < 0 : scrollY > 400;
+    side.classList.toggle("show", past); btn.classList.toggle("show", past);
+    var i = -1; for (var k = 0; k < heads.length; k++) if (heads[k].getBoundingClientRect().top < innerHeight * 0.3) i = k;
+    if (i !== cur) {
+      [sideLinks, panelLinks].forEach(function(l){ if (cur >= 0) l[cur].classList.remove("on"); if (i >= 0) l[i].classList.add("on"); });
+      if (i >= 0 && side.classList.contains("show")) { var a = sideLinks[i]; if (a.offsetTop < side.scrollTop || a.offsetTop > side.scrollTop + side.clientHeight - 30) side.scrollTop = a.offsetTop - 60; }
+      cur = i;
+    }
+  }
+  addEventListener("scroll", function(){ if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener("resize", update); update();
+})();
+</script>"""
+
+# ---------- порядок занятий и поиск по разделам (из списка на главной) ----------
+LESSON_RE = re.compile(r'\{ n: "Занятие (\d+)", title: "([^"]+)", href: "([^"]+)" \}')
+H_RE = re.compile(r'<(h[23])( id="([^"]+)")?>(.*?)</h[23]>', re.S)
+
+
+def lessons_order():
+    idx = (ROOT / "index.html").read_text(encoding="utf-8")
+    by_par = {}
+    for n, title, href in LESSON_RE.findall(idx):
+        by_par.setdefault(href.split("/")[0], []).append((int(n), title, href))
+    return by_par
+
+
+def clean(h):
+    h = re.sub(r'<a class="ts".*?</a>', "", h, flags=re.S)
+    h = html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return re.sub(r"^(?:\d+\.)+\s*", "", h)
+
+
+def add_h3_ids(s):
+    """У подзаголовков h3 появляются id вида s3-2, чтобы на них вели ссылки из поиска."""
+    parent, k = None, 0
+    def sub(m):
+        nonlocal parent, k
+        tag, has_id, hid, body = m.groups()
+        if tag == "h2":
+            parent, k = hid, 0
+            return m.group(0)
+        if has_id or not parent:
+            return m.group(0)
+        k += 1
+        return f'<h3 id="{parent}-{k}">{body}</h3>'
+    return H_RE.sub(sub, s)
+
+
+def sections(s):
+    out = []
+    for tag, _has, hid, body in H_RE.findall(s):
+        if hid and clean(body):
+            out.append([hid, clean(body)])
+    return out
+
+
+def pager(path):
+    par = path.parent.name
+    rel = f"{par}/{path.name}"
+    order = sorted(lessons_order().get(par, []))
+    pos = next((i for i, (_n, _t, h) in enumerate(order) if h == rel), None)
+    if pos is None:
+        return ""
+    def card(item, cls, arrow):
+        n, title, href = item
+        return (f'<a class="{cls}" href="../{href}"><small>{arrow[0]}занятие {n}{arrow[1]}</small>'
+                f'<b>{html.escape(title)}</b></a>')
+    prev = card(order[pos - 1], "prev", ("← ", "")) if pos > 0 else \
+        '<a class="prev" href="../index.html"><small>← назад</small><b>Все конспекты</b></a>'
+    nxt = card(order[pos + 1], "next", ("", " →")) if pos + 1 < len(order) else \
+        '<a class="next" href="../index.html"><small>дальше</small><b>Все конспекты</b></a>'
+    return f'<nav class="pager" aria-label="Соседние занятия">{prev}{nxt}</nav>'
+
+
 def apply(path: Path) -> str:
     s = path.read_text(encoding="utf-8")
     block = f'<style id="paper">{CSS}</style>\n{THEME_ANIM_JS}\n'
@@ -379,7 +508,15 @@ def apply(path: Path) -> str:
     s = s.replace(OLD_TOP, NEW_TOP, 1)
     s = s.replace(OLD_LABEL, NEW_LABEL)
     s = wrap_code(s)
+    s = add_h3_ids(s)
+    nav = pager(path)
+    s = re.sub(r'\n?<nav class="pager".*?</nav>', "", s, flags=re.S)
+    if nav:
+        s = s.replace("\n</div>\n\n<button class=\"toplink\"", "\n" + nav + "\n</div>\n\n<button class=\"toplink\"", 1)
+    s = re.sub(r'<script id="reader">.*?</script>\n', "", s, flags=re.S)
+    s = s.replace("</body>", READER_JS + "\n</body>", 1)
     path.write_text(s, encoding="utf-8")
+    SEARCH[f"{path.parent.name}/{path.name}"] = sections(s)
     ok = '<div class="top">' in s and NEW_LABEL in s
     return "ok" if ok else "проверьте вручную: не найдена шапка или переключатель темы"
 
@@ -388,6 +525,17 @@ def main():
     files = [Path(a) for a in sys.argv[1:]] or sorted(ROOT.glob("parallel-*/*.html"))
     for f in files:
         print(f"{f.name}: {apply(f)}")
+    # индекс разделов для поиска на главной
+    idx_path = ROOT / "index.html"
+    idx = idx_path.read_text(encoding="utf-8")
+    m = re.search(r"/\*SECTIONS\*/const SECTIONS = (.*?);/\*/SECTIONS\*/", idx, re.S)
+    if m:
+        data = json.loads(m.group(1))
+        data.update(SEARCH)
+        js = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+        idx = idx[: m.start(1)] + js + idx[m.end(1):]
+        idx_path.write_text(idx, encoding="utf-8")
+        print(f"index.html: разделов в поиске — {sum(len(v) for v in data.values())}")
 
 
 if __name__ == "__main__":
