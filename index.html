@@ -27,167 +27,172 @@
 <meta name="twitter:image" content="https://vmaiorov-collab.github.io/conspectus/og-image-v2.png">
 
 <script data-goatcounter="https://vmaiorov.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>(function(){try{var t=localStorage.getItem("conspectusTheme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";document.documentElement.setAttribute("data-theme",t||"light")}catch(e){}})();</script>
 <style>
   :root{
-    --bg:#eef2f7; --card:#ffffff; --ink:#1f2937; --muted:#6b7280;
-    --accent:#2563eb; --accent-soft:#eef4ff; --line:#e5e7eb;
-    --shadow-sm:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);
-    --shadow-md:0 10px 30px -12px rgba(15,23,42,.25);
-    --shadow-lg:0 24px 60px -24px rgba(15,23,42,.4);
+    --bg:#f7f5f0; --paper:#fffdf8; --ink:#1c1b19; --muted:#6f6a61; --faint:#a19b90;
+    --accent:#1f4fd1; --line:#e3ded3; --hover:#efebe2;
+    --serif:"PT Serif",Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","PT Mono",Menlo,Consolas,monospace;
   }
   html[data-theme="dark"]{
-    --bg:#0b1220; --card:#151f30; --ink:#e2e8f0; --muted:#8b9bb4;
-    --accent:#60a5fa; --accent-soft:#16233a; --line:#263246;
-    --shadow-sm:0 1px 3px rgba(0,0,0,.4);
-    --shadow-md:0 12px 30px -12px rgba(0,0,0,.6);
-    --shadow-lg:0 24px 60px -24px rgba(0,0,0,.7);
+    --bg:#141413; --paper:#1b1b19; --ink:#e9e6df; --muted:#a29d93; --faint:#6f6b64;
+    --accent:#8fb0ff; --line:#2e2d2a; --hover:#22221f;
+    color-scheme:dark;
   }
-  html[data-theme="dark"] body{color-scheme:dark}
-  html[data-theme="dark"] header.hero{background:radial-gradient(1200px 400px at 20% -10%,rgba(96,165,250,.35),transparent),linear-gradient(135deg,#0b1220,#1e3a8a)}
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; line-height:1.6; font-size:16px; -webkit-font-smoothing:antialiased}
-  .wrap{max-width:960px; margin:0 auto; padding:40px 20px 90px}
-
-  header.hero{
-    background:radial-gradient(1200px 400px at 20% -10%,rgba(255,255,255,.28),transparent),linear-gradient(135deg,#1e3a8a,#2563eb 60%,#7c3aed);
-    color:#fff; border-radius:22px; padding:44px 40px; margin-bottom:32px;
-    box-shadow:var(--shadow-lg); position:relative; overflow:hidden;
-  }
-  header.hero::after{content:""; position:absolute; right:-60px; top:-60px; width:220px; height:220px; border-radius:50%; background:radial-gradient(circle,rgba(255,255,255,.16),transparent 70%)}
-  header.hero h1{margin:0 0 10px; font-size:1.9rem; line-height:1.2; letter-spacing:-.02em; font-weight:800}
-  header.hero .sub{opacity:.92; font-size:1rem; max-width:560px}
-  header.hero .meta{margin-top:18px; display:flex; flex-wrap:wrap; gap:8px; position:relative; z-index:1}
-  .chip{background:rgba(255,255,255,.16); backdrop-filter:blur(4px); padding:5px 13px; border-radius:999px; font-size:.82rem; font-weight:500; border:1px solid rgba(255,255,255,.14)}
-
-  .theme-toggle{position:fixed; right:18px; top:18px; z-index:50; width:44px; height:44px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--ink); font-size:1.15rem; cursor:pointer; box-shadow:var(--shadow-md); transition:transform .18s, border-color .18s}
-  .theme-toggle:hover{border-color:var(--accent); transform:scale(1.08)}
-
-  h2{font-size:1.3rem; margin:2.4em 0 .8em; padding-bottom:.4em; border-bottom:2px solid var(--line); letter-spacing:-.01em; font-weight:700}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased}
   a{color:var(--accent); text-decoration:none}
-  a:hover{text-decoration:none}
+  a:hover{text-decoration:underline; text-underline-offset:3px}
+  .wrap{max-width:820px; margin:0 auto; padding:28px 24px 64px}
 
-  .card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:6px 20px; margin:14px 0; box-shadow:var(--shadow-sm); transition:transform .16s, box-shadow .16s, border-color .16s; overflow:hidden}
-  .card:hover{transform:translateY(-2px); box-shadow:var(--shadow-md); border-color:color-mix(in srgb,var(--pc,var(--accent)) 35%,var(--line))}
+  .top{display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:.8rem; color:var(--muted)}
+  .theme-toggle{font:inherit; color:var(--muted); background:none; border:1px solid var(--line); border-radius:6px; padding:4px 10px; cursor:pointer}
+  .theme-toggle:hover{color:var(--ink); border-color:var(--muted)}
 
-  .toolbar{display:flex; gap:10px; align-items:center; margin:4px 0 6px}
-  .search{flex:1; position:relative}
-  .search input{width:100%; padding:12px 16px 12px 40px; border:1px solid var(--line); border-radius:12px; background:var(--card); color:var(--ink); font-size:.95rem; outline:none; box-shadow:var(--shadow-sm); transition:border-color .15s, box-shadow .15s}
-  .search input:focus{border-color:var(--accent); box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
-  .search .icon{position:absolute; left:13px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:.9rem; pointer-events:none}
-  .toolbar .btn-sm{padding:10px 14px; border-radius:11px; border:1px solid var(--line); background:var(--card); color:var(--muted); font-size:.85rem; font-weight:600; cursor:pointer; box-shadow:var(--shadow-sm); transition:border-color .15s, color .15s, transform .1s}
-  .toolbar .btn-sm:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-1px)}
-  .nores{color:var(--muted); text-align:center; padding:40px 0; display:none; font-size:.95rem}
+  .intro{padding:56px 0 8px}
+  .kicker{font-family:var(--mono); font-size:.8rem; color:var(--muted); letter-spacing:.02em; margin:0 0 14px}
+  h1{font-family:var(--serif); font-weight:700; font-size:clamp(2.2rem,6vw,3.2rem); line-height:1.08; letter-spacing:-.01em; margin:0 0 18px}
+  .lead{font-family:var(--serif); font-size:1.18rem; line-height:1.55; color:var(--ink); max-width:36em; margin:0}
 
-  .parallel{display:flex; align-items:center; gap:16px; cursor:pointer; user-select:none; padding:14px 0}
-  .parallel .badge{width:54px; height:54px; flex:0 0 54px; border-radius:14px; background:linear-gradient(135deg,color-mix(in srgb,var(--pc,var(--accent)) 85%,#000 8%),color-mix(in srgb,var(--pc,var(--accent)) 100%,#fff 0%)); color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.25rem; font-weight:800; box-shadow:0 6px 14px -6px color-mix(in srgb,var(--pc,var(--accent)) 60%,transparent)}
-  .parallel .info{flex:1; min-width:0}
-  .parallel .info .name{font-weight:700; font-size:1.14rem; letter-spacing:-.01em}
-  .parallel .info .meta{color:var(--muted); font-size:.88rem; margin-top:2px}
-  .parallel .meta a{color:var(--muted); border-bottom:1px dashed var(--line)}
-  .parallel .meta a:hover{color:var(--accent)}
-  .parallel .chev{color:var(--muted); transition:transform .2s; font-size:.85rem; width:22px; height:22px; border-radius:6px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line)}
-  .parallel.open .chev{transform:rotate(90deg); color:var(--pc,var(--accent)); border-color:var(--pc,var(--accent))}
+  .features{display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin:44px 0 0; padding:22px 0 0; border-top:1px solid var(--line)}
+  .features h3{font-size:.95rem; font-weight:650; margin:0 0 6px}
+  .features p{margin:0; color:var(--muted); font-size:.9rem; line-height:1.5}
 
-  .lessons{display:none; margin:0 0 14px; padding:14px 0 0}
-  .parallel.open + .lessons{display:block; animation:fade .25s ease}
-  @keyframes fade{from{opacity:0; transform:translateY(-4px)}to{opacity:1; transform:none}}
+  h2{font-family:var(--serif); font-size:1.6rem; font-weight:700; margin:0}
+  .section-head{display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; margin:64px 0 14px}
+  .tools{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  .tools input{width:230px; max-width:100%; padding:7px 11px; border:1px solid var(--line); border-radius:6px; background:var(--paper); color:var(--ink); font:inherit; font-size:.9rem}
+  .tools input:focus{outline:none; border-color:var(--accent)}
+  .linkbtn{font:inherit; font-size:.85rem; color:var(--muted); background:none; border:0; padding:0; cursor:pointer; text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:3px}
+  .linkbtn:hover{color:var(--ink)}
 
-  .lesson{display:flex; align-items:center; gap:12px; padding:12px 14px; border:1px solid var(--line); border-radius:12px; margin:8px 0; transition:background .15s, border-color .15s, transform .12s; color:var(--ink); background:var(--card)}
-  .lesson:hover{background:var(--accent-soft); border-color:color-mix(in srgb,var(--pc,var(--accent)) 40%,var(--line)); transform:translateX(3px); text-decoration:none}
-  .lesson .num{font-weight:700; color:var(--muted); min-width:76px; font-size:.85rem}
-  .lesson:hover .num{color:var(--pc,var(--accent))}
-  .lesson .title{flex:1}
-  .lesson .go{color:var(--muted); font-size:.82rem; white-space:nowrap; opacity:0; transform:translateX(-4px); transition:opacity .15s, transform .15s}
-  .lesson:hover .go{opacity:1; transform:none}
+  #tree{border-top:1px solid var(--ink)}
+  .card{border-bottom:1px solid var(--line)}
+  .parallel{display:grid; grid-template-columns:48px 1fr auto; align-items:center; gap:14px; padding:16px 4px; cursor:pointer; user-select:none}
+  .parallel:hover{background:var(--hover)}
+  .badge{font-family:var(--mono); font-weight:700; font-size:1rem; color:var(--pc); border:1.5px solid var(--pc); border-radius:6px; height:36px; display:flex; align-items:center; justify-content:center}
+  .name{font-weight:650; font-size:1.05rem}
+  .level{color:var(--muted); font-size:.88rem}
+  .side{display:flex; align-items:center; gap:16px; color:var(--muted); font-size:.85rem}
+  .side a{color:var(--muted)}
+  .side a:hover{color:var(--accent)}
+  .chev{font-size:1.3rem; line-height:1; color:var(--faint); transition:transform .15s; width:14px; text-align:center}
+  .parallel.open .chev{transform:rotate(90deg); color:var(--ink)}
 
-  .empty{color:var(--muted); font-size:.92rem; padding:8px 2px}
-  .actions{display:flex; flex-wrap:wrap; gap:10px; margin:28px 0 0}
-  .btn{display:inline-flex; align-items:center; gap:8px; padding:12px 20px; border-radius:12px; font-size:.92rem; font-weight:600; transition:background .15s, border-color .15s, transform .1s, box-shadow .15s}
-  .btn:active{transform:translateY(1px)}
-  .btn-primary{background:linear-gradient(135deg,var(--accent),#7c3aed); color:#fff; box-shadow:0 8px 20px -8px rgba(124,58,237,.6)}
-  .btn-primary:hover{filter:brightness(1.05); text-decoration:none; transform:translateY(-1px)}
-  .btn-ghost{background:var(--card); color:var(--accent); border:1px solid var(--line); box-shadow:var(--shadow-sm)}
-  .btn-ghost:hover{border-color:var(--accent); background:var(--accent-soft); text-decoration:none}
+  .lessons{display:none; padding:0 4px 14px 66px}
+  .parallel.open + .lessons{display:block}
+  .lesson{display:flex; gap:16px; align-items:baseline; padding:9px 0; color:var(--ink); border-top:1px dashed var(--line)}
+  .lesson:first-child{border-top:0}
+  .lesson .num{font-family:var(--mono); font-size:.8rem; color:var(--muted); min-width:58px}
+  .lesson .title{font-family:var(--serif); font-size:1.08rem}
+  .lesson:hover{text-decoration:none}
+  .lesson:hover .title{color:var(--accent); text-decoration:underline; text-underline-offset:3px}
+  .nores{color:var(--muted); padding:28px 4px; display:none}
 
-  footer{margin-top:56px; padding-top:22px; border-top:1px solid var(--line); color:var(--muted); font-size:.85rem}
-  footer a{color:var(--muted); border-bottom:1px dashed var(--line)}
-  footer a:hover{color:var(--accent)}
-  @media(max-width:680px){header.hero{padding:30px 22px; border-radius:18px} .wrap{padding:24px 14px 60px} .lesson .go{display:none} .toolbar{flex-wrap:wrap} .toolbar .btn-sm{flex:1}}
-  @media print{.chev{display:none} .lessons{display:block !important} .card{box-shadow:none} body{background:#fff} header.hero{-webkit-print-color-adjust:exact; print-color-adjust:exact}}
+  .ask{margin:72px 0 0; padding:26px 28px; background:var(--paper); border:1px solid var(--line); border-radius:8px; display:flex; gap:20px; align-items:center; justify-content:space-between; flex-wrap:wrap}
+  .ask h3{font-family:var(--serif); font-size:1.25rem; margin:0 0 4px}
+  .ask p{margin:0; color:var(--muted); font-size:.92rem; max-width:32em}
+  .ask a.btn{display:inline-block; padding:10px 18px; border-radius:6px; background:var(--ink); color:var(--bg); font-weight:600; font-size:.92rem; white-space:nowrap}
+  .ask a.btn:hover{text-decoration:none; opacity:.85}
+
+  footer{margin-top:48px; padding-top:16px; border-top:1px solid var(--line); color:var(--muted); font-size:.82rem; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap}
+  footer a{color:var(--muted); text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:3px}
+  footer a:hover{color:var(--ink)}
+
+  @media(max-width:680px){
+    .wrap{padding:20px 18px 48px}
+    .intro{padding-top:36px}
+    .features{grid-template-columns:1fr; gap:18px}
+    .section-head{margin-top:48px}
+    .tools{width:100%} .tools input{flex:1; width:auto}
+    .side .pl{display:none}
+    .lessons{padding-left:4px}
+    .ask{padding:20px}
+  }
+  @media print{.top,.tools,.ask{display:none} .lessons{display:block !important}}
 </style>
 </head>
 <body>
-<button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему" title="Светлая / тёмная тема">🌙</button>
 <div class="wrap">
 
-<header class="hero">
-  <h1>Конспекты лекций</h1>
-  <div class="sub">Выберите параллель, затем лекцию — конспект откроется в новой вкладке.</div>
-  <div class="meta">
-    <span class="chip">5 параллелей</span>
-    <span class="chip" id="lchip">0 лекций</span>
-  </div>
-</header>
-
-<div class="actions">
-  <a class="btn btn-primary" href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">💬 Предложения и вопросы ↗</a>
+<div class="top">
+  <span>conspectus</span>
+  <button type="button" id="theme-toggle" class="theme-toggle">тёмная тема</button>
 </div>
 
-<h2>Параллели</h2>
-<div class="toolbar">
-  <div class="search">
-    <span class="icon">🔍</span>
-    <input id="q" type="search" placeholder="Поиск по лекциям…" autocomplete="off">
+<section class="intro">
+  <p class="kicker">Яндекс Кружок · олимпиадное программирование</p>
+  <h1>Конспекты лекций</h1>
+  <p class="lead">Подробные текстовые конспекты лекций Кружка: формулы, код, разборы задач. Чтобы найти одну идею, не нужно пересматривать четырёхчасовую запись.</p>
+
+  <div class="features">
+    <div>
+      <h3>Читаются офлайн</h3>
+      <p>Каждый конспект — один HTML-файл, формулы и шрифты внутри. Сохраните и читайте без интернета.</p>
+    </div>
+    <div>
+      <h3>Таймкоды ведут в видео</h3>
+      <p>Клик по времени у раздела открывает лекцию на YouTube с этого момента.</p>
+    </div>
+    <div>
+      <h3>Схемы алгоритмов</h3>
+      <p>Деревья, графы и массивы нарисованы, а сортировки и бинпоиск можно пройти по шагам.</p>
+    </div>
   </div>
-  <button class="btn-sm" id="expand-all" type="button">Развернуть все</button>
-  <button class="btn-sm" id="collapse-all" type="button">Свернуть все</button>
+</section>
+
+<div class="section-head">
+  <h2>Параллели</h2>
+  <div class="tools">
+    <input id="q" type="search" placeholder="Поиск по лекциям" autocomplete="off" aria-label="Поиск по лекциям">
+    <button class="linkbtn" id="toggle-all" type="button">развернуть все</button>
+  </div>
 </div>
 <div id="tree"></div>
 <div class="nores" id="nores">Ничего не найдено.</div>
 
-<footer>
-  Всего параллелей: <span id="pcount">0</span> · Всего лекций: <span id="lcount">0</span>
-  <div style="margin-top:8px">
-    <a href="https://vmaiorov.goatcounter.com/" target="_blank" rel="noopener">Статистика посещений за месяц ↗</a>
+<section class="ask">
+  <div>
+    <h3>Нашли ошибку или не хватает темы?</h3>
+    <p>Напишите в Telegram-бот — можно с вопросом, идеей или скриншотом. Аккаунт на GitHub не нужен.</p>
   </div>
+  <a class="btn" href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">Написать в бот</a>
+</section>
+
+<footer>
+  <span>Конспекты по открытым лекциям Яндекс Кружка. Права на лекции — у их авторов.</span>
+  <a href="https://vmaiorov.goatcounter.com/" target="_blank" rel="noopener">статистика посещений</a>
 </footer>
 
 </div>
 
 <script>
 const DATA = [
-  { key: "a",  name: "Параллель A",  badge: "A",  color: "#3b82f6", url: "https://www.youtube.com/playlist?list=PLPEbYG2GETx8", lessons: [
+  { name: "Параллель A",  badge: "A",  color: "#2f5bd3", url: "https://www.youtube.com/playlist?list=PLPEbYG2GETx8", lessons: [
     { n: "Занятие 1", title: "Математика", href: "parallel-a/parallel-a-zan1-matematika.html" },
     { n: "Занятие 2", title: "Оптимизации DP", href: "parallel-a/parallel-a-zan2-optimizacii-dp.html" }
   ]},
-  { key: "ap", name: "Параллель A'", badge: "A'", color: "#8b5cf6", url: "https://www.youtube.com/playlist?list=PLVEPlEFLCYes", lessons: [
+  { name: "Параллель A'", badge: "A'", color: "#7a4bc4", url: "https://www.youtube.com/playlist?list=PLVEPlEFLCYes", lessons: [
     { n: "Занятие 1", title: "Корневые эвристики", href: "parallel-ap/parallel-ap-zan1-kornevye.html" },
     { n: "Занятие 2", title: "Структуры данных 1", href: "parallel-ap/parallel-ap-zan2-struktury.html" }
   ]},
-  { key: "b",  name: "Параллель B",  badge: "B",  color: "#10b981", url: "https://www.youtube.com/playlist?list=PLfU-HktHP470", lessons: [
+  { name: "Параллель B",  badge: "B",  color: "#1f8a5b", url: "https://www.youtube.com/playlist?list=PLfU-HktHP470", lessons: [
     { n: "Занятие 1", title: "Графы 1", href: "parallel-b/parallel-b-zan1-grafy.html" },
     { n: "Занятие 2", title: "Строки 1", href: "parallel-b/parallel-b-zan2-stroki.html" }
   ]},
-  { key: "bp", name: "Параллель B'", badge: "B'", color: "#f59e0b", url: "https://www.youtube.com/playlist?list=PLP5aGLvQB07Y", lessons: [
+  { name: "Параллель B'", badge: "B'", color: "#b7791f", url: "https://www.youtube.com/playlist?list=PLP5aGLvQB07Y", lessons: [
     { n: "Занятие 1", title: "C++", href: "parallel-bp/parallel-bp-zan1-cpp.html" },
     { n: "Занятие 2", title: "Поиски", href: "parallel-bp/parallel-bp-zan2-poiski.html" }
   ]},
-  { key: "c",  name: "Параллель C",  badge: "C",  color: "#ef4444", url: "https://www.youtube.com/playlist?list=PLNeWOJRrsoEA", lessons: [
+  { name: "Параллель C",  badge: "C",  color: "#c2412d", url: "https://www.youtube.com/playlist?list=PLNeWOJRrsoEA", lessons: [
     { n: "Занятие 1", title: "Вводная лекция", href: "parallel-c/parallel-c-zan1-vvodnaya.html" },
     { n: "Занятие 2", title: "Оценка сложности и сортировки", href: "parallel-c/parallel-c-zan2-slozhnost-sortirovki.html" }
   ]}
 ];
 
 const tree = document.getElementById("tree");
-let totalLessons = 0;
-
-function plural(n){
-  const m10 = n % 10, m100 = n % 100;
-  if (m10 === 1 && m100 !== 11) return "конспект";
-  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return "конспекта";
-  return "конспектов";
-}
 
 DATA.forEach((p) => {
   const card = document.createElement("div");
@@ -198,43 +203,32 @@ DATA.forEach((p) => {
   head.className = "parallel";
   head.innerHTML = `
     <div class="badge">${p.badge}</div>
-    <div class="info">
-      <div class="name">${p.name}</div>
-      <div class="meta">${p.lessons.length} ${plural(p.lessons.length)} · <a href="${p.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">плейлист ↗</a></div>
-    </div>
-    <div class="chev">▶</div>`;
+    <div><div class="name">${p.name}</div><div class="level">${p.lessons.map(l => l.title).join(" · ")}</div></div>
+    <div class="side"><a class="pl" href="${p.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">плейлист</a><span class="chev">›</span></div>`;
 
   const list = document.createElement("div");
   list.className = "lessons";
-
   p.lessons.forEach((l) => {
-    totalLessons++;
     const a = document.createElement("a");
     a.className = "lesson";
     a.href = l.href;
-    a.target = "_blank";
-    a.rel = "noopener";
-    a.innerHTML = `<span class="num">${l.n}</span><span class="title">${l.title}</span><span class="go">открыть ↗</span>`;
+    a.innerHTML = `<span class="num">${l.n.replace("Занятие ", "зан. ")}</span><span class="title">${l.title}</span>`;
     list.appendChild(a);
   });
 
   head.addEventListener("click", () => head.classList.toggle("open"));
-
   card.appendChild(head);
   card.appendChild(list);
   tree.appendChild(card);
 });
 
-document.getElementById("pcount").textContent = DATA.length;
-document.getElementById("lcount").textContent = totalLessons;
-document.getElementById("lchip").textContent = totalLessons + " лекций";
-
 const heads = Array.from(document.querySelectorAll(".parallel"));
-function setAllOpen(open){
+const toggleAll = document.getElementById("toggle-all");
+toggleAll.addEventListener("click", () => {
+  const open = !heads.every(h => h.classList.contains("open"));
   heads.forEach(h => h.classList.toggle("open", open));
-}
-document.getElementById("expand-all").addEventListener("click", () => setAllOpen(true));
-document.getElementById("collapse-all").addEventListener("click", () => setAllOpen(false));
+  toggleAll.textContent = open ? "свернуть все" : "развернуть все";
+});
 
 const q = document.getElementById("q");
 const nores = document.getElementById("nores");
@@ -243,39 +237,32 @@ q.addEventListener("input", () => {
   let visible = 0;
   document.querySelectorAll("#tree .card").forEach((card) => {
     const head = card.querySelector(".parallel");
-    const name = card.querySelector(".name").textContent.toLowerCase();
+    const name = head.textContent.toLowerCase();
     let cardVisible = 0;
     card.querySelectorAll(".lesson").forEach((a) => {
-      const title = a.querySelector(".title").textContent.toLowerCase();
-      const num = a.querySelector(".num").textContent.toLowerCase();
-      const hit = !t || name.includes(t) || title.includes(t) || num.includes(t);
+      const hit = !t || name.includes(t) || a.textContent.toLowerCase().includes(t);
       a.style.display = hit ? "" : "none";
       if (hit) cardVisible++;
     });
     card.style.display = cardVisible ? "" : "none";
-    if (t && cardVisible) head.classList.add("open");
+    if (t) head.classList.toggle("open", cardVisible > 0);
     visible += cardVisible;
   });
-  nores.style.display = visible ? "none" : "";
+  nores.style.display = visible ? "none" : "block";
 });
 
 (function(){
   const root = document.documentElement;
   const btn = document.getElementById("theme-toggle");
-  const saved = (function(){ try { return localStorage.getItem("conspectusTheme"); } catch(e){ return null; } })();
-  const initial = saved || (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-  function apply(theme){
-    root.setAttribute("data-theme", theme);
-    btn.textContent = theme === "dark" ? "☀️" : "🌙";
-  }
-  apply(initial);
+  function label(){ btn.textContent = root.getAttribute("data-theme") === "dark" ? "светлая тема" : "тёмная тема"; }
+  label();
   btn.addEventListener("click", function(){
     const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-    apply(next);
+    root.setAttribute("data-theme", next);
+    label();
     try { localStorage.setItem("conspectusTheme", next); } catch(e){}
   });
 })();
-
 </script>
 </body>
 </html>
