@@ -52,6 +52,9 @@
   .theme-toggle:hover{color:var(--ink); border-color:var(--muted)}
 
   .intro{padding:56px 0 8px}
+  .news{margin:18px 0 0; padding:10px 14px; border-left:3px solid var(--accent); background:color-mix(in srgb, var(--accent) 7%, transparent); color:var(--ink); font-size:.92rem; border-radius:0 6px 6px 0}
+  .news b{font-weight:700}
+  .news time{font-family:var(--mono); font-size:.8rem; color:var(--muted); margin-right:8px}
   .kicker{font-family:var(--mono); font-size:.8rem; color:var(--muted); letter-spacing:.02em; margin:0 0 14px}
   h1{font-family:var(--serif); font-weight:700; font-size:clamp(2.2rem,6vw,3.2rem); line-height:1.08; letter-spacing:-.01em; margin:0 0 18px}
   .lead{font-family:var(--serif); font-size:1.18rem; line-height:1.55; color:var(--ink); max-width:36em; margin:0}
@@ -78,14 +81,16 @@
   .side{display:flex; align-items:center; gap:16px; color:var(--muted); font-size:.85rem}
   .side a{color:var(--muted)}
   .side a:hover{color:var(--accent)}
-  .chev{font-size:1.3rem; line-height:1; color:var(--faint); transition:transform .3s cubic-bezier(.2,.7,.2,1), color .2s; width:14px; text-align:center}
+  .chev{font-size:1.3rem; line-height:1; color:var(--faint); transition:transform .5s cubic-bezier(.65,0,.35,1), color .25s; width:14px; text-align:center}
   .parallel.open .chev{transform:rotate(90deg); color:var(--ink)}
 
-  .lessons{display:grid; grid-template-rows:0fr; opacity:0; transition:grid-template-rows .32s cubic-bezier(.2,.7,.2,1), opacity .25s ease}
-  .parallel.open + .lessons{grid-template-rows:1fr; opacity:1}
-  .lessons .inner{overflow:hidden; min-height:0; padding:0 4px 0 66px}
-  .lessons .inner > :last-child{margin-bottom:14px}
-  .lesson{display:flex; gap:16px; align-items:baseline; padding:9px 0; color:var(--ink); border-top:1px dashed var(--line)}
+  /* высота анимируется из JS (Web Animations), лекции проявляются следом */
+  .lessons{height:0; overflow:hidden}
+  .parallel.open + .lessons{height:auto}
+  .lessons .inner{padding:0 4px 14px 66px}
+  .lesson{display:flex; gap:16px; align-items:baseline; padding:9px 0; color:var(--ink); border-top:1px dashed var(--line);
+    opacity:0; transition:opacity .25s ease}
+  .parallel.open + .lessons .lesson{opacity:1; transition:opacity .45s ease; transition-delay:calc(var(--i, 0) * 80ms + 120ms)}
   .lesson:first-child{border-top:0}
   .lesson .num{font-family:var(--mono); font-size:.8rem; color:var(--muted); min-width:58px}
   .lesson .title{font-family:var(--serif); font-size:1.08rem; transition:color .15s}
@@ -120,7 +125,7 @@
     *{transition:none !important}
     @view-transition{navigation:none}
   }
-  @media print{.top,.tools,.ask{display:none} .lessons{grid-template-rows:1fr !important; opacity:1 !important}}
+  @media print{.top,.tools,.ask{display:none} .lessons{height:auto !important} .lesson{opacity:1 !important}}
 </style>
 </head>
 <body>
@@ -135,6 +140,7 @@
   <p class="kicker">Яндекс Кружок · олимпиадное программирование</p>
   <h1>Конспекты лекций</h1>
   <p class="lead">Подробные текстовые конспекты лекций Кружка: формулы, код, разборы задач. Чтобы найти одну идею, не нужно пересматривать четырёхчасовую запись.</p>
+  <p class="news"><time datetime="2026-10">октябрь 2026</time><b>Редизайн.</b> Новый вид сайта и конспектов, перерисованные схемы во всех лекциях, подсветка кода с кнопкой «копировать» и кликабельные таймкоды.</p>
 
   <div class="features">
     <div>
@@ -203,6 +209,22 @@ const DATA = [
 
 const tree = document.getElementById("tree");
 
+const calm = matchMedia("(prefers-reduced-motion: reduce)");
+function setOpen(head, open) {
+  if (head.classList.contains("open") === open) return;
+  const list = head.nextElementSibling;
+  const from = list.getBoundingClientRect().height;   // учитывает недоигранную анимацию
+  if (list._anim) list._anim.cancel();
+  head.classList.toggle("open", open);
+  if (calm.matches) return;
+  const to = open ? list.scrollHeight : 0;
+  // плавный разгон и торможение; закрытие чуть быстрее открытия
+  const ms = (open ? 520 : 400) * Math.max(0.5, Math.min(1, Math.abs(to - from) / 120 + 0.4));
+  list._anim = list.animate([{ height: from + "px" }, { height: to + "px" }],
+    { duration: ms, easing: "cubic-bezier(.65,0,.35,1)" });
+  list._anim.onfinish = () => { list._anim = null; };
+}
+
 DATA.forEach((p) => {
   const card = document.createElement("div");
   card.className = "card";
@@ -223,12 +245,13 @@ DATA.forEach((p) => {
   p.lessons.forEach((l) => {
     const a = document.createElement("a");
     a.className = "lesson";
+    a.style.setProperty("--i", inner.children.length);
     a.href = l.href;
     a.innerHTML = `<span class="num">${l.n.replace("Занятие ", "зан. ")}</span><span class="title">${l.title}</span>`;
     inner.appendChild(a);
   });
 
-  head.addEventListener("click", () => head.classList.toggle("open"));
+  head.addEventListener("click", () => setOpen(head, !head.classList.contains("open")));
   card.appendChild(head);
   card.appendChild(list);
   tree.appendChild(card);
@@ -238,7 +261,7 @@ const heads = Array.from(document.querySelectorAll(".parallel"));
 const toggleAll = document.getElementById("toggle-all");
 toggleAll.addEventListener("click", () => {
   const open = !heads.every(h => h.classList.contains("open"));
-  heads.forEach(h => h.classList.toggle("open", open));
+  heads.forEach(h => setOpen(h, open));
   toggleAll.textContent = open ? "свернуть все" : "развернуть все";
 });
 
@@ -257,7 +280,7 @@ q.addEventListener("input", () => {
       if (hit) cardVisible++;
     });
     card.style.display = cardVisible ? "" : "none";
-    if (t) head.classList.toggle("open", cardVisible > 0);
+    if (t) setOpen(head, cardVisible > 0);
     visible += cardVisible;
   });
   nores.style.display = visible ? "none" : "block";
