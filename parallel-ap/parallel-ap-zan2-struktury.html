@@ -369,6 +369,30 @@ html[data-theme] .algo .bscell.R{background:var(--f-orange-bg); color:var(--f-on
 html[data-theme] .algo .bscell.mid{background:var(--f-yellow-bg); color:var(--f-on)}
 html[data-theme] .algo .bscell.found{box-shadow:0 0 0 3px color-mix(in srgb,var(--f-green) 40%,transparent)}
 
+/* блоки кода */
+html[data-theme]{
+  --code-paper:#f4f0e7; --code-head:#ebe5d8; --code-line:#e0d9ca; --code-text:#2b2925;
+  --hl-c:#8d877b; --hl-k:#1f4fd1; --hl-t:#7a3fb8; --hl-s:#2e7d32; --hl-n:#b4540a; --hl-f:#8a5a00; --hl-p:#b8372a;
+}
+html[data-theme="dark"]{
+  --code-paper:#1c1b19; --code-head:#232220; --code-line:#2e2d2a; --code-text:#e6e2d9;
+  --hl-c:#7f7a70; --hl-k:#8fb0ff; --hl-t:#c9a6ff; --hl-s:#a5d68f; --hl-n:#f2a96a; --hl-f:#e9d18e; --hl-p:#f08c7c;
+}
+html[data-theme] .code{margin:18px 0; border:1px solid var(--code-line); border-radius:8px; background:var(--code-paper); overflow:hidden}
+html[data-theme] .code-head{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:6px 8px 6px 14px; background:var(--code-head); border-bottom:1px solid var(--code-line); font-family:var(--mono); font-size:.72rem; color:var(--muted); letter-spacing:.03em}
+html[data-theme] .code-head .copy{font:inherit; color:var(--muted); background:none; border:1px solid transparent; border-radius:5px; padding:3px 9px; cursor:pointer; transition:color .15s, border-color .15s, background-color .15s}
+html[data-theme] .code-head .copy:hover{color:var(--ink); border-color:var(--code-line); background:var(--code-paper)}
+html[data-theme] .code pre{margin:0; border:0; border-radius:0; background:none; color:var(--code-text); padding:14px 16px; font-size:.84rem; line-height:1.6; tab-size:4; overflow-x:auto}
+html[data-theme] .code pre code{font-family:var(--mono); background:none; color:inherit; padding:0}
+html[data-theme] .hl .c{color:var(--hl-c); font-style:italic}
+html[data-theme] .hl .k{color:var(--hl-k); font-weight:600}
+html[data-theme] .hl .t{color:var(--hl-t)}
+html[data-theme] .hl .s{color:var(--hl-s)}
+html[data-theme] .hl .n{color:var(--hl-n)}
+html[data-theme] .hl .f{color:var(--hl-f)}
+html[data-theme] .hl .p{color:var(--hl-p)}
+@media print{html[data-theme] .code-head .copy{display:none}}
+
 /* плавная смена темы */
 html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:background-color .3s ease, color .3s ease, border-color .3s ease !important}
 
@@ -387,7 +411,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 }
 @media print{html[data-theme] .top, html[data-theme] .toplink{display:none} html[data-theme] body{background:#fff}}
 </style>
-<script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);</script>
+<script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".code .copy");if(!b)return;var pre=b.closest(".code").querySelector("pre"),t=pre.innerText;function ok(){b.textContent="скопировано ✓";setTimeout(function(){b.textContent="копировать"},1600)}function sel(){var r=document.createRange();r.selectNodeContents(pre);var x=getSelection();x.removeAllRanges();x.addRange(r);b.textContent="выделено — нажмите ⌘C"}if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>
 </head>
 <body>
 <div class="wrap">
@@ -427,15 +451,15 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 
 <h3>Обновление в точке</h3>
 <p>Зная номер листа $2^k+i$, просто поднимаемся к родителю и пересчитываем, пока не дойдём до корня:</p>
-<pre><code>const int K = 1 &lt;&lt; 20;  // 2^k >= n
-int tree[2 * K];
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="k">const</span> <span class="t">int</span> K = <span class="n">1</span> &lt;&lt; <span class="n">20</span>;  <span class="c">// 2^k &gt;= n</span>
+<span class="t">int</span> tree[<span class="n">2</span> * K];
 
-void update(int i, int value) {
-    i += K;                  // номер листа
+<span class="t">void</span> <span class="f">update</span>(<span class="t">int</span> i, <span class="t">int</span> value) {
+    i += K;                  <span class="c">// номер листа</span>
     tree[i] = value;
-    for (i /= 2; i &gt; 0; i /= 2)
-        tree[i] = tree[2*i] + tree[2*i+1];   // или min, max, ...
-}</code></pre>
+    <span class="k">for</span> (i /= <span class="n">2</span>; i &gt; <span class="n">0</span>; i /= <span class="n">2</span>)
+        tree[i] = tree[<span class="n">2</span>*i] + tree[<span class="n">2</span>*i+<span class="n">1</span>];   <span class="c">// или min, max, ...</span>
+}</code></pre></div>
 
 <h3>Запрос на полуинтервале $[l, r)$</h3>
 <p>Сдвигаем $l$ и $r$ на $K$ (в листья) и идём наверх. Пока $l &lt; r$:</p>
@@ -444,16 +468,16 @@ void update(int i, int value) {
   <li>если $r$ нечётно — делаем <code>--r</code> и добавляем <code>tree[r]</code>;</li>
   <li>затем <code>l /= 2</code>, <code>r /= 2</code>.</li>
 </ul>
-<pre><code>int get(int l, int r) {   // полуинтервал [l, r)
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">int</span> <span class="f">get</span>(<span class="t">int</span> l, <span class="t">int</span> r) {   <span class="c">// полуинтервал [l, r)</span>
     l += K; r += K;
-    int res = 0;
-    while (l &lt; r) {
-        if (l &amp; 1) res += tree[l++];
-        if (r &amp; 1) res += tree[--r];
-        l /= 2; r /= 2;
+    <span class="t">int</span> res = <span class="n">0</span>;
+    <span class="k">while</span> (l &lt; r) {
+        <span class="k">if</span> (l &amp; <span class="n">1</span>) res += tree[l++];
+        <span class="k">if</span> (r &amp; <span class="n">1</span>) res += tree[--r];
+        l /= <span class="n">2</span>; r /= <span class="n">2</span>;
     }
-    return res;
-}</code></pre>
+    <span class="k">return</span> res;
+}</code></pre></div>
 <p>Смысл: если $l$ нечётно, его «предок» содержит лишний левый кусок, поэтому берём $l$ отдельно и сдвигаемся. Аналогично с правой границей. На каждом уровне полуинтервал сжимается в $\left\lfloor l/2 \right\rfloor, \left\lfloor r/2 \right\rfloor$.</p>
 <div class="note"><span class="lbl">Некоммутативные операции</span><br>
 Если операция некоммутативна (например, ответ = (префикс из единиц, суффикс из единиц, максимум) — важен порядок), то «левые» и «правые» куски нужно накапливать <strong>отдельно</strong> и объединять только в конце.</div>
@@ -462,56 +486,56 @@ void update(int i, int value) {
 <p><strong>Задача.</strong> Массив длины $10^9$ (все нули), операции: <code>update(i, x)</code> и <code>get(l, r)</code> — сумма на отрезке. $q \le 10^5$ запросов.</p>
 <p>Обычное дерево займёт $4\cdot10^9$ — нельзя. Но вершин, которые нам реально нужны, мало: при обновлении создаётся $O(\log n)$ вершин.</p>
 <p><strong>Идея.</strong> Изначально в дереве только корень. Когда в запросе доходим до несуществующей вершины — <strong>создаём её на лету</strong>. Если вершины не существует, значит в её поддереве не было обновлений, и сумма там $0$.</p>
-<pre><code>const int MAXN = 20 * 100000;  // Q * log(n)
-int ls[MAXN], rs[MAXN];        // дети (0 = не существует)
-long long sum[MAXN];
-int sz = 1;                     // корень = 0
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="k">const</span> <span class="t">int</span> MAXN = <span class="n">20</span> * <span class="n">100000</span>;  <span class="c">// Q * log(n)</span>
+<span class="t">int</span> ls[MAXN], rs[MAXN];        <span class="c">// дети (0 = не существует)</span>
+<span class="t">long</span> <span class="t">long</span> sum[MAXN];
+<span class="t">int</span> sz = <span class="n">1</span>;                     <span class="c">// корень = 0</span>
 
-void update(int v, int l, int r, int i, long long x) {
-    if (l == r - 1) { sum[v] = x; return; }
-    int m = (l + r) / 2;
-    if (i &lt; m) {
-        if (!ls[v]) ls[v] = sz++;      // создать левого сына
-        update(ls[v], l, m, i, x);
-    } else {
-        if (!rs[v]) rs[v] = sz++;      // создать правого сына
-        update(rs[v], m, r, i, x);
+<span class="t">void</span> <span class="f">update</span>(<span class="t">int</span> v, <span class="t">int</span> l, <span class="t">int</span> r, <span class="t">int</span> i, <span class="t">long</span> <span class="t">long</span> x) {
+    <span class="k">if</span> (l == r - <span class="n">1</span>) { sum[v] = x; <span class="k">return</span>; }
+    <span class="t">int</span> m = (l + r) / <span class="n">2</span>;
+    <span class="k">if</span> (i &lt; m) {
+        <span class="k">if</span> (!ls[v]) ls[v] = sz++;      <span class="c">// создать левого сына</span>
+        <span class="f">update</span>(ls[v], l, m, i, x);
+    } <span class="k">else</span> {
+        <span class="k">if</span> (!rs[v]) rs[v] = sz++;      <span class="c">// создать правого сына</span>
+        <span class="f">update</span>(rs[v], m, r, i, x);
     }
-    sum[v] = sum[ls[v]] + sum[rs[v]];  // (нет сына → sum = 0)
+    sum[v] = sum[ls[v]] + sum[rs[v]];  <span class="c">// (нет сына → sum = 0)</span>
 }
 
-long long get(int v, int l, int r, int ql, int qr) {
-    if (!v) return 0;                   // вершины нет → ноль
-    if (ql &lt;= l &amp;&amp; r &lt;= qr) return sum[v];
-    int m = (l + r) / 2;
-    long long res = 0;
-    if (ql &lt; m) res += get(ls[v], l, m, ql, qr);
-    if (qr &gt; m) res += get(rs[v], m, r, ql, qr);
-    return res;
-}</code></pre>
+<span class="t">long</span> <span class="t">long</span> <span class="f">get</span>(<span class="t">int</span> v, <span class="t">int</span> l, <span class="t">int</span> r, <span class="t">int</span> ql, <span class="t">int</span> qr) {
+    <span class="k">if</span> (!v) <span class="k">return</span> <span class="n">0</span>;                   <span class="c">// вершины нет → ноль</span>
+    <span class="k">if</span> (ql &lt;= l &amp;&amp; r &lt;= qr) <span class="k">return</span> sum[v];
+    <span class="t">int</span> m = (l + r) / <span class="n">2</span>;
+    <span class="t">long</span> <span class="t">long</span> res = <span class="n">0</span>;
+    <span class="k">if</span> (ql &lt; m) res += <span class="f">get</span>(ls[v], l, m, ql, qr);
+    <span class="k">if</span> (qr &gt; m) res += <span class="f">get</span>(rs[v], m, r, ql, qr);
+    <span class="k">return</span> res;
+}</code></pre></div>
 <div class="warn"><span class="lbl">Подводные камни</span><br>
 Вершин всего $O(q\log n)$ — это много памяти, хранить лучше в массивах (не векторах и не указателях). Используется неявное дерево, когда $n$ огромно (порядка $10^9$–$10^{18}$); если запросы оффлайн — быстрее просто <strong>сжать координаты</strong> и сделать обычное дерево.</div>
 
 <h2 id="s3">3. Массовые операции (ленивые) <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=2220" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">0:37:00</a></h2>
 <p><strong>Задача.</strong> <code>add(l, r, x)</code> — прибавить $x$ на отрезке; <code>sum(l, r)</code> — сумма на отрезке.</p>
 <p>Храним в вершине два поля: <code>sum[v]</code> (сумма) и <code>add[v]</code> (ленивая добавка). Инвариант: реальное значение суммы вершины $=$ <code>sum[v] + add[v]·(len)</code>. Функция <code>push(v)</code> проталкивает добавку детям.</p>
-<pre><code>void push(int v, int l, int r) {
-    if (add[v] != 0) {
-        add[2*v] += add[v];
-        add[2*v+1] += add[v];
-        add[v] = 0;
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">void</span> <span class="f">push</span>(<span class="t">int</span> v, <span class="t">int</span> l, <span class="t">int</span> r) {
+    <span class="k">if</span> (add[v] != <span class="n">0</span>) {
+        add[<span class="n">2</span>*v] += add[v];
+        add[<span class="n">2</span>*v+<span class="n">1</span>] += add[v];
+        add[v] = <span class="n">0</span>;
     }
 }
 
-void update(int v, int l, int r, int ql, int qr, long long x) {
-    if (qr &lt;= l || r &lt;= ql) return;
-    if (ql &lt;= l &amp;&amp; r &lt;= qr) { add[v] += x; return; }
-    push(v, l, r);
-    int m = (l + r) / 2;
-    update(2*v, l, m, ql, qr, x);
-    update(2*v+1, m, r, ql, qr, x);
-    sum[v] = sum[2*v] + add[2*v]*(m-l) + sum[2*v+1] + add[2*v+1]*(r-m);
-}</code></pre>
+<span class="t">void</span> <span class="f">update</span>(<span class="t">int</span> v, <span class="t">int</span> l, <span class="t">int</span> r, <span class="t">int</span> ql, <span class="t">int</span> qr, <span class="t">long</span> <span class="t">long</span> x) {
+    <span class="k">if</span> (qr &lt;= l || r &lt;= ql) <span class="k">return</span>;
+    <span class="k">if</span> (ql &lt;= l &amp;&amp; r &lt;= qr) { add[v] += x; <span class="k">return</span>; }
+    <span class="f">push</span>(v, l, r);
+    <span class="t">int</span> m = (l + r) / <span class="n">2</span>;
+    <span class="f">update</span>(<span class="n">2</span>*v, l, m, ql, qr, x);
+    <span class="f">update</span>(<span class="n">2</span>*v+<span class="n">1</span>, m, r, ql, qr, x);
+    sum[v] = sum[<span class="n">2</span>*v] + add[<span class="n">2</span>*v]*(m-l) + sum[<span class="n">2</span>*v+<span class="n">1</span>] + add[<span class="n">2</span>*v+<span class="n">1</span>]*(r-m);
+}</code></pre></div>
 <div class="note"><span class="lbl">Альтернатива без пушей (задача 3)</span><br>
 Для операции «прибавить на отрезке + минимум на отрезке» можно вообще не делать пуши: при обновлении просто <code>add[v] += x</code> (без пересчёта дерева), а при запросе <code>get</code> накапливать <code>add</code> по пути от корня. Реальное значение вершины $= tree[v] + add[v]$. Пуши обходятся дорого (лишние операции), а так — профит до 2 раз по времени.</div>
 
@@ -527,36 +551,36 @@ void update(int v, int l, int r, int ql, int qr, long long x) {
 <p>Это позволяет построить дерево (для $n=16$ — красивая структура из отрезков-степеней двойки).</p>
 <h3>Операции</h3>
 <p><strong>Прибавить в точке</strong> ($i$-й элемент): нужно обновить все отрезки, содержащие $i$. Родитель отрезка $i$ — это $i + f(i)$:</p>
-<pre><code>void add(int i, long long x) {          // 1-индексация
-    for (; i &lt;= n; i += i &amp; (-i)) t[i] += x;
-}</code></pre>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">void</span> <span class="f">add</span>(<span class="t">int</span> i, <span class="t">long</span> <span class="t">long</span> x) {          <span class="c">// 1-индексация</span>
+    <span class="k">for</span> (; i &lt;= n; i += i &amp; (-i)) t[i] += x;
+}</code></pre></div>
 <p><strong>Сумма на префиксе</strong> $[1, i]$: нужно взять вложенные отрезки, идя «влево»:</p>
-<pre><code>long long pref(int i) {
-    long long s = 0;
-    for (; i &gt; 0; i -= i &amp; (-i)) s += t[i];
-    return s;
-}</code></pre>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">long</span> <span class="t">long</span> <span class="f">pref</span>(<span class="t">int</span> i) {
+    <span class="t">long</span> <span class="t">long</span> s = <span class="n">0</span>;
+    <span class="k">for</span> (; i &gt; <span class="n">0</span>; i -= i &amp; (-i)) s += t[i];
+    <span class="k">return</span> s;
+}</code></pre></div>
 <p>Обе операции — $O(\log n)$, причём по факту Фенвик быстрее даже дерева отрезков снизу (всего пара операций на итерацию).</p>
 <h3>Спуск по Фенвику <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=3900" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:05:00</a></h3>
 <p>Задача: найти минимальное $k$, такое что сумма на префиксе $[1,k]$ хотя бы $x$. Идём по степеням двойки от $\log n$ до $0$: если можем добавить блок размера $2^i$ и сумма всё ещё $&lt; x$ — добавляем.</p>
-<pre><code>int k = 0;
-for (int i = LOG; i &gt;= 0; --i) {
-    if (k + (1 &lt;&lt; i) &lt;= n &amp;&amp; x &gt; t[k + (1 &lt;&lt; i)]) {
-        k += (1 &lt;&lt; i);
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">int</span> k = <span class="n">0</span>;
+<span class="k">for</span> (<span class="t">int</span> i = LOG; i &gt;= <span class="n">0</span>; --i) {
+    <span class="k">if</span> (k + (<span class="n">1</span> &lt;&lt; i) &lt;= n &amp;&amp; x &gt; t[k + (<span class="n">1</span> &lt;&lt; i)]) {
+        k += (<span class="n">1</span> &lt;&lt; i);
         x -= t[k];
     }
 }
-// ответ: k + 1</code></pre>
+<span class="c">// ответ: k + 1</span></code></pre></div>
 <p>Это жадно по битам от старших к младшим — тот же приём, что подъём/спуск по двоичному дереву.</p>
 
 <h2 id="s5">5. Сжатие координат <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=6060" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:41:00</a></h2>
 <p>Если координаты большие, а запросов мало — выписываем все интересующие координаты, сортируем, убираем дубликаты и заменяем значение на его индекс через <code>lower_bound</code>.</p>
-<pre><code>vector&lt;long long&gt; xs;
-for (запрос) xs.push_back(l), xs.push_back(r);   // все координаты
-sort(xs.begin(), xs.end());
-xs.erase(unique(xs.begin(), xs.end()), xs.end());
-// замена координаты v:
-int id = lower_bound(xs.begin(), xs.end(), v) - xs.begin();</code></pre>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">vector</span>&lt;<span class="t">long</span> <span class="t">long</span>&gt; xs;
+<span class="k">for</span> (запрос) xs.<span class="f">push_back</span>(l), xs.<span class="f">push_back</span>(r);   <span class="c">// все координаты</span>
+<span class="f">sort</span>(xs.<span class="f">begin</span>(), xs.<span class="f">end</span>());
+xs.<span class="f">erase</span>(<span class="f">unique</span>(xs.<span class="f">begin</span>(), xs.<span class="f">end</span>()), xs.<span class="f">end</span>());
+<span class="c">// замена координаты v:</span>
+<span class="t">int</span> id = <span class="f">lower_bound</span>(xs.<span class="f">begin</span>(), xs.<span class="f">end</span>(), v) - xs.<span class="f">begin</span>();</code></pre></div>
 
 <h2 id="s6">6. Базовые применения (разностный массив, прогрессии, минимум) <a class="ts" href="https://youtu.be/A74oB2hrQqM?t=4680" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:18:00</a></h2>
 <h3>Задача 1. Прибавление на отрезке, финальный массив (оффлайн)</h3>
@@ -581,13 +605,13 @@ int id = lower_bound(xs.begin(), xs.end(), v) - xs.begin();</code></pre>
 <p>Тогда количество различных на $[l,r]$ (где $r$ — текущая позиция) — это сумма на отрезке $[l, r]$. Каждое значение даёт ровно одну единичку внутри отрезка, если оно там встречается.</p>
 <h3>MEX на отрезке</h3>
 <p>Те же идеи, но теперь дерево хранит <strong>последнее вхождение</strong> каждого значения. MEX на $[l,r]$ — минимальное $x$, у которого последнее вхождение $&lt; l$. Строим дерево отрезков на минимум по значениям и делаем <strong>спуск</strong> в первый лист с минимумом $&lt; l$.</p>
-<pre><code>// дерево на минимум; ищем первый x с last[x] < l
-int descend(int v, int tl, int tr, int l) {
-    if (tl + 1 == tr) return tl;
-    int m = (tl + tr) / 2;
-    if (tree[2*v] &lt; l) return descend(2*v, tl, m, l);
-    else                 return descend(2*v+1, m, tr, l);
-}</code></pre>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// дерево на минимум; ищем первый x с last[x] &lt; l</span>
+<span class="t">int</span> <span class="f">descend</span>(<span class="t">int</span> v, <span class="t">int</span> tl, <span class="t">int</span> tr, <span class="t">int</span> l) {
+    <span class="k">if</span> (tl + <span class="n">1</span> == tr) <span class="k">return</span> tl;
+    <span class="t">int</span> m = (tl + tr) / <span class="n">2</span>;
+    <span class="k">if</span> (tree[<span class="n">2</span>*v] &lt; l) <span class="k">return</span> <span class="f">descend</span>(<span class="n">2</span>*v, tl, m, l);
+    <span class="k">else</span>                 <span class="k">return</span> <span class="f">descend</span>(<span class="n">2</span>*v+<span class="n">1</span>, m, tr, l);
+}</code></pre></div>
 <div class="note"><span class="lbl">Замечание</span><br>
 Для mex значения всегда малы ($\le n$), поэтому сжатие координат не нужно. При переходе $i \to i+1$ в дереве меняется ровно одно значение — позиция текущего элемента.</div>
 

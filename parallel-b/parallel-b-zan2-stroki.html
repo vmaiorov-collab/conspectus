@@ -369,6 +369,30 @@ html[data-theme] .algo .bscell.R{background:var(--f-orange-bg); color:var(--f-on
 html[data-theme] .algo .bscell.mid{background:var(--f-yellow-bg); color:var(--f-on)}
 html[data-theme] .algo .bscell.found{box-shadow:0 0 0 3px color-mix(in srgb,var(--f-green) 40%,transparent)}
 
+/* блоки кода */
+html[data-theme]{
+  --code-paper:#f4f0e7; --code-head:#ebe5d8; --code-line:#e0d9ca; --code-text:#2b2925;
+  --hl-c:#8d877b; --hl-k:#1f4fd1; --hl-t:#7a3fb8; --hl-s:#2e7d32; --hl-n:#b4540a; --hl-f:#8a5a00; --hl-p:#b8372a;
+}
+html[data-theme="dark"]{
+  --code-paper:#1c1b19; --code-head:#232220; --code-line:#2e2d2a; --code-text:#e6e2d9;
+  --hl-c:#7f7a70; --hl-k:#8fb0ff; --hl-t:#c9a6ff; --hl-s:#a5d68f; --hl-n:#f2a96a; --hl-f:#e9d18e; --hl-p:#f08c7c;
+}
+html[data-theme] .code{margin:18px 0; border:1px solid var(--code-line); border-radius:8px; background:var(--code-paper); overflow:hidden}
+html[data-theme] .code-head{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:6px 8px 6px 14px; background:var(--code-head); border-bottom:1px solid var(--code-line); font-family:var(--mono); font-size:.72rem; color:var(--muted); letter-spacing:.03em}
+html[data-theme] .code-head .copy{font:inherit; color:var(--muted); background:none; border:1px solid transparent; border-radius:5px; padding:3px 9px; cursor:pointer; transition:color .15s, border-color .15s, background-color .15s}
+html[data-theme] .code-head .copy:hover{color:var(--ink); border-color:var(--code-line); background:var(--code-paper)}
+html[data-theme] .code pre{margin:0; border:0; border-radius:0; background:none; color:var(--code-text); padding:14px 16px; font-size:.84rem; line-height:1.6; tab-size:4; overflow-x:auto}
+html[data-theme] .code pre code{font-family:var(--mono); background:none; color:inherit; padding:0}
+html[data-theme] .hl .c{color:var(--hl-c); font-style:italic}
+html[data-theme] .hl .k{color:var(--hl-k); font-weight:600}
+html[data-theme] .hl .t{color:var(--hl-t)}
+html[data-theme] .hl .s{color:var(--hl-s)}
+html[data-theme] .hl .n{color:var(--hl-n)}
+html[data-theme] .hl .f{color:var(--hl-f)}
+html[data-theme] .hl .p{color:var(--hl-p)}
+@media print{html[data-theme] .code-head .copy{display:none}}
+
 /* плавная смена темы */
 html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:background-color .3s ease, color .3s ease, border-color .3s ease !important}
 
@@ -387,7 +411,7 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 }
 @media print{html[data-theme] .top, html[data-theme] .toplink{display:none} html[data-theme] body{background:#fff}}
 </style>
-<script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);</script>
+<script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".code .copy");if(!b)return;var pre=b.closest(".code").querySelector("pre"),t=pre.innerText;function ok(){b.textContent="скопировано ✓";setTimeout(function(){b.textContent="копировать"},1600)}function sel(){var r=document.createRange();r.selectNodeContents(pre);var x=getSelection();x.removeAllRanges();x.addRange(r);b.textContent="выделено — нажмите ⌘C"}if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>
 </head>
 <body>
 <div class="wrap">
@@ -438,18 +462,18 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 <p><strong>Ключевой факт.</strong> Все длины-кандидаты (префиксы, равные суффиксу, для которых всё, кроме последнего символа, уже проверено) — это в точности цепочка бордеров: $\pi[i-1],\ \pi[\pi[i-1]-1],\ \pi[\pi[\pi[i-1]-1]-1], \dots$ до нуля. Поэтому, когда кандидат не подошёл (последние символы не равны), переходим не к следующей длине, а к <strong>бордеру этого бордера</strong>.</p>
 <figure class="viz"><svg viewBox="0 0 760 440" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="440" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Считаем π[7] для S = abacabab: перебор по цепочке бордеров</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Кандидат j: первые j символов уже совпали с концом. Осталось сравнить S[j] и S[i].</text><text x="235.0" y="102" fill="#9aa4b2" font-size="13" text-anchor="middle">0</text><text x="285.0" y="102" fill="#9aa4b2" font-size="13" text-anchor="middle">1</text><text x="335.0" y="102" fill="#9aa4b2" font-size="13" text-anchor="middle">2</text><text x="385.0" y="102" fill="#9aa4b2" font-size="13" text-anchor="middle">3</text><text x="435.0" y="102" fill="#9aa4b2" font-size="13" text-anchor="middle">4</text><text x="485.0" y="102" fill="#9aa4b2" font-size="13" text-anchor="middle">5</text><text x="535.0" y="102" fill="#9aa4b2" font-size="13" text-anchor="middle">6</text><text x="585.0" y="102" fill="#ffff00" font-size="13" font-weight="700" text-anchor="middle">7</text><text x="585.0" y="86" fill="#ffff00" font-size="14" font-weight="700" text-anchor="middle" font-style="italic">i</text><text x="192" y="132" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="end">j = π[6] = 3</text><text x="192" y="152" fill="#9aa4b2" font-size="13" text-anchor="end">бордер «aba»</text><rect x="213" y="112" width="44" height="40" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="235.0" y="138.12" fill="#141a24" font-size="17" font-weight="700" text-anchor="middle">a</text><rect x="263" y="112" width="44" height="40" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="285.0" y="138.12" fill="#141a24" font-size="17" font-weight="700" text-anchor="middle">b</text><rect x="313" y="112" width="44" height="40" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="335.0" y="138.12" fill="#141a24" font-size="17" font-weight="700" text-anchor="middle">a</text><rect x="363" y="112" width="44" height="40" rx="6" fill="#fc6255" stroke="#fc6255" stroke-width="1.5"/><text x="385.0" y="138.12" fill="#141a24" font-size="17" font-weight="700" text-anchor="middle">c</text><rect x="413" y="112" width="44" height="40" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="435.0" y="138.12" fill="#141a24" font-size="17" font-weight="700" text-anchor="middle">a</text><rect x="463" y="112" width="44" height="40" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="485.0" y="138.12" fill="#141a24" font-size="17" font-weight="700" text-anchor="middle">b</text><rect x="513" y="112" width="44" height="40" rx="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="1.5"/><text x="535.0" y="138.12" fill="#141a24" font-size="17" font-weight="700" text-anchor="middle">a</text><rect x="563" y="112" width="44" height="40" rx="6" fill="#fc6255" stroke="#fc6255" stroke-width="1.5"/><text x="585.0" y="138.12" fill="#141a24" font-size="17" font-weight="700" text-anchor="middle">b</text><path d="M385.0,156 C385.0,182 585.0,182 585.0,156" stroke="#fc6255" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="485.0" y="192" fill="#fc6255" font-size="14.5" font-weight="700" text-anchor="middle">S[3] = c  ≠  S[7] = b  ✗</text><text x="192" y="260" fill="#dfe7f1" font-size="15" font-weight="700" text-anchor="end">j = π[2] = 1</text><text x="192" y="280" fill="#9aa4b2" font-size="13" text-anchor="end">бордер бордера «a»</text><rect x="213" y="240" width="44" height="40" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="235.0" y="266.12" fill="#141a24" font-size="17" font-weight="700" text-anchor="middle">a</text><rect x="263" y="240" width="44" height="40" rx="6" fill="#ffff00" stroke="#ffff00" stroke-width="1.5"/><text x="285.0" y="266.12" fill="#141a24" font-size="17" font-weight="700" text-anchor="middle">b</text><rect x="313" y="240" width="44" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="335.0" y="266.12" fill="#dfe7f1" font-size="17" font-weight="700" text-anchor="middle">a</text><rect x="363" y="240" width="44" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="385.0" y="266.12" fill="#dfe7f1" font-size="17" font-weight="700" text-anchor="middle">c</text><rect x="413" y="240" width="44" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="435.0" y="266.12" fill="#dfe7f1" font-size="17" font-weight="700" text-anchor="middle">a</text><rect x="463" y="240" width="44" height="40" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="485.0" y="266.12" fill="#dfe7f1" font-size="17" font-weight="700" text-anchor="middle">b</text><rect x="513" y="240" width="44" height="40" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="535.0" y="266.12" fill="#141a24" font-size="17" font-weight="700" text-anchor="middle">a</text><rect x="563" y="240" width="44" height="40" rx="6" fill="#ffff00" stroke="#ffff00" stroke-width="1.5"/><text x="585.0" y="266.12" fill="#141a24" font-size="17" font-weight="700" text-anchor="middle">b</text><path d="M285.0,284 C285.0,310 585.0,310 585.0,284" stroke="#83c167" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="435.0" y="320" fill="#83c167" font-size="14.5" font-weight="700" text-anchor="middle">S[1] = b  =  S[7] = b  ✓</text><text x="32" y="380" fill="#83c167" font-size="16" font-weight="700" text-anchor="start">Совпало при j = 1, значит π[7] = j + 1 = 2.</text><text x="32" y="406" fill="#c2cdde" font-size="14" text-anchor="start">Кандидат j = 2 даже не рассматривали: кандидаты — только цепочка бордеров π[i−1], π[π[i−1]−1], … до 0.</text></svg><figcaption>Если очередной кандидат не продолжается символом $S[i]$, переходим к бордеру этого бордера: $j \leftarrow \pi[j-1]$.</figcaption></figure>
 <p>Алгоритм: $j$ — длина текущего кандидата (изначально $\pi[i-1]$). Пока $j &gt; 0$ и $S[j] \ne S[i]$ — делаем $j = \pi[j-1]$. Затем, если $S[j] = S[i]$, увеличиваем $j$. В конце $\pi[i] = j$.</p>
-<pre><code>vector&lt;int&gt; prefix_function(const string&amp; s) {
-    int n = s.size();
-    vector&lt;int&gt; pi(n, 0);
-    for (int i = 1; i &lt; n; ++i) {
-        int j = pi[i - 1];
-        while (j &gt; 0 &amp;&amp; s[j] != s[i])
-            j = pi[j - 1];          // переходим к бордеру бордера
-        if (s[j] == s[i]) ++j;
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">vector</span>&lt;<span class="t">int</span>&gt; <span class="f">prefix_function</span>(<span class="k">const</span> <span class="t">string</span>&amp; s) {
+    <span class="t">int</span> n = s.<span class="f">size</span>();
+    <span class="t">vector</span>&lt;<span class="t">int</span>&gt; <span class="f">pi</span>(n, <span class="n">0</span>);
+    <span class="k">for</span> (<span class="t">int</span> i = <span class="n">1</span>; i &lt; n; ++i) {
+        <span class="t">int</span> j = pi[i - <span class="n">1</span>];
+        <span class="k">while</span> (j &gt; <span class="n">0</span> &amp;&amp; s[j] != s[i])
+            j = pi[j - <span class="n">1</span>];          <span class="c">// переходим к бордеру бордера</span>
+        <span class="k">if</span> (s[j] == s[i]) ++j;
         pi[i] = j;
     }
-    return pi;
-}</code></pre>
+    <span class="k">return</span> pi;
+}</code></pre></div>
 <div class="good"><span class="lbl">Почему $O(n)$</span><br>
 Значение $j$ поднимается не более чем на 1 за шаг (суммарно $O(n)$ подъёмов), а спуски «окупаются» подъёмами — всего $O(n)$ спусков. Каждая итерация внутреннего цикла — $O(1)$, итого $O(n)$.</div>
 
@@ -466,22 +490,22 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 <p><strong>Z-функция</strong> $z[i]$ строки — длина наибольшего префикса строки, совпадающего со строкой, начинающейся с позиции $i$ (то есть наибольший общий префикс всей строки и суффикса $S[i..]$).</p>
 <h3>Линейный алгоритм</h3>
 <p>Поддерживаем самое правое из «изведанных» совпадений — отрезок $[l, r)$, где строка $S[l..r)$ совпадает с префиксом $S[0..r-l)$.</p>
-<pre><code>vector&lt;int&gt; z_function(const string&amp; s) {
-    int n = s.size();
-    vector&lt;int&gt; z(n);
-    int l = 0, r = 0;
-    for (int i = 1; i &lt; n; ++i) {
-        if (i &lt; r)
-            z[i] = min(r - i, z[i - l]);   // заведомо совпадающий кусок
-        while (i + z[i] &lt; n &amp;&amp; s[z[i]] == s[i + z[i]])
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">vector</span>&lt;<span class="t">int</span>&gt; <span class="f">z_function</span>(<span class="k">const</span> <span class="t">string</span>&amp; s) {
+    <span class="t">int</span> n = s.<span class="f">size</span>();
+    <span class="t">vector</span>&lt;<span class="t">int</span>&gt; <span class="f">z</span>(n);
+    <span class="t">int</span> l = <span class="n">0</span>, r = <span class="n">0</span>;
+    <span class="k">for</span> (<span class="t">int</span> i = <span class="n">1</span>; i &lt; n; ++i) {
+        <span class="k">if</span> (i &lt; r)
+            z[i] = <span class="f">min</span>(r - i, z[i - l]);   <span class="c">// заведомо совпадающий кусок</span>
+        <span class="k">while</span> (i + z[i] &lt; n &amp;&amp; s[z[i]] == s[i + z[i]])
             ++z[i];
-        if (i + z[i] &gt; r) {                // расширили правую границу
+        <span class="k">if</span> (i + z[i] &gt; r) {                <span class="c">// расширили правую границу</span>
             l = i;
             r = i + z[i];
         }
     }
-    return z;
-}</code></pre>
+    <span class="k">return</span> z;
+}</code></pre></div>
 <p><strong>Идея.</strong> Если позиция $i$ лежит внутри $[l,r)$, то строка $S[i..r)$ совпадает со строкой $S[i-l..r-l)$, и мы уже знаем её общий префикс с началом строки — это $z[i-l]$. Поэтому инициализируем $z[i] = \min(z[i-l],\ r-i)$ и расширяем дальше только в случае необходимости. Каждая успешная проверка во <code>while</code> сдвигает правую границу $r$, поэтому суммарно $O(n)$.</p>
 <p>Для поиска подстроки склеиваем $S\ \#\ T$ и ищем позиции, где $z[i] = |S|$ (разделитель здесь даже необязателен, но для удобства можно оставить).</p>
 
@@ -501,28 +525,28 @@ html.theme-anim, html.theme-anim *, html.theme-anim *::before{transition:backgro
 <p><strong>Идея.</strong> Слова, имеющие общий префикс, «схлопываются» — общий префикс хранится один раз. Получается корневое дерево, рёбра которого помечены символами.</p>
 <figure class="viz"><svg viewBox="0 0 760 430" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="430" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Бор для слов: бор, бот, борд, дом</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Общий префикс «бо» хранится один раз. Зелёные вершины — конец какого-то слова.</text><line x1="314.8" y1="109.7" x2="235.2" y2="160.3" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><text x="259.0" y="141.0" fill="#58c4dd" font-size="17" font-weight="700" text-anchor="middle">б</text><line x1="346.1" y1="108.0" x2="453.9" y2="162.0" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><text x="416.0" y="141.0" fill="#58c4dd" font-size="17" font-weight="700" text-anchor="middle">д</text><line x1="220.0" y1="188.0" x2="220.0" y2="222.0" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><text x="204.0" y="211.0" fill="#58c4dd" font-size="17" font-weight="700" text-anchor="middle">о</text><line x1="470.0" y1="188.0" x2="470.0" y2="222.0" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><text x="454.0" y="211.0" fill="#58c4dd" font-size="17" font-weight="700" text-anchor="middle">о</text><line x1="207.3" y1="252.7" x2="162.7" y2="297.3" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><text x="169.0" y="281.0" fill="#58c4dd" font-size="17" font-weight="700" text-anchor="middle">р</text><line x1="232.7" y1="252.7" x2="277.3" y2="297.3" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><text x="271.0" y="281.0" fill="#58c4dd" font-size="17" font-weight="700" text-anchor="middle">т</text><line x1="470.0" y1="258.0" x2="470.0" y2="292.0" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><text x="454.0" y="281.0" fill="#58c4dd" font-size="17" font-weight="700" text-anchor="middle">м</text><line x1="150.0" y1="328.0" x2="150.0" y2="362.0" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><text x="134.0" y="351.0" fill="#58c4dd" font-size="17" font-weight="700" text-anchor="middle">д</text><circle cx="330" cy="100" r="18" fill="#1e2836" stroke="#7c8aa0" stroke-width="2.5"/><text x="330" y="104.9" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">4</text><circle cx="220" cy="170" r="18" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="220" y="174.9" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">3</text><circle cx="470" cy="170" r="18" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="470" y="174.9" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">1</text><circle cx="220" cy="240" r="18" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="220" y="244.9" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">3</text><circle cx="470" cy="240" r="18" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="470" y="244.9" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">1</text><circle cx="150" cy="310" r="18" fill="#83c167" stroke="#83c167" stroke-width="2.5"/><text x="150" y="314.9" fill="#141a24" font-size="14" font-weight="700" text-anchor="middle">2</text><text x="122" y="315" fill="#83c167" font-size="14.5" font-weight="700" text-anchor="end">«бор»</text><circle cx="290" cy="310" r="18" fill="#83c167" stroke="#83c167" stroke-width="2.5"/><text x="290" y="314.9" fill="#141a24" font-size="14" font-weight="700" text-anchor="middle">1</text><text x="318" y="315" fill="#83c167" font-size="14.5" font-weight="700" text-anchor="start">«бот»</text><circle cx="470" cy="310" r="18" fill="#83c167" stroke="#83c167" stroke-width="2.5"/><text x="470" y="314.9" fill="#141a24" font-size="14" font-weight="700" text-anchor="middle">1</text><text x="498" y="315" fill="#83c167" font-size="14.5" font-weight="700" text-anchor="start">«дом»</text><circle cx="150" cy="380" r="18" fill="#83c167" stroke="#83c167" stroke-width="2.5"/><text x="150" y="384.9" fill="#141a24" font-size="14" font-weight="700" text-anchor="middle">1</text><text x="178" y="385" fill="#83c167" font-size="14.5" font-weight="700" text-anchor="start">«борд»</text><text x="300" y="105" fill="#9aa4b2" font-size="13.5" text-anchor="end">корень</text><text x="560" y="120" fill="#c2cdde" font-size="14" text-anchor="start">Буква — на ребре.</text><text x="560" y="150" fill="#c2cdde" font-size="14" text-anchor="start">Число в вершине —</text><text x="560" y="170" fill="#c2cdde" font-size="14" text-anchor="start">cnt: сколько слов</text><text x="560" y="190" fill="#c2cdde" font-size="14" text-anchor="start">начинается с этого</text><text x="560" y="210" fill="#c2cdde" font-size="14" text-anchor="start">префикса.</text><text x="560" y="250" fill="#c2cdde" font-size="14" font-weight="700" text-anchor="start">Поиск «бот»:</text><text x="560" y="270" fill="#c2cdde" font-size="14" text-anchor="start">б → о → т, вершина</text><text x="560" y="290" fill="#c2cdde" font-size="14" text-anchor="start">зелёная — слово есть.</text></svg><figcaption>Слова с общим началом делят путь от корня; <code>cnt</code> в вершине — сколько слов начинаются с этого префикса.</figcaption></figure>
 <p><strong>Терминальная вершина</strong> — вершина, в которой заканчивается какое-то слово. При поиске идём по символам; если в конце терминальна — слово есть.</p>
-<pre><code>struct Node {
-    bool term = false;
-    unordered_map&lt;char, Node*&gt; next;   // переходы (экономия памяти)
-    int cnt = 0;                        // сколько слов в поддереве
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="k">struct</span> Node {
+    <span class="t">bool</span> term = <span class="k">false</span>;
+    <span class="t">unordered_map</span>&lt;<span class="t">char</span>, Node*&gt; next;   <span class="c">// переходы (экономия памяти)</span>
+    <span class="t">int</span> cnt = <span class="n">0</span>;                        <span class="c">// сколько слов в поддереве</span>
 };
 
-void add(Node* v, const string&amp; s) {
-    for (char c : s) {
-        if (!v-&gt;next.count(c)) v-&gt;next[c] = new Node();
+<span class="t">void</span> <span class="f">add</span>(Node* v, <span class="k">const</span> <span class="t">string</span>&amp; s) {
+    <span class="k">for</span> (<span class="t">char</span> c : s) {
+        <span class="k">if</span> (!v-&gt;next.<span class="f">count</span>(c)) v-&gt;next[c] = <span class="k">new</span> <span class="f">Node</span>();
         v = v-&gt;next[c];
-        v-&gt;cnt++;                        // слово проходит через v
+        v-&gt;cnt++;                        <span class="c">// слово проходит через v</span>
     }
-    v-&gt;term = true;
+    v-&gt;term = <span class="k">true</span>;
 }
 
-bool find(Node* v, const string&amp; s) {
-    for (char c : s) {
-        if (!v-&gt;next.count(c)) return false;
+<span class="t">bool</span> <span class="f">find</span>(Node* v, <span class="k">const</span> <span class="t">string</span>&amp; s) {
+    <span class="k">for</span> (<span class="t">char</span> c : s) {
+        <span class="k">if</span> (!v-&gt;next.<span class="f">count</span>(c)) <span class="k">return</span> <span class="k">false</span>;
         v = v-&gt;next[c];
     }
-    return v-&gt;term;
-}</code></pre>
+    <span class="k">return</span> v-&gt;term;
+}</code></pre></div>
 <p>Сложность всех операций — $O(\text{длина строки})$; суммарно по всем словам — $O(\text{сумма длин})$.</p>
 <div class="note"><span class="lbl">Практическое применение</span><br>
 Поле <code>cnt</code> (число слов в поддереве) позволяет отвечать «сколько слов начинаются с префикса $P$»: доходим до вершины, соответствующей $P$, и смотрим её <code>cnt</code>. При добавлении слова увеличиваем <code>cnt</code> на единицу на всём пути.</div>
@@ -533,21 +557,21 @@ bool find(Node* v, const string&amp; s) {
 <p><strong>Идея.</strong> Запишем числа в двоичной системе (с ведущими нулями) и построим бор, где алфавит — $\{0, 1\}$.</p>
 <figure class="viz"><svg viewBox="0 0 760 450" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="450" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Бинарный бор: max(x XOR y) для x = 4 = 100₂</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Числа 3 = 011, 2 = 010, 7 = 111. Идём от старшего бита и стараемся взять бит, противоположный биту x.</text><line x1="285.9" y1="119.4" x2="194.1" y2="180.6" stroke="#ff8c1a" stroke-width="3.5" stroke-linecap="round"/><text x="226.0" y="155.0" fill="#ff8c1a" font-size="16" font-weight="700" text-anchor="middle">0</text><line x1="180.0" y1="207.0" x2="180.0" y2="253.0" stroke="#ff8c1a" stroke-width="3.5" stroke-linecap="round"/><text x="166.0" y="235.0" fill="#ff8c1a" font-size="16" font-weight="700" text-anchor="middle">1</text><line x1="190.2" y1="283.6" x2="229.8" y2="336.4" stroke="#ff8c1a" stroke-width="3.5" stroke-linecap="round"/><text x="224.0" y="315.0" fill="#ff8c1a" font-size="16" font-weight="700" text-anchor="middle">1</text><line x1="169.8" y1="283.6" x2="130.2" y2="336.4" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><text x="136.0" y="315.0" fill="#58c4dd" font-size="16" font-weight="700" text-anchor="middle">0</text><line x1="314.1" y1="119.4" x2="405.9" y2="180.6" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><text x="374.0" y="155.0" fill="#58c4dd" font-size="16" font-weight="700" text-anchor="middle">1</text><line x1="420.0" y1="207.0" x2="420.0" y2="253.0" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><text x="406.0" y="235.0" fill="#58c4dd" font-size="16" font-weight="700" text-anchor="middle">1</text><line x1="420.0" y1="287.0" x2="420.0" y2="333.0" stroke="#3b4a63" stroke-width="2" stroke-linecap="round"/><text x="406.0" y="315.0" fill="#58c4dd" font-size="16" font-weight="700" text-anchor="middle">1</text><circle cx="300" cy="110" r="17" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="2.5"/><circle cx="180" cy="190" r="17" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="2.5"/><circle cx="180" cy="270" r="17" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="2.5"/><circle cx="240" cy="350" r="17" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="2.5"/><text x="240" y="355" fill="#141a24" font-size="14" font-weight="700" text-anchor="middle">3</text><text x="240" y="388" fill="#9aa4b2" font-size="13.5" text-anchor="middle">011</text><circle cx="120" cy="350" r="17" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="120" y="355" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">2</text><text x="120" y="388" fill="#9aa4b2" font-size="13.5" text-anchor="middle">010</text><circle cx="420" cy="190" r="17" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><circle cx="420" cy="270" r="17" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><circle cx="420" cy="350" r="17" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="420" y="355" fill="#dfe7f1" font-size="14" font-weight="700" text-anchor="middle">7</text><text x="420" y="388" fill="#9aa4b2" font-size="13.5" text-anchor="middle">111</text><text x="520" y="150" fill="#c2cdde" font-size="14.5" text-anchor="start">бит 2: у x 1, хотим 0</text><text x="520" y="172" fill="#83c167" font-size="14.5" font-weight="700" text-anchor="start">есть → идём в 0</text><text x="520" y="216" fill="#c2cdde" font-size="14.5" text-anchor="start">бит 1: у x 0, хотим 1</text><text x="520" y="238" fill="#83c167" font-size="14.5" font-weight="700" text-anchor="start">есть → идём в 1</text><text x="520" y="282" fill="#c2cdde" font-size="14.5" text-anchor="start">бит 0: у x 0, хотим 1</text><text x="520" y="304" fill="#83c167" font-size="14.5" font-weight="700" text-anchor="start">есть → идём в 1</text><text x="32" y="420" fill="#ff8c1a" font-size="15" font-weight="700" text-anchor="start">Нашли y = 011₂ = 3:  4 XOR 3 = 100 XOR 011 = 111₂ = 7 — максимум.</text></svg><figcaption>Жадный спуск по битам от старшего: где можно, идём в бит, противоположный биту $x$, — так XOR получается максимальным.</figcaption></figure>
 <p>Для запроса $x$ идём по битам от старшего к младшему и на каждом шаге <strong>жадно</strong> пытаемся пойти в ветку, противоположную текущему биту $x$ (чтобы в XOR получилась единица); если такой нет — идём в другую.</p>
-<pre><code>// максимальный x ^ y по всем y в боре
-int max_xor(Node* v, int x) {
-    int res = 0;
-    for (int b = LOG - 1; b &gt;= 0; --b) {
-        int bit = (x &gt;&gt; b) &amp; 1;
-        int want = bit ^ 1;                 // хотим противоположный бит
-        if (v-&gt;next[want]) {                // можем получить 1 в этом разряде
-            res |= (1 &lt;&lt; b);
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// максимальный x ^ y по всем y в боре</span>
+<span class="t">int</span> <span class="f">max_xor</span>(Node* v, <span class="t">int</span> x) {
+    <span class="t">int</span> res = <span class="n">0</span>;
+    <span class="k">for</span> (<span class="t">int</span> b = LOG - <span class="n">1</span>; b &gt;= <span class="n">0</span>; --b) {
+        <span class="t">int</span> bit = (x &gt;&gt; b) &amp; <span class="n">1</span>;
+        <span class="t">int</span> want = bit ^ <span class="n">1</span>;                 <span class="c">// хотим противоположный бит</span>
+        <span class="k">if</span> (v-&gt;next[want]) {                <span class="c">// можем получить 1 в этом разряде</span>
+            res |= (<span class="n">1</span> &lt;&lt; b);
             v = v-&gt;next[want];
-        } else {
+        } <span class="k">else</span> {
             v = v-&gt;next[bit];
         }
     }
-    return res;
-}</code></pre>
+    <span class="k">return</span> res;
+}</code></pre></div>
 <p>Аналогично находится <strong>$k$-е по возрастанию</strong> число: идём по битам, на каждом шаге смотрим <code>cnt</code> левой ветки — если $k \le cnt$ идём влево, иначе вычитаем $cnt$ и идём вправо. Сложность — $O(\log A)$ на запрос.</p>
 
 <h2 id="s9">9. Разбор контеста (графы) <a class="ts" href="https://youtu.be/NDBhDDblOMQ?t=9840" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:44:00</a></h2>
