@@ -199,24 +199,10 @@ html[data-look="book"] .news{
 }
 html[data-look="book"] .news time{display:block; margin:0 0 2px}
 /* фичи-карточки и CTA-плашка: главные признаки лендинга — убираем */
-/* Скрывать их целиком было перебором: это убрало ~800px высоты, и
-   страница стала короче экрана — прокручивать было нечего. Признак
-   лендинга — не сам текст, а сетка из трёх карточек. Поэтому текст
-   возвращаем, а сетку разбираем в сухой список. */
-html[data-look="book"] .features{
-  display:block; margin:26px 0 0; padding:16px 0 0;
-  border-top:1px solid var(--line);
-}
-html[data-look="book"] .features > div{margin:0 0 16px}
-html[data-look="book"] .features > div:last-child{margin-bottom:0}
-html[data-look="book"] .features h3{
-  font-family:var(--mono); font-weight:400; font-size:.78rem;
-  letter-spacing:.06em; text-transform:uppercase;
-  color:var(--muted); margin:0 0 3px;
-}
-html[data-look="book"] .features p{
-  font-size:.92rem; line-height:1.55; color:var(--ink); max-width:36ch;
-}
+/* Три «фичи» — лендинговая вода, на странице-оглавлении они не нужны.
+   Высоту страницы возвращает не этот текст, а раскрытые занятия
+   (см. скрипт ниже): оглавление должно показывать содержание. */
+html[data-look="book"] .features{display:none}
 html[data-look="book"] .ask{
   background:none; border:0; border-radius:0;
   margin:40px 0 0; padding:18px 0 0;
@@ -482,6 +468,19 @@ toggleAll.addEventListener("click", () => {
   heads.forEach(h => setOpen(h, open));
   toggleAll.textContent = open ? "свернуть все" : "развернуть все";
 });
+
+// В книжном виде занятия раскрыты сразу. Класс ставим напрямую, а не
+// через setOpen: иначе на загрузке разом проиграются пять анимаций
+// высоты. Дальше аккордеон работает как обычно — setOpen измеряет
+// текущую высоту, так что свернуть и развернуть по-прежнему можно.
+if (document.documentElement.getAttribute("data-look") === "book") {
+  heads.forEach((h) => {
+    h.classList.add("open");
+    h.setAttribute("aria-expanded", "true");
+    h.nextElementSibling.inert = false;
+  });
+  toggleAll.textContent = "свернуть все";
+}
 
 const q = document.getElementById("q");
 const nores = document.getElementById("nores");

@@ -452,16 +452,20 @@ html[data-look="book"]{
   --line:#e9edf1; --rule-hard:#d4dae1;
   --accent:var(--acc-l); --accent-soft:transparent;
   --tag:#e9edf1;
-  --code-bg:#15191e; --code-ink:#dfe3e8;
-  --code-paper:#15191e; --code-head:transparent;
-  --code-line:transparent; --code-text:#dfe3e8;
-  /* Палитра подсветки обязана идти вместе с фоном. Светлая палитра paper
-     рассчитана на кремовый #f4f0e7: на тёмном фоне синие ключевые слова
-     дают контраст 1.6:1 и просто пропадают. Ниже — набор под тёмный фон,
-     минимум в паре 5.1:1. Задан без привязки к теме: одинаково годится
-     и для #15191e, и для #0d1013 в тёмной. */
-  --hl-c:#7f8b99; --hl-k:#d79ae0; --hl-t:#93b3e8; --hl-s:#9ad8a8;
-  --hl-n:#e8b07a; --hl-f:#8fd3a8; --hl-p:#f0907c;
+  /* ── Листинг набран на бумаге, а не в чёрном ящике ──
+     Тёмная плашка с неоновыми пастельными цветами — язык тёмной IDE,
+     и в книжной вёрстке она выглядит чужеродной вставкой. В печатном
+     учебнике листинг идёт на той же бумаге: тёмной краской, различение
+     даётся начертанием, а красок — минимум.
+     Ключевые слова поэтому почти чёрные (у .hl .k уже есть
+     font-weight:600 — работает как полужирный в печатном листинге),
+     комментарий — серый курсив, и лишь четыре сдержанные краски
+     одной светлоты. Минимум в паре 4.75:1. */
+  --code-bg:#f3f5f9; --code-ink:#1b222a;
+  --code-paper:#f3f5f9; --code-head:transparent;
+  --code-line:#d8dfe8; --code-text:#1b222a;
+  --hl-c:#636e7c; --hl-k:#11161b; --hl-t:#1b4a8f; --hl-s:#1f6b45;
+  --hl-n:#8a4b1f; --hl-f:#3c4a59; --hl-p:#9c3322;
   --shadow-sm:none; --shadow-md:none; --shadow-lg:none;
   --sans:var(--serif);
 }
@@ -472,7 +476,15 @@ html[data-look="book"][data-theme="dark"]{
   --line:#232729; --rule-hard:#2e3335;
   --accent:var(--acc-d);
   --tag:#232729;
-  --code-bg:#0d1013; --code-paper:#0d1013;
+  /* Палитра листинга обязана идти в комплекте с его подложкой: светлый
+     набор выше рассчитан на #f3f5f9, и почти чёрные ключевые слова
+     #11161b на тёмной подложке исчезли бы совсем. Здесь та же логика
+     набора — ключевые слова почти белым полужирным, комментарий серым
+     курсивом, четыре сдержанные краски. Минимум в паре 4.6:1. */
+  --code-bg:#1b1f24; --code-ink:#dde3ea;
+  --code-paper:#1b1f24; --code-line:#2a3038; --code-text:#dde3ea;
+  --hl-c:#7d8894; --hl-k:#f2f5f8; --hl-t:#9cc0f0; --hl-s:#8fd0a8;
+  --hl-n:#e0a86e; --hl-f:#b8c4d0; --hl-p:#e59080;
 }
 
 /* ── лист на клетчатом столе ── */
@@ -601,19 +613,25 @@ html[data-look="book"] td{
 html[data-look="book"] tr:nth-child(even) td{background:none}
 
 /* ── код: без скруглений, тонкая шапка ── */
+/* Цвета только через токены: подложка листинга светлая в бумажной теме
+   и тёмная в ночной, поэтому хардкод вроде rgba(255,255,255,.08) здесь
+   работал бы лишь в одной из них. */
 html[data-look="book"] .code{
-  border:0; border-radius:0; margin:26px 0; background:var(--code-bg);
+  border:1px solid var(--code-line); border-radius:0;
+  margin:26px 0; background:var(--code-paper);
 }
 html[data-look="book"] .code-head{
-  background:none; border-bottom:1px solid rgba(255,255,255,.08);
-  padding:8px 14px; font-family:var(--mono); font-size:.74rem;
-  letter-spacing:.08em; text-transform:uppercase; color:#8b949e;
+  background:none; border-bottom:1px solid var(--code-line);
+  padding:7px 14px; font-family:var(--mono); font-size:.74rem;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
 }
 html[data-look="book"] .code-head .copy{
-  border:0; border-bottom:1px solid rgba(255,255,255,.2);
-  border-radius:0; padding:0; color:#8b949e;
+  border:0; border-bottom:1px solid var(--code-line);
+  border-radius:0; padding:0; color:var(--muted);
 }
-html[data-look="book"] .code-head .copy:hover{color:#fff; border-color:#fff; background:none}
+html[data-look="book"] .code-head .copy:hover{
+  color:var(--ink); border-color:var(--ink); background:none;
+}
 html[data-look="book"] pre, html[data-look="book"] pre.hl{
   border-radius:0; margin:0;
 }
