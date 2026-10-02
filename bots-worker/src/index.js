@@ -72,7 +72,10 @@ async function handleIdea(update, env) {
   await tgCall(token, "sendMessage", { chat_id: chatId, text: THANKS });
 }
 
-// ---------- stats-bot (Cloudflare Web Analytics GraphQL) ----------
+// ---------- stats-bot ----------
+// /stats, /today, /top — через GoatCounter (основной счётчик, стоит на всех
+// страницах). /parallels дополнительно сверяет с Cloudflare Web Analytics —
+// вторым, независимым источником, если он настроен.
 
 // ВНИМАНИЕ: это НЕ beacon-токен со страниц (82e37604...) — тот публичный
 // "site_token" отличается от внутреннего "site_tag", который требует
@@ -88,6 +91,15 @@ const PARALLEL_LABELS = {
   "parallel-c": "Параллель C",
 };
 
+// Публичный site-код из data-goatcounter на страницах (не секрет).
+const GC_SITE = "vmaiorov";
+
+function parallelKey(requestPath) {
+  let segs = (requestPath || "/").split("/").filter(Boolean);
+  if (segs[0] === "conspectus") segs = segs.slice(1);
+  return PARALLEL_LABELS[segs[0]] || "Главная / прочее";
+}
+
 async function cfQuery(env, query, variables) {
   const res = await fetch("https://api.cloudflare.com/client/v4/graphql", {
     method: "POST",
@@ -101,26 +113,6 @@ async function cfQuery(env, query, variables) {
   if (data.errors) throw new Error(JSON.stringify(data.errors));
   const accounts = data.data.viewer.accounts;
   return accounts.length ? accounts[0] : {};
-}
-
-async function fetchByDate(env, start, end) {
-  const query = `
-    query($accountTag: string, $siteTag: string, $start: Time, $end: Time) {
-      viewer { accounts(filter: {accountTag: $accountTag}) {
-        rumPageloadEventsAdaptiveGroups(
-          limit: 100,
-          filter: {siteTag: $siteTag, datetime_geq: $start, datetime_leq: $end},
-          orderBy: [date_ASC]
-        ) { dimensions { date } sum { visits } }
-      } }
-    }`;
-  const acc = await cfQuery(env, query, {
-    accountTag: env.CF_ACCOUNT_ID,
-    siteTag: CF_SITE_TAG,
-    start: start.toISOString(),
-    end: end.toISOString(),
-  });
-  return acc.rumPageloadEventsAdaptiveGroups || [];
 }
 
 async function fetchTopPaths(env, start, end, limit) {
@@ -144,6 +136,32 @@ async function fetchTopPaths(env, start, end, limit) {
   return acc.rumPageloadEventsAdaptiveGroups || [];
 }
 
+async function gcFetchHits(env, start, limit) {
+  const url = new URL(`https://${GC_SITE}.goatcounter.com/api/v0/stats/hits`);
+  url.searchParams.set("start", start.toISOString());
+  url.searchParams.set("limit", String(limit));
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${env.GC_API_TOKEN}` },
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(JSON.stringify(data));
+  return data.hits || [];
+}
+
+// /stats/total: "total"/"total_utc" — это всё-время тотал (не фильтруется по
+// start/end), а по дням в нужном окне нужно суммировать stats[].daily.
+async function gcFetchTotal(env, start, end) {
+  const url = new URL(`https://${GC_SITE}.goatcounter.com/api/v0/stats/total`);
+  url.searchParams.set("start", start.toISOString());
+  url.searchParams.set("end", end.toISOString());
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${env.GC_API_TOKEN}` },
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(JSON.stringify(data));
+  return data.stats || [];
+}
+
 function startOfDayUTC(d) {
   const x = new Date(d);
   x.setUTCHours(0, 0, 0, 0);
@@ -153,21 +171,20 @@ function startOfDayUTC(d) {
 async function reportStats(env, days) {
   const end = new Date();
   const start = startOfDayUTC(new Date(end.getTime() - days * 86400000));
-  const rows = await fetchByDate(env, start, end);
-  const byDay = {};
-  for (const r of rows) byDay[r.dimensions.date] = r.sum.visits;
-  const entries = Object.entries(byDay);
-  const total = entries.reduce((a, [, v]) => a + v, 0);
+  const stats = await gcFetchTotal(env, start, end);
+  const todayStr = startOfDayUTC(end).toISOString().slice(0, 10);
+  const entries = stats.filter((s) => s.day <= todayStr);
+  const total = entries.reduce((a, s) => a + s.daily, 0);
   const avg = entries.length ? total / entries.length : 0;
   const lines = [
-    `📊 Статистика conspectus за ${days} дн. (Cloudflare)`,
+    `📊 Статистика conspectus за ${days} дн. (GoatCounter)`,
     `Всего визитов: ${total} (в среднем ${avg.toFixed(1)}/день)`,
   ];
   if (entries.length) {
-    const best = entries.reduce((a, b) => (b[1] > a[1] ? b : a));
-    lines.push(`Самый активный день: ${best[0]} — ${best[1]}`);
+    const best = entries.reduce((a, b) => (b.daily > a.daily ? b : a));
+    lines.push(`Самый активный день: ${best.day} — ${best.daily}`);
   } else {
-    lines.push("Данных пока нет (беакон недавно подключён).");
+    lines.push("Данных пока нет.");
   }
   return lines.join("\n");
 }
@@ -175,19 +192,21 @@ async function reportStats(env, days) {
 async function reportToday(env) {
   const end = new Date();
   const start = startOfDayUTC(end);
-  const rows = await fetchByDate(env, start, end);
-  const total = rows.reduce((a, r) => a + r.sum.visits, 0);
-  return `Сегодня визитов: ${total}`;
+  const stats = await gcFetchTotal(env, start, end);
+  const todayStr = start.toISOString().slice(0, 10);
+  const today = stats.find((s) => s.day === todayStr);
+  return `Сегодня визитов: ${today ? today.daily : 0}`;
 }
 
 async function reportTop(env, n) {
   const end = new Date();
   const start = new Date(end.getTime() - 7 * 86400000);
-  const rows = await fetchTopPaths(env, start, end, n);
-  if (!rows.length) return "За последние 7 дней пока нет данных.";
-  const lines = [`Топ-${n} страниц за 7 дней (Cloudflare, просмотров):`];
-  rows.forEach((r, i) => {
-    lines.push(` ${i + 1}. ${r.dimensions.requestPath || "/"} — ${r.count}`);
+  const hits = await gcFetchHits(env, start, 100);
+  if (!hits.length) return "За последние 7 дней пока нет данных.";
+  const rows = hits.slice().sort((a, b) => b.count - a.count).slice(0, n);
+  const lines = [`Топ-${n} страниц за 7 дней (GoatCounter, просмотров):`];
+  rows.forEach((h, i) => {
+    lines.push(` ${i + 1}. ${h.path || "/"} — ${h.count}`);
   });
   return lines.join("\n");
 }
@@ -195,19 +214,41 @@ async function reportTop(env, n) {
 async function reportParallels(env, days) {
   const end = new Date();
   const start = startOfDayUTC(new Date(end.getTime() - days * 86400000));
-  const rows = await fetchTopPaths(env, start, end, 100);
-  if (!rows.length) return `За последние ${days} дн. пока нет данных.`;
-  const totals = {};
-  for (const r of rows) {
-    const path = (r.dimensions.requestPath || "/").replace(/^\//, "");
-    const prefix = path.split("/")[0];
-    const key = PARALLEL_LABELS[prefix] || "Главная / прочее";
-    totals[key] = (totals[key] || 0) + r.count;
+
+  const lines = [`📊 Просмотры по параллелям за ${days} дн.:`];
+
+  try {
+    const rows = await fetchTopPaths(env, start, end, 100);
+    const totals = {};
+    for (const r of rows) totals[parallelKey(r.dimensions.requestPath)] = (totals[parallelKey(r.dimensions.requestPath)] || 0) + r.count;
+    lines.push("", "Cloudflare (RUM):");
+    if (Object.keys(totals).length) {
+      Object.entries(totals)
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([name, visits]) => lines.push(` ${name} — ${visits}`));
+    } else {
+      lines.push(" пока нет данных");
+    }
+  } catch (e) {
+    lines.push("", `Cloudflare: ошибка — ${e.message}`);
   }
-  const lines = [`📊 Просмотры по параллелям за ${days} дн. (Cloudflare):`];
-  Object.entries(totals)
-    .sort((a, b) => b[1] - a[1])
-    .forEach(([name, visits]) => lines.push(` ${name} — ${visits}`));
+
+  try {
+    const hits = await gcFetchHits(env, start, 100);
+    const totals = {};
+    for (const h of hits) totals[parallelKey(h.path)] = (totals[parallelKey(h.path)] || 0) + h.count;
+    lines.push("", "GoatCounter:");
+    if (Object.keys(totals).length) {
+      Object.entries(totals)
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([name, visits]) => lines.push(` ${name} — ${visits}`));
+    } else {
+      lines.push(" пока нет данных");
+    }
+  } catch (e) {
+    lines.push("", `GoatCounter: ошибка — ${e.message}`);
+  }
+
   return lines.join("\n");
 }
 
