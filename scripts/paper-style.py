@@ -331,6 +331,13 @@ THEME_ANIM_JS = (
     'if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>'
 )
 
+# Основной счётчик (стоял только на index.html — на страницах лекций не было
+# вообще никакого GoatCounter-тега, поэтому заходы на них не считались).
+GOATCOUNTER_BEACON = (
+    '<script data-goatcounter="https://vmaiorov.goatcounter.com/count" '
+    'async src="//gc.zgo.at/count.js"></script>\n'
+)
+
 # Второй, более подробный источник статистики (постраничный) в дополнение к
 # GoatCounter — не убирать GoatCounter, просто ещё один беакон.
 CF_BEACON = (
@@ -512,6 +519,8 @@ def apply(path: Path) -> str:
         s = re.sub(r'<style id="paper">.*?</style>\n<script>document\.addEventListener\("click".*?</script>\n', lambda _: block, s, count=1, flags=re.S)
     else:
         s = s.replace("</head>", block + "</head>", 1)
+    if "data-goatcounter" not in s:
+        s = s.replace("</head>", GOATCOUNTER_BEACON + "</head>", 1)
     if "cloudflareinsights.com" not in s:
         s = s.replace("</head>", CF_BEACON + "</head>", 1)
     s = s.replace(OLD_TOP, NEW_TOP, 1)
