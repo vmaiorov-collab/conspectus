@@ -640,14 +640,20 @@ html[data-look="book"] .pager a{
 html[data-look="book"] .pager a:hover{background:none}
 html[data-look="book"] .progress{height:2px}
 
-/* ── кнопка возврата к старому виду ── */
+/* ── кнопка возврата к старому виду ──
+   Намеренно парная к переключателю темы: та же форма и размер, чтобы
+   читалась как кнопка, а не как обрывок текста рядом с ней. */
 .look-toggle{
-  font:inherit; color:inherit; background:none; border:0;
-  border-bottom:1px solid currentColor; padding:0;
-  margin-left:18px; cursor:pointer; opacity:.75;
+  font:inherit; font-size:.8rem; color:var(--muted);
+  background:none; border:1px solid var(--line);
+  padding:4px 10px; margin-left:8px; cursor:pointer;
+  white-space:nowrap;
 }
-.look-toggle:hover{opacity:1}
+.look-toggle:hover{color:var(--ink); border-color:var(--muted)}
 .look-toggle:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+/* в книжном виде — без скруглений, как весь остальной набор */
+html[data-look="book"] .look-toggle{border-radius:0}
+html[data-look="paper"] .look-toggle{border-radius:6px}
 
 @media(max-width:1100px){
   /* на узком экране поле маргиналий не помещается — таймкод в строку */
@@ -671,7 +677,7 @@ html[data-look="book"] .progress{height:2px}
 </head>
 <body>
 <div class="wrap">
-<div class="top"><a class="back" href="../index.html">← Все конспекты</a><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button><button type="button" id="look-toggle" class="look-toggle">старый вид</button></div>
+<div class="top"><a class="back" href="../index.html">← Все конспекты</a><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button><button type="button" id="look-toggle" class="look-toggle">↩ старый вид</button></div>
 
 <header class="hero">
   <h1>Занятие 2. Параллель A' — Структуры данных 1</h1>
@@ -973,7 +979,7 @@ xs.<span class="f">erase</span>(<span class="f">unique</span>(xs.<span class="f"
 
 
 
-<script>(function(){var b=document.getElementById("look-toggle");if(!b)return;var h=document.documentElement;function label(){b.textContent=h.getAttribute("data-look")==="book"?"старый вид":"новый вид"}label();b.addEventListener("click",function(){var next=h.getAttribute("data-look")==="book"?"paper":"book";h.setAttribute("data-look",next);try{localStorage.setItem("conspectusLook",next)}catch(e){}label()});})();</script>
+<script>(function(){var b=document.getElementById("look-toggle");if(!b)return;var h=document.documentElement;function label(){b.textContent=h.getAttribute("data-look")==="book"?"↩ старый вид":"↪ новый вид"}label();b.addEventListener("click",function(){var next=h.getAttribute("data-look")==="book"?"paper":"book";h.setAttribute("data-look",next);try{localStorage.setItem("conspectusLook",next)}catch(e){}label()});})();</script>
 <script id="reader">
 (function(){
   var heads = [].slice.call(document.querySelectorAll(".wrap h2[id]"));

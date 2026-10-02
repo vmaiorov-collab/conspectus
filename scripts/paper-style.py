@@ -547,14 +547,20 @@ html[data-look="book"] .pager a{
 html[data-look="book"] .pager a:hover{background:none}
 html[data-look="book"] .progress{height:2px}
 
-/* ── кнопка возврата к старому виду ── */
+/* ── кнопка возврата к старому виду ──
+   Намеренно парная к переключателю темы: та же форма и размер, чтобы
+   читалась как кнопка, а не как обрывок текста рядом с ней. */
 .look-toggle{
-  font:inherit; color:inherit; background:none; border:0;
-  border-bottom:1px solid currentColor; padding:0;
-  margin-left:18px; cursor:pointer; opacity:.75;
+  font:inherit; font-size:.8rem; color:var(--muted);
+  background:none; border:1px solid var(--line);
+  padding:4px 10px; margin-left:8px; cursor:pointer;
+  white-space:nowrap;
 }
-.look-toggle:hover{opacity:1}
+.look-toggle:hover{color:var(--ink); border-color:var(--muted)}
 .look-toggle:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+/* в книжном виде — без скруглений, как весь остальной набор */
+html[data-look="book"] .look-toggle{border-radius:0}
+html[data-look="paper"] .look-toggle{border-radius:6px}
 
 @media(max-width:1100px){
   /* на узком экране поле маргиналий не помещается — таймкод в строку */
@@ -584,13 +590,13 @@ LOOK_BOOT = (
 )
 
 LOOK_BTN = (
-    '<button type="button" id="look-toggle" class="look-toggle">старый вид</button>'
+    '<button type="button" id="look-toggle" class="look-toggle">↩ старый вид</button>'
 )
 
 LOOK_JS = (
     '<script>(function(){var b=document.getElementById("look-toggle");if(!b)return;'
     'var h=document.documentElement;'
-    'function label(){b.textContent=h.getAttribute("data-look")==="book"?"старый вид":"новый вид"}'
+    'function label(){b.textContent=h.getAttribute("data-look")==="book"?"\u21a9 старый вид":"\u21aa новый вид"}'
     'label();b.addEventListener("click",function(){'
     'var next=h.getAttribute("data-look")==="book"?"paper":"book";'
     'h.setAttribute("data-look",next);'
