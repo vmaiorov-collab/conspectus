@@ -55,6 +55,8 @@
 
 Файлы работают без интернета: стили, формулы и скрипты встроены. Удобно читать с телефона и печатать.
 
+На каждой странице есть переключатель оформления — «книга» (редакторская вёрстка, PT Serif) и «бумага» (прежний вид); выбор запоминается в `localStorage` (`conspectusLook`). Отдельно переключается тёмная/светлая тема (`conspectusTheme`).
+
 ## Структура репозитория
 
 ```
@@ -64,12 +66,24 @@ conspectus/
 ├── parallel-ap/                # конспекты параллели A'
 ├── parallel-b/                 # конспекты параллели B
 ├── parallel-bp/                # конспекты параллели B'
-└── parallel-c/                 # конспекты параллели C
+├── parallel-c/                 # конспекты параллели C
+├── figures/                    # python-генераторы инлайн-SVG иллюстраций
+├── scripts/                    # локальные разовые скрипты (idea-bot, stats-bot, paper-style)
+└── bots-worker/                # Cloudflare Worker: telegram-боты на вебхуках (прод)
 ```
+
+## Telegram-боты
+
+Два бота на одном Cloudflare Worker (`bots-worker/`, деплой через `wrangler`, подробности — в `bots-worker/README.md`):
+
+- **idea-bot** (`@conspectus_csbot`) — пересылает идеи и вопросы читателей владельцу репозитория.
+- **stats-bot** — отвечает на `/stats`, `/today`, `/top`, `/parallels`, читая статистику из Cloudflare Web Analytics.
+
+Локальные версии тех же ботов (`scripts/idea-bot.py`, `scripts/stats-bot.py`) используются только для разовой отладки — в проде работает воркер.
 
 ## Статистика
 
-Посещения сайта считает GoatCounter (без куки): [статистика посещений за месяц](https://vmaiorov.goatcounter.com/).
+Посещения считают одновременно GoatCounter (без куки, [публичная статистика за месяц](https://vmaiorov.goatcounter.com/)) и Cloudflare Web Analytics (приватная, читается ботом `stats-bot`).
 
 ## Лицензия
 
