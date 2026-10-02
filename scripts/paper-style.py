@@ -331,6 +331,13 @@ THEME_ANIM_JS = (
     'if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>'
 )
 
+# Второй, более подробный источник статистики (постраничный) в дополнение к
+# GoatCounter — не убирать GoatCounter, просто ещё один беакон.
+CF_BEACON = (
+    '<script defer src=\'https://static.cloudflareinsights.com/beacon.min.js\' '
+    'data-cf-beacon=\'{"token": "82e3760401a547558cc1d22198113255"}\'></script>\n'
+)
+
 OLD_TOP = (
     '<button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему" '
     'title="Светлая / тёмная тема">🌙</button>\n<div class="wrap">\n'
@@ -505,6 +512,8 @@ def apply(path: Path) -> str:
         s = re.sub(r'<style id="paper">.*?</style>\n<script>document\.addEventListener\("click".*?</script>\n', lambda _: block, s, count=1, flags=re.S)
     else:
         s = s.replace("</head>", block + "</head>", 1)
+    if "cloudflareinsights.com" not in s:
+        s = s.replace("</head>", CF_BEACON + "</head>", 1)
     s = s.replace(OLD_TOP, NEW_TOP, 1)
     s = s.replace(OLD_LABEL, NEW_LABEL)
     s = wrap_code(s)
