@@ -3,11 +3,17 @@
 
 Любое сообщение боту пересылается владельцу (TELEGRAM_CHAT_ID).
 Владелец отвечает автору, нажав «Ответить» на пересланном сообщении.
+
+Запускается разово (а не как вечный процесс с long polling): забирает все
+накопившиеся сообщения через getUpdates, обрабатывает и подтверждает (ack)
+их, затем завершается. Рассчитан на запуск по расписанию (например GitHub
+Actions раз в 5 минут) — состояние между запусками хранить не нужно,
+неподтверждённые сообщения просто останутся в очереди Telegram до следующего
+запуска.
 """
 import json
 import os
 import sys
-import time
 import urllib.parse
 import urllib.request
 
@@ -78,21 +84,21 @@ def main():
         sys.exit("TELEGRAM_BOT_TOKEN не задан (.env)")
     if not OWNER:
         sys.exit("TELEGRAM_CHAT_ID не задан: напишите боту /start и узнайте свой chat id")
-    me = call("getMe")
-    print(f"@{me['username']} слушает…", flush=True)
-    offset = None
-    while True:
-        try:
-            for upd in call("getUpdates", offset=offset, timeout=60, allowed_updates='["message"]'):
-                offset = upd["update_id"] + 1
-                if "message" in upd:
-                    try:
-                        handle(upd["message"])
-                    except Exception as e:
-                        print("ошибка обработки:", e, flush=True)
-        except Exception as e:
-            print("ошибка сети:", e, flush=True)
-            time.sleep(5)
+
+    updates = call("getUpdates", timeout=0, allowed_updates='["message"]')
+    last_offset = None
+    for upd in updates:
+        last_offset = upd["update_id"]
+        if "message" in upd:
+            try:
+                handle(upd["message"])
+            except Exception as e:
+                print("ошибка обработки:", e, flush=True)
+
+    if last_offset is not None:
+        call("getUpdates", offset=last_offset + 1, timeout=0)
+
+    print(f"обработано сообщений: {len(updates)}", flush=True)
 
 
 if __name__ == "__main__":
