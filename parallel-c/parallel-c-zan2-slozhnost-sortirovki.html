@@ -496,6 +496,13 @@ html[data-look="book"]{
   --code-bg:#15191e; --code-ink:#dfe3e8;
   --code-paper:#15191e; --code-head:transparent;
   --code-line:transparent; --code-text:#dfe3e8;
+  /* Палитра подсветки обязана идти вместе с фоном. Светлая палитра paper
+     рассчитана на кремовый #f4f0e7: на тёмном фоне синие ключевые слова
+     дают контраст 1.6:1 и просто пропадают. Ниже — набор под тёмный фон,
+     минимум в паре 5.1:1. Задан без привязки к теме: одинаково годится
+     и для #15191e, и для #0d1013 в тёмной. */
+  --hl-c:#7f8b99; --hl-k:#d79ae0; --hl-t:#93b3e8; --hl-s:#9ad8a8;
+  --hl-n:#e8b07a; --hl-f:#8fd3a8; --hl-p:#f0907c;
   --shadow-sm:none; --shadow-md:none; --shadow-lg:none;
   --sans:var(--serif);
 }
