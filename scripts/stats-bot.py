@@ -146,11 +146,41 @@ def report_top(api_token, account_id, site_tag, n):
     return "\n".join(lines)
 
 
+PARALLEL_LABELS = {
+    "parallel-a": "Параллель A",
+    "parallel-ap": "Параллель A'",
+    "parallel-b": "Параллель B",
+    "parallel-bp": "Параллель B'",
+    "parallel-c": "Параллель C",
+}
+
+
+def report_parallels(api_token, account_id, site_tag, days):
+    end = datetime.now().astimezone()
+    start = (end - timedelta(days=days)).replace(hour=0, minute=0, second=0, microsecond=0)
+    rows = fetch_top_paths(api_token, account_id, site_tag, start, end, 100)
+    if not rows:
+        return f"За последние {days} дн. пока нет данных."
+
+    totals = {}
+    for r in rows:
+        path = (r["dimensions"]["requestPath"] or "/").lstrip("/")
+        prefix = path.split("/", 1)[0]
+        key = PARALLEL_LABELS.get(prefix, "Главная / прочее")
+        totals[key] = totals.get(key, 0) + r["sum"]["visits"]
+
+    lines = [f"\U0001F4CA Визиты по параллелям за {days} дн. (Cloudflare):"]
+    for name, visits in sorted(totals.items(), key=lambda kv: kv[1], reverse=True):
+        lines.append(f" {name} — {visits}")
+    return "\n".join(lines)
+
+
 HELP = (
     "Команды:\n"
     "/stats [дни] — сводка за период (по умолчанию 7)\n"
     "/today — посетители сегодня\n"
-    "/top [n] — топ-N страниц за 7 дней (по умолчанию 5)"
+    "/top [n] — топ-N страниц за 7 дней (по умолчанию 5)\n"
+    "/parallels [дни] — визиты по параллелям A/A'/B/B'/C (по умолчанию 7)"
 )
 
 
@@ -167,6 +197,8 @@ def handle_command(api_token, account_id, site_tag, text):
             return report_today(api_token, account_id, site_tag)
         if cmd == "/top":
             return report_top(api_token, account_id, site_tag, int(arg) if arg else 5)
+        if cmd == "/parallels":
+            return report_parallels(api_token, account_id, site_tag, int(arg) if arg else 7)
     except (ValueError, RuntimeError, urllib.error.URLError) as exc:
         return f"Не удалось получить статистику: {exc}"
     return None
