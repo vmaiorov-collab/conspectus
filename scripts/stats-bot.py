@@ -1,13 +1,21 @@
 #!/usr/bin/env python3
-"""Интерактивный Telegram-бот для статистики conspectus (GoatCounter API).
+"""Интерактивный Telegram-бот для статистики conspectus (Cloudflare Web Analytics).
 
-В отличие от stats-report.py (разовый вывод) и new-visitor-notify.py (фоновые
-уведомления о каждом посетителе), этот бот отвечает на команды по запросу.
+В отличие от new-visitor-notify.py (фоновые уведомления о каждом посетителе
+через GoatCounter), этот бот отвечает на команды по запросу, используя
+Cloudflare Web Analytics (RUM) — второй, более подробный источник статистики,
+подключённый beacon-скриптом на каждой странице сайта.
+
+Данные читаются через Cloudflare GraphQL Analytics API, dataset
+rumPageloadEventsAdaptiveGroups, отфильтрованный по siteTag (= тот же токен,
+что в beacon-скрипте на страницах). Публичной документации по этому датасету
+нет — схема (поля siteTag/requestPath/date, sum.visits, orderBy
+sum_visits_DESC) подтверждена живыми запросами к API.
+
 Рассчитан на запуск по расписанию (например GitHub Actions, раз в 5 минут),
 а не как постоянно работающий процесс: за один запуск забирает все новые
 сообщения через Telegram getUpdates, отвечает и подтверждает (ack) их —
-так состояние между запусками хранить не нужно (следующий запуск не увидит
-уже обработанные сообщения, даже без локального файла offset).
+так состояние между запусками хранить не нужно.
 
 Команды:
     /stats [дни]   — сводка за период (по умолчанию 7 дней)
@@ -19,8 +27,8 @@
 Telegram, и без белого списка статистику сайта смог бы запросить кто угодно,
 кто найдёт бота.
 
-    GC_TOKEN=xxx TELEGRAM_BOT_TOKEN=yyy ALLOWED_CHAT_IDS=5066064774 \\
-        python3 scripts/stats-bot.py
+    CF_ACCOUNT_ID=xxx CF_API_TOKEN=yyy TELEGRAM_BOT_TOKEN=zzz \\
+        ALLOWED_CHAT_IDS=5066064774 python3 scripts/stats-bot.py
 """
 import json
 import os
@@ -30,7 +38,11 @@ import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta
 
-DEFAULTS = {"GC_SITE": "vmaiorov"}
+DEFAULTS = {
+    # Публичный токен beacon-скрипта (встроен в HTML каждой страницы, не секрет).
+    "CF_SITE_TAG": "82e3760401a547558cc1d22198113255",
+}
+CF_GRAPHQL_URL = "https://api.cloudflare.com/client/v4/graphql"
 
 
 def cfg(name):
@@ -42,60 +54,95 @@ def allowed_chat_ids():
     return {s.strip() for s in raw.split(",") if s.strip()}
 
 
-# ---------- GoatCounter ----------
+# ---------- Cloudflare GraphQL Analytics ----------
 
-def gc_get(token, path, params):
-    base = "https://%s.goatcounter.com/api/v0" % cfg("GC_SITE")
-    url = base + path + "?" + urllib.parse.urlencode(params, doseq=True)
-    req = urllib.request.Request(url, headers={
-        "Authorization": "Bearer " + token,
+def cf_query(api_token, query, variables):
+    body = json.dumps({"query": query, "variables": variables}).encode()
+    req = urllib.request.Request(CF_GRAPHQL_URL, data=body, headers={
+        "Authorization": "Bearer " + api_token,
         "Content-Type": "application/json",
-        "User-Agent": "conspectus-stats-bot",
     })
     with urllib.request.urlopen(req, timeout=20) as resp:
-        return json.loads(resp.read().decode("utf-8"))
+        data = json.loads(resp.read().decode("utf-8"))
+    if data.get("errors"):
+        raise RuntimeError(str(data["errors"]))
+    accounts = data["data"]["viewer"]["accounts"]
+    return accounts[0] if accounts else {}
 
 
-def fetch_total(token, start, end):
-    return gc_get(token, "/stats/total", {"start": start.isoformat(), "end": end.isoformat()})
+def fetch_by_date(api_token, account_id, site_tag, start, end):
+    query = """
+    query($accountTag: string, $siteTag: string, $start: Time, $end: Time) {
+      viewer { accounts(filter: {accountTag: $accountTag}) {
+        rumPageloadEventsAdaptiveGroups(
+          limit: 100,
+          filter: {siteTag: $siteTag, datetime_geq: $start, datetime_leq: $end},
+          orderBy: [date_ASC]
+        ) { dimensions { date } sum { visits } }
+      } }
+    }
+    """
+    acc = cf_query(api_token, query, {
+        "accountTag": account_id, "siteTag": site_tag,
+        "start": start.isoformat(), "end": end.isoformat(),
+    })
+    return acc.get("rumPageloadEventsAdaptiveGroups", [])
 
 
-def fetch_hits(token, start, end, limit=100):
-    return gc_get(token, "/stats/hits", {"start": start.isoformat(), "end": end.isoformat(), "limit": limit})
+def fetch_top_paths(api_token, account_id, site_tag, start, end, limit):
+    query = """
+    query($accountTag: string, $siteTag: string, $start: Time, $end: Time, $limit: Int!) {
+      viewer { accounts(filter: {accountTag: $accountTag}) {
+        rumPageloadEventsAdaptiveGroups(
+          limit: $limit,
+          filter: {siteTag: $siteTag, datetime_geq: $start, datetime_leq: $end},
+          orderBy: [sum_visits_DESC]
+        ) { dimensions { requestPath } sum { visits } }
+      } }
+    }
+    """
+    acc = cf_query(api_token, query, {
+        "accountTag": account_id, "siteTag": site_tag,
+        "start": start.isoformat(), "end": end.isoformat(), "limit": limit,
+    })
+    return acc.get("rumPageloadEventsAdaptiveGroups", [])
 
 
-def report_stats(token, days):
+def report_stats(api_token, account_id, site_tag, days):
     end = datetime.now().astimezone()
     start = (end - timedelta(days=days)).replace(hour=0, minute=0, second=0, microsecond=0)
-    total_data = fetch_total(token, start, end)
-    stats_by_day = {s["day"][:10]: s["daily"] for s in total_data.get("stats", [])}
-    total = total_data.get("total", 0)
-    avg = total / len(stats_by_day) if stats_by_day else 0.0
-    lines = [f"\U0001F4CA Статистика conspectus за {days} дн.", f"Всего посетителей: {total} (в среднем {avg:.1f}/день)"]
-    if stats_by_day:
-        best_day = max(stats_by_day.items(), key=lambda kv: kv[1])
+    rows = fetch_by_date(api_token, account_id, site_tag, start, end)
+    by_day = {r["dimensions"]["date"]: r["sum"]["visits"] for r in rows}
+    total = sum(by_day.values())
+    avg = total / len(by_day) if by_day else 0.0
+    lines = [f"\U0001F4CA Статистика conspectus за {days} дн. (Cloudflare)",
+             f"Всего визитов: {total} (в среднем {avg:.1f}/день)"]
+    if by_day:
+        best_day = max(by_day.items(), key=lambda kv: kv[1])
         lines.append(f"Самый активный день: {best_day[0]} — {best_day[1]}")
+    else:
+        lines.append("Данных пока нет (беакон недавно подключён).")
     return "\n".join(lines)
 
 
-def report_today(token):
+def report_today(api_token, account_id, site_tag):
     end = datetime.now().astimezone()
     start = end.replace(hour=0, minute=0, second=0, microsecond=0)
-    data = fetch_total(token, start, end)
-    return f"Сегодня посетителей: {data.get('total', 0)}"
+    rows = fetch_by_date(api_token, account_id, site_tag, start, end)
+    total = sum(r["sum"]["visits"] for r in rows)
+    return f"Сегодня визитов: {total}"
 
 
-def report_top(token, n):
+def report_top(api_token, account_id, site_tag, n):
     end = datetime.now().astimezone()
     start = end - timedelta(days=7)
-    data = fetch_hits(token, start, end)
-    hits = sorted(data.get("hits", []), key=lambda h: h.get("count", 0), reverse=True)
-    if not hits:
+    rows = fetch_top_paths(api_token, account_id, site_tag, start, end, n)
+    if not rows:
         return "За последние 7 дней пока нет данных."
-    lines = [f"Топ-{n} страниц за 7 дней:"]
-    for i, h in enumerate(hits[:n], 1):
-        title = h.get("title") or h.get("path")
-        lines.append(f" {i}. {title} — {h.get('count', 0)}")
+    lines = [f"Топ-{n} страниц за 7 дней (Cloudflare):"]
+    for i, r in enumerate(rows, 1):
+        path = r["dimensions"]["requestPath"] or "/"
+        lines.append(f" {i}. {path} — {r['sum']['visits']}")
     return "\n".join(lines)
 
 
@@ -107,7 +154,7 @@ HELP = (
 )
 
 
-def handle_command(gc_token, text):
+def handle_command(api_token, account_id, site_tag, text):
     parts = text.strip().split()
     cmd = parts[0].split("@")[0].lower()
     arg = parts[1] if len(parts) > 1 else None
@@ -115,12 +162,12 @@ def handle_command(gc_token, text):
         if cmd in ("/start", "/help"):
             return HELP
         if cmd == "/stats":
-            return report_stats(gc_token, int(arg) if arg else 7)
+            return report_stats(api_token, account_id, site_tag, int(arg) if arg else 7)
         if cmd == "/today":
-            return report_today(gc_token)
+            return report_today(api_token, account_id, site_tag)
         if cmd == "/top":
-            return report_top(gc_token, int(arg) if arg else 5)
-    except (ValueError, urllib.error.URLError) as exc:
+            return report_top(api_token, account_id, site_tag, int(arg) if arg else 5)
+    except (ValueError, RuntimeError, urllib.error.URLError) as exc:
         return f"Не удалось получить статистику: {exc}"
     return None
 
@@ -140,10 +187,12 @@ def send_message(bot_token, chat_id, text):
 
 def main():
     bot_token = cfg("TELEGRAM_BOT_TOKEN")
-    gc_token = cfg("GC_TOKEN")
+    cf_token = cfg("CF_API_TOKEN")
+    account_id = cfg("CF_ACCOUNT_ID")
+    site_tag = cfg("CF_SITE_TAG")
     allowed = allowed_chat_ids()
-    if not bot_token or not gc_token:
-        print("Нужны TELEGRAM_BOT_TOKEN и GC_TOKEN в окружении.", file=sys.stderr)
+    if not bot_token or not cf_token or not account_id:
+        print("Нужны TELEGRAM_BOT_TOKEN, CF_API_TOKEN и CF_ACCOUNT_ID в окружении.", file=sys.stderr)
         return 1
     if not allowed:
         print("ALLOWED_CHAT_IDS не задан — бот не будет отвечать никому.", file=sys.stderr)
@@ -163,7 +212,7 @@ def main():
         chat_id = str(message.get("chat", {}).get("id", ""))
         if not text.startswith("/") or chat_id not in allowed:
             continue
-        reply = handle_command(gc_token, text)
+        reply = handle_command(cf_token, account_id, site_tag, text)
         if reply:
             try:
                 send_message(bot_token, chat_id, reply)
