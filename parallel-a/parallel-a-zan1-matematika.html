@@ -493,22 +493,32 @@ html[data-look="book"][data-theme="dark"]{
 }
 
 /* ── лист на клетчатом столе ── */
-html[data-look="book"] body{
-  background-color:var(--desk);
+/* Сетку рисует фиксированный слой размером в экран, а не тайловый фон
+   на весь body: страница конспекта — десятки тысяч пикселей высотой, и
+   растрировать по ней два градиента браузер вынужден заново при
+   прокрутке. Это и подлагивало. */
+html[data-look="book"]{background:var(--desk)}
+html[data-look="book"] body::before{
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
   background-image:
     repeating-linear-gradient(to right, var(--sheet-grid) 0 1px, transparent 1px 26px),
     repeating-linear-gradient(to bottom, var(--sheet-grid) 0 1px, transparent 1px 26px);
+}
+html[data-look="book"] body{
+  background:none;
   font-family:var(--serif); font-size:18px; line-height:1.72;
   padding:0 24px 72px;
 }
 html[data-look="book"] .wrap{
   max-width:1060px; margin:0 auto; background:var(--bg);
-  box-shadow:0 0 0 1px rgba(17,22,27,.055), 0 6px 20px rgba(17,22,27,.07);
+  /* только резкая волосяная кромка: размытую тень на элементе такой
+     высоты браузер перерисовывает заметно дороже */
+  box-shadow:0 0 0 1px rgba(17,22,27,.09);
   /* 64px поле + 104px колонка маргиналий */
   padding:0 64px 64px 168px;
 }
 html[data-look="book"][data-theme="dark"] .wrap{
-  box-shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 28px rgba(0,0,0,.3);
+  box-shadow:0 0 0 1px rgba(255,255,255,.07);
 }
 /* мера строки: засечками 820px читать тяжело */
 html[data-look="book"] .wrap > p,
@@ -1366,13 +1376,25 @@ $$ \#\{y\in S:\gcd(x,y)=1\}=\sum_{d\mid x,\ d\ \text{бескв.}}(-1)^{\omega(d
   document.addEventListener("click", function(e){ if (!panel.hidden && !panel.contains(e.target)) toggle(false); });
   document.addEventListener("keydown", function(e){ if (e.key === "Escape") toggle(false); });
   var toc = document.querySelector(".toc"); var cur = -1; var ticking = false;
+  // Позиции заголовков и высота страницы меряются один раз, а не на каждом
+  // кадре прокрутки: getBoundingClientRect() по всем заголовкам — это до 44
+  // вынужденных пересчётов раскладки в кадр (столько разделов в конспекте по
+  // C++), и прокрутка из-за этого подлагивала. Перемер — на resize и load:
+  // KaTeX и картинки доезжают после первого кадра и сдвигают разметку.
+  var tops = [], tocEnd = 400, maxScroll = 0;
+  function measure(){
+    tops.length = 0;
+    for (var k = 0; k < heads.length; k++) tops.push(heads[k].getBoundingClientRect().top + scrollY);
+    tocEnd = toc ? toc.getBoundingClientRect().bottom + scrollY : 400;
+    maxScroll = document.documentElement.scrollHeight - innerHeight;
+  }
   function update(){
     ticking = false;
-    var max = document.documentElement.scrollHeight - innerHeight;
-    bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, scrollY / max) : 0) + ")";
-    var past = toc ? toc.getBoundingClientRect().bottom < 0 : scrollY > 400;
+    bar.style.transform = "scaleX(" + (maxScroll > 0 ? Math.min(1, scrollY / maxScroll) : 0) + ")";
+    var past = scrollY > tocEnd;
     side.classList.toggle("show", past); btn.classList.toggle("show", past);
-    var i = -1; for (var k = 0; k < heads.length; k++) if (heads[k].getBoundingClientRect().top < innerHeight * 0.3) i = k;
+    var lim = scrollY + innerHeight * 0.3;
+    var i = -1; for (var k = 0; k < tops.length; k++) if (tops[k] < lim) i = k;
     if (i !== cur) {
       [sideLinks, panelLinks].forEach(function(l){ if (cur >= 0) l[cur].classList.remove("on"); if (i >= 0) l[i].classList.add("on"); });
       if (i >= 0 && side.classList.contains("show")) { var a = sideLinks[i]; if (a.offsetTop < side.scrollTop || a.offsetTop > side.scrollTop + side.clientHeight - 30) side.scrollTop = a.offsetTop - 60; }
@@ -1380,7 +1402,9 @@ $$ \#\{y\in S:\gcd(x,y)=1\}=\sum_{d\mid x,\ d\ \text{бескв.}}(-1)^{\omega(d
     }
   }
   addEventListener("scroll", function(){ if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-  addEventListener("resize", update); update();
+  addEventListener("resize", function(){ measure(); update(); });
+  addEventListener("load", function(){ measure(); update(); });
+  measure(); update();
 })();
 </script>
 </body>

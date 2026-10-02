@@ -156,24 +156,30 @@ html[data-look="book"][data-theme="dark"]{
 }
 
 /* лист на клетчатом столе */
-html[data-look="book"] body{
-  background-color:var(--desk);
+/* сетку рисует фиксированный слой размером в экран, а не тайловый фон
+   на весь body — так браузеру нечего перерисовывать при прокрутке */
+html[data-look="book"]{background:var(--desk)}
+html[data-look="book"] body::before{
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
   background-image:
     repeating-linear-gradient(to right, var(--grid-ink) 0 1px, transparent 1px 26px),
     repeating-linear-gradient(to bottom, var(--grid-ink) 0 1px, transparent 1px 26px);
+}
+html[data-look="book"] body{
+  background:none;
   font-family:var(--serif); font-size:17px; padding:0 24px 72px;
 }
 
 /* разворот: титул слева, оглавление справа */
 html[data-look="book"] .wrap{
   max-width:1140px; background:var(--bg);
-  box-shadow:0 0 0 1px rgba(17,22,27,.055), 0 6px 20px rgba(17,22,27,.07);
+  box-shadow:0 0 0 1px rgba(17,22,27,.09);
   padding:0 56px 56px;
   display:grid; grid-template-columns:316px 1fr;
   column-gap:72px; align-items:start;
 }
 html[data-look="book"][data-theme="dark"] .wrap{
-  box-shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 28px rgba(0,0,0,.3);
+  box-shadow:0 0 0 1px rgba(255,255,255,.07);
 }
 html[data-look="book"] .top{grid-column:1/-1; padding:22px 0 0}
 /* титул не закрепляем: залипающая колонка не уезжает вверх
