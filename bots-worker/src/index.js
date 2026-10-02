@@ -74,8 +74,11 @@ async function handleIdea(update, env) {
 
 // ---------- stats-bot (Cloudflare Web Analytics GraphQL) ----------
 
-// Публичный токен beacon-скрипта (встроен в HTML каждой страницы, не секрет).
-const CF_SITE_TAG = "82e3760401a547558cc1d22198113255";
+// ВНИМАНИЕ: это НЕ beacon-токен со страниц (82e37604...) — тот публичный
+// "site_token" отличается от внутреннего "site_tag", который требует
+// GraphQL. Настоящий site_tag получен через REST
+// GET /accounts/{id}/rum/site_info/list (нужно право Account Settings: Read).
+const CF_SITE_TAG = "3bc7a8e85403493792aa3186fcccc856";
 
 const PARALLEL_LABELS = {
   "parallel-a": "Параллель A",
@@ -127,8 +130,8 @@ async function fetchTopPaths(env, start, end, limit) {
         rumPageloadEventsAdaptiveGroups(
           limit: $limit,
           filter: {siteTag: $siteTag, datetime_geq: $start, datetime_leq: $end},
-          orderBy: [sum_visits_DESC]
-        ) { dimensions { requestPath } sum { visits } }
+          orderBy: [count_DESC]
+        ) { dimensions { requestPath } count }
       } }
     }`;
   const acc = await cfQuery(env, query, {
@@ -182,9 +185,9 @@ async function reportTop(env, n) {
   const start = new Date(end.getTime() - 7 * 86400000);
   const rows = await fetchTopPaths(env, start, end, n);
   if (!rows.length) return "За последние 7 дней пока нет данных.";
-  const lines = [`Топ-${n} страниц за 7 дней (Cloudflare):`];
+  const lines = [`Топ-${n} страниц за 7 дней (Cloudflare, просмотров):`];
   rows.forEach((r, i) => {
-    lines.push(` ${i + 1}. ${r.dimensions.requestPath || "/"} — ${r.sum.visits}`);
+    lines.push(` ${i + 1}. ${r.dimensions.requestPath || "/"} — ${r.count}`);
   });
   return lines.join("\n");
 }
@@ -199,9 +202,9 @@ async function reportParallels(env, days) {
     const path = (r.dimensions.requestPath || "/").replace(/^\//, "");
     const prefix = path.split("/")[0];
     const key = PARALLEL_LABELS[prefix] || "Главная / прочее";
-    totals[key] = (totals[key] || 0) + r.sum.visits;
+    totals[key] = (totals[key] || 0) + r.count;
   }
-  const lines = [`📊 Визиты по параллелям за ${days} дн. (Cloudflare):`];
+  const lines = [`📊 Просмотры по параллелям за ${days} дн. (Cloudflare):`];
   Object.entries(totals)
     .sort((a, b) => b[1] - a[1])
     .forEach(([name, visits]) => lines.push(` ${name} — ${visits}`));
