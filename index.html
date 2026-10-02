@@ -199,7 +199,24 @@ html[data-look="book"] .news{
 }
 html[data-look="book"] .news time{display:block; margin:0 0 2px}
 /* фичи-карточки и CTA-плашка: главные признаки лендинга — убираем */
-html[data-look="book"] .features{display:none}
+/* Скрывать их целиком было перебором: это убрало ~800px высоты, и
+   страница стала короче экрана — прокручивать было нечего. Признак
+   лендинга — не сам текст, а сетка из трёх карточек. Поэтому текст
+   возвращаем, а сетку разбираем в сухой список. */
+html[data-look="book"] .features{
+  display:block; margin:26px 0 0; padding:16px 0 0;
+  border-top:1px solid var(--line);
+}
+html[data-look="book"] .features > div{margin:0 0 16px}
+html[data-look="book"] .features > div:last-child{margin-bottom:0}
+html[data-look="book"] .features h3{
+  font-family:var(--mono); font-weight:400; font-size:.78rem;
+  letter-spacing:.06em; text-transform:uppercase;
+  color:var(--muted); margin:0 0 3px;
+}
+html[data-look="book"] .features p{
+  font-size:.92rem; line-height:1.55; color:var(--ink); max-width:36ch;
+}
 html[data-look="book"] .ask{
   background:none; border:0; border-radius:0;
   margin:40px 0 0; padding:18px 0 0;
@@ -230,34 +247,37 @@ html[data-look="book"] .tools input{
    Порядок соответствует DATA ниже: A, A', B, B', C. */
 html[data-look="book"] #tree{border-top:0}
 html[data-look="book"] .card{border-bottom:0}
-html[data-look="book"] #tree .card:nth-child(1){--pc:#c91d12}
-html[data-look="book"] #tree .card:nth-child(2){--pc:#96149b}
-html[data-look="book"] #tree .card:nth-child(3){--pc:#1a35c7}
-html[data-look="book"] #tree .card:nth-child(4){--pc:#0a7d75}
-html[data-look="book"] #tree .card:nth-child(5){--pc:#0b7a31}
-html[data-look="book"][data-theme="dark"] #tree .card:nth-child(1){--pc:#ff7a6b}
-html[data-look="book"][data-theme="dark"] #tree .card:nth-child(2){--pc:#de7ade}
-html[data-look="book"][data-theme="dark"] #tree .card:nth-child(3){--pc:#7e94ff}
-html[data-look="book"][data-theme="dark"] #tree .card:nth-child(4){--pc:#3fc9bd}
-html[data-look="book"][data-theme="dark"] #tree .card:nth-child(5){--pc:#4ec46f}
+/* ВАЖНО: нельзя переопределять --pc — скрипт ниже задаёт его инлайново
+   (card.style.setProperty), а инлайновый стиль сильнее таблицы стилей.
+   Поэтому у книжного вида своя переменная --pcb. */
+html[data-look="book"] #tree .card:nth-child(1){--pcb:#c91d12}
+html[data-look="book"] #tree .card:nth-child(2){--pcb:#96149b}
+html[data-look="book"] #tree .card:nth-child(3){--pcb:#1a35c7}
+html[data-look="book"] #tree .card:nth-child(4){--pcb:#0a7d75}
+html[data-look="book"] #tree .card:nth-child(5){--pcb:#0b7a31}
+html[data-look="book"][data-theme="dark"] #tree .card:nth-child(1){--pcb:#ff7a6b}
+html[data-look="book"][data-theme="dark"] #tree .card:nth-child(2){--pcb:#de7ade}
+html[data-look="book"][data-theme="dark"] #tree .card:nth-child(3){--pcb:#7e94ff}
+html[data-look="book"][data-theme="dark"] #tree .card:nth-child(4){--pcb:#3fc9bd}
+html[data-look="book"][data-theme="dark"] #tree .card:nth-child(5){--pcb:#4ec46f}
 
 html[data-look="book"] .parallel{
-  border-top:3px solid var(--pc); padding:18px 0 14px;
+  border-top:3px solid var(--pcb); padding:18px 0 14px;
   grid-template-columns:72px 1fr auto; gap:0 24px;
 }
 html[data-look="book"] .parallel:hover{background:none}
-html[data-look="book"] .parallel:hover .name{color:var(--pc)}
+html[data-look="book"] .parallel:hover .name{color:var(--pcb)}
 html[data-look="book"] .badge{
   border:0; border-radius:0; height:auto; display:block;
   font-family:var(--mono); font-weight:700; font-size:2.1rem;
-  line-height:.95; color:var(--pc); text-align:left;
+  line-height:.95; color:var(--pcb); text-align:left;
 }
 html[data-look="book"] .name{font-weight:700; font-size:1.26rem}
 html[data-look="book"] .level{font-family:var(--mono); font-size:.84rem; color:var(--muted)}
 html[data-look="book"] .lessons .inner{padding:0 0 10px 96px}
 html[data-look="book"] .lesson{border-top:1px solid var(--line)}
 html[data-look="book"] .lesson .title{font-size:1.1rem}
-html[data-look="book"] .lesson:hover .title{color:var(--pc)}
+html[data-look="book"] .lesson:hover .title{color:var(--pcb)}
 html[data-look="book"] .chev{color:var(--faint)}
 
 /* выходные сведения */
