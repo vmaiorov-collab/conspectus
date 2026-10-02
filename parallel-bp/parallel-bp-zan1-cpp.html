@@ -442,10 +442,236 @@ html[data-theme] h2[id], html[data-theme] h3[id]{scroll-margin-top:24px}
 <script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".code .copy");if(!b)return;var pre=b.closest(".code").querySelector("pre"),t=pre.innerText;function ok(){b.textContent="скопировано ✓";setTimeout(function(){b.textContent="копировать"},1600)}function sel(){var r=document.createRange();r.selectNodeContents(pre);var x=getSelection();x.removeAllRanges();x.addRange(r);b.textContent="выделено — нажмите ⌘C"}if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "82e3760401a547558cc1d22198113255"}'></script>
 <script data-goatcounter="https://vmaiorov.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<style id="accent">html[data-look="book"]{--acc-l:#0a7d75; --acc-d:#3fc9bd}</style>
+<style id="book">
+/* ── палитра книжного вида: холодный стол, белый лист ── */
+html[data-look="book"]{
+  --desk:#dde2e9; --sheet-grid:rgba(21,56,111,.06);
+  --bg:#ffffff; --card:#ffffff;
+  --ink:#11161b; --muted:#49525b; --faint:#6a737c;
+  --line:#e9edf1; --rule-hard:#d4dae1;
+  --accent:var(--acc-l); --accent-soft:transparent;
+  --tag:#e9edf1;
+  --code-bg:#15191e; --code-ink:#dfe3e8;
+  --code-paper:#15191e; --code-head:transparent;
+  --code-line:transparent; --code-text:#dfe3e8;
+  --shadow-sm:none; --shadow-md:none; --shadow-lg:none;
+  --sans:var(--serif);
+}
+html[data-look="book"][data-theme="dark"]{
+  --desk:#0e1011; --sheet-grid:rgba(156,192,240,.055);
+  --bg:#17191b; --card:#17191b;
+  --ink:#e8eae5; --muted:#a7aeb2; --faint:#7d858a;
+  --line:#232729; --rule-hard:#2e3335;
+  --accent:var(--acc-d);
+  --tag:#232729;
+  --code-bg:#0d1013; --code-paper:#0d1013;
+}
+
+/* ── лист на клетчатом столе ── */
+html[data-look="book"] body{
+  background-color:var(--desk);
+  background-image:
+    repeating-linear-gradient(to right, var(--sheet-grid) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(to bottom, var(--sheet-grid) 0 1px, transparent 1px 26px);
+  font-family:var(--serif); font-size:18px; line-height:1.72;
+  padding:0 24px 72px;
+}
+html[data-look="book"] .wrap{
+  max-width:1060px; margin:0 auto; background:var(--bg);
+  box-shadow:0 0 0 1px rgba(17,22,27,.055), 0 6px 20px rgba(17,22,27,.07);
+  /* 64px поле + 104px колонка маргиналий */
+  padding:0 64px 64px 168px;
+}
+html[data-look="book"][data-theme="dark"] .wrap{
+  box-shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 28px rgba(0,0,0,.3);
+}
+/* мера строки: засечками 820px читать тяжело */
+html[data-look="book"] .wrap > p,
+html[data-look="book"] .wrap > ul,
+html[data-look="book"] .wrap > ol,
+html[data-look="book"] .wrap > h2,
+html[data-look="book"] .wrap > h3,
+html[data-look="book"] .wrap > .note,
+html[data-look="book"] .wrap > .good,
+html[data-look="book"] .wrap > .warn,
+html[data-look="book"] .wrap > .card,
+html[data-look="book"] header.hero{max-width:66ch}
+
+/* колонтитул и пагинация занимают всю ширину листа */
+html[data-look="book"] .top,
+html[data-look="book"] .pager{margin-left:-104px}
+html[data-look="book"] .top{
+  padding:22px 0 14px; border-bottom:1px solid var(--line);
+  font-family:var(--mono); font-size:.76rem; letter-spacing:.06em;
+}
+
+/* ── титул ── */
+html[data-look="book"] header.hero{
+  padding:44px 0 0; margin:0; border-bottom:0;
+}
+html[data-look="book"] header.hero h1{font-size:2.3rem; line-height:1.12; margin:0 0 18px}
+html[data-look="book"] header.hero .sub{font-size:1.02rem; color:var(--muted); max-width:62ch}
+html[data-look="book"] header.hero .meta{
+  margin-top:24px; padding-top:14px; border-top:2px solid var(--ink);
+  font-family:var(--mono); font-size:.82rem;
+}
+
+/* ── содержание: две колонки, настоящие номера ── */
+html[data-look="book"] nav.toc{margin:40px 0 0; max-width:none}
+html[data-look="book"] nav.toc h2{
+  font-family:var(--mono); font-weight:400; font-size:.82rem;
+  letter-spacing:.1em; margin:0 0 10px;
+  padding-bottom:10px; border-bottom:1px solid var(--rule-hard);
+}
+html[data-look="book"] nav.toc ol{
+  columns:2; column-gap:36px; padding-left:1.7em; margin:0;
+}
+html[data-look="book"] nav.toc li{break-inside:avoid; padding:4px 0}
+html[data-look="book"] nav.toc li::marker{
+  font-family:var(--mono); font-size:.8rem; color:var(--faint);
+}
+
+/* ── разделы: таймкод уходит на поле, а не торчит в заголовке ── */
+html[data-look="book"] h2[id]{position:relative; font-size:1.5rem; margin:56px 0 4px}
+html[data-look="book"] h3{font-size:1.14rem; margin:34px 0 2px}
+html[data-look="book"] h2[id] .ts{
+  position:absolute; left:-104px; width:88px; top:.5em;
+  text-align:right; background:none; border:0; border-radius:0;
+  padding:0; font-family:var(--mono); font-size:.76rem;
+  color:var(--faint); font-variant-numeric:tabular-nums;
+}
+html[data-look="book"] h2[id] .ts:hover{color:var(--accent); background:none}
+
+/* ── наборные среды вместо подкрашенных плашек ── */
+html[data-look="book"] .note,
+html[data-look="book"] .good,
+html[data-look="book"] .warn{
+  background:none; border:0; border-left:2px solid var(--accent);
+  border-radius:0; padding:0 0 0 18px; margin:26px 0;
+  font-style:italic; font-size:1.02rem;
+}
+/* замечание — без краски и без курсива: это не теорема */
+html[data-look="book"] .note{
+  border-left-color:transparent; padding-left:0; font-style:normal;
+}
+html[data-look="book"] .lbl{
+  font-style:normal; font-weight:700; font-family:var(--mono);
+  font-size:.76rem; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--accent); margin-right:10px; display:inline;
+}
+html[data-look="book"] .note .lbl{color:var(--muted)}
+/* ярлык идёт в подбор — перевод строки после него убираем */
+html[data-look="book"] .note > br:first-of-type,
+html[data-look="book"] .good > br:first-of-type,
+html[data-look="book"] .warn > br:first-of-type{display:none}
+
+/* перечисление без рамки: висячие тире */
+html[data-look="book"] .card{
+  background:none; border:0; border-radius:0; padding:0; margin:18px 0;
+}
+html[data-look="book"] .card ul{margin:0; padding:0; list-style:none}
+html[data-look="book"] .card li{position:relative; padding-left:22px; margin:9px 0}
+html[data-look="book"] .card li::before{
+  content:"—"; position:absolute; left:0; color:var(--faint);
+}
+
+/* ── таблица: линейки, без зебры и рамок ── */
+html[data-look="book"] table{
+  width:100%; border-collapse:collapse; font-size:.94rem;
+  font-variant-numeric:tabular-nums; box-shadow:none;
+}
+html[data-look="book"] th{
+  font-family:var(--mono); font-weight:400; font-size:.76rem;
+  letter-spacing:.06em; text-transform:uppercase; color:var(--muted);
+  text-align:left; padding:0 14px 8px 0; background:none;
+  border-bottom:2px solid var(--ink);
+}
+html[data-look="book"] td{
+  padding:9px 14px 9px 0; background:none;
+  border-bottom:1px solid var(--line);
+}
+html[data-look="book"] tr:nth-child(even) td{background:none}
+
+/* ── код: без скруглений, тонкая шапка ── */
+html[data-look="book"] .code{
+  border:0; border-radius:0; margin:26px 0; background:var(--code-bg);
+}
+html[data-look="book"] .code-head{
+  background:none; border-bottom:1px solid rgba(255,255,255,.08);
+  padding:8px 14px; font-family:var(--mono); font-size:.74rem;
+  letter-spacing:.08em; text-transform:uppercase; color:#8b949e;
+}
+html[data-look="book"] .code-head .copy{
+  border:0; border-bottom:1px solid rgba(255,255,255,.2);
+  border-radius:0; padding:0; color:#8b949e;
+}
+html[data-look="book"] .code-head .copy:hover{color:#fff; border-color:#fff; background:none}
+html[data-look="book"] pre, html[data-look="book"] pre.hl{
+  border-radius:0; margin:0;
+}
+html[data-look="book"] code{
+  background:var(--tag); border-radius:0; padding:1px 5px; font-size:.88em;
+}
+/* ВАЖНО: правило выше иначе протекает в код-блок и склеивает строки.
+   Здесь нельзя писать теги буквально: wrap_code() ниже ищет их
+   регуляркой по всему файлу и сматчится с этим комментарием. */
+html[data-look="book"] pre code{background:none; padding:0; font-size:inherit}
+
+/* ── иллюстрации: без скруглённой плашки ── */
+html[data-look="book"] .viz svg{border-radius:0}
+html[data-look="book"] .viz figcaption{
+  font-family:var(--mono); font-size:.86rem; line-height:1.55;
+}
+
+/* ── боковая рейка и соседние занятия ── */
+html[data-look="book"] .side-toc{
+  right:max(16px, calc(50% - 530px - 236px));
+  background:none; border:0; border-left:1px solid var(--line);
+  border-radius:0; box-shadow:none; padding:0 0 0 14px;
+}
+html[data-look="book"] .pager{
+  border-top:2px solid var(--ink); margin:64px 0 0; padding-top:20px;
+}
+html[data-look="book"] .pager a{
+  border:0; border-top:3px solid var(--accent); border-radius:0;
+  padding:10px 0 0; background:none;
+}
+html[data-look="book"] .pager a:hover{background:none}
+html[data-look="book"] .progress{height:2px}
+
+/* ── кнопка возврата к старому виду ── */
+.look-toggle{
+  font:inherit; color:inherit; background:none; border:0;
+  border-bottom:1px solid currentColor; padding:0;
+  margin-left:18px; cursor:pointer; opacity:.75;
+}
+.look-toggle:hover{opacity:1}
+.look-toggle:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+
+@media(max-width:1100px){
+  /* на узком экране поле маргиналий не помещается — таймкод в строку */
+  html[data-look="book"] .wrap{padding:0 24px 44px}
+  html[data-look="book"] .top,
+  html[data-look="book"] .pager{margin-left:0}
+  html[data-look="book"] h2[id] .ts{
+    position:static; width:auto; text-align:left; margin-left:10px;
+  }
+  html[data-look="book"] nav.toc ol{columns:1}
+  html[data-look="book"] body{padding:0 12px 48px; font-size:17px}
+  html[data-look="book"] header.hero h1{font-size:1.85rem}
+}
+@media print{
+  html[data-look="book"] body{background:#fff; padding:0}
+  html[data-look="book"] .wrap{box-shadow:none; padding:0}
+  .look-toggle{display:none}
+}
+</style>
+<script>(function(){try{var l=localStorage.getItem("conspectusLook")||"book";document.documentElement.setAttribute("data-look",l)}catch(e){document.documentElement.setAttribute("data-look","book")}})();</script>
 </head>
 <body>
 <div class="wrap">
-<div class="top"><a class="back" href="../index.html">← Все конспекты</a><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button></div>
+<div class="top"><a class="back" href="../index.html">← Все конспекты</a><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button><button type="button" id="look-toggle" class="look-toggle">старый вид</button></div>
 
 <header class="hero">
   <h1>Занятие 1. Параллель B' — C++</h1>
@@ -880,6 +1106,7 @@ cerr &lt;&lt; ms &lt;&lt; <span class="s">" ms\n"</span>;   <span class="c">// �
 
 
 
+<script>(function(){var b=document.getElementById("look-toggle");if(!b)return;var h=document.documentElement;function label(){b.textContent=h.getAttribute("data-look")==="book"?"старый вид":"новый вид"}label();b.addEventListener("click",function(){var next=h.getAttribute("data-look")==="book"?"paper":"book";h.setAttribute("data-look",next);try{localStorage.setItem("conspectusLook",next)}catch(e){}label()});})();</script>
 <script id="reader">
 (function(){
   var heads = [].slice.call(document.querySelectorAll(".wrap h2[id]"));

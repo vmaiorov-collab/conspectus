@@ -28,6 +28,7 @@
 
 <script data-goatcounter="https://vmaiorov.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>(function(){try{var t=localStorage.getItem("conspectusTheme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";document.documentElement.setAttribute("data-theme",t||"light")}catch(e){}})();</script>
+<script>(function(){try{var l=localStorage.getItem("conspectusLook")||"book";document.documentElement.setAttribute("data-look",l)}catch(e){document.documentElement.setAttribute("data-look","book")}})();</script>
 <style>
   :root{
     --bg:#f7f5f0; --paper:#fffdf8; --ink:#1c1b19; --muted:#6f6a61; --faint:#a19b90;
@@ -134,6 +135,167 @@
   }
   @media print{.top,.tools,.ask{display:none} .lessons{height:auto !important} .lesson{opacity:1 !important} .hits{display:none}}
 </style>
+
+<style id="book">
+/* ═══ Книжный вид начальной страницы — второй слой, не копия файла.
+   Включается data-look="book" на <html>; кнопка «старый вид» снимает.
+   Замысел: страница и есть оглавление, значит набрать её как оглавление
+   учебника, а не как лендинг. Фичи-карточки и CTA-плашка скрываются
+   (возвращаются переключателем), титул уходит в левую колонку. ═══ */
+html[data-look="book"]{
+  --desk:#dde2e9; --grid-ink:rgba(21,56,111,.06);
+  --bg:#ffffff; --paper:#ffffff;
+  --ink:#11161b; --muted:#49525b; --faint:#6a737c;
+  --accent:#15386f; --line:#e9edf1; --rule-hard:#d4dae1; --hover:#f4f6f8;
+}
+html[data-look="book"][data-theme="dark"]{
+  --desk:#0e1011; --grid-ink:rgba(156,192,240,.055);
+  --bg:#17191b; --paper:#17191b;
+  --ink:#e8eae5; --muted:#a7aeb2; --faint:#7d858a;
+  --accent:#9cc0f0; --line:#232729; --rule-hard:#2e3335; --hover:#1f2325;
+}
+
+/* лист на клетчатом столе */
+html[data-look="book"] body{
+  background-color:var(--desk);
+  background-image:
+    repeating-linear-gradient(to right, var(--grid-ink) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(to bottom, var(--grid-ink) 0 1px, transparent 1px 26px);
+  font-family:var(--serif); font-size:17px; padding:0 24px 72px;
+}
+
+/* разворот: титул слева, оглавление справа */
+html[data-look="book"] .wrap{
+  max-width:1140px; background:var(--bg);
+  box-shadow:0 0 0 1px rgba(17,22,27,.055), 0 6px 20px rgba(17,22,27,.07);
+  padding:0 56px 56px;
+  display:grid; grid-template-columns:316px 1fr;
+  column-gap:72px; align-items:start;
+}
+html[data-look="book"][data-theme="dark"] .wrap{
+  box-shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 28px rgba(0,0,0,.3);
+}
+html[data-look="book"] .top{grid-column:1/-1; padding:22px 0 0}
+html[data-look="book"] .intro{
+  grid-column:1; grid-row:2 / span 4;
+  position:sticky; top:36px; padding:52px 0 0;
+}
+html[data-look="book"] .section-head{grid-column:2; grid-row:2; margin:52px 0 0}
+html[data-look="book"] #tree{grid-column:2; grid-row:3}
+html[data-look="book"] .nores{grid-column:2; grid-row:4}
+html[data-look="book"] .ask{grid-column:2; grid-row:5}
+html[data-look="book"] footer{grid-column:1/-1}
+
+/* титул */
+html[data-look="book"] .kicker{font-size:.8rem; letter-spacing:.08em; margin:0 0 18px}
+html[data-look="book"] h1{font-size:2.5rem; line-height:1.08; margin:0 0 18px}
+html[data-look="book"] .lead{font-size:1.04rem; color:var(--muted); max-width:36ch}
+/* новость — обычная сноска, без подкрашенного callout */
+html[data-look="book"] .news{
+  background:none; border:0; border-top:1px solid var(--line);
+  border-radius:0; margin:22px 0 0; padding:12px 0 0;
+  font-size:.9rem; color:var(--muted); max-width:36ch;
+}
+html[data-look="book"] .news time{display:block; margin:0 0 2px}
+/* фичи-карточки и CTA-плашка: главные признаки лендинга — убираем */
+html[data-look="book"] .features{display:none}
+html[data-look="book"] .ask{
+  background:none; border:0; border-radius:0;
+  margin:40px 0 0; padding:18px 0 0;
+  border-top:1px solid var(--line); display:block;
+}
+html[data-look="book"] .ask h3{font-size:1rem; margin:0 0 4px}
+html[data-look="book"] .ask p{font-size:.92rem; display:inline}
+html[data-look="book"] .ask a.btn{
+  background:none; color:var(--accent); padding:0; border-radius:0;
+  font-weight:400; text-decoration:underline; text-underline-offset:3px;
+}
+html[data-look="book"] .ask a.btn:hover{opacity:1}
+
+/* шапка оглавления */
+html[data-look="book"] .section-head{
+  padding-bottom:12px; border-bottom:2px solid var(--ink);
+}
+html[data-look="book"] h2{
+  font-family:var(--mono); font-weight:400; font-size:.88rem;
+  letter-spacing:.1em; text-transform:uppercase;
+}
+html[data-look="book"] .tools input{
+  border:0; border-bottom:1px solid var(--rule-hard); border-radius:0;
+  background:none; font-family:var(--mono); font-size:.88rem;
+}
+
+/* ── параллели: краска по лестнице Codeforces, литера вместо бейджа ──
+   Порядок соответствует DATA ниже: A, A', B, B', C. */
+html[data-look="book"] #tree{border-top:0}
+html[data-look="book"] .card{border-bottom:0}
+html[data-look="book"] #tree .card:nth-child(1){--pc:#c91d12}
+html[data-look="book"] #tree .card:nth-child(2){--pc:#96149b}
+html[data-look="book"] #tree .card:nth-child(3){--pc:#1a35c7}
+html[data-look="book"] #tree .card:nth-child(4){--pc:#0a7d75}
+html[data-look="book"] #tree .card:nth-child(5){--pc:#0b7a31}
+html[data-look="book"][data-theme="dark"] #tree .card:nth-child(1){--pc:#ff7a6b}
+html[data-look="book"][data-theme="dark"] #tree .card:nth-child(2){--pc:#de7ade}
+html[data-look="book"][data-theme="dark"] #tree .card:nth-child(3){--pc:#7e94ff}
+html[data-look="book"][data-theme="dark"] #tree .card:nth-child(4){--pc:#3fc9bd}
+html[data-look="book"][data-theme="dark"] #tree .card:nth-child(5){--pc:#4ec46f}
+
+html[data-look="book"] .parallel{
+  border-top:3px solid var(--pc); padding:18px 0 14px;
+  grid-template-columns:72px 1fr auto; gap:0 24px;
+}
+html[data-look="book"] .parallel:hover{background:none}
+html[data-look="book"] .parallel:hover .name{color:var(--pc)}
+html[data-look="book"] .badge{
+  border:0; border-radius:0; height:auto; display:block;
+  font-family:var(--mono); font-weight:700; font-size:2.1rem;
+  line-height:.95; color:var(--pc); text-align:left;
+}
+html[data-look="book"] .name{font-weight:700; font-size:1.26rem}
+html[data-look="book"] .level{font-family:var(--mono); font-size:.84rem; color:var(--muted)}
+html[data-look="book"] .lessons .inner{padding:0 0 10px 96px}
+html[data-look="book"] .lesson{border-top:1px solid var(--line)}
+html[data-look="book"] .lesson .title{font-size:1.1rem}
+html[data-look="book"] .lesson:hover .title{color:var(--pc)}
+html[data-look="book"] .chev{color:var(--faint)}
+
+/* выходные сведения */
+html[data-look="book"] footer{
+  margin-top:48px; padding-top:18px; border-top:1px solid var(--rule-hard);
+  font-size:.92rem;
+}
+
+/* кнопка возврата к старому виду */
+.look-toggle{
+  font:inherit; color:var(--muted); background:none; border:0;
+  border-bottom:1px solid var(--line); padding:4px 0;
+  margin-left:16px; cursor:pointer;
+}
+.look-toggle:hover{color:var(--ink); border-color:var(--ink)}
+.look-toggle:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+
+@media(max-width:980px){
+  html[data-look="book"] .wrap{
+    grid-template-columns:1fr; column-gap:0; padding:0 22px 44px;
+  }
+  html[data-look="book"] .intro{
+    grid-column:1; grid-row:auto; position:static; padding-top:32px;
+  }
+  html[data-look="book"] .section-head,
+  html[data-look="book"] #tree,
+  html[data-look="book"] .nores,
+  html[data-look="book"] .ask{grid-column:1; grid-row:auto}
+  html[data-look="book"] .section-head{margin-top:40px}
+  html[data-look="book"] h1{font-size:2.1rem}
+  html[data-look="book"] .lead,
+  html[data-look="book"] .news{max-width:62ch}
+  html[data-look="book"] body{padding:0 12px 48px}
+  html[data-look="book"] .parallel{grid-template-columns:52px 1fr auto; gap:0 16px}
+  html[data-look="book"] .badge{font-size:1.7rem}
+  html[data-look="book"] .lessons .inner{padding-left:0}
+}
+@media print{.look-toggle{display:none}}
+</style>
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "82e3760401a547558cc1d22198113255"}'></script>
 </head>
 <body>
@@ -141,7 +303,10 @@
 
 <div class="top">
   <span>conspectus</span>
-  <button type="button" id="theme-toggle" class="theme-toggle">тёмная тема</button>
+  <span>
+    <button type="button" id="theme-toggle" class="theme-toggle">тёмная тема</button>
+    <button type="button" id="look-toggle" class="look-toggle">старый вид</button>
+  </span>
 </div>
 
 <section class="intro">
@@ -341,5 +506,6 @@ q.addEventListener("input", () => {
   });
 })();
 </script>
+<script>(function(){var b=document.getElementById("look-toggle");if(!b)return;var h=document.documentElement;function label(){b.textContent=h.getAttribute("data-look")==="book"?"старый вид":"новый вид"}label();b.addEventListener("click",function(){var next=h.getAttribute("data-look")==="book"?"paper":"book";h.setAttribute("data-look",next);try{localStorage.setItem("conspectusLook",next)}catch(e){}label()});})();</script>
 </body>
 </html>
