@@ -20,11 +20,11 @@
 
 | Параллель | Плейлист | Конспекты |
 |-----------|----------|-----------|
-| **A** | [YouTube](https://www.youtube.com/playlist?list=PLPEbYG2GETx8) | Занятие 1 — Математика · Занятие 2 — Оптимизации DP |
-| **A'** | [YouTube](https://www.youtube.com/playlist?list=PLVEPlEFLCYes) | Занятие 1 — Корневые эвристики · Занятие 2 — Структуры данных 1 |
-| **B** | [YouTube](https://www.youtube.com/playlist?list=PLfU-HktHP470) | Занятие 1 — Графы 1 · Занятие 2 — Строки 1 |
-| **B'** | [YouTube](https://www.youtube.com/playlist?list=PLP5aGLvQB07Y) | Занятие 1 — C++ · Занятие 2 — Поиски |
-| **C** | [YouTube](https://www.youtube.com/playlist?list=PLNeWOJRrsoEA) | Занятие 1 — Вводная лекция · Занятие 2 — Оценка сложности и сортировки |
+| **A** | [YouTube](https://www.youtube.com/playlist?list=PLPEbYG2GETx8) | Занятие 1 — Математика · Занятие 2 — Оптимизации DP · Занятие 3 — Структуры на отрезках |
+| **A'** | [YouTube](https://www.youtube.com/playlist?list=PLVEPlEFLCYes) | Занятие 1 — Корневые эвристики · Занятие 2 — Структуры данных 1 · Занятие 3 — Геометрия 1 |
+| **B** | [YouTube](https://www.youtube.com/playlist?list=PLfU-HktHP470) | Занятие 1 — Графы 1 · Занятие 2 — Строки 1 · Занятие 3 — Строки 2 |
+| **B'** | [YouTube](https://www.youtube.com/playlist?list=PLP5aGLvQB07Y) | Занятие 1 — C++ · Занятие 2 — Поиски · Занятие 3 — Линейные алгоритмы |
+| **C** | [YouTube](https://www.youtube.com/playlist?list=PLNeWOJRrsoEA) | Занятие 1 — Вводная лекция · Занятие 2 — Оценка сложности и сортировки · Занятие 3 — Два указателя |
 
 ### Темы по занятиям
 

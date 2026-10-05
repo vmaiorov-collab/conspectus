@@ -806,7 +806,7 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
 <h3 id="s2-3">2.3. Каркас решения любой задачи на два указателя <a class="ts" href="https://youtu.be/S_dtt7C7p5Q?t=702" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">11:42</a></h3>
 <p><a class="ts" href="https://youtu.be/S_dtt7C7p5Q?t=702" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">11:42</a> Решения таких задач выглядят одинаково: сначала правая граница добавляет элемент, потом левая сдвигается, пока окно «плохое», потом пересчитывается ответ. От задачи к задаче меняются только отдельные блоки:</p>
 <ul><li><strong>добавление элемента</strong> (для суммы — <code>sum += a[r]</code>, для различных — <code>cnt[a[r]]++</code>);</li><li><strong>удаление элемента</strong> слева (<code>sum -= a[l]</code> или уменьшение счётчика);</li><li><strong>условие «плохо»</strong> в <code>while</code> — условие, <em>нарушающее</em> требование задачи (здесь «различных больше $K$»);</li><li><strong>пересчёт ответа</strong> — обычно максимум или минимум по длине/сумме.</li></ul>
-<div class="code"><div class="code-head"><span>шаблон</span></div><div class="code"><div class="code-head"><span>текст</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code>l = 0
+<div class="code"><div class="code-head"><span>текст</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code>l = 0
 для r = 0..n-1:
     добавить a[r] в окно
     пока окно плохое:
