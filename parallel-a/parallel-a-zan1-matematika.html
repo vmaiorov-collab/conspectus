@@ -837,12 +837,17 @@ $$ x^{-1}\equiv x^{\varphi(m)-1}\pmod m, $$
 
 <h2 id="s4">4. Быстрое возведение в степень, modint и все обратные за $O(n)$ <a class="ts" href="https://youtu.be/Muof24wh3zY?t=1223" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">20:23</a></h2>
 <p>Стандартный бинарный алгоритм возведения в степень обрабатывает двоичную запись показателя: квадрат основания на каждом шаге, умножение результата — по младшему биту.</p>
+<div class="warn"><span class="lbl">Переполнение при больших модулях</span><br>
+Обычное <code>a * b % mod</code> в <code>long long</code> безопасно, пока <code>mod</code> в районе $10^9$: произведение не превышает $10^{18}$. Но ниже встретятся модули порядка $10^{18}$ (тест Миллера—Рабина для чисел до $3{,}3\cdot10^{24}$ и baby-step giant-step) — там <code>a*b</code> переполняет <code>long long</code> (предел $\approx 9{,}2\cdot10^{18}$). Поэтому умножение по модулю здесь и далее идёт через вспомогательную <code>mulmod</code>, считающую произведение в <code>__int128</code> (расширение компилятора, не часть стандарта C++, но доступное в GCC/Clang на всех судейских системах).</div>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">long</span> <span class="t">long</span> <span class="f">mulmod</span>(<span class="t">long</span> <span class="t">long</span> a, <span class="t">long</span> <span class="t">long</span> b, <span class="t">long</span> <span class="t">long</span> mod) {
+    <span class="k">return</span> (<span class="t">long</span> <span class="t">long</span>)((<span class="t">__int128</span>)a * b % mod);
+}</code></pre></div>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">long</span> <span class="t">long</span> <span class="f">power</span>(<span class="t">long</span> <span class="t">long</span> a, <span class="t">long</span> <span class="t">long</span> e, <span class="t">long</span> <span class="t">long</span> mod) {
     <span class="t">long</span> <span class="t">long</span> res = <span class="n">1</span> % mod;
     a %= mod;
     <span class="k">while</span> (e &gt; <span class="n">0</span>) {
-        <span class="k">if</span> (e &amp; <span class="n">1</span>) res = res * a % mod;   <span class="c">// младший бит показателя</span>
-        a = a * a % mod;                  <span class="c">// переходим к следующему биту</span>
+        <span class="k">if</span> (e &amp; <span class="n">1</span>) res = <span class="f">mulmod</span>(res, a, mod);   <span class="c">// младший бит показателя</span>
+        a = <span class="f">mulmod</span>(a, a, mod);                  <span class="c">// переходим к следующему биту</span>
         e &gt;&gt;= <span class="n">1</span>;
     }
     <span class="k">return</span> res;
@@ -956,7 +961,7 @@ $$ a^{x_1+kx_2}\equiv b \iff a^{x_1}\equiv b\cdot\bigl(a^{-1}\bigr)^{k x_2}\pmod
     <span class="t">long</span> <span class="t">long</span> cur = <span class="n">1</span>;
     <span class="k">for</span> (<span class="t">long</span> <span class="t">long</span> x1 = <span class="n">0</span>; x1 &lt; k; ++x1) {        <span class="c">// маленькие шаги</span>
         baby.<span class="f">emplace</span>(cur, x1);
-        cur = cur * a % n;
+        cur = <span class="f">mulmod</span>(cur, a, n);                  <span class="c">// mulmod — см. §4, иначе переполнение при больших n</span>
     }
     <span class="t">long</span> <span class="t">long</span> invA = <span class="f">inverse</span>(a, n);
     <span class="t">long</span> <span class="t">long</span> giantStep = <span class="f">power</span>(invA, k, n);      <span class="c">// a^{-k}</span>
@@ -964,7 +969,7 @@ $$ a^{x_1+kx_2}\equiv b \iff a^{x_1}\equiv b\cdot\bigl(a^{-1}\bigr)^{k x_2}\pmod
     <span class="k">for</span> (<span class="t">long</span> <span class="t">long</span> x2 = <span class="n">0</span>; x2 &lt;= k; ++x2) {
         <span class="k">auto</span> it = baby.<span class="f">find</span>(g);
         <span class="k">if</span> (it != baby.<span class="f">end</span>()) <span class="k">return</span> it-&gt;second + k * x2;
-        g = g * giantStep % n;
+        g = <span class="f">mulmod</span>(g, giantStep, n);
     }
     <span class="k">return</span> -<span class="n">1</span>;                                    <span class="c">// решения нет</span>
 }</code></pre></div>
@@ -1038,7 +1043,7 @@ $$ x^{n-1}-1=(x^{a}-1)\prod_{i=0}^{k-1}\bigl(x^{a\cdot 2^{i}}+1\bigr). $$
         <span class="k">if</span> (y == <span class="n">1</span> || y == n - <span class="n">1</span>) <span class="k">continue</span>;
         <span class="t">bool</span> ok = <span class="k">false</span>;
         <span class="k">for</span> (<span class="t">long</span> <span class="t">long</span> i = <span class="n">0</span>; i &lt; k - <span class="n">1</span>; ++i) {
-            y = y * y % n;
+            y = <span class="f">mulmod</span>(y, y, n);                    <span class="c">// не y*y%n — переполнение при n ~ 10^18</span>
             <span class="k">if</span> (y == n - <span class="n">1</span>) { ok = <span class="k">true</span>; <span class="k">break</span>; }
         }
         <span class="k">if</span> (!ok) <span class="k">return</span> <span class="k">false</span>;
@@ -1046,7 +1051,7 @@ $$ x^{n-1}-1=(x^{a}-1)\prod_{i=0}^{k-1}\bigl(x^{a\cdot 2^{i}}+1\bigr). $$
     <span class="k">return</span> <span class="k">true</span>;
 }</code></pre></div>
 <div class="note"><span class="lbl">Вероятность и детерминированные базы</span><br>
-Для составного $n$ доля «плохих» оснований не превосходит $1/2$, поэтому $30$ случайных проверок дают ошибку меньше $2^{-30}$. Для $n\lt 10^{9}$ достаточно трёх заранее проверенных оснований, для $n\lt 3{,}2\cdot 10^{18}$ — десятка небольших простых. Безопасность детерминированных наборов опирается на обобщённую гипотезу Римана.</div>
+Для составного $n$ доля «плохих» оснований не превосходит $1/2$, поэтому $30$ случайных проверок дают ошибку меньше $2^{-30}$. Для $n\lt 10^{9}$ достаточно трёх заранее проверенных оснований, для $n\lt 3{,}3\cdot 10^{24}$ (это покрывает весь диапазон <code>uint64_t</code>) — набора первых 12 простых $\{2,3,5,7,11,13,17,19,23,29,31,37\}$. Эти границы доказаны <strong>безусловно</strong> — полным компьютерным перебором, а не из каких-либо гипотез. С обобщённой гипотезой Римана (ОГР) связаны только асимптотические оценки вида «$O(\log^2 n)$ оснований достаточно для любого $n$»; конкретные проверенные наборы, которыми пользуются на практике для 64-битных чисел, от ОГР не зависят.</div>
 <h3 id="s10-3">Факторизация: метод Полларда ($\rho$)</h3>
 <p>Пусть $n=pq$ с близкими $p\approx q$ — это самый трудный для разложения случай. Выбираем функцию по модулю $n$, обычно $f(x)=x^2+1\bmod n$, и строим последовательность $a_0$ (случайно), $a_{i+1}=f(a_i)$. Смотрим на $\gcd(a_i-a_j,\,n)$: он может быть $1$, $p$, $q$ или $n$. Угадали делитель — разложили. Используется <strong>алгоритм «черепахи и зайца»</strong> (Флойд): один указатель шагает на 1, другой на 2; их разность даёт нужное сравнение по модулю $p$.</p>
 <div class="good"><span class="lbl">Почему это $\tilde O(n^{1/4})$</span><br>
@@ -1079,15 +1084,17 @@ $$ S(n,m,a,b)=\sum_{x=0}^{n-1}\left\lfloor\frac{a x+b}{m}\right\rfloor. $$
 <p>В нормализованном виде ($0\le a,b\lt m$) прямая начинается в точке $(0,b)$ и заканчивается в $Y=\bigl\lfloor\frac{a(n-1)+b}{m}\bigr\rfloor$. Если $Y=0$, под прямой нет целых точек, и сумма равна нулю. Иначе поворачиваем картинку и суммируем по уровням $y$: точки на высоте $y$ существуют при $x\ge\lceil(my-b)/a\rceil$, а таких $x$ ровно $n-\lceil(my-b)/a\rceil$. Переходя от $\lceil\cdot\rceil$ к $\lfloor\cdot\rfloor$ и делая замену $y'=y-1$, получаем рекурсию
 $$ S(n,m,a,b)=(n-1)Y-S\bigl(Y,\ a,\ m,\ m-b-1\bigr),\qquad Y=\left\lfloor\frac{a(n-1)+b}{m}\right\rfloor. $$
 Модуль на каждом шаге уменьшается как в алгоритме Евклида, поэтому глубина рекурсии $O(\log(a+m))$.</p>
+<div class="warn"><span class="lbl">Переполнение в промежуточных произведениях</span><br>
+<code>(n-1)*n</code>, <code>a*n+b</code> и <code>(n-1)*Y</code> в <code>long long</code> могут переполниться раньше, чем их успеют поделить на $m$, если $n,a,b,m$ не малы (скажем, порядка $10^9$ и выше). Ниже каждое такое произведение считается в <code>__int128</code> (см. §4) и приводится к <code>long long</code> уже после деления — сама сумма <code>ans</code> и промежуточное $Y$ в такой постановке задачи остаются в пределах <code>long long</code>.</div>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// sum_{x=0}^{n-1} floor((a*x + b) / m), все аргументы неотрицательны</span>
 <span class="t">long</span> <span class="t">long</span> <span class="f">floor_sum</span>(<span class="t">long</span> <span class="t">long</span> n, <span class="t">long</span> <span class="t">long</span> m, <span class="t">long</span> <span class="t">long</span> a, <span class="t">long</span> <span class="t">long</span> b) {
     <span class="t">long</span> <span class="t">long</span> ans = <span class="n">0</span>;
-    <span class="k">if</span> (a &gt;= m) { ans += (n - <span class="n">1</span>) * n / <span class="n">2</span> * (a / m); a %= m; }
+    <span class="k">if</span> (a &gt;= m) { ans += (<span class="t">long</span> <span class="t">long</span>)((<span class="t">__int128</span>)(n - <span class="n">1</span>) * n / <span class="n">2</span> * (a / m)); a %= m; }
     <span class="k">if</span> (b &gt;= m) { ans += n * (b / m);                b %= m; }
-    <span class="t">long</span> <span class="t">long</span> Y = (a * n + b) / m;
+    <span class="t">long</span> <span class="t">long</span> Y = (<span class="t">long</span> <span class="t">long</span>)(((<span class="t">__int128</span>)a * n + b) / m);
     <span class="k">if</span> (Y == <span class="n">0</span>) <span class="k">return</span> ans;
     <span class="c">// поворот осей: та же сумма, но модуль теперь a</span>
-    ans += (n - <span class="n">1</span>) * Y - <span class="f">floor_sum</span>(Y, a, m, m - b - <span class="n">1</span>);
+    ans += (<span class="t">long</span> <span class="t">long</span>)((<span class="t">__int128</span>)(n - <span class="n">1</span>) * Y) - <span class="f">floor_sum</span>(Y, a, m, m - b - <span class="n">1</span>);
     <span class="k">return</span> ans;
 }</code></pre></div>
 <div class="good"><span class="lbl">Простые следствия</span><br>

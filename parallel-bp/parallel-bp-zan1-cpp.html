@@ -806,7 +806,7 @@ $O$ — оценка сверху. Формально «код работает 
 <p>Проблема в том, что <code>x * x</code> вычисляется в типе операндов. Если $x$ — <code>int</code> порядка $10^9$, то $x \cdot x$ переполнится <em>до</em> присваивания в <code>long long</code>. Нужно следить за типом каждого промежуточного шага.</p>
 
 <h3 id="s2-3"><code>__int128</code> <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=1440" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">24:00</a></h3>
-<p>Для очень больших промежуточных значений (например, перемножение двух <code>long long</code>) используют <code>__int128</code>. Его нельзя напрямую вводить и выводить (<code>cin</code>/<code>cout</code>), но для промежуточных вычислений он годится. Приводить нужно явно: <code>(__int128)a * b</code>.</p>
+<p>Для очень больших промежуточных значений (например, перемножение двух <code>long long</code>) используют <code>__int128</code>. Это <strong>расширение GCC/Clang, а не тип стандарта C++</strong> — работает на судейских системах на практике, но не описан в стандарте и может быть недоступен на других компиляторах (например, MSVC). Его нельзя напрямую вводить и выводить (<code>cin</code>/<code>cout</code>), но для промежуточных вычислений он годится. Приводить нужно явно: <code>(__int128)a * b</code>.</p>
 
 <h3 id="s2-4">Арифметика с <code>char</code> <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=1589" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">26:29</a></h3>
 <p><code>char</code> внутри — это число. Буква <code>'x'</code> — номер по таблице ASCII. Поэтому:</p>
@@ -891,7 +891,7 @@ $0.3$ в двоичной системе — бесконечная дробь, 
   <tr><td><code>push_back(x)</code></td><td>добавить в конец</td><td>$O(1)$ амортизированно</td></tr>
   <tr><td><code>pop_back()</code></td><td>убрать последний</td><td>$O(1)$</td></tr>
   <tr><td><code>back()</code></td><td>последний элемент (как <code>a[size-1]</code>)</td><td>$O(1)$</td></tr>
-  <tr><td><code>reserve(n)</code></td><td>зарезервировать capacity $\ge n$</td><td>$O(n)$</td></tr>
+  <tr><td><code>reserve(n)</code></td><td>зарезервировать capacity $\ge n$</td><td>не более $O(n)$ (если capacity уже $\ge n$ — $O(1)$)</td></tr>
   <tr><td><code>resize(n, v)</code></td><td>изменить size, заполняя новое значением <code>v</code></td><td>$O(n)$</td></tr>
   <tr><td><code>assign(n, v)</code></td><td>заменить содержимое на <code>n</code> копий <code>v</code></td><td>$O(n)$</td></tr>
   <tr><td><code>insert(pos, v)</code></td><td>вставить в середину</td><td>$O(n)$ — <strong>медленно</strong></td></tr>
