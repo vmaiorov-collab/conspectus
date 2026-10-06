@@ -377,6 +377,15 @@ html[data-theme] svg [stroke="#C78BFF"]{stroke:var(--f-purple)}
 html[data-theme] svg :not(text)[fill="#c78bff"]{fill:var(--f-purple-bg)}
 html[data-theme] svg text[fill="#c78bff"]{fill:var(--f-purple)}
 html[data-theme] svg [stroke="#c78bff"]{stroke:var(--f-purple)}
+html[data-theme]{--f-blue-soft:var(--f-blue-bg); --f-green-soft:var(--f-green-bg); --f-red-soft:var(--f-red-bg); --f-yellow-soft:var(--f-yellow-bg); --f-orange-soft:var(--f-orange-bg); --f-purple-soft:var(--f-purple-bg);}
+html[data-theme="dark"]{--f-blue-soft:#1d4257; --f-green-soft:#27431f; --f-red-soft:#4f1f1b; --f-yellow-soft:#4d4d00; --f-orange-soft:#53300a; --f-purple-soft:#3a2858;}
+/* заливки ячеек: светлые в светлой теме, тёмные в тёмной */
+html[data-theme] svg :not(text)[fill="#1d4257"]{fill:var(--f-blue-soft)}
+html[data-theme] svg :not(text)[fill="#27431f"]{fill:var(--f-green-soft)}
+html[data-theme] svg :not(text)[fill="#4f1f1b"]{fill:var(--f-red-soft)}
+html[data-theme] svg :not(text)[fill="#4d4d00"]{fill:var(--f-yellow-soft)}
+html[data-theme] svg :not(text)[fill="#53300a"]{fill:var(--f-orange-soft)}
+html[data-theme] svg :not(text)[fill="#3a2858"]{fill:var(--f-purple-soft)}
 /* наконечники стрелок — насыщенным цветом */
 html[data-theme] svg marker [fill="#58c4dd"]{fill:var(--f-blue)}
 html[data-theme] svg marker [fill="#83c167"]{fill:var(--f-green)}
@@ -806,7 +815,7 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
 <h3 id="s2-3">2.3. Каркас решения любой задачи на два указателя <a class="ts" href="https://youtu.be/S_dtt7C7p5Q?t=702" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">11:42</a></h3>
 <p><a class="ts" href="https://youtu.be/S_dtt7C7p5Q?t=702" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">11:42</a> Решения таких задач выглядят одинаково: сначала правая граница добавляет элемент, потом левая сдвигается, пока окно «плохое», потом пересчитывается ответ. От задачи к задаче меняются только отдельные блоки:</p>
 <ul><li><strong>добавление элемента</strong> (для суммы — <code>sum += a[r]</code>, для различных — <code>cnt[a[r]]++</code>);</li><li><strong>удаление элемента</strong> слева (<code>sum -= a[l]</code> или уменьшение счётчика);</li><li><strong>условие «плохо»</strong> в <code>while</code> — условие, <em>нарушающее</em> требование задачи (здесь «различных больше $K$»);</li><li><strong>пересчёт ответа</strong> — обычно максимум или минимум по длине/сумме.</li></ul>
-<div class="code"><div class="code-head"><span>текст</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code>l = 0
+<div class="code"><div class="code-head"><span>шаблон</span></div><div class="code"><div class="code-head"><span>текст</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code>l = 0
 для r = 0..n-1:
     добавить a[r] в окно
     пока окно плохое:
@@ -1010,7 +1019,7 @@ ans += rev;</code></pre></div>
 <p><a class="ts" href="https://youtu.be/S_dtt7C7p5Q?t=5898" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">98:18</a> Есть набор строк — «кусков» десятичного числа. Расставить их в таком порядке, чтобы после склейки получилось максимально возможное число. Пример: куски $20$, $04$, $66$ (строки могут начинаться с нуля). Склейка в порядке $20,04,66$ даёт $200466$, а лучше поставить $66$ первым, затем $20$, затем $04$ — получим $662004$.</p>
 <p><a class="ts" href="https://youtu.be/S_dtt7C7p5Q?t=6027" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">100:27</a> Гипотеза «сначала лексикографически большие» неверна: если у одной строки префикс совпадает с другой, длиннее считается большей, и мы можем поставить «99 и много нулей» раньше «99…», хотя поменяв их местами, получили бы число больше.</p>
 <div class="good"><span class="lbl">Правильный предикат</span><br>Строка $A$ должна стоять раньше $B$, если конкатенация $A+B$ даёт <strong>больше</strong>, чем $B+A$ (сравнение — как строк одинаковой длины, то есть лексикографическое сравнение склеек).</div>
-<p><a class="ts" href="https://youtu.be/S_dtt7C7p5Q?t=6202" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">103:22</a> Доказательство от противного: пусть в «оптимальном» порядке нашлась пара кусков, для которой условие не выполнено: $A$ стоит раньше $B$, но $AB<BA$. Тогда если поменять их местами, то (при соседстве) число станет больше — значит порядок не был оптимальным. Противоречие.</p>
+<p><a class="ts" href="https://youtu.be/S_dtt7C7p5Q?t=6202" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">103:22</a> Доказательство от противного: пусть в «оптимальном» порядке нашлась пара кусков, для которой условие не выполнено: $A$ стоит раньше $B$, но $AB&lt;BA$. Тогда если поменять их местами, то (при соседстве) число станет больше — значит порядок не был оптимальным. Противоречие.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">vector</span>&lt;<span class="t">string</span>&gt; <span class="f">s</span>(n);
 <span class="f">sort</span>(s.<span class="f">begin</span>(), s.<span class="f">end</span>(), [](<span class="k">const</span> <span class="t">string</span> &amp;a, <span class="k">const</span> <span class="t">string</span> &amp;b) {
     <span class="k">return</span> a + b &gt; b + a;               <span class="c">// a должна стоять раньше b</span>

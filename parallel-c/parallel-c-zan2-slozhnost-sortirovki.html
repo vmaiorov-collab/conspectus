@@ -377,6 +377,15 @@ html[data-theme] svg [stroke="#C78BFF"]{stroke:var(--f-purple)}
 html[data-theme] svg :not(text)[fill="#c78bff"]{fill:var(--f-purple-bg)}
 html[data-theme] svg text[fill="#c78bff"]{fill:var(--f-purple)}
 html[data-theme] svg [stroke="#c78bff"]{stroke:var(--f-purple)}
+html[data-theme]{--f-blue-soft:var(--f-blue-bg); --f-green-soft:var(--f-green-bg); --f-red-soft:var(--f-red-bg); --f-yellow-soft:var(--f-yellow-bg); --f-orange-soft:var(--f-orange-bg); --f-purple-soft:var(--f-purple-bg);}
+html[data-theme="dark"]{--f-blue-soft:#1d4257; --f-green-soft:#27431f; --f-red-soft:#4f1f1b; --f-yellow-soft:#4d4d00; --f-orange-soft:#53300a; --f-purple-soft:#3a2858;}
+/* заливки ячеек: светлые в светлой теме, тёмные в тёмной */
+html[data-theme] svg :not(text)[fill="#1d4257"]{fill:var(--f-blue-soft)}
+html[data-theme] svg :not(text)[fill="#27431f"]{fill:var(--f-green-soft)}
+html[data-theme] svg :not(text)[fill="#4f1f1b"]{fill:var(--f-red-soft)}
+html[data-theme] svg :not(text)[fill="#4d4d00"]{fill:var(--f-yellow-soft)}
+html[data-theme] svg :not(text)[fill="#53300a"]{fill:var(--f-orange-soft)}
+html[data-theme] svg :not(text)[fill="#3a2858"]{fill:var(--f-purple-soft)}
 /* наконечники стрелок — насыщенным цветом */
 html[data-theme] svg marker [fill="#58c4dd"]{fill:var(--f-blue)}
 html[data-theme] svg marker [fill="#83c167"]{fill:var(--f-green)}

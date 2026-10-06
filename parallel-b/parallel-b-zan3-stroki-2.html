@@ -377,6 +377,15 @@ html[data-theme] svg [stroke="#C78BFF"]{stroke:var(--f-purple)}
 html[data-theme] svg :not(text)[fill="#c78bff"]{fill:var(--f-purple-bg)}
 html[data-theme] svg text[fill="#c78bff"]{fill:var(--f-purple)}
 html[data-theme] svg [stroke="#c78bff"]{stroke:var(--f-purple)}
+html[data-theme]{--f-blue-soft:var(--f-blue-bg); --f-green-soft:var(--f-green-bg); --f-red-soft:var(--f-red-bg); --f-yellow-soft:var(--f-yellow-bg); --f-orange-soft:var(--f-orange-bg); --f-purple-soft:var(--f-purple-bg);}
+html[data-theme="dark"]{--f-blue-soft:#1d4257; --f-green-soft:#27431f; --f-red-soft:#4f1f1b; --f-yellow-soft:#4d4d00; --f-orange-soft:#53300a; --f-purple-soft:#3a2858;}
+/* заливки ячеек: светлые в светлой теме, тёмные в тёмной */
+html[data-theme] svg :not(text)[fill="#1d4257"]{fill:var(--f-blue-soft)}
+html[data-theme] svg :not(text)[fill="#27431f"]{fill:var(--f-green-soft)}
+html[data-theme] svg :not(text)[fill="#4f1f1b"]{fill:var(--f-red-soft)}
+html[data-theme] svg :not(text)[fill="#4d4d00"]{fill:var(--f-yellow-soft)}
+html[data-theme] svg :not(text)[fill="#53300a"]{fill:var(--f-orange-soft)}
+html[data-theme] svg :not(text)[fill="#3a2858"]{fill:var(--f-purple-soft)}
 /* наконечники стрелок — насыщенным цветом */
 html[data-theme] svg marker [fill="#58c4dd"]{fill:var(--f-blue)}
 html[data-theme] svg marker [fill="#83c167"]{fill:var(--f-green)}
@@ -921,7 +930,7 @@ Hash <span class="f">p</span>(<span class="n">123</span>);
 <div class="note"><span class="lbl">Проверка</span><br>Динамика на дереве (размер компоненты $K$, минимум удалённых рёбер) сверена с полным перебором подмножеств рёбер.</div>
 <h2 id="s12">12. Разбор контеста по строкам <a class="ts" href="https://youtu.be/eN2nbSazGaU?t=13394" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">223:14</a></h2>
 <h3 id="s12-1">12.1. Z-функция и префикс-функция <a class="ts" href="https://youtu.be/eN2nbSazGaU?t=13394" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">223:14</a></h3>
-<p><a class="ts" href="https://youtu.be/eN2nbSazGaU?t=13394" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">223:14</a> Задачи A и B — прямое вычисление. <strong>Z-функция</strong> $z_i$ — длина наибольшего общего префикса строки и её суффикса с позиции $i$: поддерживаем «самый правый» отрезок $[l,r)$, совпадающий с префиксом; для позиции $i<r$ берём $z_{i-l}$, обрезав по $r-i$, и достраиваем. <strong>Префикс-функция</strong> $\pi_i$ — длина наибольшего собственного префикса подстроки $[0,i]$, являющегося её суффиксом: идём от $\pi_{i-1}$, пока следующий символ не совпал, откатываясь по $k\leftarrow\pi_{k-1}$.</p>
+<p><a class="ts" href="https://youtu.be/eN2nbSazGaU?t=13394" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">223:14</a> Задачи A и B — прямое вычисление. <strong>Z-функция</strong> $z_i$ — длина наибольшего общего префикса строки и её суффикса с позиции $i$: поддерживаем «самый правый» отрезок $[l,r)$, совпадающий с префиксом; для позиции $i&lt;r$ берём $z_{i-l}$, обрезав по $r-i$, и достраиваем. <strong>Префикс-функция</strong> $\pi_i$ — длина наибольшего собственного префикса подстроки $[0,i]$, являющегося её суффиксом: идём от $\pi_{i-1}$, пока следующий символ не совпал, откатываясь по $k\leftarrow\pi_{k-1}$.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">vector</span>&lt;<span class="t">int</span>&gt; <span class="f">zfunc</span>(<span class="k">const</span> <span class="t">string</span> &amp;s) {
     <span class="t">int</span> n = s.<span class="f">size</span>(); <span class="t">vector</span>&lt;<span class="t">int</span>&gt; <span class="f">z</span>(n); z[<span class="n">0</span>] = n;
     <span class="k">for</span> (<span class="t">int</span> i = <span class="n">1</span>, l = <span class="n">0</span>, r = <span class="n">0</span>; i &lt; n; ++i) {
@@ -947,7 +956,7 @@ Hash <span class="f">p</span>(<span class="n">123</span>);
 <p><a class="ts" href="https://youtu.be/eN2nbSazGaU?t=13642" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">227:22</a> Нужно понять, на сколько надо сдвинуть вправо строку $s$, чтобы получить $t$. Любой циклический сдвиг $s$ — подстрока длины $n$ в удвоенной строке $ss$. Значит, ищем $t$ в $s+s$ (префикс-функция по <code>t#ss</code>); смещение вхождения определяет сдвиг.</p>
 <div class="note"><span class="lbl">Проверка</span><br>Для случайных строк $t$, полученных циклическим сдвигом $s$, поиск $t$ в $s+s$ через префикс-функцию всегда находит вхождение.</div>
 <h3 id="s12-4">12.4. Функция «префикс = перевёрнутый суффикс» <a class="ts" href="https://youtu.be/eN2nbSazGaU?t=13767" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">229:27</a></h3>
-<p><a class="ts" href="https://youtu.be/eN2nbSazGaU?t=13851" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">230:51</a> Нужно для каждой позиции $i$ найти максимальную длину $l\le i+1$, при которой $s_j=s_{i-j}$ при $j<l$ (то есть префикс совпадает с <em>перевёрнутым</em> суффиксом подстроки $[0,i]$). Идея: сравниваем $s$ слева направо с перевёрнутой $s$, а это снова Z-функция, но уже на конкатенации $s+\texttt{\#}+\operatorname{rev}(s)$: для позиции $i$ в перевёрнутой строке (она начинается на позиции $n-1-i$) значение $z$ даёт длину совпадения, которую нужно ограничить $i+1$.</p>
+<p><a class="ts" href="https://youtu.be/eN2nbSazGaU?t=13851" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">230:51</a> Нужно для каждой позиции $i$ найти максимальную длину $l\le i+1$, при которой $s_j=s_{i-j}$ при $j&lt;l$ (то есть префикс совпадает с <em>перевёрнутым</em> суффиксом подстроки $[0,i]$). Идея: сравниваем $s$ слева направо с перевёрнутой $s$, а это снова Z-функция, но уже на конкатенации $s+\texttt{\#}+\operatorname{rev}(s)$: для позиции $i$ в перевёрнутой строке (она начинается на позиции $n-1-i$) значение $z$ даёт длину совпадения, которую нужно ограничить $i+1$.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">string</span> <span class="f">r</span>(s.<span class="f">rbegin</span>(), s.<span class="f">rend</span>());
 <span class="k">auto</span> z = <span class="f">zfunc</span>(s + <span class="s">"#"</span> + r);
 <span class="k">for</span> (<span class="t">int</span> i = <span class="n">0</span>; i &lt; n; ++i)
