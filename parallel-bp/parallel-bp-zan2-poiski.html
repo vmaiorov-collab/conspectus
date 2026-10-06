@@ -994,14 +994,14 @@ cout &lt;&lt; fixed &lt;&lt; <span class="f">setprecision</span>(<span class="n"
 <h2 id="s10">10. Бинпоиск по производной и тернарный поиск <a class="ts" href="https://youtu.be/G9vSAwV1UFA?t=6630" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:50:30</a></h2>
 <h3 id="s10-1">10.1. Унимодальная функция и бинпоиск по производной</h3>
 <p>Есть массив, который сначала строго возрастает, а потом строго убывает (одна «вершина»). Нужно найти пик. Такая функция называется <strong>унимодальной</strong> (имеет ровно один максимум или минимум).</p>
-<p><strong>Идея.</strong> Рассмотрим разности соседних элементов $a_i - a_{i+1}$: до пика они отрицательны, после пика — положительны. Это снова «0...0 1...1»-подобная структура, только на знаке производной. Инвариант: $a_L &lt; a_{L+1}$ (мы в возрастающей части) и $a_R &gt; a_{R+1}$ (в убывающей).</p>
-<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">int</span> L = <span class="n">0</span>, R = n - <span class="n">1</span>;
+<p><strong>Идея.</strong> Рассмотрим разности соседних элементов $a_i - a_{i+1}$: до пика они отрицательны, после пика — положительны. Это снова «0...0 1...1»-подобная структура, только на знаке производной. Инвариант: $a_L &lt; a_{L+1}$ (мы в возрастающей части) и $a_R &gt; a_{R+1}$ (в убывающей); для этого считаем $a_{-1}=a_n=-\infty$ и начинаем с $L=-1$, $R=n-1$. Когда $R-L=1$, пик стоит в $R$.</p>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">int</span> L = -<span class="n">1</span>, R = n - <span class="n">1</span>;                <span class="c">// a[-1] = a[n] = -∞ (виртуальные)</span>
 <span class="k">while</span> (R - L &gt; <span class="n">1</span>) {
     <span class="t">int</span> M = (L + R) / <span class="n">2</span>;
     <span class="k">if</span> (a[M] &lt; a[M + <span class="n">1</span>]) L = M;   <span class="c">// мы слева от пика — идём вправо</span>
     <span class="k">else</span>                  R = M;   <span class="c">// мы на пике или справа — идём влево</span>
 }
-<span class="c">// L — индекс пика</span></code></pre></div>
+<span class="c">// R — индекс пика</span></code></pre></div>
 <div class="note"><span class="lbl">Связь с производной</span><br>
 Производная — это «моментальная скорость роста» функции. Нам не важно, насколько быстро растёт функция, а только — растёт она или убывает. Поэтому вместо точной производной достаточно смотреть знак разности соседних значений.</div>
 

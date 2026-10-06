@@ -1255,9 +1255,11 @@ $O(n)$: сумма всех списков смежности равна $2(n-1)
 <span class="c">// находим p[0..k-1] = выделенные вершины в порядке топсорта</span>
 <span class="c">// проверяем, что p[0]==v1, p[k-1]==vk, иначе ответ 0</span>
 <span class="t">long</span> <span class="t">long</span> ans = <span class="n">1</span>;
+<span class="t">vector</span>&lt;<span class="t">long</span> <span class="t">long</span>&gt; <span class="f">dp</span>(n, <span class="n">0</span>);               <span class="c">// один раз, а не на каждый отрезок</span>
 <span class="k">for</span> (<span class="t">int</span> i = <span class="n">0</span>; i + <span class="n">1</span> &lt; k; ++i) {
     <span class="c">// границы в массиве order: от pos[p[i]] до pos[p[i+1]]</span>
-    <span class="t">vector</span>&lt;<span class="t">long</span> <span class="t">long</span>&gt; <span class="f">dp</span>(n, <span class="n">0</span>);
+    <span class="k">for</span> (<span class="t">int</span> j = pos[p[i]]; j &lt;= pos[p[i + <span class="n">1</span>]]; ++j)
+        dp[order[j]] = <span class="n">0</span>;                 <span class="c">// сбрасываем только свой отрезок: O(длина отрезка)</span>
     dp[p[i + <span class="n">1</span>]] = <span class="n">1</span>;                     <span class="c">// база</span>
     <span class="k">for</span> (<span class="t">int</span> j = pos[p[i + <span class="n">1</span>]] - <span class="n">1</span>; j &gt;= pos[p[i]]; --j) {
         <span class="t">int</span> v = order[j];

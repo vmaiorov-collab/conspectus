@@ -811,8 +811,8 @@ $O$ — оценка сверху. Формально «код работает 
 
 <h3 id="s2-2">Промежуточное переполнение <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=1490" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">24:50</a></h3>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">long</span> <span class="t">long</span> x = <span class="n">1e9</span>;
-<span class="t">long</span> <span class="t">long</span> y = x * x * <span class="n">10</span>;   <span class="c">// ОШИБКА: x * x уже переполнит int-логику</span></code></pre></div>
-<p>Проблема в том, что <code>x * x</code> вычисляется в типе операндов. Если $x$ — <code>int</code> порядка $10^9$, то $x \cdot x$ переполнится <em>до</em> присваивания в <code>long long</code>. Нужно следить за типом каждого промежуточного шага.</p>
+<span class="t">long</span> <span class="t">long</span> y = x * x * <span class="n">10</span>;   <span class="c">// ОШИБКА: x * x * 10 = 10^19 &gt; 9,2·10^18 — переполнение long long</span></code></pre></div>
+<p>Проблема в том, что произведение вычисляется в типе операндов, а присваивание в <code>long long</code> происходит уже <em>после</em> него. Здесь $x\cdot x\cdot10=10^{19}$ не помещается даже в <code>long long</code>. Ещё хуже, если $x$ — <code>int</code> порядка $10^9$: тогда переполнится уже $x\cdot x$, хотя результат присваивается в <code>long long</code>. Нужно следить за типом каждого промежуточного шага.</p>
 
 <h3 id="s2-3"><code>__int128</code> <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=1440" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">24:00</a></h3>
 <p>Для очень больших промежуточных значений (например, перемножение двух <code>long long</code>) используют <code>__int128</code>. Это <strong>расширение GCC/Clang, а не тип стандарта C++</strong> — работает на судейских системах на практике, но не описан в стандарте и может быть недоступен на других компиляторах (например, MSVC). Его нельзя напрямую вводить и выводить (<code>cin</code>/<code>cout</code>), но для промежуточных вычислений он годится. Приводить нужно явно: <code>(__int128)a * b</code>.</p>
@@ -922,7 +922,7 @@ $0.3$ в двоичной системе — бесконечная дробь, 
 <p>Держим два указателя <code>head</code> и <code>tail</code>. Добавление двигает <code>tail</code> вперёд, удаление — <code>head</code>. Когда указатель доходит до конца буфера, он «сбрасывается» в ноль (по модулю capacity). Главное требование: <code>tail</code> не должен догонять <code>head</code> — иначе очередь переполнится.</p>
 
 <h3 id="s6-4">Дек <a class="ts" href="https://youtu.be/-zO4Gf2FRa8?t=4520" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:15:20</a></h3>
-<p>Дек (double-ended queue) умеет добавлять и удалять <strong>с обоих концов</strong>. Внутри — не сплошной массив, а указатели на блоки примерно по 16 элементов. Поэтому:</p>
+<p>Дек (double-ended queue) умеет добавлять и удалять <strong>с обоих концов</strong>. Внутри — не сплошной массив, а указатели на блоки фиксированного размера (в libstdc++ — по 512 байт). Поэтому:</p>
 <ul>
   <li>добавление в начало/конец — $O(1)$;</li>
   <li>обращение к произвольному элементу — чуть медленнее, чем у вектора (дополнительная арифметика индексов).</li>

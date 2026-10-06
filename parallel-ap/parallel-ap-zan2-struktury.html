@@ -795,9 +795,9 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
 <p>Обычное дерево займёт $4\cdot10^9$ — нельзя. Но вершин, которые нам реально нужны, мало: при обновлении создаётся $O(\log n)$ вершин.</p>
 <p><strong>Идея.</strong> Изначально в дереве только корень. Когда в запросе доходим до несуществующей вершины — <strong>создаём её на лету</strong>. Если вершины не существует, значит в её поддереве не было обновлений, и сумма там $0$.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="k">const</span> <span class="t">int</span> MAXN = <span class="n">20</span> * <span class="n">100000</span>;  <span class="c">// Q * log(n)</span>
-<span class="t">int</span> ls[MAXN], rs[MAXN];        <span class="c">// дети (0 = не существует)</span>
+<span class="t">int</span> ls[MAXN], rs[MAXN];        <span class="c">// дети (0 = не существует); вызывать update(1, 0, N, ...), get(1, 0, N, ...)</span>
 <span class="t">long</span> <span class="t">long</span> sum[MAXN];
-<span class="t">int</span> sz = <span class="n">1</span>;                     <span class="c">// корень = 0</span>
+<span class="t">int</span> sz = <span class="n">2</span>;                     <span class="c">// 0 — «вершины нет» (sum[0] = 0), корень = 1</span>
 
 <span class="t">void</span> <span class="f">update</span>(<span class="t">int</span> v, <span class="t">int</span> l, <span class="t">int</span> r, <span class="t">int</span> i, <span class="t">long</span> <span class="t">long</span> x) {
     <span class="k">if</span> (l == r - <span class="n">1</span>) { sum[v] = x; <span class="k">return</span>; }

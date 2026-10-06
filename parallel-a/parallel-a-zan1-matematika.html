@@ -826,7 +826,7 @@ $$ a^{-1}\equiv x \pmod n. $$
 <h2 id="s3">3. Функция Эйлера и теорема Эйлера <a class="ts" href="https://youtu.be/Muof24wh3zY?t=1023" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">17:03</a></h2>
 <div class="card">
   <p><strong>Определение.</strong> Функция Эйлера $\varphi(n)$ — количество чисел $x$ из отрезка $1\le x\le n$, взаимно простых с $n$:
-  $$ \varphi(n)=\#\{\,x\in[1,n]:\gcd(x,n)=1\,\}. $$</p>
+  $$ \varphi(n)=\bigl|\{\,x\in[1,n]:\gcd(x,n)=1\,\}\bigr|. $$</p>
   <p style="margin-bottom:0"><strong>Мультипликативность.</strong> Если $\gcd(a,b)=1$, то $\varphi(ab)=\varphi(a)\varphi(b)$.</p>
 </div>
 <p>Этого свойства достаточно, чтобы получить все формулы. Для простого $p$ взаимно просты все числа, кроме кратных $p$:
@@ -942,7 +942,7 @@ $$ \sum_{i=1}^{n}\tau(i)=\sum_{d=1}^{n}\left\lfloor\frac{n}{d}\right\rfloor=\The
 где $\tau(i)$ — число делителей числа $i$. Именно поэтому «перебрать все делители всех чисел до $n$» работает за $n\log n$, а не за $n\sqrt n$.</p>
 <div class="good"><span class="lbl">Тройки делителей</span><br>
 Число троек $(a,b,c)$ с условиями $a\mid b$, $b\mid c$, $c\le n$ равно $\Theta(n\log^2 n)$. Идея: для каждого $a$ перебираем $c$, кратные $a$, и для каждого $c$ — число его делителей $b$, кратных $a$; суммирование гармонического ряда дважды даёт $\log^2$.</div>
-<p>Отдельно полезна оценка числа делителей одного числа. Теоретически $\tau(n)$ растёт медленнее любой степени --- для любого $\varepsilon>0$ при больших $n$ имеем $\tau(n)\lt n^{\varepsilon}$, --- но на практике для реальных диапазонов удобны такие ориентиры.</p>
+<p>Отдельно полезна оценка числа делителей одного числа. Теоретически $\tau(n)$ растёт медленнее любой степени — для любого $\varepsilon>0$ при больших $n$ имеем $\tau(n)\lt n^{\varepsilon}$, — но на практике для реальных диапазонов удобны такие ориентиры.</p>
 <table>
   <tr><th>Диапазон $n$</th><th>Типичный максимум $\tau(n)$ (из лекции)</th><th>Точный максимум</th></tr>
   <tr><td>до $10^{6}$</td><td>≈ 250</td><td>240</td></tr>
@@ -1043,11 +1043,11 @@ $$ x^{n-1}-1=(x^{a}-1)\prod_{i=0}^{k-1}\bigl(x^{a\cdot 2^{i}}+1\bigr). $$
 </div>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">bool</span> <span class="f">isPrime</span>(<span class="t">long</span> <span class="t">long</span> n) {
     <span class="k">if</span> (n &lt; <span class="n">2</span>) <span class="k">return</span> <span class="k">false</span>;
-    <span class="k">for</span> (<span class="t">long</span> <span class="t">long</span> p : {<span class="n">2</span>,<span class="n">3</span>,<span class="n">5</span>,<span class="n">7</span>,<span class="n">11</span>,<span class="n">13</span>,<span class="n">17</span>,<span class="n">19</span>,<span class="n">23</span>,<span class="n">29</span>,<span class="n">31</span>,<span class="n">37</span>})
+    <span class="k">for</span> (<span class="t">long</span> <span class="t">long</span> p : {<span class="n">2</span>,<span class="n">3</span>,<span class="n">5</span>,<span class="n">7</span>,<span class="n">11</span>,<span class="n">13</span>,<span class="n">17</span>,<span class="n">19</span>,<span class="n">23</span>,<span class="n">29</span>,<span class="n">31</span>,<span class="n">37</span>,<span class="n">41</span>})
         <span class="k">if</span> (n % p == <span class="n">0</span>) <span class="k">return</span> n == p;
     <span class="t">long</span> <span class="t">long</span> a = n - <span class="n">1</span>, k = <span class="n">0</span>;
     <span class="k">while</span> (!(a &amp; <span class="n">1</span>)) { a &gt;&gt;= <span class="n">1</span>; ++k; }             <span class="c">// n-1 = 2^k * a</span>
-    <span class="k">for</span> (<span class="t">long</span> <span class="t">long</span> base : {<span class="n">2</span>,<span class="n">3</span>,<span class="n">5</span>,<span class="n">7</span>,<span class="n">11</span>,<span class="n">13</span>,<span class="n">17</span>,<span class="n">19</span>,<span class="n">23</span>,<span class="n">29</span>,<span class="n">31</span>,<span class="n">37</span>}) {
+    <span class="k">for</span> (<span class="t">long</span> <span class="t">long</span> base : {<span class="n">2</span>,<span class="n">3</span>,<span class="n">5</span>,<span class="n">7</span>,<span class="n">11</span>,<span class="n">13</span>,<span class="n">17</span>,<span class="n">19</span>,<span class="n">23</span>,<span class="n">29</span>,<span class="n">31</span>,<span class="n">37</span>,<span class="n">41</span>}) {
         <span class="t">long</span> <span class="t">long</span> y = <span class="f">power</span>(base, a, n);
         <span class="k">if</span> (y == <span class="n">1</span> || y == n - <span class="n">1</span>) <span class="k">continue</span>;
         <span class="t">bool</span> ok = <span class="k">false</span>;
@@ -1060,7 +1060,7 @@ $$ x^{n-1}-1=(x^{a}-1)\prod_{i=0}^{k-1}\bigl(x^{a\cdot 2^{i}}+1\bigr). $$
     <span class="k">return</span> <span class="k">true</span>;
 }</code></pre></div>
 <div class="note"><span class="lbl">Вероятность и детерминированные базы</span><br>
-Для составного $n$ доля «плохих» оснований не превосходит $1/2$, поэтому $30$ случайных проверок дают ошибку меньше $2^{-30}$. Для $n\lt 10^{9}$ достаточно трёх заранее проверенных оснований, для $n\lt 3{,}3\cdot 10^{24}$ (это покрывает весь диапазон <code>uint64_t</code>) — набора первых 12 простых $\{2,3,5,7,11,13,17,19,23,29,31,37\}$. Эти границы доказаны <strong>безусловно</strong> — полным компьютерным перебором, а не из каких-либо гипотез. С обобщённой гипотезой Римана (ОГР) связаны только асимптотические оценки вида «$O(\log^2 n)$ оснований достаточно для любого $n$»; конкретные проверенные наборы, которыми пользуются на практике для 64-битных чисел, от ОГР не зависят.</div>
+Для составного $n$ доля «плохих» оснований не превосходит $1/2$, поэтому $30$ случайных проверок дают ошибку меньше $2^{-30}$. Для $n\lt 10^{9}$ достаточно трёх заранее проверенных оснований, для $n\lt 3{,}3\cdot 10^{24}$ (это покрывает весь диапазон <code>uint64_t</code>) — набора первых 13 простых $\{2,3,5,7,11,13,17,19,23,29,31,37,41\}$ (первых двенадцати хватает лишь до $\approx3{,}2\cdot10^{23}$; для $n\ge2^{63}$ типы в коде надо заменить на <code>unsigned long long</code>). Эти границы доказаны <strong>безусловно</strong> — полным компьютерным перебором, а не из каких-либо гипотез. С обобщённой гипотезой Римана (ОГР) связаны только асимптотические оценки вида «$O(\log^2 n)$ оснований достаточно для любого $n$»; конкретные проверенные наборы, которыми пользуются на практике для 64-битных чисел, от ОГР не зависят.</div>
 <h3 id="s10-3">Факторизация: метод Полларда ($\rho$)</h3>
 <p>Пусть $n=pq$ с близкими $p\approx q$ — это самый трудный для разложения случай. Выбираем функцию по модулю $n$, обычно $f(x)=x^2+1\bmod n$, и строим последовательность $a_0$ (случайно), $a_{i+1}=f(a_i)$. Смотрим на $\gcd(a_i-a_j,\,n)$: он может быть $1$, $p$, $q$ или $n$. Угадали делитель — разложили. Используется <strong>алгоритм «черепахи и зайца»</strong> (Флойд): один указатель шагает на 1, другой на 2; их разность даёт нужное сравнение по модулю $p$.</p>
 <div class="good"><span class="lbl">Почему это $\tilde O(n^{1/4})$</span><br>
@@ -1069,9 +1069,9 @@ $$ x^{n-1}-1=(x^{a}-1)\prod_{i=0}^{k-1}\bigl(x^{a\cdot 2^{i}}+1\bigr). $$
     <span class="k">if</span> (!(n &amp; <span class="n">1</span>)) <span class="k">return</span> <span class="n">2</span>;
     <span class="t">long</span> <span class="t">long</span> x = <span class="n">2</span>, y = <span class="n">2</span>, d = <span class="n">1</span>;
     <span class="k">while</span> (d == <span class="n">1</span>) {
-        x = (x * x + <span class="n">1</span>) % n;               <span class="c">// черепаха: 1 шаг</span>
-        y = (y * y + <span class="n">1</span>) % n;               <span class="c">// заяц: 2 шага</span>
-        y = (y * y + <span class="n">1</span>) % n;
+        x = (<span class="f">mulmod</span>(x, x, n) + <span class="n">1</span>) % n;               <span class="c">// черепаха: 1 шаг</span>
+        y = (<span class="f">mulmod</span>(y, y, n) + <span class="n">1</span>) % n;               <span class="c">// заяц: 2 шага</span>
+        y = (<span class="f">mulmod</span>(y, y, n) + <span class="n">1</span>) % n;
         d = <span class="t">std</span>::<span class="f">gcd</span>(<span class="t">std</span>::<span class="f">llabs</span>(x - y), n);
     }
     <span class="k">return</span> d;   <span class="c">// 1 &lt; d &lt; n — делитель; d == n — нужен перезапуск</span>
@@ -1090,8 +1090,8 @@ $$ S(n,m,a,b)=\sum_{x=0}^{n-1}\left\lfloor\frac{a x+b}{m}\right\rfloor. $$
 Полезно переписать её геометрически. Слагаемое $\lfloor(ax+b)/m\rfloor$ равно числу целых $y\ge 1$ с условием $my\le ax+b$. Значит, $S$ — это количество целых точек $(x,y)$ в полосе $0\le x\lt n$, лежащих не выше прямой $y=(ax+b)/m$.</p>
 <div class="note"><span class="lbl">Приведение к нормальному виду</span><br>
 Сначала уберём «большие» $a$ и $b$. Если уменьшить $b$ на $m$, каждое слагаемое уменьшится на $1$, а вся сумма — на $n$. Если уменьшить $a$ на $m$, слагаемое уменьшится на $x$, а сумма — на $n(n-1)/2$. Поэтому можно считать $0\le a\lt m$ и $0\le b\lt m$, отдельно прибавляя поправки.</div>
-<p>В нормализованном виде ($0\le a,b\lt m$) прямая начинается в точке $(0,b)$ и заканчивается в $Y=\bigl\lfloor\frac{a(n-1)+b}{m}\bigr\rfloor$. Если $Y=0$, под прямой нет целых точек, и сумма равна нулю. Иначе поворачиваем картинку и суммируем по уровням $y$: точки на высоте $y$ существуют при $x\ge\lceil(my-b)/a\rceil$, а таких $x$ ровно $n-\lceil(my-b)/a\rceil$. Переходя от $\lceil\cdot\rceil$ к $\lfloor\cdot\rfloor$ и делая замену $y'=y-1$, получаем рекурсию
-$$ S(n,m,a,b)=(n-1)Y-S\bigl(Y,\ a,\ m,\ m-b-1\bigr),\qquad Y=\left\lfloor\frac{a(n-1)+b}{m}\right\rfloor. $$
+<p>В нормализованном виде ($0\le a,b\lt m$) прямая начинается в точке $(0,b)$, а к $x=n$ поднимается до уровня $Y=\bigl\lfloor\frac{an+b}{m}\bigr\rfloor$. Если $Y=0$, под прямой нет целых точек, и сумма равна нулю. Иначе поворачиваем картинку и суммируем по уровням $y$: точки на высоте $y$ существуют при $x\ge\lceil(my-b)/a\rceil$, а таких $x$ ровно $n-\lceil(my-b)/a\rceil$. Переходя от $\lceil\cdot\rceil$ к $\lfloor\cdot\rfloor$ и делая замену $y'=y-1$, получаем рекурсию
+$$ S(n,m,a,b)=(n-1)Y-S\bigl(Y,\ a,\ m,\ m-b-1\bigr),\qquad Y=\left\lfloor\frac{an+b}{m}\right\rfloor. $$
 Модуль на каждом шаге уменьшается как в алгоритме Евклида, поэтому глубина рекурсии $O(\log(a+m))$.</p>
 <div class="warn"><span class="lbl">Переполнение в промежуточных произведениях</span><br>
 <code>(n-1)*n</code>, <code>a*n+b</code> и <code>(n-1)*Y</code> в <code>long long</code> могут переполниться раньше, чем их успеют поделить на $m$, если $n,a,b,m$ не малы (скажем, порядка $10^9$ и выше). Ниже каждое такое произведение считается в <code>__int128</code> (см. §4) и приводится к <code>long long</code> уже после деления — сама сумма <code>ans</code> и промежуточное $Y$ в такой постановке задачи остаются в пределах <code>long long</code>.</div>
@@ -1166,7 +1166,7 @@ $$ \varphi(n)=\sum_{S\subseteq\{1,\dots,k\}}(-1)^{|S|}\left\lfloor\frac{n}{\prod
 <h3 id="s14-1">14.1. Простые до $n$ при $O(\sqrt n)$ памяти <a class="ts" href="https://youtu.be/Muof24wh3zY?t=8569" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:22:49</a></h3>
 <p>Задача: посчитать количество и сумму простых от $1$ до $n$ за $O(n\log\log n)$ времени и $O(\sqrt n)$ памяти. Прямое решето требует $O(n)$ памяти, поэтому используем блочное (сегментное) решето.</p>
 <ol>
-  <li>Решетом Эратосфена до $\sqrt n$ находим все простые $p\le\sqrt n$ --- их $O(\sqrt n)$.</li>
+  <li>Решетом Эратосфена до $\sqrt n$ находим все простые $p\le\sqrt n$ — их $O(\sqrt n)$.</li>
   <li>Любое составное $m\le n$ имеет простой делитель $\le\sqrt n$. Поэтому, идя по блокам длины $\sqrt n$, вычёркиваем в каждом блоке числа, кратные найденным простым.</li>
   <li>Для каждого простого храним последнее посещённое кратное, чтобы не пересчитывать левую границу блока делением.</li>
 </ol>
@@ -1188,7 +1188,7 @@ $$ \varphi(n)=\sum_{S\subseteq\{1,\dots,k\}}(-1)^{|S|}\left\lfloor\frac{n}{\prod
   <li><strong>Сумма делителей $\sigma(i)$.</strong> Аналогично, домножаем на геометрическую прогрессию по степени $p$.</li>
   <li><strong>Функция Эйлера $\varphi(i)$.</strong> Если $p^2\mid i$, то $\varphi(i)=p\,\varphi(i/p)$; иначе $\varphi(i)=(p-1)\,\varphi(i/p)$, где $p=\mathrm{spf}(i)$.</li>
 </ul>
-<p>Простейшая реализация «в лоб» тоже быстра: для каждого $i$ делим на $\mathrm{spf}(i)$, пока делится, --- суммарно это почти линейно, так как степень вхождения минимального простого делителя мала.</p>
+<p>Простейшая реализация «в лоб» тоже быстра: для каждого $i$ делим на $\mathrm{spf}(i)$, пока делится, — суммарно это почти линейно, так как степень вхождения минимального простого делителя мала.</p>
 <h3 id="s14-4">14.4. Сумма $b_k=\sum_{k\mid i} a_i$ <a class="ts" href="https://youtu.be/Muof24wh3zY?t=9682" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:41:22</a></h3>
 <p>Нужно для каждого $k$ посчитать сумму элементов на позициях, кратных $k$. Наивно (для каждого $k$ пройти по его кратным) это $O(n\log n)$ — гармонический ряд. Есть более экономный вариант: прогонять преобразование отдельно для каждого простого $p$, идя по массиву с шагом $p$ и прибавляя $a[i]$ к $a[i/p]$; суммарно $n/2+n/3+n/5+\dots=\Theta(n\log\log n)$.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// b[k] = sum of a[i] for i divisible by k</span>
@@ -1220,17 +1220,17 @@ $$ \sum_{d\mid n}\varphi(d)=n, $$
 $$ \sum_{\text{pairs}}\gcd(x,y)=\sum_{d}\varphi(d)\cdot\binom{c_d}{2}, $$
 где $c_d$ — число элементов массива, делящихся на $d$. Можно считать и «на лету»: поддерживать $c_d$ и для нового $x$ добавлять $\sum_{d\mid x}\varphi(d)\cdot c_d$.</p>
 <div class="note"><span class="lbl">Развёрнутое объяснение: откуда берутся коэффициенты</span><br>
-Пусть мы хотим представить $g=\sum_{d\mid g}K_d$ для любого $g$. Тогда вклад пары с $\gcd=g$ равен $\sum_{d\mid g}K_d$, и суммирование по парам даёт $\sum_d K_d\,c'_d$, где $c'_d$ — число пар, оба элемента которых делятся на $d$. Требование $\sum_{d\mid g}K_d=g$ однозначно определяет коэффициенты: это $\varphi(d)$. Их можно посчитать «сверху вниз»: положить $K_d=d$, а затем для $d$ от большого к малому вычитать $K_m$ из всех кратных $m$ --- в результате $K_d=\varphi(d)$.</div>
+Пусть мы хотим представить $g=\sum_{d\mid g}K_d$ для любого $g$. Тогда вклад пары с $\gcd=g$ равен $\sum_{d\mid g}K_d$, и суммирование по парам даёт $\sum_d K_d\,c'_d$, где $c'_d$ — число пар, оба элемента которых делятся на $d$. Требование $\sum_{d\mid g}K_d=g$ однозначно определяет коэффициенты: это $\varphi(d)$. Их можно посчитать «сверху вниз»: положить $K_m=m$, а затем для $d$ от малого к большому вычитать $K_d$ из всех кратных $d$ (к моменту обработки $d$ значение $K_d$ уже окончательное) — в результате $K_d=\varphi(d)$.</div>
 <h3 id="s15-3">15.3. Преобразование по делителям в задаче о попарных НОД <a class="ts" href="https://youtu.be/Muof24wh3zY?t=10147" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:49:07</a></h3>
 <p>Тот же аппарат используется, чтобы для каждого нового числа $x$ быстро узнать «сколько уже добавленных чисел взаимно просты с $x$»: поддерживаем $c_d$ — количество добавленных чисел, делящихся на $d$, и отвечаем включением-исключением по бесквадратным делителям $x$:
-$$ \#\{y:\gcd(x,y)=1\}=\sum_{d\mid x}(-1)^{\omega(d)}c_d, $$
+$$ \bigl|\{y:\gcd(x,y)=1\}\bigr|=\sum_{d\mid x}(-1)^{\omega(d)}c_d, $$
 где суммирование идёт по бесквадратным $d$. Коэффициенты $(-1)^{\omega(d)}$ — это значения функции Мёбиуса.</p>
 
 <h2 id="s16">16. Семинар: включения-исключения в задачах <a class="ts" href="https://youtu.be/Muof24wh3zY?t=10641" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:57:21</a></h2>
 <h3 id="s16-1">16.1. «Кубастые» числа <a class="ts" href="https://youtu.be/Muof24wh3zY?t=10641" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:57:21</a></h3>
 <p>Натуральное число называется кубастым, если его можно представить в виде $a^3 b$ с $a\gt 1$, $b\ge 1$; нужно посчитать количество кубастых чисел до $n$ (для $n\le 10^{18}$).</p>
 <p>Число кубасто тогда и только тогда, когда делится на $p^3$ для некоторого простого $p$. Обозначим $A_p$ — множество чисел, делящихся на $p^3$; нужно найти $|\bigcup_p A_p|$. Для набора различных простых $p_1,\dots,p_s$ размер пересечения равен $\lfloor n/(p_1\cdots p_s)^3\rfloor$. По формуле включений-исключений
-$$ \#=\sum_{d\ge 2,\ d\ \text{бесквадратно}}(-1)^{\omega(d)+1}\left\lfloor\frac{n}{d^3}\right\rfloor. $$
+$$ \Bigl|\bigcup_p A_p\Bigr|=\sum_{d\ge 2,\ d\ \text{бесквадратно}}(-1)^{\omega(d)+1}\left\lfloor\frac{n}{d^3}\right\rfloor. $$
 Поскольку $d^3\le n$, достаточно $d\le n^{1/3}\le 10^6$; все нужные $d$ можно получить решетом, накопив знак $(-1)^{\omega(d)+1}$.</p>
 <h3 id="s16-2">16.2. Массивы с ограничением сверху <a class="ts" href="https://youtu.be/Muof24wh3zY?t=11224" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:07:04</a></h3>
 <p>Сколько существует массивов длины $n$ с элементами из отрезка $[0,k]$, сумма которых равна $s$? Без ограничения сверху ответ даёт метод шаров и перегородок:
@@ -1244,7 +1244,7 @@ $$ \sum_{c=0}^{\lfloor s/(k+1)\rfloor}(-1)^{c}\binom{n}{c}\binom{s-(k+1)c+n-1}{n
 <div class="note"><span class="lbl">Развёрнутое объяснение: почему сведение работает</span><br>
 Для пары $(a,b)$ с $\gcd=g$ разложим по простым. Возьмём $x$ — произведение тех простых степеней, что «перевешивают» у $a$, и $y$ — перевешивающих у $b$. Тогда $x,y$ взаимно просты, $x\mid a$, $y\mid b$, значит, оба лежат в $S$, и $xy=ab/g=\mathrm{lcm}(a,b)$. Обратно, для любых взаимно простых $x,y\in S$ найдутся $a_i\ge x$, $a_j\ge y$ с $x\mid a_i$, $y\mid a_j$; тогда $\mathrm{lcm}(a_i,a_j)\ge \mathrm{lcm}(x,y)=xy$. Значит, максимум по взаимно простым парам из $S$ совпадает с искомым максимумом НОК.</div>
 <p>Оставшуюся задачу решают двумя указателями. Массив сортируют по убыванию; поддерживая структуру, которая умеет удалять число и отвечать «есть ли во множестве число, взаимно простое с данным $x$». Ответ на запрос даётся включением-исключением по бесквадратным делителям $x$:
-$$ \#\{y\in S:\gcd(x,y)=1\}=\sum_{d\mid x,\ d\ \text{бескв.}}(-1)^{\omega(d)}\,c_d, $$
+$$ \bigl|\{y\in S:\gcd(x,y)=1\}\bigr|=\sum_{d\mid x,\ d\ \text{бескв.}}(-1)^{\omega(d)}\,c_d, $$
 где $c_d$ — число элементов $S$, делящихся на $d$. При удалении элемента «пересчитываем» только счётчики его делителей. Так как каждый элемент имеет немного делителей, суммарно структура работает быстро.</p>
 
 <footer>
