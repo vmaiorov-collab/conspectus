@@ -510,6 +510,37 @@ function mark(text, t) {
   const i = text.toLowerCase().indexOf(t);
   return i < 0 ? esc(text) : esc(text.slice(0, i)) + "<mark>" + esc(text.slice(i, i + t.length)) + "</mark>" + esc(text.slice(i + t.length));
 }
+// формулы $...$ в заголовках: KaTeX подгружается лениво, пока его нет (или нет сети) — читаемый текст
+let katexState = 0; // 0 — не грузили, 1 — грузится, 2 — готов, -1 — не вышло
+function loadKatex() {
+  if (katexState !== 0) return;
+  katexState = 1;
+  const css = document.createElement("link");
+  css.rel = "stylesheet";
+  css.href = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css";
+  document.head.appendChild(css);
+  const js = document.createElement("script");
+  js.src = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js";
+  js.onload = () => { katexState = 2; q.dispatchEvent(new Event("input")); };
+  js.onerror = () => { katexState = -1; };
+  document.head.appendChild(js);
+}
+const texPlain = (m) => m.replace(/\\(sqrt)\s*/g, "√").replace(/\\(le|leq)\b/g, "≤").replace(/\\(ge|geq)\b/g, "≥")
+  .replace(/\\cdot/g, "·").replace(/\\(?:text|mathrm|operatorname)\{([^}]*)\}/g, "$1").replace(/\\([a-zA-Z]+)/g, "$1").replace(/[{}]/g, "");
+function renderTitle(title, t) {
+  if (title.indexOf("$") < 0) return mark(title, t);
+  loadKatex();
+  let marked = false;
+  return title.split(/(\$[^$]+\$)/).map((part) => {
+    if (part.length > 2 && part[0] === "$" && part[part.length - 1] === "$") {
+      const m = part.slice(1, -1);
+      if (katexState === 2) { try { return katex.renderToString(m, { throwOnError: false }); } catch (e) {} }
+      return esc(texPlain(m));
+    }
+    if (!marked && part.toLowerCase().includes(t)) { marked = true; return mark(part, t); }
+    return esc(part);
+  }).join("");
+}
 
 q.addEventListener("input", () => {
   const t = q.value.trim().toLowerCase();
@@ -524,7 +555,7 @@ q.addEventListener("input", () => {
       const found = t.length < 2 ? [] : (SECTIONS[href] || []).filter(([, title]) => title.toLowerCase().includes(t));
       const seen = new Set();
       a._hits.innerHTML = found.filter(([id, title]) => !seen.has(title) && seen.add(title)).slice(0, 5)
-        .map(([id, title]) => `<a class="hit" href="${href}#${id}">${mark(title, t)}</a>`).join("");
+        .map(([id, title]) => `<a class="hit" href="${href}#${id}">${renderTitle(title, t)}</a>`).join("");
       const hit = !t || name.includes(t) || a.textContent.toLowerCase().includes(t) || found.length > 0;
       a.style.display = hit ? "" : "none";
       a._hits.style.display = hit ? "" : "none";
