@@ -226,9 +226,12 @@ async function reportStats(env, days) {
   const start = startOfDayUTC(new Date(end.getTime() - span * 86400000));
   const prevStart = startOfDayUTC(new Date(start.getTime() - days * 86400000));
   const prevEnd = new Date(start.getTime() - 1);
+  // GoatCounter обрезает окно по своей таймзоне и теряет край периода, поэтому
+  // берём с запасом в сутки с обеих сторон, а нужные дни отбирает fillDays.
+  const pad = (d, k) => new Date(d.getTime() + k * 86400000);
   const [cur, prev] = await Promise.all([
-    gcFetchTotal(env, start, end),
-    gcFetchTotal(env, prevStart, prevEnd),
+    gcFetchTotal(env, pad(start, -1), pad(end, 1)),
+    gcFetchTotal(env, pad(prevStart, -1), pad(prevEnd, 1)),
   ]);
   const rows = fillDays(cur, start, end);
   const total = rows.reduce((a, s) => a + s.daily, 0);
