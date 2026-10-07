@@ -168,121 +168,268 @@ function startOfDayUTC(d) {
   return x;
 }
 
+// ---------- оформление ----------
+
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const SPARK = "▁▂▃▄▅▆▇█";
+const WEEKDAYS = ["вс", "пн", "вт", "ср", "чт", "пт", "сб"];
+const PERIODS = [1, 7, 30, 90];
+
+function fmtDay(iso) {
+  const d = new Date(iso + "T00:00:00Z");
+  return `${iso.slice(8, 10)}.${iso.slice(5, 7)} (${WEEKDAYS[d.getUTCDay()]})`;
+}
+
+function spark(values, maxLen = 30) {
+  if (!values.length) return "";
+  let v = values;
+  if (v.length > maxLen) {
+    const k = Math.ceil(v.length / maxLen);
+    v = [];
+    for (let i = 0; i < values.length; i += k) v.push(values.slice(i, i + k).reduce((a, b) => a + b, 0));
+  }
+  const max = Math.max(...v);
+  if (max === 0) return SPARK[0].repeat(v.length);
+  return v.map((x) => SPARK[Math.min(7, Math.round((x / max) * 7))]).join("");
+}
+
+function bar(value, max, width = 10) {
+  const n = max ? Math.max(value > 0 ? 1 : 0, Math.round((value / max) * width)) : 0;
+  return "█".repeat(n) + "░".repeat(width - n);
+}
+
+function delta(cur, prev) {
+  if (!prev) return cur ? "новое" : "—";
+  const p = Math.round(((cur - prev) / prev) * 100);
+  return `${p > 0 ? "▲ +" : p < 0 ? "▼ −" : "• "}${Math.abs(p)}%`;
+}
+
+const periodLabel = (d) => (d === 1 ? "сегодня" : `${d} дн.`);
+
+// Список дней [start..today] с нулями для пропущенных.
+function fillDays(stats, start, end) {
+  const map = new Map(stats.map((s) => [s.day, s.daily]));
+  const out = [];
+  const last = startOfDayUTC(end).getTime();
+  for (let t = startOfDayUTC(start).getTime(); t <= last; t += 86400000) {
+    const day = new Date(t).toISOString().slice(0, 10);
+    out.push({ day, daily: map.get(day) || 0 });
+  }
+  return out;
+}
+
+// ---------- отчёты (HTML) ----------
+
 async function reportStats(env, days) {
   const end = new Date();
-  const start = startOfDayUTC(new Date(end.getTime() - days * 86400000));
-  const stats = await gcFetchTotal(env, start, end);
-  const todayStr = startOfDayUTC(end).toISOString().slice(0, 10);
-  const entries = stats.filter((s) => s.day <= todayStr);
-  const total = entries.reduce((a, s) => a + s.daily, 0);
-  const avg = entries.length ? total / entries.length : 0;
-  const lines = [
-    `📊 Статистика conspectus за ${days} дн. (GoatCounter)`,
-    `Всего визитов: ${total} (в среднем ${avg.toFixed(1)}/день)`,
-  ];
-  if (entries.length) {
-    const best = entries.reduce((a, b) => (b.daily > a.daily ? b : a));
-    lines.push(`Самый активный день: ${best.day} — ${best.daily}`);
-  } else {
-    lines.push("Данных пока нет.");
+  const span = Math.max(days - 1, 0);
+  const start = startOfDayUTC(new Date(end.getTime() - span * 86400000));
+  const prevStart = startOfDayUTC(new Date(start.getTime() - days * 86400000));
+  const prevEnd = new Date(start.getTime() - 1);
+  const [cur, prev] = await Promise.all([
+    gcFetchTotal(env, start, end),
+    gcFetchTotal(env, prevStart, prevEnd),
+  ]);
+  const rows = fillDays(cur, start, end);
+  const total = rows.reduce((a, s) => a + s.daily, 0);
+  const prevTotal = fillDays(prev, prevStart, prevEnd).reduce((a, s) => a + s.daily, 0);
+  const avg = rows.length ? total / rows.length : 0;
+  const best = rows.reduce((a, b) => (b.daily > a.daily ? b : a), rows[0] || { day: "", daily: 0 });
+
+  const lines = [`📊 <b>Статистика conspectus</b> · ${periodLabel(days)}`, ""];
+  lines.push(`👥 Визитов: <b>${total}</b>  <i>${delta(total, prevTotal)} к прошлому периоду (${prevTotal})</i>`);
+  if (days > 1) {
+    lines.push(`📈 В среднем: <b>${avg.toFixed(1)}</b> в день`);
+    if (best.daily > 0) lines.push(`🔥 Рекорд: <b>${best.daily}</b> — ${fmtDay(best.day)}`);
+    lines.push("", `<code>${spark(rows.map((r) => r.daily))}</code>`);
+    lines.push(`<i>${rows[0].day.slice(8)}.${rows[0].day.slice(5, 7)} → сегодня</i>`);
   }
+  if (!total) lines.push("", "Данных пока нет.");
   return lines.join("\n");
 }
 
-async function reportToday(env) {
+async function reportTop(env, days, n = 8) {
   const end = new Date();
-  const start = startOfDayUTC(end);
-  const stats = await gcFetchTotal(env, start, end);
-  const todayStr = start.toISOString().slice(0, 10);
-  const today = stats.find((s) => s.day === todayStr);
-  return `Сегодня визитов: ${today ? today.daily : 0}`;
-}
-
-async function reportTop(env, n) {
-  const end = new Date();
-  const start = new Date(end.getTime() - 7 * 86400000);
+  const start = startOfDayUTC(new Date(end.getTime() - Math.max(days - 1, 0) * 86400000));
   const hits = await gcFetchHits(env, start, 100);
-  if (!hits.length) return "За последние 7 дней пока нет данных.";
+  const head = `🏆 <b>Топ страниц</b> · ${periodLabel(days)}`;
+  if (!hits.length) return `${head}\n\nПока нет данных.`;
   const rows = hits.slice().sort((a, b) => b.count - a.count).slice(0, n);
-  const lines = [`Топ-${n} страниц за 7 дней (GoatCounter, просмотров):`];
+  const max = rows[0].count;
+  const medals = ["🥇", "🥈", "🥉"];
+  const lines = [head, ""];
   rows.forEach((h, i) => {
-    lines.push(` ${i + 1}. ${h.path || "/"} — ${h.count}`);
+    lines.push(`${medals[i] || `<b>${i + 1}.</b>`} <code>${esc(h.path || "/")}</code>`);
+    lines.push(`     <code>${bar(h.count, max)}</code> <b>${h.count}</b>`);
   });
   return lines.join("\n");
 }
 
+function sumByParallel(items, getPath, getCount) {
+  const totals = {};
+  for (const it of items) {
+    const k = parallelKey(getPath(it));
+    totals[k] = (totals[k] || 0) + getCount(it);
+  }
+  return Object.entries(totals).sort((a, b) => b[1] - a[1]);
+}
+
+function parallelBlock(title, entries) {
+  const out = [`<b>${title}</b>`];
+  if (!entries.length) return out.concat("  пока нет данных");
+  const max = entries[0][1];
+  const all = entries.reduce((a, [, v]) => a + v, 0);
+  for (const [name, v] of entries) {
+    out.push(`  ${esc(name)}`);
+    out.push(`  <code>${bar(v, max)}</code> <b>${v}</b> · ${Math.round((v / all) * 100)}%`);
+  }
+  return out;
+}
+
 async function reportParallels(env, days) {
   const end = new Date();
-  const start = startOfDayUTC(new Date(end.getTime() - days * 86400000));
-
-  const lines = [`📊 Просмотры по параллелям за ${days} дн.:`];
-
-  try {
-    const rows = await fetchTopPaths(env, start, end, 100);
-    const totals = {};
-    for (const r of rows) totals[parallelKey(r.dimensions.requestPath)] = (totals[parallelKey(r.dimensions.requestPath)] || 0) + r.count;
-    lines.push("", "Cloudflare (RUM):");
-    if (Object.keys(totals).length) {
-      Object.entries(totals)
-        .sort((a, b) => b[1] - a[1])
-        .forEach(([name, visits]) => lines.push(` ${name} — ${visits}`));
-    } else {
-      lines.push(" пока нет данных");
-    }
-  } catch (e) {
-    lines.push("", `Cloudflare: ошибка — ${e.message}`);
-  }
+  const start = startOfDayUTC(new Date(end.getTime() - Math.max(days - 1, 0) * 86400000));
+  const lines = [`🧩 <b>Просмотры по параллелям</b> · ${periodLabel(days)}`];
 
   try {
     const hits = await gcFetchHits(env, start, 100);
-    const totals = {};
-    for (const h of hits) totals[parallelKey(h.path)] = (totals[parallelKey(h.path)] || 0) + h.count;
-    lines.push("", "GoatCounter:");
-    if (Object.keys(totals).length) {
-      Object.entries(totals)
-        .sort((a, b) => b[1] - a[1])
-        .forEach(([name, visits]) => lines.push(` ${name} — ${visits}`));
-    } else {
-      lines.push(" пока нет данных");
-    }
+    lines.push("", ...parallelBlock("🐐 GoatCounter", sumByParallel(hits, (h) => h.path, (h) => h.count)));
   } catch (e) {
-    lines.push("", `GoatCounter: ошибка — ${e.message}`);
+    lines.push("", `🐐 GoatCounter: ошибка — ${esc(e.message)}`);
   }
-
+  try {
+    const rows = await fetchTopPaths(env, start, end, 100);
+    lines.push("", ...parallelBlock("☁️ Cloudflare (RUM)", sumByParallel(rows, (r) => r.dimensions.requestPath, (r) => r.count)));
+  } catch (e) {
+    lines.push("", `☁️ Cloudflare: ошибка — ${esc(e.message)}`);
+  }
   return lines.join("\n");
 }
 
-const STATS_HELP = [
-  "Команды:",
-  "/stats [дни] — сводка за период (по умолчанию 7)",
-  "/today — посетители сегодня",
-  "/top [n] — топ-N страниц за 7 дней (по умолчанию 5)",
-  "/parallels [дни] — визиты по параллелям A/A'/B/B'/C (по умолчанию 7)",
-].join("\n");
+// ---------- кнопки ----------
+
+const VIEWS = [
+  ["stats", "📊 Сводка"],
+  ["top", "🏆 Топ"],
+  ["par", "🧩 Параллели"],
+];
+
+// callback_data: "<view>:<days>", например "stats:7"
+function keyboard(view, days) {
+  const periods = PERIODS.map((d) => ({
+    text: d === days ? `• ${d === 1 ? "Сегодня" : d + " дн."} •` : d === 1 ? "Сегодня" : `${d} дн.`,
+    callback_data: `${view}:${d}`,
+  }));
+  const views = VIEWS.map(([v, label]) => ({
+    text: v === view ? `✔ ${label}` : label,
+    callback_data: `${v}:${days}`,
+  }));
+  return {
+    inline_keyboard: [
+      periods,
+      views,
+      [
+        { text: "🔄 Обновить", callback_data: `${view}:${days}` },
+        { text: "🌐 Открыть сайт", url: "https://vmaiorov-collab.github.io/conspectus/" },
+      ],
+    ],
+  };
+}
+
+async function render(env, view, days) {
+  if (view === "top") return reportTop(env, days);
+  if (view === "par") return reportParallels(env, days);
+  return reportStats(env, days);
+}
+
+const STATS_HELP =
+  "👋 <b>Бот статистики conspectus</b>\n\n" +
+  "Выберите период и раздел кнопками ниже — сообщение обновится на месте.\n\n" +
+  "Команды: /stats [дни] · /today · /top [дни] · /parallels [дни]";
+
+function clampDays(arg, def = 7) {
+  const n = parseInt(arg, 10);
+  return Number.isFinite(n) && n >= 1 ? Math.min(n, 365) : def;
+}
 
 async function handleStats(update, env) {
-  const msg = update.message;
-  if (!msg || !msg.text || !msg.text.startsWith("/")) return;
+  const token = env.STATS_BOT_TOKEN;
   const allowed = new Set(
     (env.STATS_ALLOWED_CHAT_IDS || "").split(",").map((s) => s.trim()).filter(Boolean)
   );
+
+  // нажатие на кнопку
+  const cq = update.callback_query;
+  if (cq) {
+    const m = cq.message;
+    if (!m || !allowed.has(String(m.chat.id))) return;
+    const [view, d] = (cq.data || "").split(":");
+    const days = clampDays(d);
+    let text;
+    try {
+      text = await render(env, view, days);
+    } catch (e) {
+      text = `⚠️ Не удалось получить статистику: ${esc(e.message)}`;
+    }
+    try {
+      await tgCall(token, "editMessageText", {
+        chat_id: m.chat.id,
+        message_id: m.message_id,
+        text,
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+        reply_markup: keyboard(view, days),
+      });
+      await tgCall(token, "answerCallbackQuery", { callback_query_id: cq.id });
+    } catch (e) {
+      // «message is not modified» при повторном нажатии — не ошибка
+      await tgCall(token, "answerCallbackQuery", {
+        callback_query_id: cq.id,
+        text: String(e.message).includes("not modified") ? "Уже актуально ✅" : "Ошибка обновления",
+      }).catch(() => {});
+    }
+    return;
+  }
+
+  const msg = update.message;
+  if (!msg || !msg.text || !msg.text.startsWith("/")) return;
   const chatId = String(msg.chat.id);
   if (!allowed.has(chatId)) return;
 
   const parts = msg.text.trim().split(/\s+/);
   const cmd = parts[0].split("@")[0].toLowerCase();
   const arg = parts[1];
-  let reply;
+  let text, view = "stats", days = 7;
   try {
-    if (cmd === "/start" || cmd === "/help") reply = STATS_HELP;
-    else if (cmd === "/stats") reply = await reportStats(env, arg ? parseInt(arg, 10) : 7);
-    else if (cmd === "/today") reply = await reportToday(env);
-    else if (cmd === "/top") reply = await reportTop(env, arg ? parseInt(arg, 10) : 5);
-    else if (cmd === "/parallels") reply = await reportParallels(env, arg ? parseInt(arg, 10) : 7);
+    if (cmd === "/start" || cmd === "/help") {
+      text = STATS_HELP;
+    } else if (cmd === "/stats") {
+      days = clampDays(arg);
+      text = await reportStats(env, days);
+    } else if (cmd === "/today") {
+      days = 1;
+      text = await reportStats(env, 1);
+    } else if (cmd === "/top") {
+      view = "top";
+      days = clampDays(arg);
+      text = await reportTop(env, days);
+    } else if (cmd === "/parallels") {
+      view = "par";
+      days = clampDays(arg);
+      text = await reportParallels(env, days);
+    }
   } catch (e) {
-    reply = `Не удалось получить статистику: ${e.message}`;
+    text = `⚠️ Не удалось получить статистику: ${esc(e.message)}`;
   }
-  if (reply) await tgCall(env.STATS_BOT_TOKEN, "sendMessage", { chat_id: chatId, text: reply });
+  if (text) {
+    await tgCall(token, "sendMessage", {
+      chat_id: chatId,
+      text,
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+      reply_markup: keyboard(view, days),
+    });
+  }
 }
 
 // ---------- routing ----------
