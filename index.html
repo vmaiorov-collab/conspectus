@@ -111,6 +111,10 @@
   .ask p{margin:0; color:var(--muted); font-size:.92rem; max-width:32em}
   .ask a.btn{display:inline-block; padding:10px 18px; border-radius:6px; background:var(--ink); color:var(--bg); font-weight:600; font-size:.92rem; white-space:nowrap}
   .ask a.btn:hover{text-decoration:none; opacity:.85}
+  .plug{flex:1 1 100%; margin-top:18px; padding-top:14px; border-top:1px solid var(--line); font-size:.92rem}
+  .plug summary{cursor:pointer; font-weight:600}
+  .plug p{margin:8px 0 0; max-width:none}
+  .plug pre{margin:8px 0 0; padding:10px 12px; overflow-x:auto; background:color-mix(in srgb, var(--ink) 6%, transparent); border-radius:6px; font-family:var(--mono); font-size:.8rem; white-space:pre-wrap; word-break:break-all}
 
   footer{margin-top:48px; padding-top:16px; border-top:1px solid var(--line); color:var(--muted); font-size:.82rem; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap}
   footer a{color:var(--muted); text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:3px}
@@ -375,6 +379,15 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
     <p>Напишите в Telegram-бот — можно с вопросом, идеей или скриншотом. Аккаунт на GitHub не нужен.</p>
   </div>
   <a class="btn" href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">Написать в бот</a>
+  <details class="plug" open>
+    <summary>Установка плагина ejudge для CLion (Windows, через PowerShell)</summary>
+    <p><b>1.</b> Закройте CLion.</p>
+    <p><b>2.</b> Откройте <b>PowerShell</b>: нажмите клавишу Win, наберите <code>PowerShell</code>, нажмите Enter.</p>
+    <p><b>3.</b> Вставьте в окно PowerShell эту команду и нажмите Enter:</p>
+    <pre>Invoke-WebRequest https://github.com/vmaiorov-collab/ejudge-clion/releases/latest/download/ejudge-clion.zip -OutFile $env:TEMP\ejudge-clion.zip; Expand-Archive -Force $env:TEMP\ejudge-clion.zip "$env:APPDATA\JetBrains\CLion2026.2\plugins"</pre>
+    <p><b>4.</b> Запустите CLion: плагин появится в Settings → Plugins → Installed.</p>
+    <p>Если у вас другая версия CLion, замените <code>CLion2026.2</code> на имя своей папки: посмотреть можно командой <code>dir "$env:APPDATA\JetBrains"</code>.</p>
+  </details>
 </section>
 
 <footer>

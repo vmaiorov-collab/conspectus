@@ -26,7 +26,6 @@ CLOUDFLARE_API_TOKEN=xxx CLOUDFLARE_ACCOUNT_ID=xxx npx wrangler deploy
 | `IDEA_OWNER_CHAT_ID` | chat_id владельца (кому пересылаются идеи) |
 | `IDEA_WEBHOOK_SECRET` | случайная строка — сверяется с заголовком `X-Telegram-Bot-Api-Secret-Token` |
 | `STATS_BOT_TOKEN` | токен бота статистики |
-| `STATS_ALLOWED_CHAT_IDS` | chat_id через запятую, кому бот отвечает |
 | `STATS_WEBHOOK_SECRET` | случайная строка, как выше |
 | `CF_API_TOKEN` | токен с правом **Account Analytics: Read** (для GraphQL-запросов статистики) |
 | `CF_ACCOUNT_ID` | Cloudflare Account ID |

@@ -300,12 +300,6 @@ async function reportParallels(env, days) {
   } catch (e) {
     lines.push("", `🐐 GoatCounter: ошибка — ${esc(e.message)}`);
   }
-  try {
-    const rows = await fetchTopPaths(env, start, end, 100);
-    lines.push("", ...parallelBlock("☁️ Cloudflare (RUM)", sumByParallel(rows, (r) => r.dimensions.requestPath, (r) => r.count)));
-  } catch (e) {
-    lines.push("", `☁️ Cloudflare: ошибка — ${esc(e.message)}`);
-  }
   return lines.join("\n");
 }
 
@@ -357,15 +351,12 @@ function clampDays(arg, def = 7) {
 
 async function handleStats(update, env) {
   const token = env.STATS_BOT_TOKEN;
-  const allowed = new Set(
-    (env.STATS_ALLOWED_CHAT_IDS || "").split(",").map((s) => s.trim()).filter(Boolean)
-  );
 
   // нажатие на кнопку
   const cq = update.callback_query;
   if (cq) {
     const m = cq.message;
-    if (!m || !allowed.has(String(m.chat.id))) return;
+    if (!m) return;
     const [view, d] = (cq.data || "").split(":");
     const days = clampDays(d);
     let text;
@@ -397,7 +388,6 @@ async function handleStats(update, env) {
   const msg = update.message;
   if (!msg || !msg.text || !msg.text.startsWith("/")) return;
   const chatId = String(msg.chat.id);
-  if (!allowed.has(chatId)) return;
 
   const parts = msg.text.trim().split(/\s+/);
   const cmd = parts[0].split("@")[0].toLowerCase();
