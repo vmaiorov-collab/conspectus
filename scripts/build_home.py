@@ -113,6 +113,26 @@ data_js = 'const DATA = [\n' + ',\n'.join(
         for l in LESSONS[key]) + '\n  ]}'
     for key, name, badge, pl in PARALLELS) + '\n];'
 
+
+ART = """<svg viewBox="0 0 600 520" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<circle cx="506" cy="98" r="40" fill="none" stroke="#ee8cf0" stroke-width="26"/>
+<circle cx="96" cy="86" r="30" fill="none" stroke="#a99bf5" stroke-width="20"/>
+<circle cx="42" cy="440" r="44" fill="none" stroke="#ee8cf0" stroke-width="24"/>
+<rect x="58" y="244" width="136" height="136" rx="10" fill="#6fe090"/>
+<rect x="404" y="318" width="96" height="96" rx="8" fill="#6fe090"/>
+<g stroke="#a99bf5" stroke-width="22" stroke-linecap="square"><path d="M156 112l54 54M210 112l-54 54"/><path d="M360 392l44 44M404 392l-44 44"/></g>
+<path d="M298 52h38v38h38v38h-38v38h-38v-38h-38V90h38z" fill="#fff"/>
+<polygon points="86,196 140,196 86,250" fill="#fff"/><polygon points="452,236 520,236 520,304" fill="#fff"/>
+<g><rect x="230" y="318" width="260" height="70" rx="8" fill="#cdb437"/><rect x="262" y="262" width="228" height="66" rx="8" fill="#d9c24a"/>
+<rect x="298" y="206" width="192" height="66" rx="8" fill="#e4d15f"/><rect x="334" y="150" width="156" height="66" rx="8" fill="#efdf7c"/>
+<rect x="230" y="318" width="260" height="14" rx="6" fill="#b89f26"/></g>
+<g fill="#000"><rect x="250" y="430" width="22" height="22"/><rect x="272" y="452" width="22" height="22"/><rect x="294" y="430" width="22" height="22"/></g>
+</svg>"""
+
+NAV = ('<header class="nav"><div style="display:flex;align-items:center;gap:4px"><a class="mark" href="{home}" aria-label="Конспекты лекций">К</a>'
+       '<nav class="links"><a href="{up}">Параллели</a><a href="https://vmaiorov-collab.github.io/">Проекты</a></nav></div>'
+       '<div class="navr">{toggle}<a class="pill-black" href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">Написать в бот</a></div></header>')
+
 SEARCH_ICON = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">'
                '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>')
 
@@ -185,26 +205,37 @@ q.addEventListener("input", () => {
 });
 '''
 
+trio = ''.join(f'<div><i>{n}</i>{t}</div>' for n, t in (
+    (TOTAL, 'подробных конспектов с формулами, кодом и разбором задач'),
+    ('▶', 'таймкоды у разделов ведут в видеозапись лекции'),
+    ('↓', 'каждый конспект — один файл, читается офлайн')))
 index = head('Конспекты лекций — Олимпиадное программирование',
              'Подробные автономные конспекты лекций по олимпиадному программированию (Яндекс Кружок): ДП, графы, строки, сортировки, структуры данных. Читаются офлайн в браузере.',
              BASE, '', 'Конспекты лекций — Олимпиадное программирование') + f'''<body>
-<div class="wrap">
+<div class="page">
 
-<div class="top"><a class="sitelink" href="https://vmaiorov-collab.github.io/">← На главный сайт</a>{TOGGLE}</div>
+{NAV.format(home="index.html", up="#pick", toggle=TOGGLE)}
 
-<header class="hero">
-  <div class="eyebrow">Яндекс Кружок · олимпиадное программирование</div>
-  <h1>Конспекты <span class="mk">лекций</span></h1>
-  <p class="lead">Подробные текстовые конспекты лекций Кружка: формулы, код, разборы задач. Чтобы найти одну идею, не нужно пересматривать четырёхчасовую запись.</p>
-  <div class="cta"><a class="btn" href="#pick">Выбрать параллель</a><a class="btn sec" href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">Написать в бот</a></div>
-  <div class="stats"><div><b>{TOTAL}</b><span>занятий</span></div><div><b>{len(PARALLELS)}</b><span>параллелей</span></div><div><b>офлайн</b><span>без интернета</span></div><div><b>таймкоды</b><span>ведут в видео</span></div></div>
-</header>
+<section class="hero2">
+  <div class="hl">
+    <h1>Конспекты лекций по олимпиадному программированию</h1>
+    <span class="chip">Яндекс Кружок</span>
+    <p>Формулы, код и разборы задач. Чтобы найти одну идею, не нужно пересматривать четырёхчасовую запись.</p>
+    <div class="sbox"><div class="search"><input id="q" type="search" placeholder="Поиск по темам: хэши, LCA, бор…" autocomplete="off" aria-label="Поиск по лекциям"></div></div>
+  </div>
+  <div class="hr">{ART}</div>
+</section>
+<a class="wide" href="#pick">Выбрать параллель</a>
 
-<div class="search">{SEARCH_ICON}<input id="q" type="search" placeholder="Поиск по темам и разделам: например, хэши, LCA, бор" autocomplete="off" aria-label="Поиск по лекциям"></div>
-
-<div id="pick"><div class="label">Выберите параллель</div><nav class="pgrid">{cards}</nav></div>
 <div id="res" class="res" hidden></div>
 <div class="nores" id="nores" hidden>Ничего не найдено.</div>
+
+<div id="pick">
+<h2 class="big">Что внутри</h2>
+<div class="trio">{trio}</div>
+<h2 class="big">Выберите параллель</h2>
+<nav class="pgrid">{cards}</nav>
+</div>
 {noscript}
 
 {ASK}
@@ -229,23 +260,26 @@ for i, (key, name, badge, playlist) in enumerate(PARALLELS):
     ls = LESSONS[key]
     desc = f'{name}: ' + ', '.join(l['title'] for l in ls) + '. Конспекты лекций Яндекс Кружка.'
     rows = ''.join(
-        f'<a class="lrow" href="{l["file"]}"><span class="num">{l["n"]}</span><span class="tx"><b>{esc(l["title"])}</b>'
-        + (f'<span>{esc(l["sub"])}</span>' if l['sub'] else '') + '</span>'
-        + (f'<span class="du">{esc(l["dur"])}</span>' if l['dur'] else '<span></span>') + '</a>' for l in ls)
+        f'<a class="lcard" href="{l["file"]}"><div class="pills"><b>Занятие {l["n"]}</b>'
+        + (f'<span>{esc(l["dur"])}</span>' if l['dur'] else '') + f'</div><h3>{esc(l["title"])}</h3>'
+        + (f'<p>{esc(l["sub"])}</p>' if l['sub'] else '') + '</a>' for l in ls)
     pv = PARALLELS[i - 1] if i else None
     nx = PARALLELS[i + 1] if i < len(PARALLELS) - 1 else None
     prev = f'<a href="../parallel-{pv[0]}/index.html"><small>← предыдущая</small><b>{esc(pv[1])}</b></a>' if pv else '<a class="ph0"></a>'
     nxt = f'<a href="../parallel-{nx[0]}/index.html"><small>следующая →</small><b>{esc(nx[1])}</b></a>' if nx else ''
     page = head(f'{name} — Конспекты лекций', desc, f'{BASE}parallel-{key}/', '../') + f'''<body>
-<div class="wrap">
+<div class="page">
 
-<div class="top"><a class="sitelink" data-up href="../index.html">← Все параллели</a>{TOGGLE}</div>
+{NAV.format(home="../index.html", up="../index.html#pick", toggle=TOGGLE)}
 
-<header class="phero">
-  <div class="eyebrow">Яндекс Кружок · олимпиадное программирование</div>
-  <div class="phead"><h1>{esc(name)}</h1></div>
-  <div class="pmeta"><span>{word(len(ls))}</span><a href="{playlist}" target="_blank" rel="noopener">плейлист на YouTube ↗</a></div>
-</header>
+<section class="hero2">
+  <div class="phl">
+    <span class="chip" style="margin-top:0">Яндекс Кружок · олимпиадное программирование</span>
+    <h1>{esc(name)}</h1>
+    <div class="pmeta"><span>{word(len(ls))}</span><a href="{playlist}" target="_blank" rel="noopener">плейлист на YouTube ↗</a></div>
+  </div>
+  <div class="hr">{ART}</div>
+</section>
 
 <nav class="lessons">{rows}</nav>
 
@@ -256,7 +290,7 @@ for i, (key, name, badge, playlist) in enumerate(PARALLELS):
 </div>
 <script>
 {THEME_JS}
-(function(){{var b=document.querySelector("[data-up]");if(!b)return;b.addEventListener("click",function(e){{var home=new URL("../",location.href).href,r=document.referrer;if(history.length>1&&r&&r.indexOf(home)===0&&r.indexOf("/parallel-")<0){{e.preventDefault();history.back()}}}});}})();
+(function(){{var b=document.querySelector(".links a");if(!b)return;b.addEventListener("click",function(e){{var home=new URL("../",location.href).href,r=document.referrer;if(history.length>1&&r&&r.indexOf(home)===0&&r.indexOf("/parallel-")<0){{e.preventDefault();history.back()}}}});}})();
 </script>
 </body>
 </html>
