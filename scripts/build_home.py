@@ -57,9 +57,8 @@ SECTIONS = re.search(r'/\*SECTIONS\*/const SECTIONS = (.*?);/\*/SECTIONS\*/', ol
 LESSONS = {k: lessons_of(k) for k, *_ in PARALLELS}
 TOTAL = sum(len(v) for v in LESSONS.values())
 
-THEME_INIT = ('<script>(function(){try{var t=localStorage.getItem("conspectusTheme");if(!t&&window.matchMedia&&'
-              'matchMedia("(prefers-color-scheme: dark)").matches)t="dark";'
-              'document.documentElement.setAttribute("data-theme",t||"light")}catch(e){}})();</script>')
+THEME_INIT = ('<script>(function(){try{var t=localStorage.getItem("conspectusTheme");'
+              'document.documentElement.setAttribute("data-theme",t||"light")}catch(e){document.documentElement.setAttribute("data-theme","light")}})();</script>')
 TRACK = ('<script data-goatcounter="https://vmaiorov.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>\n'
          '<script defer src=\'https://static.cloudflareinsights.com/beacon.min.js\' '
          'data-cf-beacon=\'{"token": "82e3760401a547558cc1d22198113255"}\'></script>')
@@ -83,7 +82,7 @@ def head(title, desc, url, pre, og_title=None):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
-<meta name="theme-color" content="#2563eb">
+<meta name="theme-color" content="#fc3f1d">
 <link rel="icon" type="image/png" href="{pre}favicon-v2.png">
 <link rel="apple-touch-icon" href="{pre}apple-touch-icon.png">
 <meta property="og:type" content="website">
