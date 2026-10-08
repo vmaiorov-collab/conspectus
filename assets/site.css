@@ -143,3 +143,31 @@ mark{background:var(--yellow);color:#000;border-radius:4px;padding:0 2px}
 }
 @media(max-width:520px){.page{padding:8px 12px 40px}.wide{padding:20px}.pnav{grid-template-columns:1fr}.pcard h3{max-width:62%}}
 @media print{.nav,.hr,.wide,.search,.ask,.pnav{display:none}}
+
+/* ── вторая итерация: шрифт Onest, герой без картинки ── */
+:root{
+  --sans:"Onest","YS Text","Helvetica Neue",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --display:"Onest","YS Display","Helvetica Neue",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+body{font-feature-settings:"ss01","cv11"}
+.hero2{grid-template-columns:1fr}
+.hl{display:grid;grid-template-columns:1.55fr 1fr;gap:28px 36px;align-items:stretch;padding:44px 40px 40px;border-radius:36px}
+.hmain{display:flex;flex-direction:column;align-items:flex-start}
+.hl h1,.phl h1{font-family:var(--display);font-weight:800;text-transform:none;font-stretch:normal;letter-spacing:-.04em;line-height:1.02}
+.hl h1{font-size:clamp(2.8rem,6.6vw,5rem);margin:18px 0 18px}
+.hi{background:linear-gradient(transparent 64%,var(--yellow) 64%,var(--yellow) 92%,transparent 92%);padding:0 .06em}
+.chip{margin:0;font-weight:500}
+.hl p{max-width:27em;font-size:1.12rem;line-height:1.5;color:var(--muted)}
+.sbox{margin-top:30px;padding-top:0}
+.hstats{display:grid;gap:10px;align-content:end}
+.hstats div{display:flex;align-items:baseline;gap:14px;padding:18px 22px;border-radius:24px;background:var(--inner)}
+.hstats b{font-family:var(--display);font-weight:800;font-size:2.1rem;letter-spacing:-.03em;line-height:1;min-width:2.2ch}
+.hstats span{color:var(--muted);font-size:.95rem;line-height:1.25}
+.phl{min-height:0;justify-content:flex-start;gap:0;padding:44px 40px 40px;border-radius:36px}
+.phl h1{font-size:clamp(2.8rem,7vw,5rem);margin:20px 0 4px}
+.big{font-weight:800;letter-spacing:-.04em}
+.pcard h3,.lcard h3,.ask h3,.rl a.rt,.pnav b{font-weight:700;letter-spacing:-.025em}
+.wide{font-weight:600}
+@media(max-width:860px){.hl{grid-template-columns:1fr;padding:30px 24px}.hstats{grid-template-columns:repeat(3,1fr)}.hstats div{flex-direction:column;gap:6px;padding:16px}}
+@media(max-width:520px){.hstats{grid-template-columns:1fr}.hstats div{flex-direction:row}}
+.badge{font-family:var(--display);font-weight:800}

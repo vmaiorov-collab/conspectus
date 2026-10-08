@@ -99,6 +99,9 @@ def head(title, desc, url, pre, og_title=None):
 <meta name="twitter:description" content="{esc(desc)}">
 <meta name="twitter:image" content="{BASE}og-image-v2.png">
 {THEME_INIT}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{pre}assets/site.css">
 {TRACK}
 </head>
@@ -218,12 +221,14 @@ index = head('Конспекты лекций — Олимпиадное про�
 
 <section class="hero2">
   <div class="hl">
-    <h1>Конспекты лекций по олимпиадному программированию</h1>
-    <span class="chip">Яндекс Кружок</span>
-    <p>Формулы, код и разборы задач. Чтобы найти одну идею, не нужно пересматривать четырёхчасовую запись.</p>
-    <div class="sbox"><div class="search"><input id="q" type="search" placeholder="Поиск по темам: хэши, LCA, бор…" autocomplete="off" aria-label="Поиск по лекциям"></div></div>
+    <div class="hmain">
+      <span class="chip">Яндекс Кружок · олимпиадное программирование</span>
+      <h1>Конспекты <span class="hi">лекций</span></h1>
+      <p>Формулы, код и разборы задач. Чтобы найти одну идею, не нужно пересматривать четырёхчасовую запись.</p>
+      <div class="sbox"><div class="search"><input id="q" type="search" placeholder="Поиск по темам: хэши, LCA, бор…" autocomplete="off" aria-label="Поиск по лекциям"></div></div>
+    </div>
+    <div class="hstats"><div><b>{TOTAL}</b><span>занятий</span></div><div><b>{len(PARALLELS)}</b><span>параллелей</span></div><div><b>1</b><span>файл на лекцию — читается офлайн</span></div></div>
   </div>
-  <div class="hr">{ART}</div>
 </section>
 <a class="wide" href="#pick">Выбрать параллель</a>
 
@@ -278,7 +283,6 @@ for i, (key, name, badge, playlist) in enumerate(PARALLELS):
     <h1>{esc(name)}</h1>
     <div class="pmeta"><span>{word(len(ls))}</span><a href="{playlist}" target="_blank" rel="noopener">плейлист на YouTube ↗</a></div>
   </div>
-  <div class="hr">{ART}</div>
 </section>
 
 <nav class="lessons">{rows}</nav>
