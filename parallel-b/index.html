@@ -228,7 +228,7 @@ html[data-look="book"] .ask a.btn:hover{opacity:1}
 
 /* шапка оглавления */
 html[data-look="book"] .section-head{
-  padding-bottom:12px; border-bottom:2px solid var(--ink);
+  padding-bottom:0; border-bottom:0;
 }
 html[data-look="book"] h2{
   font-family:var(--mono); font-weight:400; font-size:.88rem;
@@ -321,24 +321,26 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "82e3760401a547558cc1d22198113255"}'></script>
 <style>.sitelink{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid var(--accent);border-radius:6px;background:transparent;color:var(--accent)!important;font-weight:600;font-size:.8rem;text-decoration:none!important}.sitelink:hover{background:var(--accent);color:var(--paper,var(--bg,#fff))!important}.top .sitelink{margin-right:8px}@media print{.sitelink{display:none}}</style>
 <style>
+html[data-look="book"] #tree .card, html[data-look="book"][data-theme="dark"] #tree .card{--pcb:var(--ink)!important}
+html[data-look="book"] .parallel{border-top-color:var(--line)!important}
 #pick{display:grid;gap:12px}
 .pcard{display:flex;align-items:center;gap:16px;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:var(--paper,var(--bg));color:var(--ink)!important;text-decoration:none!important;transition:border-color .15s,transform .15s}
-.pcard:hover{border-color:var(--pc);transform:translateY(-2px)}
-.pcard .pb{flex:none;min-width:48px;text-align:center;font-family:var(--mono);font-weight:800;font-size:1.2rem;color:#fff;background:var(--pc);padding:10px 12px;border-radius:12px;line-height:1}
+.pcard:hover{border-color:var(--ink);transform:translateY(-2px)}
+.pcard .pb{flex:none;min-width:48px;text-align:center;font-family:var(--mono);font-weight:800;font-size:1.2rem;color:var(--ink);background:none;border:1.5px solid var(--rule-hard,var(--line));padding:9px 11px;border-radius:12px;line-height:1}
 .pcard .pm{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .pcard .pn{font-family:var(--serif);font-weight:700;font-size:1.2rem}
 .pcard .pl2{color:var(--muted);font-size:.9rem;line-height:1.45}
 .pcard .pgo{flex:none;font-family:var(--mono);font-size:.76rem;color:var(--muted);white-space:nowrap}
-.pcard:hover .pgo{color:var(--pc)}
+.pcard:hover .pgo{color:var(--ink)}
 @media(max-width:620px){.pcard{flex-wrap:wrap}.pcard .pgo{width:100%}}
 </style>
 
 <style>
 .ptitle{display:flex;align-items:center;gap:14px;margin:6px 0 4px}
-.pbadge{font-family:var(--mono);font-weight:800;font-size:1.25rem;color:#fff;background:var(--pc);padding:6px 12px;border-radius:10px;line-height:1.1}
+.pbadge{font-family:var(--mono);font-weight:800;font-size:1.25rem;color:var(--ink);background:none;border:1.5px solid var(--rule-hard,var(--line));padding:5px 11px;border-radius:10px;line-height:1.1}
 .plist{display:grid;gap:12px;margin:26px 0 0}
 .row{display:block;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:var(--paper,var(--bg));color:var(--ink)!important;text-decoration:none!important;transition:border-color .15s,transform .15s}
-.row:hover{border-color:var(--pc);transform:translateY(-2px)}
+.row:hover{border-color:var(--ink);transform:translateY(-2px)}
 .row .rn{font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .row .rt{display:block;font-family:var(--serif);font-weight:700;font-size:1.25rem;line-height:1.25;margin:4px 0 6px}
 .row .rs{display:block;color:var(--muted);font-size:.95rem;line-height:1.55}
@@ -355,7 +357,7 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
 </style>
 </head>
 <body>
-<div class="wrap" style="--pc:#1f8a5b">
+<div class="wrap">
 
 <div class="top"><a class="sitelink" data-up href="../index.html">← Все параллели</a>
   <span>conspectus</span>

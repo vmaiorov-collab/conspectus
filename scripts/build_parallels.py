@@ -59,10 +59,10 @@ head_tpl = re.sub(r'<meta property="og:url" content="[^"]*">', '<meta property="
 
 CSS = '''<style>
 .ptitle{display:flex;align-items:center;gap:14px;margin:6px 0 4px}
-.pbadge{font-family:var(--mono);font-weight:800;font-size:1.25rem;color:#fff;background:var(--pc);padding:6px 12px;border-radius:10px;line-height:1.1}
+.pbadge{font-family:var(--mono);font-weight:800;font-size:1.25rem;color:var(--ink);background:none;border:1.5px solid var(--rule-hard,var(--line));padding:5px 11px;border-radius:10px;line-height:1.1}
 .plist{display:grid;gap:12px;margin:26px 0 0}
 .row{display:block;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:var(--paper,var(--bg));color:var(--ink)!important;text-decoration:none!important;transition:border-color .15s,transform .15s}
-.row:hover{border-color:var(--pc);transform:translateY(-2px)}
+.row:hover{border-color:var(--ink);transform:translateY(-2px)}
 .row .rn{font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .row .rt{display:block;font-family:var(--serif);font-weight:700;font-size:1.25rem;line-height:1.25;margin:4px 0 6px}
 .row .rs{display:block;color:var(--muted);font-size:.95rem;line-height:1.55}
@@ -102,7 +102,7 @@ for i, (key, name, badge, color, playlist) in enumerate(PARALLELS):
     page = f'''{head}
 {CSS}</head>
 <body>
-<div class="wrap" style="--pc:{color}">
+<div class="wrap">
 
 <div class="top"><a class="sitelink" data-up href="../index.html">← Все параллели</a>
   <span>conspectus</span>
