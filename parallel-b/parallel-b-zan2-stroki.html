@@ -718,6 +718,11 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
 </style>
 <script>(function(){try{var l=localStorage.getItem("conspectusLook")||"book";document.documentElement.setAttribute("data-look",l)}catch(e){document.documentElement.setAttribute("data-look","book")}})();</script>
 <style>.sitelink{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--rule-hard,var(--line));border-radius:6px;background:none;color:var(--ink)!important;font-weight:500;font-size:.8rem;text-decoration:none!important}.sitelink:hover{border-color:var(--ink);background:var(--hover,transparent)}.top .sitelink{margin-right:8px}@media print{.sitelink{display:none}}</style>
+<style>
+/* скруглённые кнопки в конспектах */
+.sitelink,.theme-toggle,.look-toggle,.toplink,.code .copy{border-radius:999px!important}
+.top .sitelink,.top .theme-toggle,.top .look-toggle{padding:5px 14px!important}
+</style>
 </head>
 <body>
 <div class="wrap">
