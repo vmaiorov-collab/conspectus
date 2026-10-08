@@ -834,6 +834,10 @@ def sections(s):
     return out
 
 
+PARALLEL_NAMES = {"parallel-a": "Параллель A", "parallel-ap": "Параллель A'", "parallel-b": "Параллель B",
+                  "parallel-bp": "Параллель B'", "parallel-c": "Параллель C"}
+
+
 def pager(path):
     par = path.parent.name
     rel = f"{par}/{path.name}"
@@ -845,10 +849,11 @@ def pager(path):
         n, title, href = item
         return (f'<a class="{cls}" href="../{href}"><small>{arrow[0]}занятие {n}{arrow[1]}</small>'
                 f'<b>{html.escape(title)}</b></a>')
+    pname = PARALLEL_NAMES.get(par, "Все конспекты")
     prev = card(order[pos - 1], "prev", ("← ", "")) if pos > 0 else \
-        '<a class="prev" href="../index.html"><small>← назад</small><b>Все конспекты</b></a>'
+        f'<a class="prev" href="index.html"><small>← к списку</small><b>{pname}</b></a>'
     nxt = card(order[pos + 1], "next", ("", " →")) if pos + 1 < len(order) else \
-        '<a class="next" href="../index.html"><small>дальше</small><b>Все конспекты</b></a>'
+        f'<a class="next" href="index.html"><small>к списку</small><b>{pname}</b></a>'
     return f'<nav class="pager" aria-label="Соседние занятия">{prev}{nxt}</nav>'
 
 

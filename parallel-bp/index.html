@@ -8,8 +8,6 @@
 <meta name="theme-color" content="#2563eb">
 <link rel="icon" type="image/png" href="../favicon-v2.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-
-<!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Конспекты лекций">
 <meta property="og:title" content="Параллель B&#x27; — Конспекты лекций">
@@ -19,372 +17,38 @@
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://vmaiorov-collab.github.io/conspectus/parallel-bp/">
 <meta property="og:locale" content="ru_RU">
-
-<!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Параллель B&#x27; — Конспекты лекций">
 <meta name="twitter:description" content="Параллель B&#x27;: C++, Поиски, Линейные алгоритмы. Конспекты лекций Яндекс Кружка.">
 <meta name="twitter:image" content="https://vmaiorov-collab.github.io/conspectus/og-image-v2.png">
-
-<script data-goatcounter="https://vmaiorov.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>(function(){try{var t=localStorage.getItem("conspectusTheme");if(!t&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)t="dark";document.documentElement.setAttribute("data-theme",t||"light")}catch(e){}})();</script>
-<script>(function(){try{var l=localStorage.getItem("conspectusLook")||"book";document.documentElement.setAttribute("data-look",l)}catch(e){document.documentElement.setAttribute("data-look","book")}})();</script>
-<style>
-  :root{
-    --bg:#f7f5f0; --paper:#fffdf8; --ink:#1c1b19; --muted:#6f6a61; --faint:#a19b90;
-    --accent:#1f4fd1; --line:#e3ded3; --hover:#efebe2;
-    --serif:"PT Serif",Georgia,"Times New Roman",serif;
-    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-    --mono:ui-monospace,"SF Mono","PT Mono",Menlo,Consolas,monospace;
-  }
-  html[data-theme="dark"]{
-    --bg:#141413; --paper:#1b1b19; --ink:#e9e6df; --muted:#a29d93; --faint:#6f6b64;
-    --accent:#8fb0ff; --line:#2e2d2a; --hover:#22221f;
-    color-scheme:dark;
-  }
-  *{box-sizing:border-box}
-  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased}
-  a{color:var(--accent); text-decoration:none}
-  a:hover{text-decoration:underline; text-underline-offset:3px}
-  .wrap{max-width:820px; margin:0 auto; padding:28px 24px 64px}
-
-  .top{display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:.8rem; color:var(--muted)}
-  .theme-toggle{font:inherit; color:var(--muted); background:none; border:1px solid var(--line); border-radius:6px; padding:4px 10px; cursor:pointer}
-  .theme-toggle:hover{color:var(--ink); border-color:var(--muted)}
-
-  .intro{padding:56px 0 8px}
-  .news{margin:18px 0 0; padding:10px 14px; border-left:3px solid var(--accent); background:color-mix(in srgb, var(--accent) 7%, transparent); color:var(--ink); font-size:.92rem; border-radius:0 6px 6px 0}
-  .news b{font-weight:700}
-  .news time{font-family:var(--mono); font-size:.8rem; color:var(--muted); margin-right:8px}
-  .kicker{font-family:var(--mono); font-size:.8rem; color:var(--muted); letter-spacing:.02em; margin:0 0 14px}
-  h1{font-family:var(--serif); font-weight:700; font-size:clamp(2.2rem,6vw,3.2rem); line-height:1.08; letter-spacing:-.01em; margin:0 0 18px}
-  .lead{font-family:var(--serif); font-size:1.18rem; line-height:1.55; color:var(--ink); max-width:36em; margin:0}
-
-  .features{display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin:44px 0 0; padding:22px 0 0; border-top:1px solid var(--line)}
-  .features h3{font-size:.95rem; font-weight:650; margin:0 0 6px}
-  .features p{margin:0; color:var(--muted); font-size:.9rem; line-height:1.5}
-
-  h2{font-family:var(--serif); font-size:1.6rem; font-weight:700; margin:0}
-  .section-head{display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; margin:64px 0 14px}
-  .tools{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
-  .tools input{width:230px; max-width:100%; padding:7px 11px; border:1px solid var(--line); border-radius:6px; background:var(--paper); color:var(--ink); font:inherit; font-size:.9rem}
-  .tools input:focus{outline:none; border-color:var(--accent)}
-  .linkbtn{font:inherit; font-size:.85rem; color:var(--muted); background:none; border:0; padding:0; cursor:pointer; text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:3px}
-  .linkbtn:hover{color:var(--ink)}
-
-  #tree{border-top:1px solid var(--ink)}
-  .card{border-bottom:1px solid var(--line)}
-  .parallel{display:grid; grid-template-columns:48px 1fr auto; align-items:center; gap:14px; padding:16px 4px; cursor:pointer; user-select:none; transition:background-color .2s ease}
-  .parallel:hover{background:var(--hover)}
-  .parallel:focus-visible, .lesson:focus-visible, .hit:focus-visible{outline:2px solid var(--accent); outline-offset:-2px; border-radius:4px}
-  .badge{font-family:var(--mono); font-weight:700; font-size:1rem; color:var(--pc); border:1.5px solid var(--pc); border-radius:6px; height:36px; display:flex; align-items:center; justify-content:center}
-  .name{font-weight:650; font-size:1.05rem}
-  .level{color:var(--muted); font-size:.88rem}
-  .side{display:flex; align-items:center; gap:16px; color:var(--muted); font-size:.85rem}
-  .side a{color:var(--muted)}
-  .side a:hover{color:var(--accent)}
-  .chev{font-size:1.3rem; line-height:1; color:var(--faint); transition:transform .5s cubic-bezier(.65,0,.35,1), color .25s; width:14px; text-align:center}
-  .parallel.open .chev{transform:rotate(90deg); color:var(--ink)}
-
-  /* высота анимируется из JS (Web Animations), лекции проявляются следом */
-  .lessons{height:0; overflow:hidden}
-  .parallel.open + .lessons{height:auto}
-  .lessons .inner{padding:0 4px 14px 66px}
-  .lesson{display:flex; gap:16px; align-items:baseline; padding:9px 0; color:var(--ink); border-top:1px dashed var(--line);
-    opacity:0; transition:opacity .25s ease}
-  .parallel.open + .lessons .lesson{opacity:1; transition:opacity .45s ease; transition-delay:calc(var(--i, 0) * 80ms + 120ms)}
-  .lesson:first-child{border-top:0}
-  .hits{display:flex; flex-direction:column; padding:0 0 8px 74px; margin-top:-4px}
-  .hits:empty{display:none}
-  .hit{font-size:.9rem; color:var(--muted); padding:3px 0}
-  .hit::before{content:"§ "; color:var(--faint)}
-  .hit:hover{color:var(--accent)}
-  .hit mark{background:none; color:var(--ink); font-weight:650}
-  .lesson .num{font-family:var(--mono); font-size:.8rem; color:var(--muted); min-width:58px}
-  .lesson .title{font-family:var(--serif); font-size:1.08rem; transition:color .15s}
-  .lesson:hover{text-decoration:none}
-  .lesson:hover .title{color:var(--accent); text-decoration:underline; text-underline-offset:3px}
-  .nores{color:var(--muted); padding:28px 4px; display:none}
-
-  .ask{margin:72px 0 0; padding:26px 28px; background:var(--paper); border:1px solid var(--line); border-radius:8px; display:flex; gap:20px; align-items:center; justify-content:space-between; flex-wrap:wrap}
-  .ask h3{font-family:var(--serif); font-size:1.25rem; margin:0 0 4px}
-  .ask p{margin:0; color:var(--muted); font-size:.92rem; max-width:32em}
-  .ask a.btn{display:inline-block; padding:10px 18px; border-radius:6px; background:var(--ink); color:var(--bg); font-weight:600; font-size:.92rem; white-space:nowrap}
-  .ask a.btn:hover{text-decoration:none; opacity:.85}
-  .plug{flex:1 1 100%; margin-top:18px; padding-top:14px; border-top:1px solid var(--line); font-size:.92rem}
-  .plug summary{cursor:pointer; font-weight:600}
-  .plug p{margin:8px 0 0; max-width:none}
-  .plug pre{margin:8px 0 0; padding:10px 12px; overflow-x:auto; background:color-mix(in srgb, var(--ink) 6%, transparent); border-radius:6px; font-family:var(--mono); font-size:.8rem; white-space:pre-wrap; word-break:break-all}
-
-  footer{margin-top:48px; padding-top:16px; border-top:1px solid var(--line); color:var(--muted); font-size:.82rem; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap}
-  footer a{color:var(--muted); text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:3px}
-  footer a:hover{color:var(--ink)}
-
-  @media(max-width:680px){
-    .wrap{padding:20px 18px 48px}
-    .intro{padding-top:36px}
-    .features{grid-template-columns:1fr; gap:18px}
-    .section-head{margin-top:48px}
-    .tools{width:100%} .tools input{flex:1; width:auto}
-    .side .pl{display:none}
-    .lessons .inner{padding-left:4px}
-    .ask{padding:20px}
-  }
-  html.theme-anim, html.theme-anim *{transition:background-color .3s ease, color .3s ease, border-color .3s ease !important}
-  @view-transition{navigation:auto}
-  ::view-transition-old(root),::view-transition-new(root){animation-duration:.22s}
-  @media(prefers-reduced-motion:reduce){
-    *{transition:none !important}
-    @view-transition{navigation:none}
-  }
-  @media print{.top,.tools,.ask{display:none} .lessons{height:auto !important} .lesson{opacity:1 !important} .hits{display:none}}
-</style>
-
-<style id="book">
-/* ═══ Книжный вид начальной страницы — второй слой, не копия файла.
-   Включается data-look="book" на <html>; кнопка «старый вид» снимает.
-   Замысел: страница и есть оглавление, значит набрать её как оглавление
-   учебника, а не как лендинг. Фичи-карточки и CTA-плашка скрываются
-   (возвращаются переключателем), титул уходит в левую колонку. ═══ */
-html[data-look="book"]{
-  --desk:#dde2e9; --grid-ink:rgba(21,56,111,.06);
-  --bg:#ffffff; --paper:#ffffff;
-  --ink:#11161b; --muted:#49525b; --faint:#6a737c;
-  --accent:#15386f; --line:#e9edf1; --rule-hard:#d4dae1; --hover:#f4f6f8;
-}
-html[data-look="book"][data-theme="dark"]{
-  --desk:#0e1011; --grid-ink:rgba(156,192,240,.055);
-  --bg:#17191b; --paper:#17191b;
-  --ink:#e8eae5; --muted:#a7aeb2; --faint:#7d858a;
-  --accent:#9cc0f0; --line:#232729; --rule-hard:#2e3335; --hover:#1f2325;
-}
-
-/* лист на клетчатом столе */
-/* сетку рисует фиксированный слой размером в экран, а не тайловый фон
-   на весь body — так браузеру нечего перерисовывать при прокрутке */
-html[data-look="book"]{background:var(--desk)}
-html[data-look="book"] body::before{
-  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
-  background-image:
-    repeating-linear-gradient(to right, var(--grid-ink) 0 1px, transparent 1px 26px),
-    repeating-linear-gradient(to bottom, var(--grid-ink) 0 1px, transparent 1px 26px);
-}
-html[data-look="book"] body{
-  background:none;
-  font-family:var(--serif); font-size:17px; padding:0 24px 72px;
-}
-
-/* разворот: титул слева, оглавление справа */
-html[data-look="book"] .wrap{
-  max-width:1140px; background:var(--bg);
-  box-shadow:0 0 0 1px rgba(17,22,27,.09);
-  padding:0 56px 56px;
-  display:grid; grid-template-columns:316px 1fr;
-  column-gap:72px; align-items:start;
-}
-html[data-look="book"][data-theme="dark"] .wrap{
-  box-shadow:0 0 0 1px rgba(255,255,255,.07);
-}
-html[data-look="book"] .top{grid-column:1/-1; padding:22px 0 0}
-/* титул не закрепляем: залипающая колонка не уезжает вверх
-   при прокрутке, и страница кажется застывшей */
-html[data-look="book"] .intro{
-  grid-column:1; grid-row:2 / span 4; padding:52px 0 0;
-}
-html[data-look="book"] .section-head{grid-column:2; grid-row:2; margin:52px 0 0}
-html[data-look="book"] #tree{grid-column:2; grid-row:3}
-html[data-look="book"] .nores{grid-column:2; grid-row:4}
-html[data-look="book"] .ask{grid-column:2; grid-row:5}
-html[data-look="book"] footer{grid-column:1/-1}
-
-/* титул */
-html[data-look="book"] .kicker{font-size:.8rem; letter-spacing:.08em; margin:0 0 18px}
-html[data-look="book"] h1{font-size:2.5rem; line-height:1.08; margin:0 0 18px}
-html[data-look="book"] .lead{font-size:1.04rem; color:var(--muted); max-width:36ch}
-/* новость — обычная сноска, без подкрашенного callout */
-html[data-look="book"] .news{
-  background:none; border:0; border-top:1px solid var(--line);
-  border-radius:0; margin:22px 0 0; padding:12px 0 0;
-  font-size:.9rem; color:var(--muted); max-width:36ch;
-}
-html[data-look="book"] .news time{display:block; margin:0 0 2px}
-/* фичи-карточки и CTA-плашка: главные признаки лендинга — убираем */
-/* Три «фичи» — лендинговая вода, на странице-оглавлении они не нужны.
-   Высоту страницы возвращает не этот текст, а раскрытые занятия
-   (см. скрипт ниже): оглавление должно показывать содержание. */
-html[data-look="book"] .features{display:none}
-html[data-look="book"] .ask{
-  background:none; border:0; border-radius:0;
-  margin:40px 0 0; padding:18px 0 0;
-  border-top:1px solid var(--line); display:block;
-}
-html[data-look="book"] .ask h3{font-size:1rem; margin:0 0 4px}
-html[data-look="book"] .ask p{font-size:.92rem; display:inline}
-html[data-look="book"] .ask a.btn{
-  background:none; color:var(--accent); padding:0; border-radius:0;
-  font-weight:400; text-decoration:underline; text-underline-offset:3px;
-}
-html[data-look="book"] .ask a.btn:hover{opacity:1}
-
-/* шапка оглавления */
-html[data-look="book"] .section-head{
-  padding-bottom:0; border-bottom:0;
-}
-html[data-look="book"] h2{
-  font-family:var(--mono); font-weight:400; font-size:.88rem;
-  letter-spacing:.1em; text-transform:uppercase;
-}
-html[data-look="book"] .tools input{
-  border:0; border-bottom:1px solid var(--rule-hard); border-radius:0;
-  background:none; font-family:var(--mono); font-size:.88rem;
-}
-
-/* ── параллели: краска по лестнице Codeforces, литера вместо бейджа ──
-   Порядок соответствует DATA ниже: A, A', B, B', C. */
-html[data-look="book"] #tree{border-top:0}
-html[data-look="book"] .card{border-bottom:0}
-/* ВАЖНО: нельзя переопределять --pc — скрипт ниже задаёт его инлайново
-   (card.style.setProperty), а инлайновый стиль сильнее таблицы стилей.
-   Поэтому у книжного вида своя переменная --pcb. */
-html[data-look="book"] #tree .card:nth-child(1){--pcb:#c91d12}
-html[data-look="book"] #tree .card:nth-child(2){--pcb:#96149b}
-html[data-look="book"] #tree .card:nth-child(3){--pcb:#1a35c7}
-html[data-look="book"] #tree .card:nth-child(4){--pcb:#0a7d75}
-html[data-look="book"] #tree .card:nth-child(5){--pcb:#0b7a31}
-html[data-look="book"][data-theme="dark"] #tree .card:nth-child(1){--pcb:#ff7a6b}
-html[data-look="book"][data-theme="dark"] #tree .card:nth-child(2){--pcb:#de7ade}
-html[data-look="book"][data-theme="dark"] #tree .card:nth-child(3){--pcb:#7e94ff}
-html[data-look="book"][data-theme="dark"] #tree .card:nth-child(4){--pcb:#3fc9bd}
-html[data-look="book"][data-theme="dark"] #tree .card:nth-child(5){--pcb:#4ec46f}
-
-html[data-look="book"] .parallel{
-  border-top:3px solid var(--pcb); padding:18px 0 14px;
-  grid-template-columns:72px 1fr auto; gap:0 24px;
-}
-html[data-look="book"] .parallel:hover{background:none}
-html[data-look="book"] .parallel:hover .name{color:var(--pcb)}
-html[data-look="book"] .badge{
-  border:0; border-radius:0; height:auto; display:block;
-  font-family:var(--mono); font-weight:700; font-size:2.1rem;
-  line-height:.95; color:var(--pcb); text-align:left;
-}
-html[data-look="book"] .name{font-weight:700; font-size:1.26rem}
-html[data-look="book"] .level{font-family:var(--mono); font-size:.84rem; color:var(--muted)}
-html[data-look="book"] .lessons .inner{padding:0 0 10px 96px}
-html[data-look="book"] .lesson{border-top:1px solid var(--line)}
-html[data-look="book"] .lesson .title{font-size:1.1rem}
-html[data-look="book"] .lesson:hover .title{color:var(--pcb)}
-html[data-look="book"] .chev{color:var(--faint)}
-
-/* выходные сведения */
-html[data-look="book"] footer{
-  margin-top:48px; padding-top:18px; border-top:1px solid var(--rule-hard);
-  font-size:.92rem;
-}
-
-/* кнопка возврата к старому виду */
-/* намеренно парная к переключателю темы: та же форма и размер,
-   чтобы читалась как кнопка, а не как обрывок текста рядом с ней */
-.look-toggle{
-  font:inherit; font-size:.8rem; color:var(--muted);
-  background:none; border:1px solid var(--line);
-  padding:4px 10px; margin-left:8px; cursor:pointer;
-  white-space:nowrap;
-}
-.look-toggle:hover{color:var(--ink); border-color:var(--muted)}
-html[data-look="book"] .look-toggle{border-radius:0}
-html[data-look="paper"] .look-toggle{border-radius:6px}
-.look-toggle:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
-
-@media(max-width:980px){
-  html[data-look="book"] .wrap{
-    grid-template-columns:1fr; column-gap:0; padding:0 22px 44px;
-  }
-  html[data-look="book"] .intro{
-    grid-column:1; grid-row:auto; position:static; padding-top:32px;
-  }
-  html[data-look="book"] .section-head,
-  html[data-look="book"] #tree,
-  html[data-look="book"] .nores,
-  html[data-look="book"] .ask{grid-column:1; grid-row:auto}
-  html[data-look="book"] .section-head{margin-top:40px}
-  html[data-look="book"] h1{font-size:2.1rem}
-  html[data-look="book"] .lead,
-  html[data-look="book"] .news{max-width:62ch}
-  html[data-look="book"] body{padding:0 12px 48px}
-  html[data-look="book"] .parallel{grid-template-columns:52px 1fr auto; gap:0 16px}
-  html[data-look="book"] .badge{font-size:1.7rem}
-  html[data-look="book"] .lessons .inner{padding-left:0}
-}
-@media print{.look-toggle{display:none}}
-</style>
+<link rel="stylesheet" href="../assets/site.css">
+<script data-goatcounter="https://vmaiorov.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "82e3760401a547558cc1d22198113255"}'></script>
-<style>.sitelink{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid var(--accent);border-radius:6px;background:transparent;color:var(--accent)!important;font-weight:600;font-size:.8rem;text-decoration:none!important}.sitelink:hover{background:var(--accent);color:var(--paper,var(--bg,#fff))!important}.top .sitelink{margin-right:8px}@media print{.sitelink{display:none}}</style>
-<style>
-html[data-look="book"] #tree .card, html[data-look="book"][data-theme="dark"] #tree .card{--pcb:var(--ink)!important}
-html[data-look="book"] .parallel{border-top-color:var(--line)!important}
-#pick{display:grid;gap:12px}
-.pcard{display:flex;align-items:center;gap:16px;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:var(--paper,var(--bg));color:var(--ink)!important;text-decoration:none!important;transition:border-color .15s,transform .15s}
-.pcard:hover{border-color:var(--ink);transform:translateY(-2px)}
-.pcard .pb{flex:none;min-width:48px;text-align:center;font-family:var(--mono);font-weight:800;font-size:1.2rem;color:var(--ink);background:none;border:1.5px solid var(--rule-hard,var(--line));padding:9px 11px;border-radius:12px;line-height:1}
-.pcard .pm{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
-.pcard .pn{font-family:var(--serif);font-weight:700;font-size:1.2rem}
-.pcard .pl2{color:var(--muted);font-size:.9rem;line-height:1.45}
-.pcard .pgo{flex:none;font-family:var(--mono);font-size:.76rem;color:var(--muted);white-space:nowrap}
-.pcard:hover .pgo{color:var(--ink)}
-@media(max-width:620px){.pcard{flex-wrap:wrap}.pcard .pgo{width:100%}}
-</style>
-
-<style>
-.ptitle{display:flex;align-items:center;gap:14px;margin:6px 0 4px}
-.pbadge{font-family:var(--mono);font-weight:800;font-size:1.25rem;color:var(--ink);background:none;border:1.5px solid var(--rule-hard,var(--line));padding:5px 11px;border-radius:10px;line-height:1.1}
-.plist{display:grid;gap:12px;margin:26px 0 0}
-.row{display:block;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:var(--paper,var(--bg));color:var(--ink)!important;text-decoration:none!important;transition:border-color .15s,transform .15s}
-.row:hover{border-color:var(--ink);transform:translateY(-2px)}
-.row .rn{font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.row .rt{display:block;font-family:var(--serif);font-weight:700;font-size:1.25rem;line-height:1.25;margin:4px 0 6px}
-.row .rs{display:block;color:var(--muted);font-size:.95rem;line-height:1.55}
-.row .rd{display:block;margin-top:8px;font-family:var(--mono);font-size:.74rem;color:var(--muted)}
-.pbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px;font-family:var(--mono);font-size:.8rem;color:var(--muted)}
-.pbar a{color:var(--accent)}
-.pnav{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:44px}
-.pnav a{display:flex;flex-direction:column;gap:2px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;color:var(--ink)!important;text-decoration:none!important}
-.pnav a:hover{border-color:var(--accent)}.pnav small{font-family:var(--mono);font-size:.72rem;color:var(--muted)}
-.pnav a:last-child:nth-child(2){text-align:right}.pnav .ph0{visibility:hidden}
-.pfoot{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);display:flex;gap:8px 24px;justify-content:space-between;flex-wrap:wrap;font-family:var(--mono);font-size:.78rem}
-.pfoot a{color:var(--muted)}.pfoot a:hover{color:var(--ink)}
-.top .sitelink[data-up]{margin-right:0}
-</style>
 </head>
 <body>
 <div class="wrap">
 
-<div class="top"><a class="sitelink" data-up href="../index.html">← Все параллели</a>
-  <span>conspectus</span>
-  <span><button type="button" id="theme-toggle" class="theme-toggle">тёмная тема</button></span>
-</div>
+<div class="top"><a class="sitelink" data-up href="../index.html">← Все параллели</a><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button></div>
 
-<section class="intro">
-  <p class="kicker">Яндекс Кружок · олимпиадное программирование</p>
-  <div class="ptitle"><span class="pbadge">B&#x27;</span><h1 style="margin:0">Параллель B&#x27;</h1></div>
-  <div class="pbar"><span>3 занятия</span><span>·</span><a href="https://www.youtube.com/playlist?list=PLP5aGLvQB07Y" target="_blank" rel="noopener">плейлист на YouTube</a></div>
-</section>
+<header class="phero">
+  <div class="eyebrow"><i></i>Яндекс Кружок · олимпиадное программирование</div>
+  <div class="phead"><span class="badge">B&#x27;</span><h1>Параллель B&#x27;</h1></div>
+  <div class="pmeta"><span>3 занятия</span><a href="https://www.youtube.com/playlist?list=PLP5aGLvQB07Y" target="_blank" rel="noopener">плейлист на YouTube ↗</a></div>
+</header>
 
-<div class="plist"><a class="row" href="parallel-bp-zan1-cpp.html"><span class="rn">Занятие 1</span><span class="rt">C++</span><span class="rs">Вводная лекция по языку C++ и STL: оценка сложности, типы и переполнение, структуры и компараторы, вектор/стек/очередь/дек, set/map/priority_queue, алгоритмы STL и стресс-тестирование.</span><span class="rd">≈ 3 ч 23 мин</span></a><a class="row" href="parallel-bp-zan2-poiski.html"><span class="rn">Занятие 2</span><span class="rt">Поиски</span><span class="rs">Бинарный поиск по массиву и по ответу, C++-функции поиска, вещественные числа, бинпоиск по производной и тернарный поиск. В конце — разбор контеста.</span><span class="rd">≈ 3 ч 4 мин</span></a><a class="row" href="parallel-bp-zan3-linejnye.html"><span class="rn">Занятие 3</span><span class="rt">Линейные алгоритмы</span><span class="rs">Линейные по времени приёмы: разминка со «скользящим» минимумом, префиксные суммы (1D, 2D, 3D и в общем виде), разностный массив, два указателя, стек и очередь с минимумом, дек для минимума в окне, ближайшие большие/меньшие элементы и задача о гистограмме.</span><span class="rd">≈ 4 ч 2 мин</span></a></div>
+<nav class="lessons"><a class="lrow" href="parallel-bp-zan1-cpp.html"><span class="num">1</span><span class="tx"><b>C++</b><span>Вводная лекция по языку C++ и STL: оценка сложности, типы и переполнение, структуры и компараторы, вектор/стек/очередь/дек, set/map/priority_queue, алгоритмы STL и стресс-тестирование.</span></span><span class="du">≈ 3 ч 23 мин</span></a><a class="lrow" href="parallel-bp-zan2-poiski.html"><span class="num">2</span><span class="tx"><b>Поиски</b><span>Бинарный поиск по массиву и по ответу, C++-функции поиска, вещественные числа, бинпоиск по производной и тернарный поиск. В конце — разбор контеста.</span></span><span class="du">≈ 3 ч 4 мин</span></a><a class="lrow" href="parallel-bp-zan3-linejnye.html"><span class="num">3</span><span class="tx"><b>Линейные алгоритмы</b><span>Линейные по времени приёмы: разминка со «скользящим» минимумом, префиксные суммы (1D, 2D, 3D и в общем виде), разностный массив, два указателя, стек и очередь с минимумом, дек для минимума в окне, ближайшие большие/меньшие элементы и задача о гистограмме.</span></span><span class="du">≈ 4 ч 2 мин</span></a></nav>
 
 <nav class="pnav"><a href="../parallel-b/index.html"><small>← предыдущая</small><b>Параллель B</b></a><a href="../parallel-c/index.html"><small>следующая →</small><b>Параллель C</b></a></nav>
 
-<div class="pfoot"><a href="https://yandex.ru/yaintern/olympiads/kruzhok">yandex.ru/yaintern/olympiads/kruzhok</a>
-<a href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">идея или ошибка → бот</a>
-<a href="https://vmaiorov-collab.github.io/">все проекты</a></div>
+<footer class="foot"><a href="https://yandex.ru/yaintern/olympiads/kruzhok">yandex.ru/yaintern/olympiads/kruzhok</a><a href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">идея или ошибка → бот</a><a href="https://vmaiorov-collab.github.io/">все проекты</a><a href="https://vmaiorov.goatcounter.com/" target="_blank" rel="noopener">статистика посещений</a></footer>
 
 </div>
-<script>(function(){var root=document.documentElement,btn=document.getElementById("theme-toggle");
+<script>
+(function(){var root=document.documentElement,btn=document.getElementById("theme-toggle");
 function label(){btn.textContent=root.getAttribute("data-theme")==="dark"?"светлая тема":"тёмная тема"}label();
-btn.addEventListener("click",function(){var next=root.getAttribute("data-theme")==="dark"?"light":"dark";root.classList.add("theme-anim");setTimeout(function(){root.classList.remove("theme-anim")},350);root.setAttribute("data-theme",next);label();try{localStorage.setItem("conspectusTheme",next)}catch(e){}});
-var b=document.querySelector("[data-up]");
-if(b)b.addEventListener("click",function(e){var home=new URL("../",location.href).href,r=document.referrer;if(history.length>1&&r&&r.indexOf(home)===0&&r.indexOf("/parallel-")<0){e.preventDefault();history.back()}});
-})();</script>
-<script data-goatcounter="https://vmaiorov.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+btn.addEventListener("click",function(){var next=root.getAttribute("data-theme")==="dark"?"light":"dark";root.classList.add("theme-anim");setTimeout(function(){root.classList.remove("theme-anim")},350);root.setAttribute("data-theme",next);label();try{localStorage.setItem("conspectusTheme",next)}catch(e){}});})();
+(function(){var b=document.querySelector("[data-up]");if(!b)return;b.addEventListener("click",function(e){var home=new URL("../",location.href).href,r=document.referrer;if(history.length>1&&r&&r.indexOf(home)===0&&r.indexOf("/parallel-")<0){e.preventDefault();history.back()}});})();
+</script>
 </body>
 </html>
