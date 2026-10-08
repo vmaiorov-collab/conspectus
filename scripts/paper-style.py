@@ -633,9 +633,7 @@ LOOK_BOOT = (
     'document.documentElement.setAttribute("data-look","book")}})();</script>\n'
 )
 
-LOOK_BTN = (
-    '<button type="button" id="look-toggle" class="look-toggle">↩ старый вид</button>'
-)
+LOOK_BTN = ""  # кнопка «старый вид» убрана
 
 LOOK_JS = (
     '<script>(function(){var b=document.getElementById("look-toggle");if(!b)return;'
