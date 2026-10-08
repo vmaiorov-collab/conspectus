@@ -64,7 +64,7 @@ def parallel(key, name, badge, titles):
     items = ''.join(f'<li><em>{i + 1}</em>{esc(t)}</li>' for i, t in enumerate(titles))
     return BASE + f'''<style>
 .panel{{background:{PASTEL[key]}}}
-h1{{font-size:132px}}
+h1{{font-size:112px;white-space:nowrap}}
 ul{{list-style:none;margin:32px 0 0;padding:0;display:grid;gap:12px;max-width:820px}}
 li{{display:flex;gap:18px;align-items:center;font-size:38px;font-weight:600;letter-spacing:-.02em}}
 li em{{display:flex;align-items:center;justify-content:center;flex:none;width:46px;height:46px;border-radius:12px;background:#000;color:#fff;font-style:normal;font-size:24px;font-weight:700}}
