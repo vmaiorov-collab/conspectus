@@ -74,7 +74,7 @@ FOOT = ('<footer class="foot"><a href="https://yandex.ru/yaintern/olympiads/kruz
 ICON_PATH = lambda p: p  # префикс пути
 
 
-def head(title, desc, url, pre, og_title=None):
+def head(title, desc, url, pre, og_title=None, img='og-image.png'):
     og = esc(og_title or title)
     return f'''<!DOCTYPE html>
 <html lang="ru">
@@ -90,7 +90,7 @@ def head(title, desc, url, pre, og_title=None):
 <meta property="og:site_name" content="Конспекты лекций">
 <meta property="og:title" content="{og}">
 <meta property="og:description" content="{esc(desc)}">
-<meta property="og:image" content="{BASE}og-image-v2.png">
+<meta property="og:image" content="{BASE}{img}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="{url}">
@@ -98,7 +98,7 @@ def head(title, desc, url, pre, og_title=None):
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{og}">
 <meta name="twitter:description" content="{esc(desc)}">
-<meta name="twitter:image" content="{BASE}og-image-v2.png">
+<meta name="twitter:image" content="{BASE}{img}">
 {THEME_INIT}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -273,7 +273,7 @@ for i, (key, name, badge, playlist) in enumerate(PARALLELS):
     nx = PARALLELS[i + 1] if i < len(PARALLELS) - 1 else None
     prev = f'<a href="../parallel-{pv[0]}/index.html"><small>← предыдущая</small><b>{esc(pv[1])}</b></a>' if pv else '<a class="ph0"></a>'
     nxt = f'<a href="../parallel-{nx[0]}/index.html"><small>следующая →</small><b>{esc(nx[1])}</b></a>' if nx else ''
-    page = head(f'{name} — Конспекты лекций', desc, f'{BASE}parallel-{key}/', '../') + f'''<body>
+    page = head(f'{name} — Конспекты лекций', desc, f'{BASE}parallel-{key}/', '../', img=f'og-parallel-{key}.png') + f'''<body>
 <div class="page" style="--pc:{PASTEL[key]}">
 
 {NAV.format(home="../index.html", up="../index.html#pick", toggle=TOGGLE)}
