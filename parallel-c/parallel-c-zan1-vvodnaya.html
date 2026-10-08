@@ -517,6 +517,8 @@ html[data-look="book"][data-theme="dark"]{
    прокрутке. Это и подлагивало. */
 html[data-look="book"]{background:var(--desk)}
 html[data-look="book"] body::before{display:none}
+html[data-look="book"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cpath d='M25.5 0V26M0 25.5H26' stroke='%2315386f' stroke-opacity='.07' fill='none'/%3E%3C/svg%3E");background-size:26px 26px}
+html[data-look="book"][data-theme="dark"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cpath d='M25.5 0V26M0 25.5H26' stroke='%23fff' stroke-opacity='.045' fill='none'/%3E%3C/svg%3E")}
 html[data-look="book"] body{
   background:none;
   font-family:var(--serif); font-size:18px; line-height:1.72;

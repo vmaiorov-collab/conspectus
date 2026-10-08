@@ -123,7 +123,7 @@ for key, name, badge, _pl in PARALLELS:
     items = ''.join(f'<li>{esc(l["title"])}</li>' for l in ls)
     cards += (f'<a class="pcard" href="parallel-{key}/index.html"><div class="ph"><span class="badge">{esc(badge)}</span>'
               f'<h3>{esc(name)}</h3></div><ul class="tl">{items}</ul>'
-              f'<div class="pf"><span>{word(len(ls))}</span><em>открыть →</em></div></a>')
+              f'<div class="pf"><span>{word(len(ls))}</span><em>→</em></div></a>')
 noscript = '<noscript><ul>' + ''.join(
     f'<li>{esc(name)} — ' + ', '.join(f'<a href="{l["href"]}">Занятие {l["n"]}. {esc(l["title"])}</a>' for l in LESSONS[key]) + '</li>'
     for key, name, _b, _p in PARALLELS) + '</ul></noscript>'
@@ -197,7 +197,8 @@ index = head('Конспекты лекций — Олимпиадное про�
   <div class="eyebrow">Яндекс Кружок · олимпиадное программирование</div>
   <h1>Конспекты <span class="mk">лекций</span></h1>
   <p class="lead">Подробные текстовые конспекты лекций Кружка: формулы, код, разборы задач. Чтобы найти одну идею, не нужно пересматривать четырёхчасовую запись.</p>
-  <div class="facts"><span><b>{TOTAL}</b> занятий</span><span><b>{len(PARALLELS)}</b> параллелей</span><span><b>офлайн</b> без интернета</span><span><b>таймкоды</b> ведут в видео</span></div>
+  <div class="cta"><a class="btn" href="#pick">Выбрать параллель</a><a class="btn sec" href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">Написать в бот</a></div>
+  <div class="stats"><div><b>{TOTAL}</b><span>занятий</span></div><div><b>{len(PARALLELS)}</b><span>параллелей</span></div><div><b>офлайн</b><span>без интернета</span></div><div><b>таймкоды</b><span>ведут в видео</span></div></div>
 </header>
 
 <div class="search">{SEARCH_ICON}<input id="q" type="search" placeholder="Поиск по темам и разделам: например, хэши, LCA, бор" autocomplete="off" aria-label="Поиск по лекциям"></div>
