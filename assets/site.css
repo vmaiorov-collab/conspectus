@@ -7,17 +7,14 @@
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 html[data-theme="dark"]{
-  --bg:#0e1013; --paper:#16191f; --ink:#eceef2; --muted:#9ba2b0; --faint:#6b7280;
-  --line:#252a33; --accent:#7aa7ff; --accent-soft:#17233d; --glow:rgba(122,167,255,.12);
+  --bg:#141518; --paper:#1b1c21; --ink:#ececf0; --muted:#a3a6b0; --faint:#6f727c;
+  --line:#2b2d34; --accent:#8ab4ff; --accent-soft:rgba(138,180,255,.12); --glow:transparent;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;font-size:16px;
-  background-image:radial-gradient(900px 380px at 78% -60px,var(--glow),transparent 70%);background-repeat:no-repeat}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;font-size:16px}
 a{color:var(--accent);text-decoration:none}
 .wrap{max-width:980px;margin:0 auto;padding:26px 24px 72px}
-html.theme-anim *{transition:background-color .3s,color .3s,border-color .3s!important}
 
 /* верхняя строка */
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -53,7 +50,7 @@ html.theme-anim *{transition:background-color .3s,color .3s,border-color .3s!imp
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
 .pcard{display:flex;flex-direction:column;gap:14px;padding:22px;border:1px solid var(--line);border-radius:18px;background:var(--paper);
   color:var(--ink)!important;transition:border-color .15s,transform .15s,box-shadow .15s}
-.pcard:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 10px 30px -14px var(--glow),0 2px 8px -4px rgba(0,0,0,.08)}
+.pcard:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 10px 30px -14px var(--glow)}
 .pcard .ph{display:flex;align-items:center;gap:14px}
 .badge{flex:none;min-width:44px;height:44px;padding:0 10px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;
   background:var(--accent-soft);color:var(--accent);font-family:var(--mono);font-weight:800;font-size:1.15rem}

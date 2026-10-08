@@ -154,7 +154,7 @@ q.addEventListener("input", () => {
 
 (function(){var root=document.documentElement,btn=document.getElementById("theme-toggle");
 function label(){btn.textContent=root.getAttribute("data-theme")==="dark"?"светлая тема":"тёмная тема"}label();
-btn.addEventListener("click",function(){var next=root.getAttribute("data-theme")==="dark"?"light":"dark";root.classList.add("theme-anim");setTimeout(function(){root.classList.remove("theme-anim")},350);root.setAttribute("data-theme",next);label();try{localStorage.setItem("conspectusTheme",next)}catch(e){}});})();
+btn.addEventListener("click",function(){var next=root.getAttribute("data-theme")==="dark"?"light":"dark";root.setAttribute("data-theme",next);label();try{localStorage.setItem("conspectusTheme",next)}catch(e){}});})();
 </script>
 </body>
 </html>

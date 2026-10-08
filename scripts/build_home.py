@@ -66,7 +66,7 @@ TRACK = ('<script data-goatcounter="https://vmaiorov.goatcounter.com/count" asyn
 TOGGLE = '<button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button>'
 THEME_JS = '''(function(){var root=document.documentElement,btn=document.getElementById("theme-toggle");
 function label(){btn.textContent=root.getAttribute("data-theme")==="dark"?"светлая тема":"тёмная тема"}label();
-btn.addEventListener("click",function(){var next=root.getAttribute("data-theme")==="dark"?"light":"dark";root.classList.add("theme-anim");setTimeout(function(){root.classList.remove("theme-anim")},350);root.setAttribute("data-theme",next);label();try{localStorage.setItem("conspectusTheme",next)}catch(e){}});})();'''
+btn.addEventListener("click",function(){var next=root.getAttribute("data-theme")==="dark"?"light":"dark";root.setAttribute("data-theme",next);label();try{localStorage.setItem("conspectusTheme",next)}catch(e){}});})();'''
 FOOT = ('<footer class="foot"><a href="https://yandex.ru/yaintern/olympiads/kruzhok">yandex.ru/yaintern/olympiads/kruzhok</a>'
         '<a href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">идея или ошибка → бот</a>'
         '<a href="https://vmaiorov-collab.github.io/">все проекты</a>'

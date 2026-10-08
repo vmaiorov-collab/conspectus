@@ -486,10 +486,10 @@ html[data-look="book"]{
   --sans:var(--serif);
 }
 html[data-look="book"][data-theme="dark"]{
-  --desk:#0e1011; --sheet-grid:rgba(156,192,240,.055);
-  --bg:#17191b; --card:#17191b;
-  --ink:#e8eae5; --muted:#a7aeb2; --faint:#7d858a;
-  --line:#232729; --rule-hard:#2e3335;
+  --desk:#0d0e11; --sheet-grid:transparent;
+  --bg:#17181c; --card:#1d1e23;
+  --ink:#ececf0; --muted:#a3a6b0; --faint:#6f727c;
+  --line:#2c2e35; --rule-hard:#3d4048;
   --accent:var(--acc-d);
   --tag:#232729;
   /* Палитра листинга обязана идти в комплекте с его подложкой: светлый
@@ -509,12 +509,7 @@ html[data-look="book"][data-theme="dark"]{
    растрировать по ней два градиента браузер вынужден заново при
    прокрутке. Это и подлагивало. */
 html[data-look="book"]{background:var(--desk)}
-html[data-look="book"] body::before{
-  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
-  background-image:
-    repeating-linear-gradient(to right, var(--sheet-grid) 0 1px, transparent 1px 26px),
-    repeating-linear-gradient(to bottom, var(--sheet-grid) 0 1px, transparent 1px 26px);
-}
+html[data-look="book"] body::before{display:none}
 html[data-look="book"] body{
   background:none;
   font-family:var(--serif); font-size:18px; line-height:1.72;
