@@ -24,7 +24,7 @@
 <script>(function(){try{var t=localStorage.getItem("conspectusTheme");document.documentElement.setAttribute("data-theme",t||"light")}catch(e){document.documentElement.setAttribute("data-theme","light")}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/site.css">
 <script data-goatcounter="https://vmaiorov.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "82e3760401a547558cc1d22198113255"}'></script>
@@ -32,19 +32,20 @@
 <body>
 <div class="page">
 
-<header class="nav"><div style="display:flex;align-items:center;gap:4px"><a class="mark" href="../index.html" aria-label="Конспекты лекций">К</a><nav class="links"><a href="../index.html#pick">Параллели</a><a href="https://vmaiorov-collab.github.io/">Проекты</a></nav></div><div class="navr"><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button><a class="pill-black" href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">Написать в бот</a></div></header>
+<header class="bar"><a class="word" href="../index.html" data-up>← конспекты<i>/</i></a><nav><a href="../index.html#pick" data-up>параллели</a><a href="https://vmaiorov-collab.github.io/">проекты</a><a href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">бот</a><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button></nav></header>
 
-<section class="hero2">
-  <div class="phl">
-    <span class="chip" style="margin-top:0">Яндекс Кружок · олимпиадное программирование</span>
+<section class="pp">
+  <aside class="pside">
+    <p class="kicker">Яндекс Кружок</p>
+    <div class="bigl">A&#x27;</div>
     <h1>Параллель A&#x27;</h1>
     <div class="pmeta"><span>3 занятия</span><a href="https://www.youtube.com/playlist?list=PLVEPlEFLCYes" target="_blank" rel="noopener">плейлист на YouTube ↗</a></div>
+  </aside>
+  <div>
+    <nav class="lrows"><a class="lr" href="parallel-ap-zan1-kornevye.html"><span class="ln">01</span><span class="lb"><b>Корневые эвристики</b><span>Блочная декомпозиция (sqrt-decomposition), тяжёлые/лёгкие вершины, корневая по запросам, алгоритм Мо (в том числе на дереве, с откатами и 3D).</span></span><span class="ld">≈ 4 ч 32 мин</span></a><a class="lr" href="parallel-ap-zan2-struktury.html"><span class="ln">02</span><span class="lb"><b>Структуры данных 1</b><span>Дерево отрезков (в т.ч. «снизу» и неявное), дерево Фенвика, массовые операции, сжатие координат, сканирующая прямая и разбор задач, использующих эти структуры.</span></span><span class="ld">≈ 4 ч 43 мин</span></a><a class="lr" href="parallel-ap-zan3-geometriya-1.html"><span class="ln">03</span><span class="lb"><b>Геометрия 1</b><span>Векторы, скалярное и векторное произведения, прямые и окружности, площадь и принадлежность точки многоугольнику, сортировка по углу, выпуклая оболочка (Джарвис, Грэхем, Эндрю), максимальный треугольник, касательные к выпуклому многоугольнику. В конце — разбор запасных задач и контеста по структурам данных.</span></span><span class="ld">≈ 5 ч 55 мин</span></a></nav>
+    <nav class="pnav"><a href="../parallel-a/index.html"><small>← предыдущая</small><b>Параллель A</b></a><a href="../parallel-b/index.html"><small>следующая →</small><b>Параллель B</b></a></nav>
   </div>
 </section>
-
-<nav class="lessons"><a class="lcard" href="parallel-ap-zan1-kornevye.html"><div class="pills"><b>Занятие 1</b><span>≈ 4 ч 32 мин</span></div><h3>Корневые эвристики</h3><p>Блочная декомпозиция (sqrt-decomposition), тяжёлые/лёгкие вершины, корневая по запросам, алгоритм Мо (в том числе на дереве, с откатами и 3D).</p></a><a class="lcard" href="parallel-ap-zan2-struktury.html"><div class="pills"><b>Занятие 2</b><span>≈ 4 ч 43 мин</span></div><h3>Структуры данных 1</h3><p>Дерево отрезков (в т.ч. «снизу» и неявное), дерево Фенвика, массовые операции, сжатие координат, сканирующая прямая и разбор задач, использующих эти структуры.</p></a><a class="lcard" href="parallel-ap-zan3-geometriya-1.html"><div class="pills"><b>Занятие 3</b><span>≈ 5 ч 55 мин</span></div><h3>Геометрия 1</h3><p>Векторы, скалярное и векторное произведения, прямые и окружности, площадь и принадлежность точки многоугольнику, сортировка по углу, выпуклая оболочка (Джарвис, Грэхем, Эндрю), максимальный треугольник, касательные к выпуклому многоугольнику. В конце — разбор запасных задач и контеста по структурам данных.</p></a></nav>
-
-<nav class="pnav"><a href="../parallel-a/index.html"><small>← предыдущая</small><b>Параллель A</b></a><a href="../parallel-b/index.html"><small>следующая →</small><b>Параллель B</b></a></nav>
 
 <footer class="foot"><a href="https://yandex.ru/yaintern/olympiads/kruzhok">yandex.ru/yaintern/olympiads/kruzhok</a><a href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">идея или ошибка → бот</a><a href="https://vmaiorov-collab.github.io/">все проекты</a><a href="https://vmaiorov.goatcounter.com/" target="_blank" rel="noopener">статистика посещений</a></footer>
 
@@ -53,7 +54,7 @@
 (function(){var root=document.documentElement,btn=document.getElementById("theme-toggle");
 function label(){btn.textContent=root.getAttribute("data-theme")==="dark"?"светлая тема":"тёмная тема"}label();
 btn.addEventListener("click",function(){var next=root.getAttribute("data-theme")==="dark"?"light":"dark";root.setAttribute("data-theme",next);label();try{localStorage.setItem("conspectusTheme",next)}catch(e){}});})();
-(function(){var b=document.querySelector(".links a");if(!b)return;b.addEventListener("click",function(e){var home=new URL("../",location.href).href,r=document.referrer;if(history.length>1&&r&&r.indexOf(home)===0&&r.indexOf("/parallel-")<0){e.preventDefault();history.back()}});})();
+(function(){var b=document.querySelector("[data-up]");if(!b)return;document.querySelectorAll("[data-up]").forEach(function(b){b.addEventListener("click",function(e){var home=new URL("../",location.href).href,r=document.referrer;if(history.length>1&&r&&r.indexOf(home)===0&&r.indexOf("/parallel-")<0){e.preventDefault();history.back()}})});})();
 </script>
 </body>
 </html>

@@ -24,7 +24,7 @@
 <script>(function(){try{var t=localStorage.getItem("conspectusTheme");document.documentElement.setAttribute("data-theme",t||"light")}catch(e){document.documentElement.setAttribute("data-theme","light")}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/site.css">
 <script data-goatcounter="https://vmaiorov.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "82e3760401a547558cc1d22198113255"}'></script>
@@ -32,19 +32,20 @@
 <body>
 <div class="page">
 
-<header class="nav"><div style="display:flex;align-items:center;gap:4px"><a class="mark" href="../index.html" aria-label="Конспекты лекций">К</a><nav class="links"><a href="../index.html#pick">Параллели</a><a href="https://vmaiorov-collab.github.io/">Проекты</a></nav></div><div class="navr"><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button><a class="pill-black" href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">Написать в бот</a></div></header>
+<header class="bar"><a class="word" href="../index.html" data-up>← конспекты<i>/</i></a><nav><a href="../index.html#pick" data-up>параллели</a><a href="https://vmaiorov-collab.github.io/">проекты</a><a href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">бот</a><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button></nav></header>
 
-<section class="hero2">
-  <div class="phl">
-    <span class="chip" style="margin-top:0">Яндекс Кружок · олимпиадное программирование</span>
+<section class="pp">
+  <aside class="pside">
+    <p class="kicker">Яндекс Кружок</p>
+    <div class="bigl">B</div>
     <h1>Параллель B</h1>
     <div class="pmeta"><span>3 занятия</span><a href="https://www.youtube.com/playlist?list=PLfU-HktHP470" target="_blank" rel="noopener">плейлист на YouTube ↗</a></div>
+  </aside>
+  <div>
+    <nav class="lrows"><a class="lr" href="parallel-b-zan1-grafy.html"><span class="ln">01</span><span class="lb"><b>Графы 1</b><span>Обход в глубину: времена входа-выхода, топологическая сортировка, компоненты сильной связности и конденсация. Динамика на деревьях и на DAG. Во второй части — семинар с разбором задач по этой теме.</span></span><span class="ld">≈ 4 ч</span></a><a class="lr" href="parallel-b-zan2-stroki.html"><span class="ln">02</span><span class="lb"><b>Строки 1</b><span>Префикс-функция и алгоритм Кнута–Морриса–Пратта, Z-функция, бор (trie) и бинарный бор. Во второй части — разбор контеста по графам.</span></span><span class="ld">≈ 4 ч 8 мин</span></a><a class="lr" href="parallel-b-zan3-stroki-2.html"><span class="ln">03</span><span class="lb"><b>Строки 2</b><span>Хэширование: хэш-функции, полиномиальные хэши строк, сравнение подстрок, двойной модуль, хэш-таблицы и защита от взлома, парадокс дней рождения, хэши множеств, матриц и деревьев. Затем — разбор контестов по графам (динамика на дереве, ориентации, сжатие таблицы) и по строкам (Z- и префикс-функции, бор).</span></span><span class="ld">≈ 4 ч 20 мин</span></a></nav>
+    <nav class="pnav"><a href="../parallel-ap/index.html"><small>← предыдущая</small><b>Параллель A&#x27;</b></a><a href="../parallel-bp/index.html"><small>следующая →</small><b>Параллель B&#x27;</b></a></nav>
   </div>
 </section>
-
-<nav class="lessons"><a class="lcard" href="parallel-b-zan1-grafy.html"><div class="pills"><b>Занятие 1</b><span>≈ 4 ч</span></div><h3>Графы 1</h3><p>Обход в глубину: времена входа-выхода, топологическая сортировка, компоненты сильной связности и конденсация. Динамика на деревьях и на DAG. Во второй части — семинар с разбором задач по этой теме.</p></a><a class="lcard" href="parallel-b-zan2-stroki.html"><div class="pills"><b>Занятие 2</b><span>≈ 4 ч 8 мин</span></div><h3>Строки 1</h3><p>Префикс-функция и алгоритм Кнута–Морриса–Пратта, Z-функция, бор (trie) и бинарный бор. Во второй части — разбор контеста по графам.</p></a><a class="lcard" href="parallel-b-zan3-stroki-2.html"><div class="pills"><b>Занятие 3</b><span>≈ 4 ч 20 мин</span></div><h3>Строки 2</h3><p>Хэширование: хэш-функции, полиномиальные хэши строк, сравнение подстрок, двойной модуль, хэш-таблицы и защита от взлома, парадокс дней рождения, хэши множеств, матриц и деревьев. Затем — разбор контестов по графам (динамика на дереве, ориентации, сжатие таблицы) и по строкам (Z- и префикс-функции, бор).</p></a></nav>
-
-<nav class="pnav"><a href="../parallel-ap/index.html"><small>← предыдущая</small><b>Параллель A&#x27;</b></a><a href="../parallel-bp/index.html"><small>следующая →</small><b>Параллель B&#x27;</b></a></nav>
 
 <footer class="foot"><a href="https://yandex.ru/yaintern/olympiads/kruzhok">yandex.ru/yaintern/olympiads/kruzhok</a><a href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">идея или ошибка → бот</a><a href="https://vmaiorov-collab.github.io/">все проекты</a><a href="https://vmaiorov.goatcounter.com/" target="_blank" rel="noopener">статистика посещений</a></footer>
 
@@ -53,7 +54,7 @@
 (function(){var root=document.documentElement,btn=document.getElementById("theme-toggle");
 function label(){btn.textContent=root.getAttribute("data-theme")==="dark"?"светлая тема":"тёмная тема"}label();
 btn.addEventListener("click",function(){var next=root.getAttribute("data-theme")==="dark"?"light":"dark";root.setAttribute("data-theme",next);label();try{localStorage.setItem("conspectusTheme",next)}catch(e){}});})();
-(function(){var b=document.querySelector(".links a");if(!b)return;b.addEventListener("click",function(e){var home=new URL("../",location.href).href,r=document.referrer;if(history.length>1&&r&&r.indexOf(home)===0&&r.indexOf("/parallel-")<0){e.preventDefault();history.back()}});})();
+(function(){var b=document.querySelector("[data-up]");if(!b)return;document.querySelectorAll("[data-up]").forEach(function(b){b.addEventListener("click",function(e){var home=new URL("../",location.href).href,r=document.referrer;if(history.length>1&&r&&r.indexOf(home)===0&&r.indexOf("/parallel-")<0){e.preventDefault();history.back()}})});})();
 </script>
 </body>
 </html>

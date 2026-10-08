@@ -101,7 +101,7 @@ def head(title, desc, url, pre, og_title=None):
 {THEME_INIT}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{pre}assets/site.css">
 {TRACK}
 </head>
@@ -142,10 +142,9 @@ SEARCH_ICON = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 cards = ''
 for key, name, badge, _pl in PARALLELS:
     ls = LESSONS[key]
-    items = ''.join(f'<li>{esc(l["title"])}</li>' for l in ls)
-    cards += (f'<a class="pcard" href="parallel-{key}/index.html"><div class="ph"><span class="badge">{esc(badge)}</span>'
-              f'<h3>{esc(name)}</h3></div><ul class="tl">{items}</ul>'
-              f'<div class="pf"><span>{word(len(ls))}</span><em>→</em></div></a>')
+    cards += (f'<a class="row" href="parallel-{key}/index.html"><span class="idx">{esc(badge)}</span>'
+              f'<span class="rb"><b class="rn">{esc(name)}</b><span class="rt">{esc(" · ".join(l["title"] for l in ls))}</span></span>'
+              f'<span class="rc">{word(len(ls))}<i>→</i></span></a>')
 noscript = '<noscript><ul>' + ''.join(
     f'<li>{esc(name)} — ' + ', '.join(f'<a href="{l["href"]}">Занятие {l["n"]}. {esc(l["title"])}</a>' for l in LESSONS[key]) + '</li>'
     for key, name, _b, _p in PARALLELS) + '</ul></noscript>'
@@ -208,39 +207,29 @@ q.addEventListener("input", () => {
 });
 '''
 
-trio = ''.join(f'<div><i>{n}</i>{t}</div>' for n, t in (
-    (TOTAL, 'подробных конспектов с формулами, кодом и разбором задач'),
-    ('▶', 'таймкоды у разделов ведут в видеозапись лекции'),
-    ('↓', 'каждый конспект — один файл, читается офлайн')))
 index = head('Конспекты лекций — Олимпиадное программирование',
              'Подробные автономные конспекты лекций по олимпиадному программированию (Яндекс Кружок): ДП, графы, строки, сортировки, структуры данных. Читаются офлайн в браузере.',
              BASE, '', 'Конспекты лекций — Олимпиадное программирование') + f'''<body>
 <div class="page">
 
-{NAV.format(home="index.html", up="#pick", toggle=TOGGLE)}
+<header class="bar"><a class="word" href="index.html">конспекты<i>/</i></a><nav><a href="#pick">параллели</a><a href="https://vmaiorov-collab.github.io/">проекты</a><a href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">бот</a>{TOGGLE}</nav></header>
 
-<section class="hero2">
-  <div class="hl">
-    <div class="hmain">
-      <span class="chip">Яндекс Кружок · олимпиадное программирование</span>
-      <h1>Конспекты <span class="hi">лекций</span></h1>
-      <p>Формулы, код и разборы задач. Чтобы найти одну идею, не нужно пересматривать четырёхчасовую запись.</p>
-      <div class="sbox"><div class="search"><input id="q" type="search" placeholder="Поиск по темам: хэши, LCA, бор…" autocomplete="off" aria-label="Поиск по лекциям"></div></div>
-    </div>
-    <div class="hstats"><div><b>{TOTAL}</b><span>занятий</span></div><div><b>{len(PARALLELS)}</b><span>параллелей</span></div><div><b>1</b><span>файл на лекцию — читается офлайн</span></div></div>
-  </div>
+<section class="hero">
+  <p class="kicker">Яндекс Кружок · олимпиадное программирование</p>
+  <h1>Конспекты <span class="mk">лекций</span></h1>
+  <p class="lead">Формулы, код и разборы задач. Чтобы найти одну идею, не нужно пересматривать четырёхчасовую запись.</p>
+  <div class="cmd"><span class="pr">&gt;</span><input id="q" type="search" placeholder="найти тему: хэши, LCA, бор…" autocomplete="off" aria-label="Поиск по лекциям"><kbd>/</kbd></div>
 </section>
-<a class="wide" href="#pick">Выбрать параллель</a>
+
+<div class="strip"><div><b>{TOTAL}</b>занятий с формулами и кодом</div><div><b>{len(PARALLELS)}</b>параллелей разной сложности</div><div><b>1 файл</b>на лекцию, читается офлайн</div></div>
 
 <div id="res" class="res" hidden></div>
 <div class="nores" id="nores" hidden>Ничего не найдено.</div>
 
-<div id="pick">
-<h2 class="big">Что внутри</h2>
-<div class="trio">{trio}</div>
-<h2 class="big">Выберите параллель</h2>
-<nav class="pgrid">{cards}</nav>
-</div>
+<section id="pick">
+<h2 class="sec">Параллели</h2>
+<nav class="rows">{cards}</nav>
+</section>
 {noscript}
 
 {ASK}
@@ -254,6 +243,7 @@ index = head('Конспекты лекций — Олимпиадное про�
 /*SECTIONS*/const SECTIONS = {SECTIONS};/*/SECTIONS*/
 {SEARCH_JS}
 {THEME_JS}
+addEventListener("keydown", (e) => {{ if (e.key === "/" && document.activeElement !== q && !e.metaKey && !e.ctrlKey) {{ e.preventDefault(); q.focus(); }} }});
 </script>
 </body>
 </html>
@@ -265,9 +255,9 @@ for i, (key, name, badge, playlist) in enumerate(PARALLELS):
     ls = LESSONS[key]
     desc = f'{name}: ' + ', '.join(l['title'] for l in ls) + '. Конспекты лекций Яндекс Кружка.'
     rows = ''.join(
-        f'<a class="lcard" href="{l["file"]}"><div class="pills"><b>Занятие {l["n"]}</b>'
-        + (f'<span>{esc(l["dur"])}</span>' if l['dur'] else '') + f'</div><h3>{esc(l["title"])}</h3>'
-        + (f'<p>{esc(l["sub"])}</p>' if l['sub'] else '') + '</a>' for l in ls)
+        f'<a class="lr" href="{l["file"]}"><span class="ln">{l["n"]:02d}</span><span class="lb"><b>{esc(l["title"])}</b>'
+        + (f'<span>{esc(l["sub"])}</span>' if l['sub'] else '') + '</span>'
+        + (f'<span class="ld">{esc(l["dur"])}</span>' if l['dur'] else '<span></span>') + '</a>' for l in ls)
     pv = PARALLELS[i - 1] if i else None
     nx = PARALLELS[i + 1] if i < len(PARALLELS) - 1 else None
     prev = f'<a href="../parallel-{pv[0]}/index.html"><small>← предыдущая</small><b>{esc(pv[1])}</b></a>' if pv else '<a class="ph0"></a>'
@@ -275,26 +265,27 @@ for i, (key, name, badge, playlist) in enumerate(PARALLELS):
     page = head(f'{name} — Конспекты лекций', desc, f'{BASE}parallel-{key}/', '../') + f'''<body>
 <div class="page">
 
-{NAV.format(home="../index.html", up="../index.html#pick", toggle=TOGGLE)}
+<header class="bar"><a class="word" href="../index.html" data-up>← конспекты<i>/</i></a><nav><a href="../index.html#pick" data-up>параллели</a><a href="https://vmaiorov-collab.github.io/">проекты</a><a href="https://t.me/conspectus_csbot" target="_blank" rel="noopener">бот</a>{TOGGLE}</nav></header>
 
-<section class="hero2">
-  <div class="phl">
-    <span class="chip" style="margin-top:0">Яндекс Кружок · олимпиадное программирование</span>
+<section class="pp">
+  <aside class="pside">
+    <p class="kicker">Яндекс Кружок</p>
+    <div class="bigl">{esc(badge)}</div>
     <h1>{esc(name)}</h1>
     <div class="pmeta"><span>{word(len(ls))}</span><a href="{playlist}" target="_blank" rel="noopener">плейлист на YouTube ↗</a></div>
+  </aside>
+  <div>
+    <nav class="lrows">{rows}</nav>
+    <nav class="pnav">{prev}{nxt}</nav>
   </div>
 </section>
-
-<nav class="lessons">{rows}</nav>
-
-<nav class="pnav">{prev}{nxt}</nav>
 
 {FOOT}
 
 </div>
 <script>
 {THEME_JS}
-(function(){{var b=document.querySelector(".links a");if(!b)return;b.addEventListener("click",function(e){{var home=new URL("../",location.href).href,r=document.referrer;if(history.length>1&&r&&r.indexOf(home)===0&&r.indexOf("/parallel-")<0){{e.preventDefault();history.back()}}}});}})();
+(function(){{var b=document.querySelector("[data-up]");if(!b)return;document.querySelectorAll("[data-up]").forEach(function(b){{b.addEventListener("click",function(e){{var home=new URL("../",location.href).href,r=document.referrer;if(history.length>1&&r&&r.indexOf(home)===0&&r.indexOf("/parallel-")<0){{e.preventDefault();history.back()}}}})}});}})();
 </script>
 </body>
 </html>
