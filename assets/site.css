@@ -202,3 +202,39 @@ html[data-theme="dark"] .brand i{color:#000}
 .hi{background:linear-gradient(transparent 62%,var(--yellow) 62%,var(--yellow) 94%,transparent 94%)}
 .plug summary::after{border-radius:10px}
 .ask .btn{border-radius:14px}
+
+/* ── тёмная тема, вторая версия: графит, тонкие границы, лайм как единственный акцент ── */
+html[data-theme="dark"]{
+  --bg:#111113; --card:#18191c; --card-hover:#202125; --inner:#0f1012;
+  --ink:#ecece8; --muted:#8f9196; --line:#2a2c31;
+  --btn:#d4f56a; --on-btn:#0e0e0e; --yellow:#d4f56a;
+}
+html[data-theme="dark"] .nav{background:#18191c;border:1px solid var(--line);box-shadow:none}
+html[data-theme="dark"] .links a:hover,html[data-theme="dark"] .nav .theme-toggle:hover{background:#26272b}
+html[data-theme="dark"] .brand i{background:var(--yellow);color:#0e0e0e}
+html[data-theme="dark"] .hl,html[data-theme="dark"] .phl,html[data-theme="dark"] .pcard,html[data-theme="dark"] .trio div,
+html[data-theme="dark"] .lcard,html[data-theme="dark"] .ask,html[data-theme="dark"] .rl,html[data-theme="dark"] .pnav a,
+html[data-theme="dark"] .nores{border:1px solid var(--line)}
+html[data-theme="dark"] .hi{background:none;color:var(--yellow)}
+html[data-theme="dark"] .chip,html[data-theme="dark"] .pmeta span,html[data-theme="dark"] .pmeta a,html[data-theme="dark"] .pills span,
+html[data-theme="dark"] .hstats div,html[data-theme="dark"] .search input,html[data-theme="dark"] .btn2,html[data-theme="dark"] .plug{border:1px solid var(--line)}
+html[data-theme="dark"] .search input:focus{border-color:var(--yellow)}
+html[data-theme="dark"] .btn2:hover,html[data-theme="dark"] .pmeta a:hover{background:#26272b;color:var(--ink)}
+html[data-theme="dark"] .hstats b{color:var(--yellow)}
+/* пастельные плитки и круги → спокойные карточки с лаймовыми деталями */
+html[data-theme="dark"] .trio div:nth-child(n){background:var(--card)}
+html[data-theme="dark"] .trio i{background:var(--yellow);color:#0e0e0e}
+html[data-theme="dark"] .badge{background:transparent!important;border:1.5px solid var(--yellow);color:var(--yellow)}
+html[data-theme="dark"] .pcard:hover .badge{background:var(--yellow)!important;color:#0e0e0e}
+html[data-theme="dark"] .pcard:hover{border-color:#3a3d43}
+html[data-theme="dark"] .pcard .pf em{background:#26272b;color:var(--yellow)}
+html[data-theme="dark"] .pcard:hover .pf em{background:var(--yellow);color:#0e0e0e}
+html[data-theme="dark"] .pills b{background:var(--yellow);color:#0e0e0e}
+html[data-theme="dark"] .lcard:hover{border-color:#3a3d43}
+html[data-theme="dark"] .plug summary::after{background:#26272b;color:var(--yellow)}
+html[data-theme="dark"] .plug summary:hover::after{background:var(--yellow);color:#0e0e0e}
+html[data-theme="dark"] .rh a{background:#26272b}
+html[data-theme="dark"] .rh a:hover{background:var(--yellow);color:#0e0e0e}
+html[data-theme="dark"] mark{background:none;color:var(--yellow)}
+html[data-theme="dark"] .plug pre{background:#0a0a0b;border:1px solid var(--line);color:var(--yellow)}
+html[data-theme="dark"] .plug code{background:#26272b;color:var(--ink)}
