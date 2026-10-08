@@ -439,6 +439,14 @@ export default {
         await handleIdea(await request.json(), env);
         return new Response("ok");
       }
+      if (url.pathname === "/report") {
+        // внутренний вызов от olymp-notes-bots: единый бот показывает и эту статистику
+        if (!env.REPORT_KEY || request.headers.get("X-Report-Key") !== env.REPORT_KEY) {
+          return new Response("forbidden", { status: 403 });
+        }
+        const { view, days } = await request.json();
+        return new Response(await render(env, view, clampDays(days)));
+      }
       if (url.pathname === "/stats") {
         if (request.headers.get("X-Telegram-Bot-Api-Secret-Token") !== env.STATS_WEBHOOK_SECRET) {
           return new Response("forbidden", { status: 403 });
