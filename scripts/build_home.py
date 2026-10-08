@@ -194,7 +194,7 @@ index = head('Конспекты лекций — Олимпиадное про�
 <div class="top"><a class="sitelink" href="https://vmaiorov-collab.github.io/">← На главный сайт</a>{TOGGLE}</div>
 
 <header class="hero">
-  <div class="eyebrow"><i></i>Яндекс Кружок · олимпиадное программирование</div>
+  <div class="eyebrow">Яндекс Кружок · олимпиадное программирование</div>
   <h1>Конспекты <span class="mk">лекций</span></h1>
   <p class="lead">Подробные текстовые конспекты лекций Кружка: формулы, код, разборы задач. Чтобы найти одну идею, не нужно пересматривать четырёхчасовую запись.</p>
   <div class="facts"><span><b>{TOTAL}</b> занятий</span><span><b>{len(PARALLELS)}</b> параллелей</span><span><b>офлайн</b> без интернета</span><span><b>таймкоды</b> ведут в видео</span></div>
@@ -242,8 +242,8 @@ for i, (key, name, badge, playlist) in enumerate(PARALLELS):
 <div class="top"><a class="sitelink" data-up href="../index.html">← Все параллели</a>{TOGGLE}</div>
 
 <header class="phero">
-  <div class="eyebrow"><i></i>Яндекс Кружок · олимпиадное программирование</div>
-  <div class="phead"><span class="badge">{esc(badge)}</span><h1>{esc(name)}</h1></div>
+  <div class="eyebrow">Яндекс Кружок · олимпиадное программирование</div>
+  <div class="phead"><h1>{esc(name)}</h1></div>
   <div class="pmeta"><span>{word(len(ls))}</span><a href="{playlist}" target="_blank" rel="noopener">плейлист на YouTube ↗</a></div>
 </header>
 
