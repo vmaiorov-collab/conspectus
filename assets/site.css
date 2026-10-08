@@ -238,3 +238,10 @@ html[data-theme="dark"] .rh a:hover{background:var(--yellow);color:#0e0e0e}
 html[data-theme="dark"] mark{background:none;color:var(--yellow)}
 html[data-theme="dark"] .plug pre{background:#0a0a0b;border:1px solid var(--line);color:var(--yellow)}
 html[data-theme="dark"] .plug code{background:#26272b;color:var(--ink)}
+
+/* цвет параллели: шапка страницы параллели окрашена её пастелью (в тёмной теме — рамка и акцент) */
+.phl{background:var(--pc,var(--card))}
+.phl .chip,.phl .pmeta span,.phl .pmeta a{background:rgba(255,255,255,.7)}
+html[data-theme="dark"] .phl{background:var(--card);border-color:var(--pc)}
+html[data-theme="dark"] .phl .chip,html[data-theme="dark"] .phl .pmeta span,html[data-theme="dark"] .phl .pmeta a{background:var(--inner)}
+.lcard:hover{box-shadow:inset 0 0 0 2px var(--pc,transparent)}

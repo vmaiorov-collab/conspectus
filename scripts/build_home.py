@@ -17,6 +17,7 @@ import os
 import re
 
 BASE = 'https://vmaiorov-collab.github.io/conspectus/'
+PASTEL = {'a': '#b9e6c9', 'ap': '#ffd3b0', 'b': '#cfe3ff', 'bp': '#e4d6ff', 'c': '#d4f56a'}  # как цвета кружков на главной
 PARALLELS = [  # ключ, название, бейдж, плейлист
     ('a', 'Параллель A', 'A', 'https://www.youtube.com/playlist?list=PLPEbYG2GETx8'),
     ('ap', "Параллель A'", "A'", 'https://www.youtube.com/playlist?list=PLVEPlEFLCYes'),
@@ -273,7 +274,7 @@ for i, (key, name, badge, playlist) in enumerate(PARALLELS):
     prev = f'<a href="../parallel-{pv[0]}/index.html"><small>← предыдущая</small><b>{esc(pv[1])}</b></a>' if pv else '<a class="ph0"></a>'
     nxt = f'<a href="../parallel-{nx[0]}/index.html"><small>следующая →</small><b>{esc(nx[1])}</b></a>' if nx else ''
     page = head(f'{name} — Конспекты лекций', desc, f'{BASE}parallel-{key}/', '../') + f'''<body>
-<div class="page">
+<div class="page" style="--pc:{PASTEL[key]}">
 
 {NAV.format(home="../index.html", up="../index.html#pick", toggle=TOGGLE)}
 
