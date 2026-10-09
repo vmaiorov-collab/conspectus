@@ -103,7 +103,7 @@ def head(title, desc, url, pre, og_title=None, img='og-image.png'):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{pre}assets/site.css">
+<link rel="stylesheet" href="{pre}assets/site.css?v=2">
 {TRACK}
 </head>
 '''
