@@ -159,7 +159,7 @@ async function gcFetchTotal(env, start, end) {
   });
   const data = await res.json();
   if (!res.ok) throw new Error(JSON.stringify(data));
-  return data.stats || [];
+  return data;
 }
 
 function startOfDayUTC(d) {
@@ -233,14 +233,17 @@ async function reportStats(env, days) {
     gcFetchTotal(env, pad(start, -1), pad(end, 1)),
     gcFetchTotal(env, pad(prevStart, -1), pad(prevEnd, 1)),
   ]);
-  const rows = fillDays(cur, start, end);
+  const rows = fillDays(cur.stats || [], start, end);
   const total = rows.reduce((a, s) => a + s.daily, 0);
-  const prevTotal = fillDays(prev, prevStart, prevEnd).reduce((a, s) => a + s.daily, 0);
+  const prevTotal = fillDays(prev.stats || [], prevStart, prevEnd).reduce((a, s) => a + s.daily, 0);
   const avg = rows.length ? total / rows.length : 0;
   const best = rows.reduce((a, b) => (b.daily > a.daily ? b : a), rows[0] || { day: "", daily: 0 });
 
   const lines = [`📊 <b>Статистика conspectus</b> · ${periodLabel(days)}`, ""];
   lines.push(`👥 Визитов: <b>${total}</b>  <i>${delta(total, prevTotal)} к прошлому периоду (${prevTotal})</i>`);
+  // total/total_utc не фильтруются по start/end GoatCounter'ом — это кумулятивный
+  // счётчик уникальных посетителей за всё время трекинга, а не за период.
+  if (cur.total) lines.push(`👤 Пользователей всего: <b>${cur.total}</b>`);
   if (days > 1) {
     lines.push(`📈 В среднем: <b>${avg.toFixed(1)}</b> в день`);
     if (best.daily > 0) lines.push(`🔥 Рекорд: <b>${best.daily}</b> — ${fmtDay(best.day)}`);
