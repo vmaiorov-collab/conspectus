@@ -222,10 +222,13 @@ html[data-theme="dark"] .search input:focus{border-color:var(--yellow)}
 html[data-theme="dark"] .btn2:hover,html[data-theme="dark"] .pmeta a:hover{background:#26272b;color:var(--ink)}
 html[data-theme="dark"] .hstats b{color:var(--yellow)}
 /* пастельные плитки и круги → спокойные карточки с лаймовыми деталями */
-html[data-theme="dark"] .trio div:nth-child(n){background:var(--card)}
-html[data-theme="dark"] .trio i{background:var(--yellow);color:#0e0e0e}
-html[data-theme="dark"] .badge{background:transparent!important;border:1.5px solid var(--yellow);color:var(--yellow)}
-html[data-theme="dark"] .pcard:hover .badge{background:var(--yellow)!important;color:#0e0e0e}
+html[data-theme="dark"] .trio div:nth-child(1){background:#1b2a22;border-color:#2b4638}
+html[data-theme="dark"] .trio div:nth-child(2){background:#2d241a;border-color:#4a3926}
+html[data-theme="dark"] .trio div:nth-child(3){background:#1a2433;border-color:#2b3d57}
+html[data-theme="dark"] .trio div:nth-child(1) i{background:#b9e6c9;color:#0e0e0e}
+html[data-theme="dark"] .trio div:nth-child(2) i{background:#ffd3b0;color:#0e0e0e}
+html[data-theme="dark"] .trio div:nth-child(3) i{background:#cfe3ff;color:#0e0e0e}
+html[data-theme="dark"] .badge{color:#000}
 html[data-theme="dark"] .pcard:hover{border-color:#3a3d43}
 html[data-theme="dark"] .pcard .pf em{background:#26272b;color:var(--yellow)}
 html[data-theme="dark"] .pcard:hover .pf em{background:var(--yellow);color:#0e0e0e}
