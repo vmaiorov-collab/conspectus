@@ -719,21 +719,26 @@ def looks_like_cpp(code: str) -> bool:
     return any(x in code for x in (";", "{", "//", "#include", "cin", "cout"))
 
 
-CODE_WRAP = re.compile(r'<div class="code"><div class="code-head">.*?</div><pre class="hl"><code>(.*?)</code></pre></div>', re.S)
-PLAIN = re.compile(r"<pre><code>(.*?)</code></pre>", re.S)
+CODE_WRAP = re.compile(r'<div class="code"><div class="code-head">.*?</div><pre class="hl"><code(?: data-lang="(\w+)")?>(.*?)</code></pre></div>', re.S)
+PLAIN = re.compile(r'<pre><code(?: data-lang="(\w+)")?>(.*?)</code></pre>', re.S)
+# явная метка языка: <pre><code data-lang="python"> — тогда без подсветки C++ и с нужной подписью
+LANG_LABELS = {"python": "Python", "shell": "терминал", "text": "текст"}
 
 
 def wrap_code(s: str) -> str:
-    def render(raw_html):
+    def render(lang, raw_html):
         code = html.unescape(re.sub(r"<[^>]+>", "", raw_html))
-        cpp = looks_like_cpp(code)
-        body = highlight(code) if cpp else html.escape(code, quote=False)
-        label = "C++" if cpp else "текст"
+        if lang in LANG_LABELS:
+            body, label, attr = html.escape(code, quote=False), LANG_LABELS[lang], f' data-lang="{lang}"'
+        else:
+            cpp = looks_like_cpp(code)
+            body = highlight(code) if cpp else html.escape(code, quote=False)
+            label, attr = ("C++" if cpp else "текст"), ""
         return (f'<div class="code"><div class="code-head"><span>{label}</span>'
                 f'<button class="copy" type="button">копировать</button></div>'
-                f'<pre class="hl"><code>{body}</code></pre></div>')
-    s = CODE_WRAP.sub(lambda m: render(m.group(1)), s)
-    s = PLAIN.sub(lambda m: render(m.group(1)), s)
+                f'<pre class="hl"><code{attr}>{body}</code></pre></div>')
+    s = CODE_WRAP.sub(lambda m: render(m.group(1), m.group(2)), s)
+    s = PLAIN.sub(lambda m: render(m.group(1), m.group(2)), s)
     return s
 
 
