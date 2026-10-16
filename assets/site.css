@@ -136,12 +136,13 @@ mark{background:var(--yellow);color:#000;border-radius:4px;padding:0 2px}
 @media(max-width:860px){
   .hero2{grid-template-columns:1fr}.hr{min-height:240px}
   .trio{grid-template-columns:1fr}
-  .links{display:none}.nav{padding-left:8px}
+  .nav{flex-wrap:wrap;border-radius:26px;padding-left:12px;row-gap:4px}.nav>div:first-child{display:contents!important}
+  .brand{order:1}.navr{display:contents}.pill-black{order:2;margin-left:auto}.links{order:3;flex:1;margin:0;justify-content:space-around;border-top:1px solid var(--card);padding-top:4px}.nav .theme-toggle{order:4;margin-top:4px}
   .big{margin-top:64px}
   .ask{padding:26px}
   .hl,.phl{padding:28px 24px}
 }
-@media(max-width:520px){.page{padding:8px 12px 40px}.wide{padding:20px}.pnav{grid-template-columns:1fr}.pcard h3{max-width:62%}}
+@media(max-width:520px){.nav .theme-toggle{padding:9px 6px;font-size:.84rem}.pill-black{padding:10px 14px;font-size:.84rem}.navr{gap:2px}.page{padding:8px 12px 40px}.wide{padding:20px}.pnav{grid-template-columns:1fr}.pcard h3{max-width:62%}}
 @media print{.nav,.hr,.wide,.search,.ask,.pnav{display:none}}
 
 /* ── вторая итерация: шрифт Onest, герой без картинки ── */
@@ -169,7 +170,7 @@ body{font-feature-settings:"ss01","cv11"}
 .pcard h3,.lcard h3,.ask h3,.rl a.rt,.pnav b{font-weight:700;letter-spacing:-.025em}
 .wide{font-weight:600}
 @media(max-width:860px){.hl{grid-template-columns:1fr;padding:30px 24px}.hstats{grid-template-columns:repeat(3,1fr)}.hstats div{flex-direction:column;gap:6px;padding:16px}}
-@media(max-width:520px){.hstats{grid-template-columns:1fr}.hstats div{flex-direction:row}}
+@media(max-width:520px){.nav .theme-toggle{padding:9px 6px;font-size:.84rem}.pill-black{padding:10px 14px;font-size:.84rem}.navr{gap:2px}.hstats{grid-template-columns:1fr}.hstats div{flex-direction:row}}
 .badge{font-family:var(--display);font-weight:800}
 
 /* ── свой акцент и характер: лайм вместо жёлтого, мягкие радиусы, пастель мята/персик/небо, заголовки слева ── */
