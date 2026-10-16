@@ -243,13 +243,13 @@ def set_iters():
     for k, v in enumerate(vals):
         f.cell(ox + k * cw, 140, v, w=cw - 8, h=40, fill=NODE)
     f.cell(ox + len(vals) * cw, 140, "end", w=cw - 8, h=40, fill=NODE2, stroke=GRID, tcolor=MUTED, size=14)
-    def arrow(k, text, col, dy=0):
+    def arrow(k, text, col, dy=0, anchor="middle", dx=0):
         x = ox + k * cw + (cw - 8) / 2
         f.line(x, 232 + dy, x, 190, stroke=col, sw=3, arrow=True)
-        f.text(x, 254 + dy, text, size=14, fill=col, anchor="middle", weight=700)
+        f.text(x + dx, 254 + dy, text, size=14, fill=col, anchor=anchor, weight=700)
     arrow(0, "begin() — минимум", GREEN)
-    arrow(len(vals) - 1, "prev(end()) — максимум", ORANGE)
-    arrow(len(vals), "end()", MUTED, dy=26)
+    arrow(len(vals) - 1, "prev(end()) — максимум", ORANGE, anchor="end", dx=14)
+    arrow(len(vals), "end()", MUTED, anchor="start", dx=-14)
     arrow(3, "lower_bound(10)", YELLOW)
     f.text(32, 288, "k-й минимум при фиксированном k: держим итератор и сдвигаем его на ±1 при добавлении/удалении;", size=13.5, fill=TEXT2)
     f.text(32, 308, "если удаляется сам элемент под итератором — сначала сдвигаем итератор, потом удаляем.", size=13.5, fill=TEXT2)
@@ -286,7 +286,7 @@ def tangent_path():
     f.node(*B, "B", color=ORANGE, r=15, size=14)
     f.text(cx, cy + 5, "круг", size=15, anchor="middle", fill=MUTED)
     f.text(250, 335, "отрезок AB идти нельзя: он пересекает круг", size=14, fill=RED)
-    f.legend(560, 70 + 20, [(GREEN, "касательные", "line"), (YELLOW, "дуга: Δугла · R", "line"), (RED, "прямой путь — запрещён", "line")], size=13.5, gap=22)
+    f.legend(560, 70 + 20, [(GREEN, "касательные", "line"), (YELLOW, "дуга: угол · R", "line"), (RED, "прямой путь — запрещён", "line")], size=13.5, gap=22)
     return f.svg()
 
 
