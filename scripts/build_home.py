@@ -196,7 +196,7 @@ q.addEventListener("input", () => {
   if (!t) { res.innerHTML = ""; nores.hidden = true; return; }
   let out = "", n = 0;
   DATA.forEach((p) => p.lessons.forEach((l) => {
-    const found = t.length < 2 ? [] : (SECTIONS[l.href] || []).filter(([, title]) => title.toLowerCase().includes(t));
+    const found = t.length < 2 ? [] : (SECTIONS[l.href] || []).filter(([, title, kw]) => title.toLowerCase().includes(t) || (kw || "").includes(t));
     if (!(p.name.toLowerCase().includes(t) || l.title.toLowerCase().includes(t) || found.length)) return;
     n++;
     const seen = new Set();

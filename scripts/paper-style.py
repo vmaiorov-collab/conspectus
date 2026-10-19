@@ -829,11 +829,22 @@ def add_h3_ids(s):
     return H_RE.sub(sub, s)
 
 
+DROP_RE = re.compile(r"<(pre|svg|script|style|math)\b.*?</\1>|<span class=\"katex\".*?</span></span></span>|<[^>]+>", re.S)
+LATIN_RE = re.compile(r"[A-Za-z][A-Za-z0-9+']{2,}")
+
+
 def sections(s):
+    """[id, заголовок, ключевые слова]: латинские термины из прозы раздела (LCA, DSU, RMQ...) — для поиска."""
+    heads = [m for m in H_RE.finditer(s)]
     out = []
-    for tag, _has, hid, body in H_RE.findall(s):
-        if hid and clean(body):
-            out.append([hid, clean(body)])
+    for i, m in enumerate(heads):
+        hid, body = m.group(3), m.group(4)
+        if not (hid and clean(body)):
+            continue
+        end = heads[i + 1].start() if i + 1 < len(heads) else len(s)
+        text = html.unescape(DROP_RE.sub(" ", s[m.end():end]))
+        kw = sorted({w.lower() for w in LATIN_RE.findall(text)})
+        out.append([hid, clean(body), " ".join(kw)])
     return out
 
 
