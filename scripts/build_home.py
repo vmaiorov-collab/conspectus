@@ -262,9 +262,11 @@ index = head('Конспекты лекций — Олимпиадное про�
 open('index.html', 'w', encoding='utf-8').write(index)
 
 DL_JS = r'''(function(){var a=document.getElementById("dl");if(!a)return;var cfg=JSON.parse(a.getAttribute("data-dl")),txt=a.textContent;
+var cache;function get(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.text()})}
+function load(){return cache||(cache=Promise.all([get("index.html"),get("../assets/site.css?v=2")].concat(cfg.lessons.map(function(l){return get(l.f)}))).catch(function(x){cache=null;throw x}))}
+["mouseenter","focus","touchstart"].forEach(function(n){a.addEventListener(n,load,{passive:true,once:true})});
 a.addEventListener("click",function(e){e.preventDefault();if(a.dataset.busy)return;a.dataset.busy=1;a.textContent="собираю…";
-function get(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.text()})}
-Promise.all([get("index.html"),get("../assets/site.css?v=2")].concat(cfg.lessons.map(function(l){return get(l.f)}))).then(function(h){
+load().then(function(h){
 var map={};cfg.lessons.forEach(function(l,i){map[l.f]=i+1});
 var idx=h[0].replace(/<link[^>]*site\.css[^>]*>/,function(){return"<style>"+h[1]+"</style>"})
  .replace(/<script[^>]*\bsrc=[^>]*><\/script>/g,"")
