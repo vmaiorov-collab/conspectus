@@ -268,6 +268,7 @@ Promise.all([get("index.html"),get("../assets/site.css?v=2")].concat(cfg.lessons
 var map={};cfg.lessons.forEach(function(l,i){map[l.f]=i+1});
 var idx=h[0].replace(/<link[^>]*site\.css[^>]*>/,function(){return"<style>"+h[1]+"</style>"})
  .replace(/<script[^>]*\bsrc=[^>]*><\/script>/g,"")
+ .replace(/<link[^>]*(googleapis|gstatic)[^>]*>/g,"")
  .replace("</head>",'<style>#dl,.pnav{display:none!important}</style></head>')
  .replace("</body>",'<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a");if(!a)return;var m='+JSON.stringify(map)+'[a.getAttribute("href")];if(m!=null){e.preventDefault();parent.postMessage({go:m},"*")}});<\/script></body>');
 var tabs=[{t:cfg.name+": начало",h:idx}].concat(cfg.lessons.map(function(l,i){return{t:l.t,h:h[i+2]}}));
