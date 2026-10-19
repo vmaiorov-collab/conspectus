@@ -15,6 +15,7 @@ import html
 import json
 import os
 import re
+import zipfile
 
 BASE = 'https://vmaiorov-collab.github.io/conspectus/'
 PASTEL = {'a': '#b9e6c9', 'ap': '#ffd3b0', 'b': '#cfe3ff', 'bp': '#e4d6ff', 'c': '#d4f56a'}  # как цвета кружков на главной
@@ -269,6 +270,13 @@ for i, (key, name, badge, playlist) in enumerate(PARALLELS):
         f'<a class="lcard" href="{l["file"]}"><div class="pills"><b>Занятие {l["n"]}</b>'
         + (f'<span>{esc(l["dur"])}</span>' if l['dur'] else '') + f'</div><h3>{esc(l["title"])}</h3>'
         + (f'<p>{esc(l["sub"])}</p>' if l['sub'] else '') + '</a>' for l in ls)
+    zip_name = f'parallel-{key}/parallel-{key}.zip'
+    with zipfile.ZipFile(zip_name, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+        for l in ls:  # фиксированные метки времени — архив не меняется без правок лекций
+            zi = zipfile.ZipInfo(l['file'], (2026, 1, 1, 0, 0, 0))
+            zi.compress_type = zipfile.ZIP_DEFLATED
+            z.writestr(zi, open(f'parallel-{key}/{l["file"]}', 'rb').read(), compresslevel=9)
+    zip_mb = f'{os.path.getsize(zip_name) / 1e6:.1f}'.replace('.', ',')
     pv = PARALLELS[i - 1] if i else None
     nx = PARALLELS[i + 1] if i < len(PARALLELS) - 1 else None
     prev = f'<a href="../parallel-{pv[0]}/index.html"><small>← предыдущая</small><b>{esc(pv[1])}</b></a>' if pv else '<a class="ph0"></a>'
@@ -282,7 +290,7 @@ for i, (key, name, badge, playlist) in enumerate(PARALLELS):
   <div class="phl">
     <span class="chip" style="margin-top:0">Яндекс Кружок · олимпиадное программирование</span>
     <h1>{esc(name)}</h1>
-    <div class="pmeta"><span>{word(len(ls))}</span><a href="{playlist}" target="_blank" rel="noopener">плейлист на YouTube ↗</a></div>
+    <div class="pmeta"><span>{word(len(ls))}</span><a href="{playlist}" target="_blank" rel="noopener">плейлист на YouTube ↗</a><a href="parallel-{key}.zip" download>скачать параллель ↓ ({zip_mb} МБ)</a></div>
   </div>
 </section>
 
