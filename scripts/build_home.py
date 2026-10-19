@@ -270,7 +270,8 @@ var idx=h[0].replace(/<link[^>]*site\.css[^>]*>/,function(){return"<style>"+h[1]
  .replace(/<script[^>]*\bsrc=[^>]*><\/script>/g,"")
  .replace(/<link[^>]*(googleapis|gstatic)[^>]*>/g,"")
  .replace("</head>",'<style>#dl,.pnav{display:none!important}</style></head>')
- .replace("</body>",'<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a");if(!a)return;var m='+JSON.stringify(map)+'[a.getAttribute("href")];if(m!=null){e.preventDefault();parent.postMessage({go:m},"*")}});<\/script></body>');
+;
+var k=idx.lastIndexOf("</body>");idx=idx.slice(0,k)+'<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a");if(!a)return;var m='+JSON.stringify(map)+'[a.getAttribute("href")];if(m!=null){e.preventDefault();parent.postMessage({go:m},"*")}});<\/script>'+idx.slice(k);
 var tabs=[{t:cfg.name+": начало",h:idx}].concat(cfg.lessons.map(function(l,i){return{t:l.t,h:h[i+2]}}));
 var data=JSON.stringify(tabs).replace(/</g,"\\u003c");
 var t=cfg.name+" — Конспекты лекций";
