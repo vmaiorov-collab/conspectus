@@ -274,7 +274,7 @@ var idx=h[0].replace(/<link[^>]*site\.css[^>]*>/,function(){return"<style>"+h[1]
  .replace("</head>",'<style>#dl,.pnav,.links,.foot,.pill-black{display:none!important}.brand{pointer-events:none}</style></head>')
 ;
 var k=idx.lastIndexOf("</body>");idx=idx.slice(0,k)+'<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a");if(!a)return;var m='+JSON.stringify(map)+'[a.getAttribute("href")];if(m!=null){e.preventDefault();parent.postMessage({go:m},"*")}});<\/script>'+idx.slice(k);
-function lec(x){var k=x.lastIndexOf("</body>");return x.slice(0,k)+'<style>a.back,a.dl{display:none!important}</style><script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a.sitelink");if(!a)return;e.preventDefault();e.stopPropagation();parent.postMessage({go:0},"*")},true);<\/script>'+x.slice(k)}
+function lec(x){var k=x.lastIndexOf("</body>");return x.slice(0,k)+'<style>a.back,a.dl,.secbtn,.secpanel{display:none!important}</style><script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a.sitelink");if(!a)return;e.preventDefault();e.stopPropagation();parent.postMessage({go:0},"*")},true);<\/script>'+x.slice(k)}
 var tabs=[{t:cfg.name+": начало",h:idx}].concat(cfg.lessons.map(function(l,i){return{t:l.t,h:lec(h[i+2])}}));
 var data=JSON.stringify(tabs).replace(/</g,"\\u003c");
 var t=cfg.name+" — Конспекты лекций";
