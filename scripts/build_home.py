@@ -15,7 +15,6 @@ import html
 import json
 import os
 import re
-import zipfile
 
 BASE = 'https://vmaiorov-collab.github.io/conspectus/'
 PASTEL = {'a': '#b9e6c9', 'ap': '#ffd3b0', 'b': '#cfe3ff', 'bp': '#e4d6ff', 'c': '#d4f56a'}  # как цвета кружков на главной
@@ -262,6 +261,15 @@ index = head('Конспекты лекций — Олимпиадное про�
 '''
 open('index.html', 'w', encoding='utf-8').write(index)
 
+DL_JS = r'''(function(){var a=document.getElementById("dl");if(!a)return;var cfg=JSON.parse(a.getAttribute("data-dl")),txt=a.textContent;
+a.addEventListener("click",function(e){e.preventDefault();if(a.dataset.busy)return;a.dataset.busy=1;a.textContent="собираю…";
+Promise.all(cfg.lessons.map(function(l){return fetch(l.f).then(function(r){if(!r.ok)throw 0;return r.text()})})).then(function(h){
+var data=JSON.stringify(cfg.lessons.map(function(l,i){return{t:l.t,h:h[i]}})).replace(/</g,"\\u003c");
+var t=cfg.name+" — Конспекты лекций";
+var out='<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+t+'</title><style>html,body{margin:0;height:100%}body{display:flex;flex-direction:column;font:14px system-ui,sans-serif;background:#fff}nav{display:flex;gap:6px;padding:8px;overflow-x:auto;flex:none;border-bottom:1px solid #8884;background:#f4f4f4}nav button{font:inherit;padding:6px 12px;border:1px solid #8886;border-radius:8px;background:#fff;color:#111;cursor:pointer;white-space:nowrap}nav button.on{background:#111;color:#fff}iframe{flex:1;border:0;width:100%;display:none}iframe.on{display:block}</style></head><body><nav></nav><script>var L='+data+';var nav=document.querySelector("nav"),fr=[],bt=[];function show(i){for(var k=0;k<L.length;k++){if(fr[k])fr[k].className=k==i?"on":"";bt[k].className=k==i?"on":""}if(!fr[i]){fr[i]=document.createElement("iframe");fr[i].srcdoc=L[i].h;document.body.appendChild(fr[i]);fr[i].className="on"}try{location.hash=i+1}catch(e){}}L.forEach(function(l,i){var b=document.createElement("button");b.textContent=l.t;b.onclick=function(){show(i)};nav.appendChild(b);bt.push(b)});show(Math.max(0,(parseInt(location.hash.slice(1))||1)-1));<\/script></body></html>';
+var u=URL.createObjectURL(new Blob([out],{type:"text/html;charset=utf-8"})),d=document.createElement("a");d.href=u;d.download="parallel-"+cfg.key+".html";document.body.appendChild(d);d.click();d.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);
+}).catch(function(){alert("Не удалось загрузить лекции. Откройте сайт по ссылке (не как файл) и повторите.")}).then(function(){delete a.dataset.busy;a.textContent=txt});});})();'''
+
 # ── страницы параллелей ──
 for i, (key, name, badge, playlist) in enumerate(PARALLELS):
     ls = LESSONS[key]
@@ -270,13 +278,7 @@ for i, (key, name, badge, playlist) in enumerate(PARALLELS):
         f'<a class="lcard" href="{l["file"]}"><div class="pills"><b>Занятие {l["n"]}</b>'
         + (f'<span>{esc(l["dur"])}</span>' if l['dur'] else '') + f'</div><h3>{esc(l["title"])}</h3>'
         + (f'<p>{esc(l["sub"])}</p>' if l['sub'] else '') + '</a>' for l in ls)
-    zip_name = f'parallel-{key}/parallel-{key}.zip'
-    with zipfile.ZipFile(zip_name, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z:
-        for l in ls:  # фиксированные метки времени — архив не меняется без правок лекций
-            zi = zipfile.ZipInfo(l['file'], (2026, 1, 1, 0, 0, 0))
-            zi.compress_type = zipfile.ZIP_DEFLATED
-            z.writestr(zi, open(f'parallel-{key}/{l["file"]}', 'rb').read(), compresslevel=9)
-    zip_mb = f'{os.path.getsize(zip_name) / 1e6:.1f}'.replace('.', ',')
+    dl = html.escape(json.dumps({'name': name, 'key': key, 'lessons': [{'t': f'Занятие {l["n"]}: {l["title"]}', 'f': l['file']} for l in ls]}, ensure_ascii=False), quote=True)
     pv = PARALLELS[i - 1] if i else None
     nx = PARALLELS[i + 1] if i < len(PARALLELS) - 1 else None
     prev = f'<a href="../parallel-{pv[0]}/index.html"><small>← предыдущая</small><b>{esc(pv[1])}</b></a>' if pv else '<a class="ph0"></a>'
@@ -290,7 +292,7 @@ for i, (key, name, badge, playlist) in enumerate(PARALLELS):
   <div class="phl">
     <span class="chip" style="margin-top:0">Яндекс Кружок · олимпиадное программирование</span>
     <h1>{esc(name)}</h1>
-    <div class="pmeta"><span>{word(len(ls))}</span><a href="{playlist}" target="_blank" rel="noopener">плейлист на YouTube ↗</a><a href="parallel-{key}.zip" download>скачать параллель ↓ ({zip_mb} МБ)</a></div>
+    <div class="pmeta"><span>{word(len(ls))}</span><a href="{playlist}" target="_blank" rel="noopener">плейлист на YouTube ↗</a><a href="#" id="dl" data-dl="{dl}">скачать параллель одним файлом ↓</a></div>
   </div>
 </section>
 
@@ -303,6 +305,7 @@ for i, (key, name, badge, playlist) in enumerate(PARALLELS):
 </div>
 <script>
 {THEME_JS}
+{DL_JS}
 (function(){{var b=document.querySelector(".links a");if(!b)return;b.addEventListener("click",function(e){{var home=new URL("../",location.href).href,r=document.referrer;if(history.length>1&&r&&r.indexOf(home)===0&&r.indexOf("/parallel-")<0){{e.preventDefault();history.back()}}}});}})();
 </script>
 </body>
