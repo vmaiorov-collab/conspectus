@@ -531,7 +531,8 @@ html[data-theme] .algo.hs .hs-cell.new{background:var(--f-yellow-bg); border-col
 html[data-theme] .algo.hs .hs-cell.empty{background:none; color:var(--muted)}
 html[data-theme] .algo.hs .hs-msg{color:var(--f-text2)}
 </style>
-<style id="accent">html[data-look="book"]{--acc-l:#0b7a31; --acc-d:#4ec46f}</style>
+<style id="sitecolor">.top .sitelink{background:#d4f56a;border-color:#d4f56a;color:#111!important}.top .sitelink:hover{filter:brightness(.95)}html[data-theme="dark"] .top .sitelink{background:none;border-color:#d4f56a;color:#d4f56a!important}</style>
+<style id="dlstyle">.top{flex-wrap:wrap}.top .dl{margin-left:auto;margin-right:8px;white-space:nowrap}</style><style id="accent">html[data-look="book"]{--acc-l:#0b7a31; --acc-d:#4ec46f}</style>
 <style id="book">
 /* ── палитра книжного вида: холодный стол, белый лист ── */
 html[data-look="book"]{
@@ -798,11 +799,10 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
 }
 </style>
 <script>(function(){try{var l=localStorage.getItem("conspectusLook")||"book";document.documentElement.setAttribute("data-look",l)}catch(e){document.documentElement.setAttribute("data-look","book")}})();</script>
-<style id="sitecolor">.top .sitelink{background:#d4f56a;border-color:#d4f56a;color:#111!important}.top .sitelink:hover{filter:brightness(.95)}html[data-theme="dark"] .top .sitelink{background:none;border-color:#d4f56a;color:#d4f56a!important}</style>
 </head>
 <body>
 <div class="wrap">
-<div class="top"><a class="sitelink" href="index.html">← Параллель C</a><a class="back" href="../index.html">Все параллели</a><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button></div>
+<div class="top"><a class="sitelink" href="index.html">← Параллель C</a><a class="back" href="../index.html">Все параллели</a><a class="back dl" href="parallel-c-zan4-bazovye-struktury.html" download="parallel-c-zan4-bazovye-struktury.html" title="Скачать конспект одним HTML-файлом, откроется без интернета">⬇ Скачать конспект</a><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button></div>
 
 <header class="hero">
   <h1>Занятие 4. Параллель C — Базовые структуры данных</h1>

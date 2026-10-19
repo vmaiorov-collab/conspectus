@@ -890,6 +890,13 @@ def apply(path: Path) -> str:
     s = re.sub(r'<script>\(function\(\)\{var b=document\.getElementById\("look-toggle"\).*?</script>\n', "", s, flags=re.S)
     s = s.replace("</body>", LOOK_JS + "</body>", 1)
 
+    # кнопка «Скачать конспект» (сам файл автономен)
+    if 'class="back dl"' not in s:
+        s = s.replace('<button type="button" id="theme-toggle"',
+                      f'<a class="back dl" href="{path.name}" download="{path.name}" title="Скачать конспект одним HTML-файлом, откроется без интернета">⬇ Скачать конспект</a>'
+                      '<button type="button" id="theme-toggle"', 1)
+        s = s.replace("</head>", '<style id="dlstyle">.top{flex-wrap:wrap}.top .dl{margin-left:auto;margin-right:8px;white-space:nowrap}</style></head>', 1)
+
     s = wrap_code(s)
     s = add_h3_ids(s)
     nav = pager(path)
