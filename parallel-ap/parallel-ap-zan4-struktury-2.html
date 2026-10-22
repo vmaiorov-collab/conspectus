@@ -502,7 +502,8 @@ html[data-theme] .secbtn, html[data-theme] .secpanel{display:none !important}
 .top .sitelink,.top .theme-toggle,.top .look-toggle{padding:5px 14px!important}
 </style>
 <style id="none"></style>
-<style id="accent">html[data-look="book"]{--acc-l:#96149b; --acc-d:#de7ade}</style>
+<style id="sitecolor">.top .sitelink{background:#ffd3b0;border-color:#ffd3b0;color:#111!important}.top .sitelink:hover{filter:brightness(.95)}html[data-theme="dark"] .top .sitelink{background:none;border-color:#ffd3b0;color:#ffd3b0!important}</style>
+<style id="dlstyle">.top{flex-wrap:wrap}.top .dl{margin-left:auto;margin-right:8px;white-space:nowrap}</style><style id="accent">html[data-look="book"]{--acc-l:#96149b; --acc-d:#de7ade}</style>
 <style id="book">
 /* ── палитра книжного вида: холодный стол, белый лист ── */
 html[data-look="book"]{
@@ -769,8 +770,7 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
 }
 </style>
 <script>(function(){try{var l=localStorage.getItem("conspectusLook")||"book";document.documentElement.setAttribute("data-look",l)}catch(e){document.documentElement.setAttribute("data-look","book")}})();</script>
-<style id="sitecolor">.top .sitelink{background:#ffd3b0;border-color:#ffd3b0;color:#111!important}.top .sitelink:hover{filter:brightness(.95)}html[data-theme="dark"] .top .sitelink{background:none;border-color:#ffd3b0;color:#ffd3b0!important}</style>
-<style id="dlstyle">.top{flex-wrap:wrap}.top .dl{margin-left:auto;margin-right:8px;white-space:nowrap}</style></head>
+</head>
 <body>
 <div class="wrap">
 <div class="top"><a class="sitelink" href="index.html">← Параллель A'</a><a class="back" href="../index.html">Все параллели</a><a class="back dl" href="parallel-ap-zan4-struktury-2.html" download="parallel-ap-zan4-struktury-2.html" title="Скачать конспект одним HTML-файлом, откроется без интернета">⬇ Скачать конспект</a><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button></div>
@@ -1432,7 +1432,7 @@ Mod <span class="f">compose</span>(<span class="k">const</span> Mod&amp; f, <spa
 <footer>
   Конспект подготовлен по записи занятия Яндекс кружка. Таймкоды соответствуют исходной видеозаписи. Код на C++ приведён в виде, эквивалентном разобранному на занятии.
 </footer>
-<nav class="pager" aria-label="Соседние занятия"><a class="prev" href="../parallel-ap/parallel-ap-zan3-geometriya-1.html"><small>← занятие 3</small><b>Геометрия 1</b></a><a class="next" href="index.html"><small>к списку</small><b>Параллель A'</b></a></nav>
+<nav class="pager" aria-label="Соседние занятия"><a class="prev" href="../parallel-ap/parallel-ap-zan3-geometriya-1.html"><small>← занятие 3</small><b>Геометрия 1</b></a><a class="next" href="../parallel-ap/parallel-ap-zan5-optimizacii-dp.html"><small>занятие 5 →</small><b>Оптимизации ДП</b></a></nav>
 </div>
 
 <button class="toplink" id="topBtn">↑ наверх</button>
