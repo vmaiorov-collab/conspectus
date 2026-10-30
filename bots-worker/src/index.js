@@ -93,6 +93,9 @@ const PARALLEL_LABELS = {
 
 // Публичный site-код из data-goatcounter на страницах (не секрет).
 const GC_SITE = "vmaiorov";
+// День, когда на сайт поставили GoatCounter (коммит «Add GoatCounter visit
+// statistics»). С него считается «за всё время».
+const GC_TRACKING_START = new Date("2026-09-30T00:00:00Z");
 
 function parallelKey(requestPath) {
   let segs = (requestPath || "/").split("/").filter(Boolean);
@@ -148,8 +151,8 @@ async function gcFetchHits(env, start, limit) {
   return data.hits || [];
 }
 
-// /stats/total: "total"/"total_utc" — это всё-время тотал (не фильтруется по
-// start/end), а по дням в нужном окне нужно суммировать stats[].daily.
+// /stats/total: "total" — посетители за весь запрошенный диапазон start..end
+// (с учётом паддинга, если он есть), stats[].daily — посетители по дням.
 async function gcFetchTotal(env, start, end) {
   const url = new URL(`https://${GC_SITE}.goatcounter.com/api/v0/stats/total`);
   url.searchParams.set("start", start.toISOString());
@@ -229,9 +232,10 @@ async function reportStats(env, days) {
   // GoatCounter обрезает окно по своей таймзоне и теряет край периода, поэтому
   // берём с запасом в сутки с обеих сторон, а нужные дни отбирает fillDays.
   const pad = (d, k) => new Date(d.getTime() + k * 86400000);
-  const [cur, prev] = await Promise.all([
+  const [cur, prev, allTime] = await Promise.all([
     gcFetchTotal(env, pad(start, -1), pad(end, 1)),
     gcFetchTotal(env, pad(prevStart, -1), pad(prevEnd, 1)),
+    gcFetchTotal(env, GC_TRACKING_START, pad(end, 1)),
   ]);
   const rows = fillDays(cur.stats || [], start, end);
   const total = rows.reduce((a, s) => a + s.daily, 0);
@@ -241,9 +245,10 @@ async function reportStats(env, days) {
 
   const lines = [`📊 <b>Статистика conspectus</b> · ${periodLabel(days)}`, ""];
   lines.push(`👥 Визитов: <b>${total}</b>  <i>${delta(total, prevTotal)} к прошлому периоду (${prevTotal})</i>`);
-  // total/total_utc не фильтруются по start/end GoatCounter'ом — это кумулятивный
-  // счётчик уникальных посетителей за всё время трекинга, а не за период.
-  if (cur.total) lines.push(`👤 Пользователей всего: <b>${cur.total}</b>`);
+  // Раньше здесь выводился cur.total — но это посетители за окно с паддингом
+  // ±1 сутки (для «сегодня» = вчера + сегодня), поэтому он был больше «Визитов».
+  // Для «за всё время» делаем отдельный запрос с начала трекинга.
+  if (allTime.total) lines.push(`🌐 Визитов за всё время: <b>${allTime.total}</b>`);
   if (days > 1) {
     lines.push(`📈 В среднем: <b>${avg.toFixed(1)}</b> в день`);
     if (best.daily > 0) lines.push(`🔥 Рекорд: <b>${best.daily}</b> — ${fmtDay(best.day)}`);
