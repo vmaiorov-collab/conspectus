@@ -72,6 +72,42 @@ async function handleIdea(update, env) {
   await tgCall(token, "sendMessage", { chat_id: chatId, text: THANKS });
 }
 
+// ---------- собственный счётчик посетителей (D1) ----------
+// Страницы шлют маячок POST /hit?p=/путь. IP+UA+день+соль → хеш; в D1 хранится
+// только хеш, а не IP. Хеш меняется каждый день (соль — секрет HIT_SALT), поэтому
+// «уникальные за период» = сумма уникальных по дням, а не уникальные за всё время.
+// Считаем с момента подключения маячка; за прошлое данных нет.
+
+async function sha(text) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].slice(0, 12).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function handleHit(request, env) {
+  if (!env.DB || !env.HIT_SALT) return new Response(null, { status: 204 });
+  const url = new URL(request.url);
+  let path = (url.searchParams.get("p") || "/").slice(0, 200);
+  path = path.replace(/\/index\.html$/, "/") || "/";
+  if (!/^[\w\-./%]+$/.test(path)) path = "/";
+  const day = new Date().toISOString().slice(0, 10);
+  const ip = request.headers.get("CF-Connecting-IP") || "";
+  const ua = request.headers.get("User-Agent") || "";
+  const h = await sha(`${env.HIT_SALT}|${day}|${ip}|${ua}`);
+  await env.DB.batch([
+    env.DB.prepare("INSERT INTO hits(day,path,n) VALUES(?,?,1) ON CONFLICT(day,path) DO UPDATE SET n=n+1").bind(day, path),
+    env.DB.prepare("INSERT OR IGNORE INTO visitors(day,h) VALUES(?,?)").bind(day, h),
+  ]);
+  return new Response(null, { status: 204, headers: { "Access-Control-Allow-Origin": "*" } });
+}
+
+// Уникальные посетители по дням из D1: Map день → число.
+async function uniquesByDay(env, from, to) {
+  if (!env.DB || !env.HIT_SALT) return null;
+  const q = await env.DB.prepare("SELECT day, COUNT(*) AS u FROM visitors WHERE day BETWEEN ? AND ? GROUP BY day")
+    .bind(from, to).all();
+  return new Map(q.results.map((r) => [r.day, r.u]));
+}
+
 // ---------- stats-bot ----------
 // /stats, /today, /top — через GoatCounter (основной счётчик, стоит на всех
 // страницах). /parallels дополнительно сверяет с Cloudflare Web Analytics —
@@ -249,6 +285,12 @@ async function reportStats(env, days) {
   // ±1 сутки (для «сегодня» = вчера + сегодня), поэтому он был больше «Визитов».
   // Для «за всё время» делаем отдельный запрос с начала трекинга.
   if (allTime.total) lines.push(`🌐 Визитов за всё время: <b>${allTime.total}</b>`);
+  // Свои уникальные из D1 — с дня подключения маячка (см. handleHit).
+  const uniq = await uniquesByDay(env, start.toISOString().slice(0, 10), end.toISOString().slice(0, 10));
+  if (uniq) {
+    const u = [...uniq.values()].reduce((a, b) => a + b, 0);
+    lines.push(`👤 Посетителей (по дням): <b>${u}</b>`);
+  }
   if (days > 1) {
     lines.push(`📈 В среднем: <b>${avg.toFixed(1)}</b> в день`);
     if (best.daily > 0) lines.push(`🔥 Рекорд: <b>${best.daily}</b> — ${fmtDay(best.day)}`);
@@ -437,8 +479,11 @@ async function handleStats(update, env) {
 
 export default {
   async fetch(request, env) {
-    if (request.method !== "POST") return new Response("ok");
     const url = new URL(request.url);
+    if (url.pathname === "/hit") {
+      try { return await handleHit(request, env); } catch (e) { console.error(e); return new Response(null, { status: 204 }); }
+    }
+    if (request.method !== "POST") return new Response("ok");
     try {
       if (url.pathname === "/idea") {
         if (request.headers.get("X-Telegram-Bot-Api-Secret-Token") !== env.IDEA_WEBHOOK_SECRET) {
