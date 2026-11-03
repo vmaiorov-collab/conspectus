@@ -848,6 +848,32 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
 </figure>
 <p><strong>Сложность.</strong> Двоичный логарифм $\log_2 n$ — это сколько раз $n$ можно поделить пополам, пока не останется $1$. Ровно это и происходит, поэтому вопросов будет $O(\log n)$. Для $n=100$ это $7$ вопросов, для $n=10^5$ — около $17$. Такой алгоритм («делим отрезок пополам и уходим в нужную половину») называется <strong>двоичным</strong>, или <strong>бинарным, поиском</strong>, в обиходе — <strong>бинпоиском</strong>.</p>
 
+<figure class="viz">
+<svg viewBox="0 0 760 240" role="img" aria-label="Вопрос про 30 оставляет в худшем случае 70 чисел, вопрос про 50 — 50" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="240" rx="14" fill="#141a24"/>
+  <line x1="60.0" y1="120.0" x2="700.0" y2="120.0" stroke="#58c4dd" stroke-width="3" />
+  <line x1="60.0" y1="113.0" x2="60.0" y2="127.0" stroke="#58c4dd" stroke-width="2" />
+  <text x="60" y="145" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >1</text>
+  <line x1="247.5" y1="113.0" x2="247.5" y2="127.0" stroke="#58c4dd" stroke-width="2" />
+  <text x="247" y="145" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >30</text>
+  <line x1="376.8" y1="113.0" x2="376.8" y2="127.0" stroke="#58c4dd" stroke-width="2" />
+  <text x="377" y="145" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >50</text>
+  <line x1="700.0" y1="113.0" x2="700.0" y2="127.0" stroke="#58c4dd" stroke-width="2" />
+  <text x="700" y="145" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >100</text>
+  <path d="M60.0,112 Q150.5,42 241.0,112" fill="none" stroke="#ff8c1a" stroke-width="2.5"/>
+  <text x="151" y="66" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ff8c1a" >29 чисел</text>
+  <path d="M253.9,112 Q477.0,2 700.0,112" fill="none" stroke="#ff8c1a" stroke-width="2.5"/>
+  <text x="474" y="48" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ff8c1a" >70 чисел</text>
+  <text x="247" y="100" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#ff8c1a" font-weight="700">30?</text>
+  <path d="M60.0,160 Q215.2,225 370.3,160" fill="none" stroke="#ffff00" stroke-width="2.5"/>
+  <path d="M383.2,160 Q541.6,225 700.0,160" fill="none" stroke="#ffff00" stroke-width="2.5"/>
+  <text x="215" y="215" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ffff00" >49 чисел</text>
+  <text x="542" y="215" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ffff00" >50 чисел</text>
+  <text x="377" y="178" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#ffff00" font-weight="700">50?</text>
+  <text x="560" y="30" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >ответы Алисы:  x &lt; y,  x &gt; y,  x = y</text>
+</svg>
+<figcaption><a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=330" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">5:30</a> Доска (перерисовано): если спросить про 30, в худшем случае останется 70 чисел; про 50 — не больше 50.</figcaption>
+</figure>
 <h2 id="s2">2. Поиск числа в отсортированном массиве <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=516" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">8:36</a></h2>
 <p><strong>Задача.</strong> Дан массив $a_0\le a_1\le\dots\le a_{n-1}$ и число $k$. Нужно найти $k$ в массиве или сказать, что его там нет.</p>
 <p><strong>Идея.</strong> Смотрим на средний элемент $a_m$.</p>
@@ -860,6 +886,41 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
 <p class="algocap">Интерактив: ползунок или ▶ — шаги бинпоиска. L зелёный, R оранжевый, mid жёлтый.</p>
 <p>Один запрос обрабатывается за $O(\log n)$. Это выгодно, когда массив дан один раз, а запросов «есть ли число $k$?» много: $q$ запросов отвечаются за $O(q\log n)$ вместо $O(qn)$.</p>
 
+<figure class="viz">
+<svg viewBox="0 0 760 205" role="img" aria-label="Массив 5 10 12 13 13 14 22 и сравнение середины с k = 15" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="205" rx="14" fill="#141a24"/>
+  <rect x="170" y="60" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="198" y="85" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >5</text>
+  <text x="198" y="118" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >0</text>
+  <rect x="230" y="60" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="258" y="85" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >10</text>
+  <text x="258" y="118" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >1</text>
+  <rect x="290" y="60" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="318" y="85" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >12</text>
+  <text x="318" y="118" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >2</text>
+  <rect x="350" y="60" width="56" height="40" rx="6" fill="#3a3a10" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="378" y="85" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#ffff00" >13</text>
+  <text x="378" y="118" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >3</text>
+  <rect x="410" y="60" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="438" y="85" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >13</text>
+  <text x="438" y="118" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >4</text>
+  <rect x="470" y="60" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="498" y="85" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >14</text>
+  <text x="498" y="118" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >5</text>
+  <rect x="530" y="60" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="558" y="85" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >22</text>
+  <text x="558" y="118" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >6</text>
+  <line x1="378.0" y1="20.0" x2="378.0" y2="50.0" stroke="#ffff00" stroke-width="2.5" />
+  <polygon points="372,48 384,48 378,58" fill="#ffff00"/>
+  <text x="378" y="16" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffff00" >середина m = 3</text>
+  <text x="80" y="85" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#58c4dd" font-weight="700">k = 15</text>
+  <rect x="166" y="54" width="240" height="52" rx="8" fill="none" stroke="#9aa4b2" stroke-dasharray="6 5"/>
+  <text x="290" y="150" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >a[m] = 13 ≤ k → всё левее тоже ≤ k</text>
+  <text x="500" y="150" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167" >ищем справа</text>
+  <text x="380" y="185" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >Сравниваем середину с k: «a[m] &gt; k?» — и одна из половин отпадает</text>
+</svg>
+<figcaption><a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=720" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">12:00</a> Доска (перерисовано): сравниваем середину с $k$ и выбрасываем половину.</figcaption>
+</figure>
 <h2 id="s3">3. Инварианты: как писать бинпоиск без ±1 <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=744" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">12:24</a></h2>
 <p><strong>Инвариант</strong> — свойство, которое остаётся верным на протяжении всего алгоритма. В бинпоиске это утверждение о границах $l$ и $r$.</p>
 <p>Можно хранить отрезок включительно, $[0, n-1]$, но это неудобно: появляются <code>m+1</code>, <code>m-1</code> и легко уйти в бесконечный цикл. Удобнее сделать <strong>одну границу нестрогой, а другую строгой</strong>:</p>
@@ -884,6 +945,46 @@ $a_r&gt;k$ — в правой границе ответ <em>точно не</em
 <div class="warn"><span class="lbl">Важное дополнение</span><br>
 Если границы могут быть больше $10^9$ (например, $r=2\cdot10^9$ или $10^{18}$), используйте <code>long long</code> или считайте середину как <code>l + (r - l) / 2</code>. Для отрицательных границ <code>(l + r) / 2</code> в C++ округляет к нулю, а не вниз. С инвариантом выше это не ломает алгоритм (по-прежнему $l&lt;m&lt;r$), но знать об этом полезно.</div>
 
+<figure class="viz">
+<svg viewBox="0 0 760 210" role="img" aria-label="Левая граница — кандидат, правая — фиктивный элемент за массивом" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="210" rx="14" fill="#141a24"/>
+  <rect x="130" y="70" width="56" height="40" rx="6" fill="#1d3a24" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="158" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >5</text>
+  <text x="158" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >0</text>
+  <rect x="190" y="70" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="218" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >10</text>
+  <text x="218" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >1</text>
+  <rect x="250" y="70" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="278" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >12</text>
+  <text x="278" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >2</text>
+  <rect x="310" y="70" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="338" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >13</text>
+  <text x="338" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >3</text>
+  <rect x="370" y="70" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="398" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >13</text>
+  <text x="398" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >4</text>
+  <rect x="430" y="70" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="458" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >14</text>
+  <text x="458" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >5</text>
+  <rect x="490" y="70" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="518" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >22</text>
+  <text x="518" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >6</text>
+  <rect x="550" y="70" width="56" height="40" rx="6" fill="#3a2614" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="578" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" ></text>
+  <text x="578" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >7</text>
+  <rect x="550" y="70" width="56" height="40" rx="6" fill="#3a2614" stroke="#ff8c1a" stroke-dasharray="5 4"/>
+  <text x="578" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ff8c1a" >n</text>
+  <line x1="158.0" y1="22.0" x2="158.0" y2="60.0" stroke="#83c167" stroke-width="2.5" />
+  <polygon points="152,58 164,58 158,68" fill="#83c167"/>
+  <text x="158" y="18" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167" >L = 0:  a[L] ≤ k</text>
+  <line x1="578.0" y1="22.0" x2="578.0" y2="60.0" stroke="#ff8c1a" stroke-width="2.5" />
+  <polygon points="572,58 584,58 578,68" fill="#ff8c1a"/>
+  <text x="578" y="18" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" >R = n:  a[R] &gt; k</text>
+  <text x="380" y="165" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >while (R − L &gt; 1):  M = (L + R) / 2;   a[M] &gt; k ?  R = M  :  L = M</text>
+  <text x="380" y="192" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >в конце единственный кандидат — L; проверяем a[L] == k</text>
+</svg>
+<figcaption><a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=1110" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">18:30</a> Доска (перерисовано): $L=0$ — кандидат, $R=n$ — фиктивный элемент за массивом.</figcaption>
+</figure>
 <h2 id="s4">4. Когда бинпоиск применим: монотонность <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=1391" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">23:11</a></h2>
 <p>Бинпоиск — мощный и простой алгоритм, но у него есть жёсткое ограничение: функция, по которой мы ищем, должна быть <strong>монотонной</strong>, то есть неубывающей или невозрастающей (строгость не нужна).</p>
 <ul>
@@ -908,21 +1009,78 @@ $a_r&gt;k$ — в правой границе ответ <em>точно не</em
 <p>Не путайте с методами <code>s.lower_bound(k)</code> у <code>set</code>/<code>map</code>: смысл тот же, но синтаксис другой. Свободную функцию <code>std::lower_bound</code> для <code>set</code> вызывать нельзя: она будет работать за линейное время.</p>
 <p>Совет лектора: если задача ровно такая («найти первый $\ge k$», «есть ли $k$»), лучше написать одну строчку из STL, чем свой бинпоиск, где можно ошибиться. Руками бинпоиск пишут, когда нужен нестандартный вариант.</p>
 
+<figure class="viz">
+<svg viewBox="0 0 760 205" role="img" aria-label="lower_bound и upper_bound на массиве для k = 13" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="205" rx="14" fill="#141a24"/>
+  <rect x="170" y="70" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="198" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >5</text>
+  <text x="198" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >0</text>
+  <rect x="230" y="70" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="258" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >10</text>
+  <text x="258" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >1</text>
+  <rect x="290" y="70" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="318" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >12</text>
+  <text x="318" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >2</text>
+  <rect x="350" y="70" width="56" height="40" rx="6" fill="#1d3a24" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="378" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >13</text>
+  <text x="378" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >3</text>
+  <rect x="410" y="70" width="56" height="40" rx="6" fill="#1d3a24" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="438" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >13</text>
+  <text x="438" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >4</text>
+  <rect x="470" y="70" width="56" height="40" rx="6" fill="#3a2614" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="498" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >14</text>
+  <text x="498" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >5</text>
+  <rect x="530" y="70" width="56" height="40" rx="6" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="558" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >22</text>
+  <text x="558" y="128" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >6</text>
+  <line x1="378.0" y1="24.0" x2="378.0" y2="60.0" stroke="#83c167" stroke-width="2.5" />
+  <polygon points="372,58 384,58 378,68" fill="#83c167"/>
+  <text x="378" y="18" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167" >lower_bound(13)</text>
+  <line x1="498.0" y1="24.0" x2="498.0" y2="60.0" stroke="#ff8c1a" stroke-width="2.5" />
+  <polygon points="492,58 504,58 498,68" fill="#ff8c1a"/>
+  <text x="498" y="18" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" >upper_bound(13)</text>
+  <text x="80" y="95" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#58c4dd" font-weight="700">k = 13</text>
+  <text x="380" y="160" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >lower_bound — первый элемент ≥ k,   upper_bound — первый элемент &gt; k</text>
+  <text x="380" y="186" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >число элементов, равных k:  upper − lower = 5 − 3 = 2</text>
+</svg>
+<figcaption><a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=1890" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">31:30</a> Доска (перерисовано): <code>lower_bound</code> и <code>upper_bound</code> для $k=13$.</figcaption>
+</figure>
 <h2 id="s6">6. Вещественный бинпоиск <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=1899" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">31:39</a></h2>
-<p>Бинпоиск работает и тогда, когда всё вещественное: границы, середина, ответ. Пример: найти корень уравнения вида $f(x)=x^2+x+\sqrt x - c=0$ при $x\ge0$. Выводить формулу лень, а бинпоиск написать просто.</p>
-<p><strong>Монотонность.</strong> $x^2$, $x$ и $\sqrt x$ возрастают на $[0,+\infty)$, и сумма возрастающих функций с положительными коэффициентами тоже возрастает. Значит, корень единственный, и его можно искать бинпоиском.</p>
-<p><strong>Границы.</strong> Строгие инварианты здесь не нужны: нам достаточно найти ответ с нужной точностью. Достаточно, чтобы корень лежал между $l$ и $r$: например, $l=0$, $r=10^9$.</p>
+<p>Бинпоиск работает и тогда, когда всё вещественное: границы, середина, ответ. Пример <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=1984" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">33:04</a>: найти корень уравнения $28x^2+7x+33\sqrt[6]{x}=0$ (так на доске). Выводить формулу лень, а бинпоиск написать просто: «когда вам лень выводить формулу, часто можно просто применить бинпоиск».</p>
+<div class="note"><span class="lbl">Исправление</span><br>При $x\ge0$ все три слагаемых неотрицательны, поэтому у уравнения с нулём справа единственный корень $x=0$, и искать его бинпоиском неинтересно. Осмысленная постановка — решить $28x^2+7x+33\sqrt[6]{x}=c$ для данного $c\ge0$, то есть найти ноль функции $f(x)=28x^2+7x+33\sqrt[6]{x}-c$. Так и написан код ниже.</div>
+<p><strong>Монотонность.</strong> $x^2$, $x$ и $\sqrt[6]{x}$ возрастают на $[0,+\infty)$, и сумма возрастающих функций с положительными коэффициентами тоже возрастает. Значит, корень единственный, и его можно искать бинпоиском.</p>
+<p><strong>Границы.</strong> Строгие инварианты здесь не нужны: нам достаточно найти ответ с нужной точностью. Достаточно, чтобы корень лежал между $l$ и $r$: например, $l=0$, $r=10^9$ (на доске — <code>double L = 0, R = 1e9</code>).</p>
 <p><strong>Условие остановки.</strong> Хочется написать <code>while (r - l &gt; eps)</code>, но это ненадёжно. Иногда нужна относительная точность, а не абсолютная, а из-за ошибок округления цикл может даже стать бесконечным: при больших $l, r$ соседние числа типа <code>double</code> отличаются больше чем на <code>eps</code>. Надёжнее сделать <strong>фиксированное число итераций</strong>: каждая делит отрезок пополам, и после $100$ итераций он уменьшится в $2^{100}$ раз.</p>
-<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">double</span> <span class="f">f</span>(<span class="t">double</span> x) { <span class="k">return</span> x * x + x + <span class="f">sqrt</span>(x) - c; }   <span class="c">// возрастает при x &gt;= 0</span>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">double</span> <span class="f">f</span>(<span class="t">double</span> x) { <span class="k">return</span> <span class="n">28</span> * x * x + <span class="n">7</span> * x + <span class="n">33</span> * <span class="f">pow</span>(x, <span class="n">1.0</span> / <span class="n">6</span>) - c; }   <span class="c">// возрастает при x &gt;= 0</span>
 
 <span class="t">double</span> l = <span class="n">0</span>, r = <span class="n">1e9</span>;                 <span class="c">// f(l) &lt;= 0 &lt;= f(r)</span>
-<span class="k">for</span> (<span class="t">int</span> it = <span class="n">0</span>; it &lt; <span class="n">100</span>; ++it) {     <span class="c">// фиксированное число итераций вместо r - l &gt; eps</span>
+<span class="k">for</span> (<span class="t">int</span> it = <span class="n">0</span>; it &lt; <span class="n">100</span>; ++it) {     <span class="c">// MAX_ITER = 100 — фиксированное число итераций вместо r - l &gt; eps</span>
     <span class="t">double</span> m = (l + r) / <span class="n">2</span>;
     <span class="k">if</span> (<span class="f">f</span>(m) &gt; <span class="n">0</span>) r = m;               <span class="c">// корень левее m</span>
     <span class="k">else</span>          l = m;               <span class="c">// корень не левее m</span>
 }
 <span class="c">// ответ ≈ l (или (l + r) / 2)</span></code></pre></div>
 
+<figure class="viz">
+<svg viewBox="0 0 760 262" role="img" aria-label="Вещественный бинпоиск по возрастающей функции" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="262" rx="14" fill="#141a24"/>
+  <line x1="80.0" y1="190.0" x2="680.0" y2="190.0" stroke="#9aa4b2" stroke-width="1.5" />
+  <line x1="90.0" y1="40.0" x2="90.0" y2="200.0" stroke="#9aa4b2" stroke-width="1.5" />
+  <polyline points="90.0,172.0 99.3,153.3 108.7,150.5 118.0,148.5 127.3,146.8 136.7,145.2 146.0,143.8 155.3,142.4 164.7,141.1 174.0,139.8 183.3,138.5 192.7,137.1 202.0,135.8 211.3,134.5 220.7,133.2 230.0,131.8 239.3,130.4 248.7,129.0 258.0,127.6 267.3,126.2 276.7,124.7 286.0,123.2 295.3,121.7 304.7,120.1 314.0,118.5 323.3,116.9 332.7,115.3 342.0,113.6 351.3,111.9 360.7,110.2 370.0,108.4 379.3,106.6 388.7,104.8 398.0,102.9 407.3,101.1 416.7,99.1 426.0,97.2 435.3,95.2 444.7,93.2 454.0,91.1 463.3,89.0 472.7,86.9 482.0,84.7 491.3,82.5 500.7,80.3 510.0,78.1 519.3,75.8 528.7,73.4 538.0,71.1 547.3,68.7 556.7,66.2 566.0,63.8 575.3,61.3 584.7,58.7 594.0,56.2 603.3,53.6 612.7,50.9 622.0,48.2 631.3,45.5 640.7,42.8 650.0,40.0" fill="none" stroke="#58c4dd" stroke-width="3"/>
+  <line x1="80.0" y1="82.1" x2="680.0" y2="82.1" stroke="#fc6255" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="700" y="87" text-anchor="start" font-family="sans-serif" font-size="15" fill="#fc6255" >c</text>
+  <text x="250" y="40" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#58c4dd" >f(x) = 28x² + 7x + 33·⁶√x</text>
+  <line x1="90.0" y1="186.0" x2="90.0" y2="194.0" stroke="#83c167" stroke-width="3" />
+  <text x="90" y="214" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167" >l = 0</text>
+  <line x1="650.0" y1="186.0" x2="650.0" y2="194.0" stroke="#ff8c1a" stroke-width="3" />
+  <text x="650" y="214" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" >r = 10⁹</text>
+  <line x1="370.0" y1="186.0" x2="370.0" y2="194.0" stroke="#ffff00" stroke-width="3" />
+  <text x="370" y="214" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ffff00" >m</text>
+  <circle cx="370.0" cy="108.4" r="5" fill="#ffff00"/>
+  <text x="380" y="245" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >здесь f(m) &lt; c → корень правее m: l = m (иначе r = m).  100 итераций вместо while (r − l &gt; eps)</text>
+</svg>
+<figcaption><a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=2310" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">38:30</a> Доска (перерисовано): вещественный бинпоиск по возрастающей функции.</figcaption>
+</figure>
 <h2 id="s7">7. Бинпоиск по ответу: минимальное время производства <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=2314" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">38:34</a></h2>
 <p><strong>Идея бинпоиска по ответу.</strong> Вместо того чтобы искать элемент массива, перебираем бинпоиском <em>сам ответ</em> и для каждого кандидата быстро проверяем, подходит ли он. Пусть $\mathrm{check}(x)$ возвращает true или false. Если при поиске минимума все маленькие $x$ не подходят, а начиная с некоторого подходят все, то последовательность ответов выглядит как F…FT…T, и нужно найти первое T. При поиске максимума наоборот: T…TF…F, нужно найти последнее T.</p>
 <figure class="viz">
@@ -1056,16 +1214,16 @@ $$m_1=l+\frac{r-l}{3},\qquad m_2=r-\frac{r-l}{3}.$$
 </svg>
 <figcaption>Тернарный поиск минимума: если в $m_2$ значение больше, чем в $m_1$, минимума правее $m_2$ нет.</figcaption>
 </figure>
-<p><strong>Целочисленный вариант.</strong> Когда отрезок становится совсем коротким (несколько точек), трети вырождаются. Поэтому цикл крутим, пока длина больше двух-трёх, а оставшиеся точки перебираем вручную. <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=3977" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:06:17</a></p>
+<p><strong>Целочисленный вариант.</strong> Когда отрезок становится совсем коротким (несколько точек), трети вырождаются. Поэтому цикл крутим, пока <code>r - l &gt; 3</code> (так на доске), а оставшиеся несколько точек перебираем вручную циклом <code>for (l..r)</code>. <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=3977" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:06:17</a></p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// минимум унимодальной f на целых точках [l, r]</span>
 <span class="t">long</span> <span class="t">long</span> l = <span class="n">0</span>, r = INF;
-<span class="k">while</span> (r - l &gt; <span class="n">2</span>) {
+<span class="k">while</span> (r - l &gt; <span class="n">3</span>) {
     <span class="t">long</span> <span class="t">long</span> m1 = l + (r - l) / <span class="n">3</span>;
     <span class="t">long</span> <span class="t">long</span> m2 = r - (r - l) / <span class="n">3</span>;
     <span class="k">if</span> (<span class="f">f</span>(m1) &lt;= <span class="f">f</span>(m2)) r = m2;    <span class="c">// правее m2 минимума нет</span>
     <span class="k">else</span>                l = m1;    <span class="c">// левее m1 минимума нет</span>
 }
-<span class="t">long</span> <span class="t">long</span> best = l;                <span class="c">// осталось не больше трёх точек — перебираем</span>
+<span class="t">long</span> <span class="t">long</span> best = l;                <span class="c">// осталось не больше четырёх точек — перебираем</span>
 <span class="k">for</span> (<span class="t">long</span> <span class="t">long</span> x = l + <span class="n">1</span>; x &lt;= r; ++x)
     <span class="k">if</span> (<span class="f">f</span>(x) &lt; <span class="f">f</span>(best)) best = x;</code></pre></div>
 <div class="note"><span class="lbl">Важное дополнение</span><br>
@@ -1078,9 +1236,56 @@ $$m_1=l+\frac{r-l}{3},\qquad m_2=r-\frac{r-l}{3}.$$
     <span class="k">else</span>               l = m1;
 }
 <span class="c">// минимум ≈ f(l)</span></code></pre></div>
-<p><strong>Пример с максимумом</strong> <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=4556" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:15:56</a>. Дано $S$. Найти неотрицательные $x, y$ с $x+y=S$ и максимальным произведением $xy$. Выражаем $y=S-x$, тогда $f(x)=x(S-x)$ — парабола ветвями вниз, унимодальная с максимумом. В тернарном поиске знак сравнения меняется на противоположный: если $f(m_1)&gt;f(m_2)$, то правее $m_2$ максимума нет, и $r=m_2$, иначе $l=m_1$. (Ответ, конечно, $x=y=S/2$, но пример показывает механику.)</p>
-<div class="note"><span class="lbl">Собственный пример</span><br>
-На лекции начали разбирать задачу про верёвки и по ходу заметили, что это бинпоиск, а не тернарник. Условие: есть $n$ верёвок длин $a_i$, нужно нарезать из них $k$ кусков одинаковой длины $x$ (остатки выбрасываются), $x$ максимально. Чем больше $x$, тем меньше кусков: $\mathrm{cnt}(x)=\sum_i\lfloor a_i/x\rfloor$ не возрастает. Значит, $\mathrm{check}(x)=[\mathrm{cnt}(x)\ge k]$ имеет вид T…TF…F — классический бинпоиск по ответу на максимум, как в задаче о коровах.</div>
+<figure class="viz">
+<svg viewBox="0 0 760 262" role="img" aria-label="Расстояние от P до точки отрезка AB — унимодальная функция" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="262" rx="14" fill="#141a24"/>
+  <line x1="150.0" y1="80.0" x2="330.0" y2="215.0" stroke="#9aa4b2" stroke-width="1.2" />
+  <line x1="150.0" y1="80.0" x2="341.7" y2="185.0" stroke="#9aa4b2" stroke-width="1.2" />
+  <line x1="150.0" y1="80.0" x2="353.3" y2="155.0" stroke="#9aa4b2" stroke-width="1.2" />
+  <line x1="150.0" y1="80.0" x2="365.0" y2="125.0" stroke="#9aa4b2" stroke-width="1.2" />
+  <line x1="150.0" y1="80.0" x2="376.7" y2="95.0" stroke="#9aa4b2" stroke-width="1.2" />
+  <line x1="150.0" y1="80.0" x2="388.3" y2="65.0" stroke="#9aa4b2" stroke-width="1.2" />
+  <line x1="150.0" y1="80.0" x2="400.0" y2="35.0" stroke="#9aa4b2" stroke-width="1.2" />
+  <line x1="330.0" y1="215.0" x2="400.0" y2="35.0" stroke="#58c4dd" stroke-width="3" />
+  <line x1="150.0" y1="80.0" x2="352.0" y2="158.5" stroke="#ffff00" stroke-width="2.5" />
+  <circle cx="150" cy="80" r="5" fill="#fc6255"/>
+  <text x="134" y="85" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#fc6255" >P</text>
+  <text x="324" y="237" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#58c4dd" >A</text>
+  <text x="408" y="29" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#58c4dd" >B</text>
+  <circle cx="352.0" cy="158.5" r="4" fill="#ffff00"/>
+  <line x1="500.0" y1="200.0" x2="730.0" y2="200.0" stroke="#9aa4b2" stroke-width="1.5" />
+  <line x1="500.0" y1="200.0" x2="500.0" y2="40.0" stroke="#9aa4b2" stroke-width="1.5" />
+  <polyline points="500.0,151.1 505.5,155.5 511.0,159.5 516.5,163.1 522.0,166.5 527.5,169.4 533.0,172.0 538.5,174.3 544.0,176.2 549.5,177.7 555.0,178.8 560.5,179.6 566.0,180.0 571.5,180.0 577.0,179.6 582.5,178.9 588.0,177.8 593.5,176.3 599.0,174.5 604.5,172.3 610.0,169.7 615.5,166.8 621.0,163.5 626.5,159.8 632.0,155.8 637.5,151.5 643.0,146.9 648.5,141.9 654.0,136.5 659.5,130.9 665.0,125.0 670.5,118.7 676.0,112.2 681.5,105.3 687.0,98.2 692.5,90.8 698.0,83.2 703.5,75.3 709.0,67.1 714.5,58.7 720.0,50.0" fill="none" stroke="#83c167" stroke-width="3"/>
+  <text x="504" y="34" text-anchor="start" font-family="sans-serif" font-size="13" fill="#83c167" >|PX|</text>
+  <text x="500" y="218" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >A</text>
+  <text x="720" y="218" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >B</text>
+  <text x="380" y="248" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >X идёт от A к B: |PX| сначала убывает до перпендикуляра, потом растёт — унимодальна</text>
+</svg>
+<figcaption><a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=4380" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:13:00</a> Доска (перерисовано): расстояние от $P$ до точки отрезка $AB$ унимодально.</figcaption>
+</figure>
+<p><strong>Задача про верёвки</strong> <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=4408" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:13:28</a>. Есть $n$ верёвок длин $a_i$ и число $k$. Нужно нарезать из них $k$ кусков одинаковой длины $x$ (лишние хвостики выбрасываются), причём $x$ должно быть максимальным. Её начали разбирать как пример на тернарный поиск, но по ходу лектор заметила, что это бинпоиск: чем больше $x$, тем меньше кусков, $\mathrm{cnt}(x)=\sum_i\lfloor a_i/x\rfloor$ не возрастает, и «если подходит какое-то $x$, то подходит и любое меньшее». Значит, $\mathrm{check}(x)=[\mathrm{cnt}(x)\ge k]$ имеет вид T…TF…F — бинпоиск по ответу на максимум, как в задаче о коровах.</p>
+<figure class="viz">
+<svg viewBox="0 0 760 232" role="img" aria-label="Нарезка верёвок длин 9, 5, 7 на куски длины 3" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="232" rx="14" fill="#141a24"/>
+  <text x="60" y="58" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >a1 = 9</text>
+  <rect x="110" y="40" width="116" height="26" rx="5" fill="#83c167"/>
+  <rect x="230" y="40" width="116" height="26" rx="5" fill="#83c167"/>
+  <rect x="350" y="40" width="116" height="26" rx="5" fill="#83c167"/>
+  <text x="60" y="108" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >a2 = 5</text>
+  <rect x="110" y="90" width="116" height="26" rx="5" fill="#83c167"/>
+  <rect x="230" y="90" width="76" height="26" rx="5" fill="none" stroke="#9aa4b2" stroke-dasharray="4 4"/>
+  <text x="60" y="158" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >a3 = 7</text>
+  <rect x="110" y="140" width="116" height="26" rx="5" fill="#83c167"/>
+  <rect x="230" y="140" width="116" height="26" rx="5" fill="#83c167"/>
+  <rect x="350" y="140" width="36" height="26" rx="5" fill="none" stroke="#9aa4b2" stroke-dasharray="4 4"/>
+  <text x="600" y="70" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#ffff00" font-weight="700">x = 3</text>
+  <text x="600" y="100" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >3 + 1 + 2 = 6 кусков</text>
+  <text x="600" y="125" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >хвостики — в отходы</text>
+  <text x="380" y="215" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >cnt(x) = Σ ⌊aᵢ / x⌋ не возрастает: если подходит x, подходит и любое меньшее — бинпоиск</text>
+</svg>
+<figcaption><a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=4560" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:16:00</a> Доска (перерисовано): верёвки $9, 5, 7$ режем на куски длины $3$.</figcaption>
+</figure>
+<div class="note"><span class="lbl">Собственный пример</span><br>Код на лекции не писали; вот как он выглядит.</div>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// максимальная целая длина куска; l = 0 считаем «да» (кусок нулевой длины — вырожденный случай)</span>
 <span class="t">long</span> <span class="t">long</span> l = <span class="n">0</span>, r = *<span class="f">max_element</span>(a.<span class="f">begin</span>(), a.<span class="f">end</span>()) + <span class="n">1</span>;   <span class="c">// check(r) = false</span>
 <span class="k">while</span> (r - l &gt; <span class="n">1</span>) {
@@ -1089,7 +1294,29 @@ $$m_1=l+\frac{r-l}{3},\qquad m_2=r-\frac{r-l}{3}.$$
     <span class="k">if</span> (cnt &gt;= k) l = m; <span class="k">else</span> r = m;
 }
 <span class="c">// ответ — l (0, если даже кусок длины 1 нарезать k раз нельзя)</span></code></pre></div>
+<p><strong>Пример с максимумом</strong> <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=4556" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:15:56</a>. Дано $S$. Найти неотрицательные $x, y$ с $x+y=S$ и максимальным произведением $xy$. Выражаем $y=S-x$, тогда $f(x)=x(S-x)$ — парабола ветвями вниз, унимодальная с максимумом. В тернарном поиске знак сравнения меняется на противоположный: если $f(m_1)&gt;f(m_2)$, то правее $m_2$ максимума нет, и $r=m_2$, иначе $l=m_1$. (Ответ, конечно, $x=y=S/2$, но пример показывает механику.)</p>
 
+
+<figure class="viz">
+<svg viewBox="0 0 760 266" role="img" aria-label="Парабола x(S − x) и две точки тернарного поиска" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="266" rx="14" fill="#141a24"/>
+  <line x1="80.0" y1="200.0" x2="680.0" y2="200.0" stroke="#9aa4b2" stroke-width="1.5" />
+  <polyline points="100.0,200.0 109.0,189.5 118.0,179.4 127.0,169.6 136.0,160.2 145.0,151.1 154.0,142.4 163.0,134.0 172.0,126.0 181.0,118.4 190.0,111.1 199.0,104.2 208.0,97.6 217.0,91.4 226.0,85.5 235.0,80.0 244.0,74.8 253.0,70.0 262.0,65.6 271.0,61.5 280.0,57.8 289.0,54.4 298.0,51.4 307.0,48.7 316.0,46.4 325.0,44.4 334.0,42.8 343.0,41.6 352.0,40.7 361.0,40.2 370.0,40.0 379.0,40.2 388.0,40.7 397.0,41.6 406.0,42.8 415.0,44.4 424.0,46.4 433.0,48.7 442.0,51.4 451.0,54.4 460.0,57.8 469.0,61.5 478.0,65.6 487.0,70.0 496.0,74.8 505.0,80.0 514.0,85.5 523.0,91.4 532.0,97.6 541.0,104.2 550.0,111.1 559.0,118.4 568.0,126.0 577.0,134.0 586.0,142.4 595.0,151.1 604.0,160.2 613.0,169.6 622.0,179.4 631.0,189.5 640.0,200.0" fill="none" stroke="#58c4dd" stroke-width="3"/>
+  <line x1="280.0" y1="200.0" x2="280.0" y2="57.8" stroke="#83c167" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <circle cx="280.0" cy="57.8" r="5" fill="#83c167"/>
+  <text x="280" y="220" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167" >mid₁</text>
+  <line x1="460.0" y1="200.0" x2="460.0" y2="57.8" stroke="#ff8c1a" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <circle cx="460.0" cy="57.8" r="5" fill="#ff8c1a"/>
+  <text x="460" y="220" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" >mid₂</text>
+  <circle cx="370" cy="40" r="5" fill="#ffff00"/>
+  <text x="370" y="28" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ffff00" >max при x = S/2</text>
+  <text x="100" y="220" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >0</text>
+  <text x="640" y="220" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >S</text>
+  <text x="560" y="70" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#58c4dd" >f(x) = x · (S − x)</text>
+  <text x="380" y="250" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >на максимум знак наоборот: f(mid₁) &gt; f(mid₂) → r = mid₂, иначе l = mid₁</text>
+</svg>
+<figcaption><a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=4800" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:20:00</a> Доска (перерисовано): $f(x)=x(S-x)$ и точки тернарного поиска.</figcaption>
+</figure>
 <h2 id="s11">11. Разбор контеста по жадным алгоритмам <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=4834" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:20:34</a></h2>
 
 <h3 id="s11-1">A. Максимум непересекающихся полуинтервалов</h3>
@@ -1108,10 +1335,72 @@ $$m_1=l+\frac{r-l}{3},\qquad m_2=r-\frac{r-l}{3}.$$
 <p>Мальчик активен, если по обе стороны от него девочки. Девочка активна, если с одной стороны от неё девочка, а с другой мальчик. Нужно рассадить детей, чтобы активных было как можно больше.</p>
 <p><strong>Наблюдение.</strong> По кругу чередуются группы мальчиков и группы девочек. В группе мальчиков активен только мальчик, сидящий один. В группе девочек одна девочка неактивна (вокруг два мальчика), а в группе из $\ge2$ девочек активны ровно две крайние. Значит, мальчиков ставить рядом бессмысленно, а девочек выгодно ставить парами: «М Д Д М Д Д …», пока возможно. Остаётся аккуратно разобрать хвост из одного-двух детей.</p>
 
+<figure class="viz">
+<svg viewBox="0 0 760 240" role="img" aria-label="Рассадка М Д Д по кругу, при которой все дети активны" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="240" rx="14" fill="#141a24"/>
+  <circle cx="200" cy="130" r="85" fill="none" stroke="#9aa4b2" stroke-dasharray="4 5"/>
+  <circle cx="200.0" cy="45.0" r="17" fill="#58c4dd" stroke="#ffff00" stroke-width="3"/>
+  <text x="200" y="50" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#141a24" font-weight="700">М</text>
+  <circle cx="254.6" cy="64.9" r="17" fill="#c78bff" stroke="#ffff00" stroke-width="3"/>
+  <text x="255" y="70" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#141a24" font-weight="700">Д</text>
+  <circle cx="283.7" cy="115.2" r="17" fill="#c78bff" stroke="#ffff00" stroke-width="3"/>
+  <text x="284" y="120" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#141a24" font-weight="700">Д</text>
+  <circle cx="273.6" cy="172.5" r="17" fill="#58c4dd" stroke="#ffff00" stroke-width="3"/>
+  <text x="274" y="178" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#141a24" font-weight="700">М</text>
+  <circle cx="229.1" cy="209.9" r="17" fill="#c78bff" stroke="#ffff00" stroke-width="3"/>
+  <text x="229" y="215" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#141a24" font-weight="700">Д</text>
+  <circle cx="170.9" cy="209.9" r="17" fill="#c78bff" stroke="#ffff00" stroke-width="3"/>
+  <text x="171" y="215" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#141a24" font-weight="700">Д</text>
+  <circle cx="126.4" cy="172.5" r="17" fill="#58c4dd" stroke="#ffff00" stroke-width="3"/>
+  <text x="126" y="178" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#141a24" font-weight="700">М</text>
+  <circle cx="116.3" cy="115.2" r="17" fill="#c78bff" stroke="#ffff00" stroke-width="3"/>
+  <text x="116" y="120" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#141a24" font-weight="700">Д</text>
+  <circle cx="145.4" cy="64.9" r="17" fill="#c78bff" stroke="#ffff00" stroke-width="3"/>
+  <text x="145" y="70" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#141a24" font-weight="700">Д</text>
+  <text x="200" y="135" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ffff00" >все активны</text>
+  <text x="330" y="50" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1" >Мальчик активен:</text>
+  <text x="500" y="50" text-anchor="start" font-family="sans-serif" font-size="15" fill="#58c4dd" font-weight="700">Д М Д</text>
+  <text x="330" y="85" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1" >Девочка активна:</text>
+  <text x="500" y="85" text-anchor="start" font-family="sans-serif" font-size="15" fill="#c78bff" font-weight="700">М Д Д  или  Д Д М</text>
+  <text x="330" y="135" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1" >Выгодно: «М Д Д М Д Д …» —</text>
+  <text x="330" y="158" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1" >мальчиков поодиночке, девочек парами,</text>
+  <text x="330" y="181" text-anchor="start" font-family="sans-serif" font-size="13" fill="#9aa4b2" >отдельно разобрать хвост из 1–2 детей</text>
+</svg>
+<figcaption><a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=5100" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:25:00</a> Доска (перерисовано): рассадка «М Д Д» по кругу, при которой активны все.</figcaption>
+</figure>
 <h3 id="s11-4">D. Заправки <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=5205" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:26:45</a></h3>
 <p>Бак вмещает $k$ литров (литр = километр). Заправки на расстояниях $a_1&lt;a_2&lt;\dots&lt;a_n$ от старта, нужно доехать до пункта $B$ с минимальным числом остановок или вывести $-1$.</p>
 <p><strong>Жадность:</strong> заправляться как можно позже. С полного бака доезжаем до самой дальней заправки, до которой хватает $k$, заправляемся там и повторяем. Заправка раньше не помогает ничему правее. Если расстояние между какими-то соседними точками (включая старт, $a_1$, …, $a_n$, $B$) больше $k$, ответ $-1$. Точки уже упорядочены, поэтому всё делается одним проходом, по сути двумя указателями, за $O(n)$.</p>
 
+<figure class="viz">
+<svg viewBox="0 0 760 225" role="img" aria-label="Жадность «заправляться как можно позже»" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="225" rx="14" fill="#141a24"/>
+  <line x1="70.0" y1="120.0" x2="691.5" y2="120.0" stroke="#9aa4b2" stroke-width="2" />
+  <circle cx="70.0" cy="120" r="7" fill="#58c4dd"/>
+  <text x="70" y="148" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#58c4dd" >A</text>
+  <circle cx="191.0" cy="120" r="7" fill="#dfe7f1"/>
+  <text x="191" y="148" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >a1</text>
+  <circle cx="290.0" cy="120" r="7" fill="#83c167"/>
+  <text x="290" y="148" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167" >a2</text>
+  <circle cx="350.5" cy="120" r="7" fill="#dfe7f1"/>
+  <text x="350" y="148" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >a3</text>
+  <circle cx="488.0" cy="120" r="7" fill="#83c167"/>
+  <text x="488" y="148" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167" >a4</text>
+  <circle cx="565.0" cy="120" r="7" fill="#dfe7f1"/>
+  <text x="565" y="148" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >a5</text>
+  <circle cx="691.5" cy="120" r="7" fill="#58c4dd"/>
+  <text x="692" y="148" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#58c4dd" >B</text>
+  <path d="M70.0,110 Q180.0,30 290.0,110" fill="none" stroke="#83c167" stroke-width="2.5"/>
+  <path d="M290.0,110 Q389.0,30 488.0,110" fill="none" stroke="#83c167" stroke-width="2.5"/>
+  <path d="M488.0,110 Q589.8,30 691.5,110" fill="none" stroke="#83c167" stroke-width="2.5"/>
+  <text x="180" y="58" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167" >≤ k</text>
+  <text x="389" y="58" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167" >≤ k</text>
+  <text x="590" y="58" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167" >≤ k</text>
+  <text x="380" y="185" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >бак k = 4: с полного бака едем до самой дальней заправки, до которой хватает, и только там заправляемся</text>
+  <text x="380" y="208" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >если какой-то промежуток между соседними точками больше k — ответ −1</text>
+</svg>
+<figcaption><a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=5370" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:29:30</a> Доска (перерисовано): заправляемся как можно позже.</figcaption>
+</figure>
 <h3 id="s11-5">E. Костюмы <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=5438" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:30:38</a></h3>
 <p>У людей есть силы $a_i$, костюмы бывают двух видов: процентные (сила умножается на $1+p$) и фиксированные (к силе прибавляется $q$). Каждому нужно выдать по костюму, $m+k=n$.</p>
 <p><strong>Наблюдение об оптимальном ответе.</strong> Отсортируем людей по силе. Фиксированной прибавке всё равно, кому она достанется, а процент выгоднее отдать тому, у кого сила больше. Поэтому в оптимуме самый большой процент получает самый сильный из «процентных», следующий процент — следующий по силе, и так далее.</p>
@@ -1146,10 +1435,91 @@ $$\mathrm{best}_0=a_0,\qquad \mathrm{best}_i=\max\bigl(a_i,\ 2\cdot\mathrm{best}
 <p>На поле $n\times m$ отмечены города. Нужно разбить клетки на две связные части с одинаковым числом городов.</p>
 <p><strong>Конструктив.</strong> Обходим клетки <strong>змейкой</strong>: первый столбец сверху вниз, второй снизу вверх и т. д. Добавляем клетки в первую страну, пока в ней не окажется ровно половина городов. Пройденная часть змейки связна (это непрерывный путь), а оставшаяся часть — тоже кусок той же змейки, поэтому тоже связна. Если городов нечётное число, разбить нельзя.</p>
 
+<figure class="viz">
+<svg viewBox="0 0 760 240" role="img" aria-label="Разбиение поля змейкой на две связные части с равным числом городов" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="240" rx="14" fill="#141a24"/>
+  <rect x="60" y="30" width="48" height="48" fill="#1d3a24" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="110" y="30" width="48" height="48" fill="#1d3a24" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="160" y="30" width="48" height="48" fill="#1d3a24" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="210" y="30" width="48" height="48" fill="#2a2033" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="260" y="30" width="48" height="48" fill="#2a2033" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="310" y="30" width="48" height="48" fill="#2a2033" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="60" y="80" width="48" height="48" fill="#1d3a24" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="110" y="80" width="48" height="48" fill="#1d3a24" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="160" y="80" width="48" height="48" fill="#1d3a24" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="210" y="80" width="48" height="48" fill="#2a2033" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="260" y="80" width="48" height="48" fill="#2a2033" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="310" y="80" width="48" height="48" fill="#2a2033" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="60" y="130" width="48" height="48" fill="#1d3a24" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="110" y="130" width="48" height="48" fill="#1d3a24" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="160" y="130" width="48" height="48" fill="#1d3a24" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="210" y="130" width="48" height="48" fill="#2a2033" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="260" y="130" width="48" height="48" fill="#2a2033" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="310" y="130" width="48" height="48" fill="#2a2033" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="60" y="180" width="48" height="48" fill="#1d3a24" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="110" y="180" width="48" height="48" fill="#1d3a24" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="160" y="180" width="48" height="48" fill="#1d3a24" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="210" y="180" width="48" height="48" fill="#2a2033" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="260" y="180" width="48" height="48" fill="#2a2033" stroke="#9aa4b2" stroke-width="0.8"/>
+  <rect x="310" y="180" width="48" height="48" fill="#2a2033" stroke="#9aa4b2" stroke-width="0.8"/>
+  <polyline points="84.0,54.0 84.0,104.0 84.0,154.0 84.0,204.0 134.0,204.0 134.0,154.0 134.0,104.0 134.0,54.0 184.0,54.0 184.0,104.0 184.0,154.0 184.0,204.0 234.0,204.0 234.0,154.0 234.0,104.0 234.0,54.0 284.0,54.0 284.0,104.0 284.0,154.0 284.0,204.0 334.0,204.0 334.0,154.0 334.0,104.0 334.0,54.0" fill="none" stroke="#ffff00" stroke-width="2" stroke-opacity="0.8"/>
+  <circle cx="284.0" cy="154.0" r="8" fill="#fc6255"/>
+  <circle cx="134.0" cy="154.0" r="8" fill="#fc6255"/>
+  <circle cx="334.0" cy="54.0" r="8" fill="#fc6255"/>
+  <circle cx="84.0" cy="54.0" r="8" fill="#fc6255"/>
+  <circle cx="184.0" cy="204.0" r="8" fill="#fc6255"/>
+  <circle cx="234.0" cy="104.0" r="8" fill="#fc6255"/>
+  <text x="420" y="60" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1" >Обходим клетки змейкой (жёлтая линия):</text>
+  <text x="420" y="84" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1" >столбец вниз, следующий вверх, …</text>
+  <text x="420" y="120" text-anchor="start" font-family="sans-serif" font-size="14" fill="#83c167" >Зелёные — первая страна: берём клетки,</text>
+  <text x="420" y="144" text-anchor="start" font-family="sans-serif" font-size="14" fill="#83c167" >пока в ней не наберётся половина городов</text>
+  <text x="420" y="180" text-anchor="start" font-family="sans-serif" font-size="13" fill="#9aa4b2" >Обе части — куски одного пути,</text>
+  <text x="420" y="202" text-anchor="start" font-family="sans-serif" font-size="13" fill="#9aa4b2" >поэтому обе связны</text>
+</svg>
+<figcaption><a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=6360" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:46:00</a> Доска (перерисовано): змейка делит поле на две связные страны.</figcaption>
+</figure>
 <h3 id="s11-9">I. Путешествие: покрыть свои места билетами <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=6357" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:45:57</a></h3>
 <p>Есть $54$ места в ряд. Часть занята, часть мы хотим занять сами (наши места). Можно купить билет на отрезок $[l, r]$, если на нём только наши или уже занятые места: свободные чужие места покупать нельзя. Нужно покрыть все наши места минимальным числом отрезков.</p>
 <p><strong>Жадность.</strong> Идём слева направо. Встретив своё непокрытое место, открываем новый отрезок и тянем его вправо, пока не встретим свободное место или конец ряда. Каждый отрезок захватывает максимальный блок своих мест, разделить блок без свободного места выгоды нет.</p>
 
+<figure class="viz">
+<svg viewBox="0 0 760 222" role="img" aria-label="Покрытие своих мест билетами-отрезками" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="222" rx="14" fill="#141a24"/>
+  <rect x="50" y="80" width="52" height="40" rx="6" fill="#83c167" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="76" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >1</text>
+  <rect x="110" y="80" width="52" height="40" rx="6" fill="#83c167" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="136" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >2</text>
+  <rect x="170" y="80" width="52" height="40" rx="6" fill="#3a4456" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="196" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >3</text>
+  <rect x="230" y="80" width="52" height="40" rx="6" fill="#83c167" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="256" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >4</text>
+  <rect x="290" y="80" width="52" height="40" rx="6" fill="#83c167" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="316" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >5</text>
+  <rect x="350" y="80" width="52" height="40" rx="6" fill="#83c167" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="376" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >6</text>
+  <rect x="410" y="80" width="52" height="40" rx="6" fill="#141a24" stroke="#fc6255" stroke-width="2"/>
+  <line x1="422.0" y1="88.0" x2="450.0" y2="112.0" stroke="#fc6255" stroke-width="2.5" />
+  <line x1="450.0" y1="88.0" x2="422.0" y2="112.0" stroke="#fc6255" stroke-width="2.5" />
+  <text x="436" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >7</text>
+  <rect x="470" y="80" width="52" height="40" rx="6" fill="#83c167" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="496" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >8</text>
+  <rect x="530" y="80" width="52" height="40" rx="6" fill="#83c167" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="556" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >9</text>
+  <rect x="590" y="80" width="52" height="40" rx="6" fill="#3a4456" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="616" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >10</text>
+  <rect x="650" y="80" width="52" height="40" rx="6" fill="#83c167" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="676" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >11</text>
+  <path d="M50,72 L50,60 L402,60 L402,72" fill="none" stroke="#ffff00" stroke-width="2.5"/>
+  <text x="226" y="50" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ffff00" >билет [1, 6]</text>
+  <path d="M470,72 L470,60 L702,60 L702,72" fill="none" stroke="#ffff00" stroke-width="2.5"/>
+  <text x="586" y="50" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ffff00" >билет [8, 11]</text>
+  <text x="70" y="175" text-anchor="start" font-family="sans-serif" font-size="13" fill="#83c167" >наше</text>
+  <text x="140" y="175" text-anchor="start" font-family="sans-serif" font-size="13" fill="#9aa4b2" >занято (можно накрыть)</text>
+  <text x="360" y="175" text-anchor="start" font-family="sans-serif" font-size="13" fill="#fc6255" >свободное чужое — нельзя</text>
+  <text x="380" y="205" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >жадно слева направо: тянем отрезок до первого свободного места</text>
+</svg>
+<figcaption><a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=6480" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:48:00</a> Доска (перерисовано): фрагмент ряда: покрываем свои места отрезками, не задевая свободные чужие.</figcaption>
+</figure>
 <h3 id="s11-10">J. Mountain Climbing (задача Джонсона) <a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=6493" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:48:13</a></h3>
 <p>$n$ коров должны подняться на гору и спуститься. Подъём $i$-й коровы занимает $u_i$, спуск — $d_i$. Подъёмы сопровождает один фермер, спуски — другой, каждый одновременно ведёт одну корову. На вершине коровы могут ждать. Нужно выбрать порядок, минимизирующий время от старта первой коровы до финиша последней.</p>
 <p><strong>Идея.</strong> Подъёмы идут без перерывов и занимают $\sum u_i$ — это не зависит от порядка. Простаивает только второй фермер, поэтому нужно как можно быстрее создать «запас» коров на вершине и не израсходовать его раньше времени.</p>
@@ -1173,6 +1543,32 @@ $$\mathrm{best}_0=a_0,\qquad \mathrm{best}_i=\max\bigl(a_i,\ 2\cdot\mathrm{best}
     down = <span class="f">max</span>(down, up) + c.d;           <span class="c">// спуск начинается, когда корова наверху и фермер свободен</span>
 }
 <span class="c">// ответ — down</span></code></pre></div>
+<figure class="viz">
+<svg viewBox="0 0 760 232" role="img" aria-label="Задача Джонсона: подъёмы и спуски, порядок групп U и D" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="232" rx="14" fill="#141a24"/>
+  <path d="M80,190 L230,60 L380,190" fill="none" stroke="#9aa4b2" stroke-width="3"/>
+  <text x="130" y="120" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#83c167" >uᵢ ↑</text>
+  <text x="335" y="120" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#ff8c1a" >↓ dᵢ</text>
+  <text x="230" y="45" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >вершина: коровы могут ждать</text>
+  <text x="110" y="215" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#83c167" >фермер 1 — подъёмы</text>
+  <text x="350" y="215" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ff8c1a" >фермер 2 — спуски</text>
+  <text x="570" y="50" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" font-weight="700">Порядок:</text>
+  <rect x="440" y="70" width="125" height="58" rx="8" fill="#1d3a24" stroke="#83c167"/>
+  <text x="502" y="94" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#83c167" >U: uᵢ ≤ dᵢ</text>
+  <text x="502" y="116" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#dfe7f1" >по возрастанию u</text>
+  <text x="590" y="104" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#dfe7f1" >→</text>
+  <rect x="615" y="70" width="125" height="58" rx="8" fill="#3a2614" stroke="#ff8c1a"/>
+  <text x="677" y="94" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ff8c1a" >D: uᵢ &gt; dᵢ</text>
+  <text x="677" y="116" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#dfe7f1" >по убыванию d</text>
+  <line x1="440.0" y1="175.0" x2="740.0" y2="175.0" stroke="#9aa4b2" stroke-width="1.5" />
+  <rect x="440" y="160" width="190" height="10" fill="#83c167"/>
+  <text x="535" y="155" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#83c167" >Σ uᵢ — не зависит от порядка</text>
+  <rect x="470" y="180" width="245" height="10" fill="#ff8c1a"/>
+  <text x="592" y="207" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ff8c1a" >спуски: простои фермера 2 надо убрать</text>
+</svg>
+<figcaption><a class="ts" href="https://youtu.be/n-ckWTRVuE8?t=6930" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:55:30</a> Доска (перерисовано): подъёмы и спуски, порядок групп $U$ и $D$.</figcaption>
+</figure>
+
 
 <footer>
   Конспект подготовлен по записи занятия Яндекс кружка. Таймкоды соответствуют исходной видеозаписи.

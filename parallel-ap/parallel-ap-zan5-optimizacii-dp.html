@@ -853,12 +853,137 @@ $$dp_{m+1,r}+dp_{m,q}\ \le\ dp_{m,r}+dp_{m+1,q}.$$
 }</code></pre></div>
 <h3 id="s4-1">Почему $O(n^2)$ <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=3662" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:01:02</a></h3>
 <p>Сумма длин перебираемых отрезков по всем клеткам равна $nk+\sum_{i,j}\bigl(opt_{i,j+1}-opt_{i-1,j}\bigr)$. Слагаемые вида $opt_{i,j+1}-opt_{i-1,j}$ вдоль диагонали $(i-1,j)\to(i,j+1)$ «телескопически» схлопываются: на каждой диагонали остаётся не более $O(n)$ суммарного вклада, а диагоналей $O(n)$. Итого $O(n^2)$ вместо $O(n^2k)$.</p>
+<figure class="viz"><svg viewBox="0 0 760 320" role="img" aria-label="Сетка dp: диагонали (i−1,j)→(i,j+1), по которым сумма opt схлопывается" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="320" rx="14" fill="#141a24"/>
+  <text x="380" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >Оценка O(n²): сумма Σ (opt[i][j+1] − opt[i−1][j]) схлопывается вдоль диагоналей</text>
+  <text x="25" y="78" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >слой i</text>
+  <text x="56" y="85" text-anchor="end" font-family="sans-serif" font-size="13" fill="#9aa4b2" >1</text>
+  <rect x="70" y="60" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="128" y="60" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="186" y="60" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="244" y="60" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="302" y="60" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="360" y="60" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="418" y="60" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="476" y="60" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <text x="56" y="125" text-anchor="end" font-family="sans-serif" font-size="13" fill="#9aa4b2" >2</text>
+  <rect x="70" y="100" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="128" y="100" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="186" y="100" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="244" y="100" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="302" y="100" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="360" y="100" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="418" y="100" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="476" y="100" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <text x="56" y="165" text-anchor="end" font-family="sans-serif" font-size="13" fill="#9aa4b2" >3</text>
+  <rect x="70" y="140" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="128" y="140" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="186" y="140" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="244" y="140" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="302" y="140" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="360" y="140" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="418" y="140" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="476" y="140" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <text x="56" y="205" text-anchor="end" font-family="sans-serif" font-size="13" fill="#9aa4b2" >4</text>
+  <rect x="70" y="180" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="128" y="180" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="186" y="180" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="244" y="180" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="302" y="180" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="360" y="180" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="418" y="180" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="476" y="180" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <text x="56" y="245" text-anchor="end" font-family="sans-serif" font-size="13" fill="#9aa4b2" >5</text>
+  <rect x="70" y="220" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="128" y="220" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="186" y="220" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="244" y="220" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="302" y="220" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="360" y="220" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="418" y="220" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <rect x="476" y="220" width="54" height="36" rx="5" fill="#1f2a3a" stroke="#3a4658"/>
+  <text x="97" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=1</text>
+  <text x="155" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=2</text>
+  <text x="213" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=3</text>
+  <text x="271" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=4</text>
+  <text x="329" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=5</text>
+  <text x="387" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=6</text>
+  <text x="445" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=7</text>
+  <text x="503" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=8</text>
+  <line x1="107.0" y1="84.0" x2="151.0" y2="112.0" stroke="#58c4dd" stroke-width="2.5" />
+  <line x1="165.0" y1="124.0" x2="209.0" y2="152.0" stroke="#58c4dd" stroke-width="2.5" />
+  <line x1="223.0" y1="164.0" x2="267.0" y2="192.0" stroke="#58c4dd" stroke-width="2.5" />
+  <line x1="281.0" y1="204.0" x2="325.0" y2="232.0" stroke="#58c4dd" stroke-width="2.5" />
+  <circle cx="97.0" cy="78.0" r="5" fill="#58c4dd"/>
+  <circle cx="155.0" cy="118.0" r="5" fill="#58c4dd"/>
+  <circle cx="213.0" cy="158.0" r="5" fill="#58c4dd"/>
+  <circle cx="271.0" cy="198.0" r="5" fill="#58c4dd"/>
+  <circle cx="329.0" cy="238.0" r="5" fill="#58c4dd"/>
+  <line x1="223.0" y1="84.0" x2="267.0" y2="112.0" stroke="#83c167" stroke-width="2.5" />
+  <line x1="281.0" y1="124.0" x2="325.0" y2="152.0" stroke="#83c167" stroke-width="2.5" />
+  <line x1="339.0" y1="164.0" x2="383.0" y2="192.0" stroke="#83c167" stroke-width="2.5" />
+  <line x1="397.0" y1="204.0" x2="441.0" y2="232.0" stroke="#83c167" stroke-width="2.5" />
+  <circle cx="213.0" cy="78.0" r="5" fill="#83c167"/>
+  <circle cx="271.0" cy="118.0" r="5" fill="#83c167"/>
+  <circle cx="329.0" cy="158.0" r="5" fill="#83c167"/>
+  <circle cx="387.0" cy="198.0" r="5" fill="#83c167"/>
+  <circle cx="445.0" cy="238.0" r="5" fill="#83c167"/>
+  <line x1="339.0" y1="84.0" x2="383.0" y2="112.0" stroke="#ff8c1a" stroke-width="2.5" />
+  <line x1="397.0" y1="124.0" x2="441.0" y2="152.0" stroke="#ff8c1a" stroke-width="2.5" />
+  <line x1="455.0" y1="164.0" x2="499.0" y2="192.0" stroke="#ff8c1a" stroke-width="2.5" />
+  <circle cx="329.0" cy="78.0" r="5" fill="#ff8c1a"/>
+  <circle cx="387.0" cy="118.0" r="5" fill="#ff8c1a"/>
+  <circle cx="445.0" cy="158.0" r="5" fill="#ff8c1a"/>
+  <circle cx="503.0" cy="198.0" r="5" fill="#ff8c1a"/>
+  <line x1="455.0" y1="84.0" x2="499.0" y2="112.0" stroke="#c78bff" stroke-width="2.5" />
+  <circle cx="445.0" cy="78.0" r="5" fill="#c78bff"/>
+  <circle cx="503.0" cy="118.0" r="5" fill="#c78bff"/>
+  <text x="650" y="90" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >диагональ</text>
+  <text x="650" y="112" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >(i−1, j) → (i, j+1):</text>
+  <text x="650" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#83c167" >+opt[i][j+1] в одной клетке</text>
+  <text x="650" y="160" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#fc6255" >−opt[i−1][j] в следующей</text>
+  <text x="650" y="190" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ffff00" >→ вклад диагонали ≤ n</text>
+  <text x="650" y="214" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ffff00" >диагоналей O(n)</text>
+  <text x="380" y="298" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >Σ 1 + opt[i][j+1] − opt[i−1][j] = n·k + Σ(…) = O(n²)</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=3930" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:05:30</a> Доска (перерисовано): сетка dp и диагонали (i−1, j) → (i, j+1): слагаемые opt[i][j+1] − opt[i−1][j] телескопически схлопываются.</figcaption></figure>
+
 <p>Для $w(l,r)=(\text{сумма})^2$ и $w=\text{длина}\cdot\text{сумма}$ код проверен на случайных данных против наивного ДП.</p>
 
 <h2 id="s5">5. ДП по подотрезкам: оптимальное префиксное кодирование (Хаффман с порядком) <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=3956" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:05:56</a></h2>
 <p>Даны частоты $a_1,\dots,a_n$ символов; нужно присвоить символам двоичные коды без префиксов (бор), сохранив порядок (коды возрастают вместе с индексом), и минимизировать $\sum l_ia_i$ ($l_i$ — длина кода). Код в двоичном бору с сохранением порядка означает: корень делит массив на префикс (ветка «0») и суффикс (ветка «1»). Поэтому
 $$dp_{l,r}=\min_{l\le k&lt;r}\bigl(dp_{l,k}+dp_{k+1,r}\bigr)+\sum_{t=l}^{r}a_t,\qquad dp_{l,l}=0:$$
 к каждому символу отрезка приписывается один бит, что даёт его суммарную частоту. Функция $w(l,r)=\sum_{l}^{r}a_t$ удовлетворяет неравенству четырёхугольника, поэтому для ДП по подотрезкам тоже верно $opt_{l,r-1}\le opt_{l,r}\le opt_{l+1,r}$, и применим Кнут.</p>
+<figure class="viz"><svg viewBox="0 0 760 415" role="img" aria-label="Дерево кода: корень делит отрезок на префикс (бит 0) и суффикс (бит 1)" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="415" rx="14" fill="#141a24"/>
+  <text x="380" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >Код с сохранением порядка: корень делит массив на префикс и суффикс</text>
+  <text x="380" y="60" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >dp[l][r] — минимальная стоимость закодированного отрезка [l, r]</text>
+  <rect x="190" y="95" width="60" height="40" rx="6" fill="#14303a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="220" y="120" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >a_l</text>
+  <rect x="254" y="95" width="60" height="40" rx="6" fill="#14303a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="284" y="120" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >…</text>
+  <rect x="318" y="95" width="60" height="40" rx="6" fill="#14303a" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="348" y="120" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >a_k</text>
+  <rect x="382" y="95" width="60" height="40" rx="6" fill="#2b2340" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="412" y="120" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >a_{k+1}</text>
+  <rect x="446" y="95" width="60" height="40" rx="6" fill="#2b2340" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="476" y="120" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >…</text>
+  <rect x="510" y="95" width="60" height="40" rx="6" fill="#2b2340" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="540" y="120" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >a_r</text>
+  <line x1="380.0" y1="88.0" x2="380.0" y2="142.0" stroke="#ffff00" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="380" y="82" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffff00" >разрез после k</text>
+  <circle cx="380" cy="220" r="10" fill="#141a24" stroke="#dfe7f1" stroke-width="2"/>
+  <text x="380" y="247" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >корень</text>
+  <line x1="373.0" y1="227.0" x2="290.0" y2="290.0" stroke="#58c4dd" stroke-width="2.5" />
+  <line x1="387.0" y1="227.0" x2="470.0" y2="290.0" stroke="#c78bff" stroke-width="2.5" />
+  <text x="318" y="250" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#58c4dd" >бит 0</text>
+  <text x="450" y="250" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#c78bff" >бит 1</text>
+  <rect x="215" y="292" width="150" height="40" rx="8" fill="#14303a" stroke="#58c4dd"/>
+  <text x="290" y="317" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#58c4dd" >dp[l][k]</text>
+  <rect x="395" y="292" width="150" height="40" rx="8" fill="#2b2340" stroke="#c78bff"/>
+  <text x="470" y="317" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#c78bff" >dp[k+1][r]</text>
+  <text x="380" y="372" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#ffff00" >dp[l][r] = min  ( dp[l][k] + dp[k+1][r] ) + (a_l + … + a_r)</text>
+  <text x="380" y="396" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >l ≤ k &lt; r;   каждому символу отрезка добавился один бит</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=4230" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:10:30</a> Доска (перерисовано): корень двоичного кода с сохранением порядка делит отрезок на префикс (бит 0) и суффикс (бит 1) — отсюда формула для dp[l][r].</figcaption></figure>
 <p>Для ДП по подотрезкам порядок обхода — <strong>$r$ по возрастанию, $l$ по убыванию</strong> (так левая граница $opt_{l,r-1}$ и правая $opt_{l+1,r}$ уже готовы). Это же стандартный удобный способ писать любое ДП по подотрезкам (лучше, чем цикл по длине); он эффективнее по кэшу и открывает путь к Кнуту.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// dp[l][r] — стоимость кодирования отрезка частот [l, r]; S(l, r) — сумма частот</span>
 <span class="k">for</span> (<span class="t">int</span> r = <span class="n">1</span>; r &lt;= n; r++) {
@@ -876,6 +1001,46 @@ $$dp_{l,r}=\min_{l\le k&lt;r}\bigl(dp_{l,k}+dp_{k+1,r}\bigr)+\sum_{t=l}^{r}a_t,\
 
 <h2 id="s6">6. Разделяй и властвуй для ДП: $O(nk\log n)$ <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=4755" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:19:15</a></h2>
 <p>Нужна только одна половина монотонности: $opt_{i,j}\le opt_{i,j+1}$ <em>внутри одного слоя</em>. Тогда слой считается рекурсивно: функция <code>calc(l, r, optL, optR, level)</code> считает $dp_{level,j}$ для всех $j\in[l,r]$, зная, что оптимумы лежат в $[optL,optR]$. Берём середину $m=\lfloor (l+r)/2\rfloor$, перебираем оптимум для неё только в $[\max(optL, level-1),\ \min(optR, m-1)]$, находим $best$ и рекурсивно считаем левую половину с границами $[optL,best]$, а правую — с $[best,optR]$.</p>
+<figure class="viz"><svg viewBox="0 0 760 410" role="img" aria-label="Пример сужения отрезков поиска оптимума в разделяй и властвуй" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="410" rx="14" fill="#141a24"/>
+  <text x="380" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >Пример: 10 индексов, слой 2, известно opt[2][5] = 2</text>
+  <rect x="60" y="60" width="58" height="36" rx="6" fill="#1f2a3a" stroke="#9aa4b2"/>
+  <text x="89" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=1</text>
+  <rect x="124" y="60" width="58" height="36" rx="6" fill="#1f2a3a" stroke="#9aa4b2"/>
+  <text x="153" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=2</text>
+  <rect x="188" y="60" width="58" height="36" rx="6" fill="#1f2a3a" stroke="#9aa4b2"/>
+  <text x="217" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=3</text>
+  <rect x="252" y="60" width="58" height="36" rx="6" fill="#1f2a3a" stroke="#9aa4b2"/>
+  <text x="281" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=4</text>
+  <rect x="316" y="60" width="58" height="36" rx="6" fill="#3a3a10" stroke="#ffff00"/>
+  <text x="345" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ffff00" >j=5</text>
+  <rect x="380" y="60" width="58" height="36" rx="6" fill="#1f2a3a" stroke="#9aa4b2"/>
+  <text x="409" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=6</text>
+  <rect x="444" y="60" width="58" height="36" rx="6" fill="#1f2a3a" stroke="#9aa4b2"/>
+  <text x="473" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=7</text>
+  <rect x="508" y="60" width="58" height="36" rx="6" fill="#1f2a3a" stroke="#9aa4b2"/>
+  <text x="537" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=8</text>
+  <rect x="572" y="60" width="58" height="36" rx="6" fill="#1f2a3a" stroke="#9aa4b2"/>
+  <text x="601" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=9</text>
+  <rect x="636" y="60" width="58" height="36" rx="6" fill="#1f2a3a" stroke="#9aa4b2"/>
+  <text x="665" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=10</text>
+  <text x="345" y="118" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ffff00" >opt = 2</text>
+  <text x="150" y="155" text-anchor="start" font-family="sans-serif" font-size="16" fill="#83c167" >j = 1  →  p ∈ [0, 0]</text>
+  <text x="420" y="155" text-anchor="start" font-family="sans-serif" font-size="13" fill="#9aa4b2" >слева от 5, но p &lt; j</text>
+  <text x="150" y="189" text-anchor="start" font-family="sans-serif" font-size="16" fill="#58c4dd" >j = 4  →  p ∈ [0, 2]</text>
+  <text x="420" y="189" text-anchor="start" font-family="sans-serif" font-size="13" fill="#9aa4b2" >левее 5: p ≤ opt[2][5] = 2</text>
+  <text x="150" y="223" text-anchor="start" font-family="sans-serif" font-size="16" fill="#ff8c1a" >j = 6  →  p ∈ [2, 5]</text>
+  <text x="420" y="223" text-anchor="start" font-family="sans-serif" font-size="13" fill="#9aa4b2" >правее 5: p ≥ 2</text>
+  <line x1="50.0" y1="262.0" x2="710.0" y2="262.0" stroke="#3a4658" stroke-width="1" />
+  <text x="380" y="292" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >calc на [l, r]:  m = ⌊(l + r)/2⌋,  считаем opt[·][m]</text>
+  <line x1="380.0" y1="305.0" x2="260.0" y2="345.0" stroke="#58c4dd" stroke-width="2.5" />
+  <line x1="380.0" y1="305.0" x2="500.0" y2="345.0" stroke="#ff8c1a" stroke-width="2.5" />
+  <text x="260" y="368" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#58c4dd" >[l, m−1]</text>
+  <text x="500" y="368" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#ff8c1a" >[m+1, r]</text>
+  <text x="260" y="390" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#58c4dd" >корректировка сверху</text>
+  <text x="500" y="390" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" >корректировка снизу</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=5220" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:27:00</a> Доска (перерисовано): пример на 10 индексах: зная opt[2][5] = 2 (лектор сначала оговорился «три», на доске 2), сужаем отрезки поиска для j = 1, 4, 6; затем рекурсия по [l, m−1] и [m+1, r].</figcaption></figure>
+
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// prev — значения предыдущего слоя, cur — текущего слоя; w — стоимость отрезка</span>
 <span class="t">void</span> <span class="f">calc</span>(<span class="t">int</span> l, <span class="t">int</span> r, <span class="t">int</span> optl, <span class="t">int</span> optr, <span class="t">int</span> lvl) {
     <span class="k">if</span> (l &gt; r) <span class="k">return</span>;
@@ -895,6 +1060,31 @@ $$dp_{l,r}=\min_{l\le k&lt;r}\bigl(dp_{l,k}+dp_{k+1,r}\bigr)+\sum_{t=l}^{r}a_t,\
 
 <h2 id="s7">7. Сложная стоимость через структуру данных (приём «Мо в разделяйке») <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=6049" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:40:49</a></h2>
 <p><strong>Задача (в общих чертах, как рассказал лектор).</strong> На прямой даны $m$ пар $(L_i,R_i)$; нужно поставить $k$ «станций» в точки $x$ и распределить пары между ними, минимизируя суммарный штраф. Для пары и точки $x$ штраф равен $|L-x|+|R-x|=\max\bigl(R-L,\ 2\,|x-c|\bigr)$, где $c=\tfrac{L+R}{2}$ — центр пары. Утверждение лектора: если отсортировать пары по центру $c$, то задача сводится к разбиению на $k$ подряд идущих групп, а станцию в группе оптимально ставить в <strong>медиану</strong> всех концов (сумма модулей минимизируется медианой). Тогда $w(a,b)=\sum_{t=a}^{b}\bigl(|L_t-med|+|R_t-med|\bigr)$ — по всем концам группы.</p>
+<figure class="viz"><svg viewBox="0 0 760 275" role="img" aria-label="График штрафа пары: плоский участок R−L между L и R, затем 2|x−c|" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="275" rx="14" fill="#141a24"/>
+  <text x="250" y="30" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >штраф пары (L, R) при станции в точке x</text>
+  <line x1="60.0" y1="230.0" x2="430.0" y2="230.0" stroke="#9aa4b2" stroke-width="2" />
+  <text x="445" y="235" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2" >x</text>
+  <line x1="190.0" y1="224.0" x2="190.0" y2="236.0" stroke="#9aa4b2" stroke-width="2" />
+  <text x="190" y="254" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >L</text>
+  <line x1="260.0" y1="224.0" x2="260.0" y2="236.0" stroke="#9aa4b2" stroke-width="2" />
+  <text x="260" y="254" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >c</text>
+  <line x1="330.0" y1="224.0" x2="330.0" y2="236.0" stroke="#9aa4b2" stroke-width="2" />
+  <text x="330" y="254" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >R</text>
+  <polyline points="90,60 190,150 330,150 430,60" fill="none" stroke="#58c4dd" stroke-width="3.5"/>
+  <line x1="190.0" y1="150.0" x2="190.0" y2="230.0" stroke="#9aa4b2" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="330.0" y1="150.0" x2="330.0" y2="230.0" stroke="#9aa4b2" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="260" y="140" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#ffff00" >R − L</text>
+  <text x="110" y="50" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ff8c1a" >2·|x − c|</text>
+  <text x="405" y="50" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ff8c1a" >2·|x − c|</text>
+  <text x="590" y="70" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#ffff00" >c = (L + R) / 2</text>
+  <text x="590" y="110" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >|L − x| + |R − x|</text>
+  <text x="590" y="134" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#58c4dd" >= max( R − L,  2·|x − c| )</text>
+  <text x="590" y="180" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >сортируем пары по c:</text>
+  <text x="590" y="202" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#83c167" >c₁ ≤ c₂ ≤ … ≤ c_n</text>
+  <text x="590" y="226" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#83c167" >→ разбиение на k отрезков</text>
+  <text x="590" y="250" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >(оптимум станции — медиана)</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=6480" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:48:00</a> Доска (перерисовано): штраф пары точек при станции в точке x — плоский участок R − L между L и R, дальше растёт как 2·|x − c|; пары сортируются по центру c.</figcaption></figure>
 <p>Проблема: $w(a,b)$ нетривиально считать. Решение «в лоб» — предподсчёт всех $w$ за $O(n^2\log n)$ и ДП за $O(n^2k)$. Но можно быстрее.</p>
 <h3 id="s7-1">Медиана и сумма модулей на Фенвике <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=6785" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:53:05</a></h3>
 <p>Нужна структура, поддерживающая множество чисел: добавить, удалить, найти медиану и $\sum|x-med|$. Сожмём координаты и заведём два дерева Фенвика (или дерева отрезков): по количеству чисел и по их сумме (по значению). Медиану находим <strong>спуском по Фенвику</strong> (поиск $\lceil c/2\rceil$-го числа). Если $med$ — медиана, $cnt_{\le}$ и $sum_{\le}$ — количество и сумма чисел $\le med$, $cnt$ и $sum$ — по всему множеству, то
@@ -917,6 +1107,31 @@ $$\sum|x-med|=(med\cdot cnt_{\le}-sum_{\le})+\bigl((sum-sum_{\le})-med\cdot(cnt-
 <p>Есть $n$ действий; для действия $i$ заданы $a_i,b_i$ и момент $t_i$ ($t_1&lt;t_2&lt;\dots$). В момент $t_i$ можно «надуть» шар: радиус увеличивается на $a_i$, после чего он убывает со скоростью $b_i$ (до следующего надувания, когда значения заменяются). Нужно максимизировать радиус в конце. Если $dp_i$ — максимальный радиус перед $i$-м действием, считая его самого ещё не сделанным, то при предыдущем действии $j$:
 $$dp_i=\max_{j&lt;i}\bigl(dp_j+a_j-b_j\,(t_i-t_j)\bigr).$$
 Наивное ДП — $O(n^2)$. (Отрицательность радиуса можно не учитывать: способ «не делать ничего» даёт $0$ и не хуже нечестного.)</p>
+<figure class="viz"><svg viewBox="0 0 760 262" role="img" aria-label="Шар: надувание a_j, затем убывание на b_j до следующего действия i" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="262" rx="14" fill="#141a24"/>
+  <text x="380" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >Шар: действие j надувает на a_j, затем радиус убывает на b_j в секунду</text>
+  <text x="70" y="84" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#58c4dd" >действие j</text>
+  <rect x="105" y="62" width="70" height="38" rx="6" fill="#14303a" stroke="#58c4dd"/>
+  <text x="140" y="87" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#83c167" >+a_j</text>
+  <rect x="185" y="62" width="64" height="38" rx="6" fill="#2a1f1f" stroke="#fc6255"/>
+  <text x="217" y="87" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#fc6255" >−b_j</text>
+  <rect x="255" y="62" width="64" height="38" rx="6" fill="#2a1f1f" stroke="#fc6255"/>
+  <text x="287" y="87" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#fc6255" >−b_j</text>
+  <rect x="325" y="62" width="64" height="38" rx="6" fill="#2a1f1f" stroke="#fc6255"/>
+  <text x="357" y="87" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#fc6255" >−b_j</text>
+  <rect x="395" y="62" width="64" height="38" rx="6" fill="#2a1f1f" stroke="#fc6255"/>
+  <text x="427" y="87" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#fc6255" >−b_j</text>
+  <rect x="465" y="62" width="70" height="38" rx="6" fill="#14303a" stroke="#ff8c1a"/>
+  <text x="500" y="87" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#83c167" >+a_i</text>
+  <text x="545" y="87" text-anchor="start" font-family="sans-serif" font-size="18" fill="#9aa4b2" >…</text>
+  <text x="500" y="56" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" >действие i</text>
+  <text x="285" y="130" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >пропуск: радиус убывает на b_j в каждую секунду</text>
+  <path d="M190.0,112 Q322.5,90 455.0,112" fill="none" stroke="#ffff00" stroke-width="2"/>
+  <text x="380" y="182" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#ffff00" >dp_i = max_{j&lt;i} ( dp_j + a_j − b_j · (t_i − t_j) )</text>
+  <text x="380" y="212" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >dp_i — максимальный радиус перед i-м действием;   t₁ &lt; t₂ &lt; … &lt; t_n</text>
+  <text x="380" y="240" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >b₁ &lt; b₂ &lt; …  (скорость сдутия возрастает)</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=8520" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:22:00</a> Доска (перерисовано): шар: действие j надувает на a_j, потом радиус убывает на b_j в секунду до следующего действия i; отсюда переход dp_i.</figcaption></figure>
+
 <p><strong>Важное дополнение.</strong> Чтобы получить ответ в конце, добавим фиктивное действие в конце процесса (время $T_{end}$, $a=0$, $b=0$): его $dp$ и есть итог.</p>
 <h3 id="s8-2">Сведение к прямым <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=9091" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:31:31</a></h3>
 <p>Перепишем: $dp_i=\max_j\bigl(\underbrace{dp_j+a_j+b_jt_j}_{K_j}-b_j\,t_i\bigr)$. Каждому $j$ соответствует <strong>прямая</strong> $f_j(x)=K_j-b_jx$, и $dp_i=\max_jf_j(t_i)$. Прямые добавляются по одной ($f_0,f_1,\dots$), после каждого добавления делается запрос «максимум в точке $x$». Если все прямые известны заранее — это базовый CHT.</p>

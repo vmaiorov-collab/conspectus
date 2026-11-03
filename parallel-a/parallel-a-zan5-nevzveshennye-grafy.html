@@ -952,6 +952,33 @@ $$VC=R^+\cup L^-,\qquad IS=L^+\cup R^-.$$</p>
 <li><strong>Неориентированный граф.</strong> Нечётный цикл есть тогда и только тогда, когда граф <em>не двудольный</em>: красим вершины обходом в два цвета, ребро между одноцветными вершинами замыкает нечётный цикл.</li>
 <li><strong>Ориентированный граф.</strong> Раздвоим каждую вершину $v$ на $v_0,v_1$ («чётная» и «нечётная» позиция на пути). Для ребра $u\to v$ проводим $u_0\to v_1$ и $u_1\to v_0$. Тогда нечётный замкнутый путь через $v$ — это путь $v_0\leadsto v_1$. Граф симметричен (из $v_0\leadsto v_1$ следует $v_1\leadsto v_0$), поэтому достаточно проверить, что $v_0$ и $v_1$ лежат <strong>в одной КСС</strong>. Замкнутый нечётный путь не обязан быть простым, но из него всегда можно выделить простой нечётный цикл: если путь повторяет вершину, он распадается на две замкнутые части, одна из которых нечётна, — и так по индукции.</li>
 </ul>
+<figure class="viz"><svg viewBox="0 0 760 305" role="img" aria-label="Раздвоение вершин: ребро u→v даёт рёбра u→v₁ и u₁→v" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="305" rx="14" fill="#141a24"/>
+  <text x="190" y="28" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#9aa4b2" >исходное ребро  u → v</text>
+  <text x="560" y="28" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#9aa4b2" >после раздвоения</text>
+  <rect x="92.0" y="93.0" width="56" height="34" rx="8" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+  <text x="120" y="115" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >u</text>
+  <rect x="232.0" y="93.0" width="56" height="34" rx="8" fill="#1f2a3a" stroke="#83c167" stroke-width="2"/>
+  <text x="260" y="115" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >v</text>
+  <line x1="150.0" y1="110.0" x2="222.0" y2="110.0" stroke="#dfe7f1" stroke-width="2.5" />
+  <polygon points="230.0,110.0 220.8,113.9 220.8,106.1" fill="#dfe7f1"/>
+  <text x="190" y="170" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >каждая вершина — две копии:</text>
+  <text x="190" y="190" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >«чётная» и «нечётная» позиция на пути</text>
+  <rect x="452.0" y="63.0" width="56" height="34" rx="8" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+  <text x="480" y="85" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >u</text>
+  <rect x="452.0" y="183.0" width="56" height="34" rx="8" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+  <text x="480" y="205" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >u₁</text>
+  <rect x="612.0" y="63.0" width="56" height="34" rx="8" fill="#1f2a3a" stroke="#83c167" stroke-width="2"/>
+  <text x="640" y="85" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >v</text>
+  <rect x="612.0" y="183.0" width="56" height="34" rx="8" fill="#1f2a3a" stroke="#83c167" stroke-width="2"/>
+  <text x="640" y="205" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >v₁</text>
+  <line x1="508.0" y1="92.0" x2="606.2" y2="184.5" stroke="#ffff00" stroke-width="2.5" />
+  <polygon points="612.0,190.0 602.6,186.5 608.0,180.8" fill="#ffff00"/>
+  <line x1="508.0" y1="190.0" x2="606.2" y2="97.5" stroke="#ff8c1a" stroke-width="2.5" />
+  <polygon points="612.0,92.0 608.0,101.2 602.6,95.5" fill="#ff8c1a"/>
+  <text x="560" y="247" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >u → v₁   и   u₁ → v</text>
+  <text x="380" y="285" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167" >нечётный замкнутый путь через v  ⇔  путь v ⇝ v₁;  достаточно, чтобы v и v₁ лежали в одной КСС</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/TM1lMuEUXIE?t=4470" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:14:30</a> Доска (перерисовано): раздвоение вершин: ребро $u\to v$ даёт $u\to v_1$ и $u_1\to v$ (у лектора копии обозначены $u,u_1$; в тексте выше — $u_0,u_1$).</figcaption></figure>
 <p>(На записи лектор обсуждал и более простые наивные подходы — запуск обхода с проверкой обратных рёбер; для ориентированного графа он сам оговорился, что не уверен, поэтому здесь приведён только проверенный метод через раздвоение.)</p>
 <h3 id="s5-2">Чётный цикл в неориентированном графе <a class="ts" href="https://youtu.be/TM1lMuEUXIE?t=4953" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:22:33</a></h3>
 <p>Если среди обратных рёбер обхода в глубину есть ребро, замыкающее <strong>чётный</strong> цикл, всё просто. Пусть все такие «базисные» циклы нечётные. Любой цикл графа — XOR некоторого набора базисных циклов: возьмём его обратные рёбра и сложим (по модулю 2) соответствующие базисные циклы; древесные рёбра сократятся так, что получится ровно исходный цикл (иначе их разность была бы набором циклов только из древесных рёбер, т.е. пустым).</p>
@@ -966,6 +993,33 @@ $$VC=R^+\cup L^-,\qquad IS=L^+\cup R^-.$$</p>
 <h3 id="s6-2">Топсорт, в котором позиция вершины лежит в её отрезке <a class="ts" href="https://youtu.be/TM1lMuEUXIE?t=5544" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:32:24</a></h3>
 <p>Дан DAG; у вершины $v$ задан отрезок $[l_v,r_v]$. Нужно найти топологическую сортировку, в которой позиция каждой вершины лежит в её отрезке.</p>
 <p><strong>Наивная жадность неверна:</strong> «на каждом шаге из истоков, которые уже можно ставить ($l\le t$), брать с минимальным $r$» ломается, потому что у истока может быть большое $r$, а у его потомка — маленькое; потомок не успеет. <strong>Исправление:</strong> сначала подправим отрезки с учётом графа.</p>
+<figure class="viz"><svg viewBox="0 0 760 295" role="img" aria-label="Граф с отрезками [l,r]: [1,1] → [2,100] → [3,3] → [3,5] и [1,1] → [4,4] → [3,5]" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="295" rx="14" fill="#141a24"/>
+  <text x="380" y="28" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >вершина v — отрезок допустимых позиций [l, r]</text>
+  <line x1="152.0" y1="142.0" x2="278.6" y2="89.1" stroke="#9aa4b2" stroke-width="2.2" />
+  <polygon points="286.0,86.0 279.0,93.1 276.0,86.0" fill="#9aa4b2"/>
+  <line x1="152.0" y1="158.0" x2="278.6" y2="210.9" stroke="#9aa4b2" stroke-width="2.2" />
+  <polygon points="286.0,214.0 276.0,214.0 279.0,206.9" fill="#9aa4b2"/>
+  <line x1="374.0" y1="80.0" x2="508.0" y2="80.0" stroke="#9aa4b2" stroke-width="2.2" />
+  <polygon points="516.0,80.0 506.8,83.9 506.8,76.1" fill="#9aa4b2"/>
+  <line x1="560.0" y1="97.0" x2="560.0" y2="195.0" stroke="#9aa4b2" stroke-width="2.2" />
+  <polygon points="560.0,203.0 556.1,193.8 563.9,193.8" fill="#9aa4b2"/>
+  <line x1="374.0" y1="220.0" x2="508.0" y2="220.0" stroke="#9aa4b2" stroke-width="2.2" />
+  <polygon points="516.0,220.0 506.8,223.9 506.8,216.1" fill="#9aa4b2"/>
+  <rect x="68.0" y="133.0" width="84" height="34" rx="8" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+  <text x="110" y="155" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >[1, 1]</text>
+  <rect x="282.0" y="63.0" width="96" height="34" rx="8" fill="#1f2a3a" stroke="#ff8c1a" stroke-width="2"/>
+  <text x="330" y="85" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >[2, 100]</text>
+  <rect x="288.0" y="203.0" width="84" height="34" rx="8" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+  <text x="330" y="225" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >[4, 4]</text>
+  <rect x="518.0" y="63.0" width="84" height="34" rx="8" fill="#1f2a3a" stroke="#fc6255" stroke-width="2"/>
+  <text x="560" y="85" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >[3, 3]</text>
+  <rect x="518.0" y="203.0" width="84" height="34" rx="8" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+  <text x="560" y="225" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >[3, 5]</text>
+  <text x="330" y="50" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ff8c1a" >исток с огромным r</text>
+  <text x="560" y="50" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#fc6255" >у потомка r маленький</text>
+  <text x="380" y="275" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >жадность смотрит только на r самого истока и не видит, что потомку нужно успеть</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/TM1lMuEUXIE?t=5820" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:37:00</a> Доска (перерисовано): граф с отрезками допустимых позиций; исток $[2,100]$ с большим $r$ и его потомок $[3,3]$ с маленьким.</figcaption></figure>
 <ol>
 <li>В обратном топологическом порядке: $r_v=\min(r_v,\ r_u-1)$ по всем рёбрам $v\to u$ (у вершины до потомка должно остаться место).</li>
 <li>В прямом порядке: $l_u=\max(l_u,\ l_v+1)$ по всем рёбрам $v\to u$.</li>
@@ -1057,10 +1111,53 @@ $$VC=R^+\cup L^-,\qquad IS=L^+\cup R^-.$$</p>
 <p>Граф неориентированный, степень каждой вершины $2d$; нужно разбить его на циклы, покрывающие каждую вершину. Если просто раздвоить вершины и найти паросочетание, может получиться «цикл» длины $2$, использующий одно ребро дважды. Правильно: найти <strong>эйлеров цикл</strong> и ориентировать рёбра по обходу — получится ориентированный граф, где в каждую вершину входит $d$ и выходит $d$ рёбер. Теперь раздвоим вершины, найдём совершенное паросочетание (граф $d$-регулярный двудольный) — оно задаёт «следующую вершину» для каждой, т.е. разбиение на циклы.</p>
 <h3 id="s8-7">Важные вершины в DAG <a class="ts" href="https://youtu.be/TM1lMuEUXIE?t=12327" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:25:27</a></h3>
 <p>Вершина DAG <strong>важна</strong>, если сравнима (достижима в одну из сторон) со всеми остальными вершинами. Найдём самый длинный путь $P=p_1,\dots,p_k$: любая важная вершина лежит на нём (иначе её можно было бы вставить в путь и сделать его длиннее — любая вершина либо достижима из неё, либо она сама достижима). Дальше для каждой вершины $w$ вне пути вычислим $a$ — наибольший индекс $p_a$, из которого достижима $w$, и $b$ — наименьший индекс $p_b$, достижимого из $w$ (динамика по префиксам/суффиксам пути). Вершины пути с индексами строго между $a$ и $b$ несравнимы с $w$ — их помечаем как неважные (разностный массив). Важными остаются непомеченные вершины пути. Для «почти важных» вершин (сравнимых со всеми, кроме одной) лектор лишь наметил идею: вершины вне пути могут быть кандидатами, если у них «отрезок несравнимости» длины один; оставляем один кандидат на каждое такое место и проверяем соседние кандидаты на связь ребром.</p>
+<figure class="viz"><svg viewBox="0 0 760 300" role="img" aria-label="Самый длинный путь, вершина w вне пути и отрезок несравнимых с ней вершин" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="300" rx="14" fill="#141a24"/>
+  <text x="380" y="26" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >самый длинный путь P = p₁, …, pₖ  и вершина w вне пути</text>
+  <circle cx="70" cy="100" r="15" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+  <text x="70" y="105" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >p<tspan font-size="10" dy="3">1</tspan></text>
+  <line x1="85.0" y1="100.0" x2="147.0" y2="100.0" stroke="#9aa4b2" stroke-width="2.2" />
+  <polygon points="155.0,100.0 145.8,103.9 145.8,96.1" fill="#9aa4b2"/>
+  <circle cx="170" cy="100" r="15" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+  <text x="170" y="105" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >p<tspan font-size="10" dy="3">2</tspan></text>
+  <line x1="185.0" y1="100.0" x2="247.0" y2="100.0" stroke="#9aa4b2" stroke-width="2.2" />
+  <polygon points="255.0,100.0 245.8,103.9 245.8,96.1" fill="#9aa4b2"/>
+  <circle cx="270" cy="100" r="15" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+  <text x="270" y="105" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >p<tspan font-size="10" dy="3">a</tspan></text>
+  <line x1="285.0" y1="100.0" x2="347.0" y2="100.0" stroke="#9aa4b2" stroke-width="2.2" />
+  <polygon points="355.0,100.0 345.8,103.9 345.8,96.1" fill="#9aa4b2"/>
+  <circle cx="370" cy="100" r="15" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+  <text x="370" y="105" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" ></text>
+  <line x1="385.0" y1="100.0" x2="447.0" y2="100.0" stroke="#9aa4b2" stroke-width="2.2" />
+  <polygon points="455.0,100.0 445.8,103.9 445.8,96.1" fill="#9aa4b2"/>
+  <circle cx="470" cy="100" r="15" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+  <text x="470" y="105" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" ></text>
+  <line x1="485.0" y1="100.0" x2="547.0" y2="100.0" stroke="#9aa4b2" stroke-width="2.2" />
+  <polygon points="555.0,100.0 545.8,103.9 545.8,96.1" fill="#9aa4b2"/>
+  <circle cx="570" cy="100" r="15" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+  <text x="570" y="105" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >p<tspan font-size="10" dy="3">b</tspan></text>
+  <line x1="585.0" y1="100.0" x2="647.0" y2="100.0" stroke="#9aa4b2" stroke-width="2.2" />
+  <polygon points="655.0,100.0 645.8,103.9 645.8,96.1" fill="#9aa4b2"/>
+  <circle cx="670" cy="100" r="15" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+  <text x="670" y="105" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >p<tspan font-size="10" dy="3">k</tspan></text>
+  <rect x="292" y="78" width="256" height="44" rx="10" fill="none" stroke="#fc6255" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="420" y="150" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#fc6255" >несравнимы с w — неважные</text>
+  <rect x="392.0" y="208.0" width="56" height="34" rx="8" fill="#1f2a3a" stroke="#ff8c1a" stroke-width="2"/>
+  <text x="420" y="230" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >w</text>
+  <line x1="278.0" y1="114.0" x2="391.8" y2="206.0" stroke="#83c167" stroke-width="2.3" />
+  <polygon points="398.0,211.0 388.4,208.2 393.3,202.2" fill="#83c167"/>
+  <line x1="442.0" y1="211.0" x2="555.8" y2="119.0" stroke="#83c167" stroke-width="2.3" />
+  <polygon points="562.0,114.0 557.3,122.8 552.4,116.8" fill="#83c167"/>
+  <text x="244" y="190" text-anchor="end" font-family="sans-serif" font-size="12" fill="#83c167" >a: наибольший индекс,</text>
+  <text x="244" y="206" text-anchor="end" font-family="sans-serif" font-size="12" fill="#83c167" >из которого w достижима</text>
+  <text x="600" y="190" text-anchor="start" font-family="sans-serif" font-size="12" fill="#83c167" >b: наименьший индекс,</text>
+  <text x="600" y="206" text-anchor="start" font-family="sans-serif" font-size="12" fill="#83c167" >достижимый из w</text>
+  <text x="380" y="282" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >важные вершины лежат на пути; всё строго между a и b помечаем неважным (разностный массив)</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/TM1lMuEUXIE?t=13010" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:36:30</a> Доска (перерисовано): самый длинный путь, вершина $w$ вне него и отрезок вершин пути между $a$ и $b$, несравнимых с $w$.</figcaption></figure>
 <h3 id="s8-8">Строка по условиям «подотрезок меньше подотрезка» <a class="ts" href="https://youtu.be/TM1lMuEUXIE?t=13309" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:41:49</a></h3>
 <p>Нужно построить строку над неограниченным алфавитом, для которой заданы условия вида «подстрока $A$ лексикографически не больше подстроки $B$». Условие даёт $A[1]\le B[1]$ — ребро в графе позиций. Сожмём КСС: все позиции в одной КСС обязаны быть равны. Если циклов нет, расставим значения по топологическому порядку, и условия выполнены. Если циклы есть, для пар строк, у которых совпал префикс, добавляем условие для следующих символов, снова сжимаем КСС и так далее. Всего итераций не больше $n$ (на каждой сливаются компоненты), одна итерация — $O(m)$, итого $O(nm)$.</p>
 <h3 id="s8-9">Остовное дерево, все листья которого лежат в одной доле <a class="ts" href="https://youtu.be/TM1lMuEUXIE?t=13601" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:46:41</a></h3>
-<p>Нужно найти остов двудольного графа, листья которого — все в одной доле (пусть правой). Необходимо: доли разного размера (при $|L|=|R|$ рёбер у дерева $n+m-1$, а у вершин слева степень хотя бы $2$ — не хватает рёбер) и существование паросочетания, покрывающего левую долю (по лемме Холла — иначе нарушается счёт рёбер). Затем запустим обход (рёбра паросочетания идут вправо, остальные влево) от всех <strong>свободных правых</strong> вершин: он обязан посетить все вершины, иначе нашлось бы множество $k$ левых вершин с $k$ соседями, нарушающее оценку числа рёбер. Лес обхода имеет листья только справа (в левую вершину входим и выходим); достаточно соединить компоненты леса любыми рёбрами. Лектор отметил, что эта задача (около 3500 на Codeforces) решается и пересечением матроидов, но паросочетание — гораздо короче.</p>
+<p>Нужно найти остов двудольного графа, листья которого — все в одной доле (пусть правой). Необходимо: доли разного размера (при $|L|=|R|$ рёбер у дерева $n+m-1$, а у вершин слева степень хотя бы $2$ — не хватает рёбер) и существование паросочетания, покрывающего левую долю (по лемме Холла — иначе нарушается счёт рёбер). Затем запустим обход (рёбра паросочетания идут вправо, остальные влево) от всех <strong>свободных правых</strong> вершин: он обязан посетить все вершины, иначе нашлось бы множество $k$ левых вершин с $k$ соседями, нарушающее оценку числа рёбер. Лес обхода имеет листья только справа (в левую вершину входим и выходим); достаточно соединить компоненты леса любыми рёбрами. Лектор рассказал, что когда сам решал эту задачу (в оригинале она была на «табличке», а не на обычном графе), заметил, что она решается пересечением двух матроидов; это долго, но он придумал рекурсивно делить таблицу и сдал такое решение, хотя авторы старались сделать тесты против матроидов. <a class="ts" href="https://youtu.be/TM1lMuEUXIE?t=14029" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:53:49</a> Паросочетание — гораздо короче.</p>
 
 <footer>
   Конспект подготовлен по записи занятия Яндекс кружка. Таймкоды соответствуют исходной видеозаписи.

@@ -821,6 +821,36 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
 </nav>
 <h2 id="s1">1. Что такое жадный алгоритм <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=9" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">0:09</a></h2>
 <p><strong>Жадный алгоритм</strong> — решение, в котором задача сводится к цепочке шагов, и на каждом шаге выбирается <strong>локально оптимальный</strong> вариант; назад мы не смотрим и остальные «веточки» решений сразу отбрасываем. Строго выделить класс задач, решаемых жадностью, сложно: формальный аппарат (например, матроиды) проходят позже. Поэтому на этом занятии цель другая — посмотреть как можно больше примеров и набраться интуиции: что решается жадностью, а что нет.</p>
+<figure class="viz"><svg viewBox="0 0 760 270" role="img" aria-label="Цепочка локально оптимальных шагов, остальные ветки отброшены" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="g1-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#58c4dd"/></marker><marker id="g1-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#83c167"/></marker><marker id="g1-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9aa4b2"/></marker></defs>
+<rect x="0" y="0" width="760" height="270" rx="14" fill="#141a24"/>
+<text x="32" y="34" text-anchor="start" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">Жадность: цепочка локально оптимальных шагов</text>
+<text x="32" y="58" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">На каждом шаге берём лучший вариант сейчас; остальные «веточки» сразу отбрасываем.</text>
+<circle cx="110" cy="150" r="20" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+<circle cx="360" cy="150" r="20" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+<circle cx="620" cy="150" r="20" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2"/>
+<circle cx="360" cy="150" r="4" fill="#58c4dd"/>
+<text x="110" y="190" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2">старт</text>
+<line x1="132.0" y1="150.0" x2="336.0" y2="150.0" stroke="#58c4dd" stroke-width="2.5" marker-end="url(#g1-b)" stroke-linecap="round"/>
+<line x1="384.0" y1="150.0" x2="596.0" y2="150.0" stroke="#83c167" stroke-width="2.5" marker-end="url(#g1-g)" stroke-linecap="round"/>
+<text x="235" y="140" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#58c4dd">выбран лучший</text>
+<text x="490" y="140" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167">и так далее</text>
+<circle cx="250" cy="90" r="17" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="2"/>
+<line x1="235.0" y1="105.0" x2="265.0" y2="75.0" stroke="#fc6255" stroke-width="3" />
+<line x1="235.0" y1="75.0" x2="265.0" y2="105.0" stroke="#fc6255" stroke-width="3" />
+<circle cx="250" cy="215" r="17" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="2"/>
+<line x1="235.0" y1="230.0" x2="265.0" y2="200.0" stroke="#fc6255" stroke-width="3" />
+<line x1="235.0" y1="200.0" x2="265.0" y2="230.0" stroke="#fc6255" stroke-width="3" />
+<circle cx="500" cy="90" r="17" fill="#1f2a3a" stroke="#9aa4b2" stroke-width="2"/>
+<line x1="485.0" y1="105.0" x2="515.0" y2="75.0" stroke="#fc6255" stroke-width="3" />
+<line x1="485.0" y1="75.0" x2="515.0" y2="105.0" stroke="#fc6255" stroke-width="3" />
+<path d="M124,138 Q170,95 228,92" fill="none" stroke="#9aa4b2" stroke-width="2" marker-end="url(#g1-m)"/>
+<path d="M124,162 Q170,210 228,213" fill="none" stroke="#9aa4b2" stroke-width="2" marker-end="url(#g1-m)"/>
+<line x1="380" y1="135" x2="480" y2="100" stroke="#9aa4b2" stroke-width="2" stroke-dasharray="3 6"/>
+<line x1="470.0" y1="104.0" x2="480.0" y2="100.5" stroke="#9aa4b2" stroke-width="2" marker-end="url(#g1-m)" stroke-linecap="round"/>
+<text x="250" y="252" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#fc6255">отброшены сразу</text>
+<text x="528" y="95" text-anchor="start" font-family="sans-serif" font-size="13" fill="#fc6255">отброшена</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=63" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:03</a> Доска (перерисовано): цепочка решений: на каждом шаге выбирается один локально оптимальный вариант, остальные «веточки» отбрасываются сразу.</figcaption></figure>
 <div class="note"><span class="lbl">Как работать на занятии</span><br>
 Если вы уже знаете решение задачи, не подсказывайте сразу: пусть остальные придумают и опровергнут неправильные жадные стратегии. Именно придумывание неверных стратегий и поиск контрпримеров и даёт «насмотренность».</div>
 
@@ -837,8 +867,32 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
 
 <h3 id="s2-1">Неверная жадность: самый дорогой первым <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=381" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">6:21</a></h3>
 <p>Идея: упорядочим слитки по убыванию стоимости $c_i$ и будем пихать в рюкзак, пока влезает. Это неверно.</p>
-<p><strong>Собственный пример (контрпример).</strong> $M=10$; слитки: $A=(m{=}10,\,c{=}60)$, $B=(5,\,50)$, $C=(5,\,50)$. Самый дорогой — $A$; он забьёт весь рюкзак, итог $60$. Но $B+C$ тоже весят $10$ и стоят $100$.</p>
-<figure class="viz"><svg viewBox="0 0 760 372" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="372" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Непрерывный рюкзак: M = 10</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Слитки (масса, стоимость): A = (10, 60), B = (5, 50), C = (5, 50). Удельная стоимость: 6, 10, 10.</text><text x="60" y="94" fill="#fc6255" font-size="15.5" font-weight="700" text-anchor="start">самый дорогой слиток первым</text><rect x="60" y="108" width="560" height="44" rx="6" fill="#151f30" stroke="#7c8aa0" stroke-width="2"/><rect x="62" y="110" width="556" height="40" rx="5" fill="#fc6255" stroke="#fc6255" stroke-width="1.5"/><text x="340.0" y="136" fill="#141a24" font-size="15" font-weight="700" text-anchor="middle">A: 60</text><text x="634" y="136" fill="#fc6255" font-size="16" font-weight="700" text-anchor="start">= 60</text><text x="60" y="194" fill="#83c167" font-size="15.5" font-weight="700" text-anchor="start">по удельной стоимости (10, 10, 6)</text><rect x="60" y="208" width="560" height="44" rx="6" fill="#151f30" stroke="#7c8aa0" stroke-width="2"/><rect x="62" y="210" width="276" height="40" rx="5" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="200.0" y="236" fill="#141a24" font-size="15" font-weight="700" text-anchor="middle">B: 50</text><rect x="342" y="210" width="276" height="40" rx="5" fill="#83c167" stroke="#83c167" stroke-width="1.5"/><text x="480.0" y="236" fill="#141a24" font-size="15" font-weight="700" text-anchor="middle">C: 50</text><text x="634" y="236" fill="#83c167" font-size="16" font-weight="700" text-anchor="start">= 100</text><text x="32" y="318" fill="#c2cdde" font-size="15" text-anchor="start">Жадность по цене слитка ломается; жадность по цене за единицу массы — работает.</text><text x="32" y="344" fill="#9aa4b2" font-size="14" text-anchor="start">Рюкзак разрешено заполнять дробными частями — поэтому последний слиток можно взять «наполовину».</text></svg><figcaption>Если брать слитки по убыванию цены, рюкзак забьёт один тяжёлый слиток; по убыванию цены за единицу массы получается оптимум.</figcaption></figure>
+<p><a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=427" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">7:07</a> <strong>Пример с лекции.</strong> $M=50$, четыре слитка $(m,c)$: $(50,4)$, $(16,3)$, $(16,3)$, $(16,3)$. Самый дорогой — первый ($c=4$): он занимает всю вместимость, итог $4$. А три слитка по $16$ (вместе $48\le 50$) стоят $9$ — лектор: «взяли четыре вместо общей стоимости девять». (Если довести до настоящего оптимума по удельной стоимости, то выйдет чуть больше, $9{,}16$: на оставшиеся $2$ г помещается кусочек первого слитка.)</p>
+<figure class="viz"><svg viewBox="0 0 760 376" role="img" aria-label="Рюкзак M=50: по цене слитка получается 4, по удельной стоимости 9" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="760" height="376" rx="14" fill="#141a24"/>
+<text x="32" y="34" text-anchor="start" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">Непрерывный рюкзак: M = 50, четыре слитка</text>
+<text x="32" y="58" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">Слитки (масса m, стоимость c): (50, 4), (16, 3), (16, 3), (16, 3).</text>
+<text x="60" y="100" text-anchor="start" font-family="sans-serif" font-size="15" fill="#fc6255" font-weight="700">по убыванию стоимости c</text>
+<rect x="60.0" y="112.0" width="560.0" height="44.0" rx="6" fill="#151f30" stroke="#9aa4b2" stroke-width="2" />
+<rect x="62.0" y="114.0" width="556.0" height="40.0" rx="6" fill="#fc6255" stroke="#fc6255" stroke-width="1" />
+<text x="340" y="140" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#141a24" font-weight="700">слиток (50, 4): забил весь рюкзак</text>
+<text x="638" y="140" text-anchor="start" font-family="sans-serif" font-size="17" fill="#fc6255" font-weight="700">= 4</text>
+<text x="60" y="200" text-anchor="start" font-family="sans-serif" font-size="15" fill="#83c167" font-weight="700">по удельной стоимости c/m</text>
+<rect x="60.0" y="212.0" width="560.0" height="44.0" rx="6" fill="#151f30" stroke="#9aa4b2" stroke-width="2" />
+<rect x="62.0" y="214.0" width="175.2" height="40.0" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1" />
+<text x="150" y="240" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#141a24" font-weight="700">(16, 3)</text>
+<rect x="241.2" y="214.0" width="175.2" height="40.0" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1" />
+<text x="329" y="240" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#141a24" font-weight="700">(16, 3)</text>
+<rect x="420.4" y="214.0" width="175.2" height="40.0" rx="6" fill="#83c167" stroke="#83c167" stroke-width="1" />
+<text x="508" y="240" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#141a24" font-weight="700">(16, 3)</text>
+<rect x="599.6" y="214.0" width="18.4" height="40.0" rx="6" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="1" />
+<text x="638" y="240" text-anchor="start" font-family="sans-serif" font-size="17" fill="#83c167" font-weight="700">= 9</text>
+<text x="609" y="282" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a">остаток 2 — кусочек слитка (50, 4)</text>
+<line x1="608.8" y1="262.0" x2="608.8" y2="270.0" stroke="#ff8c1a" stroke-width="1.5" />
+<text x="32" y="326" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1">c/m:  (50, 4) → 0,08;   (16, 3) → 0,1875 — берём по убыванию c/m.</text>
+<text x="32" y="350" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">Самый дорогой слиток забивает рюкзак: 4 вместо 9.</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=470" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">7:50</a> Доска (перерисовано): пример M = 50: по убыванию цены слитка получается 4, по удельной стоимости — 9.</figcaption></figure>
+
 
 <h3 id="s2-2">Верная жадность: по удельной стоимости <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=556" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">9:16</a></h3>
 <p><strong>Удельная стоимость</strong> слитка — $c_i/m_i$, цена одного грамма. Сортируем слитки по убыванию удельной стоимости и берём подряд: целиком, пока влезают, а последний — той частью, что осталась по вместимости.</p>
@@ -905,10 +959,60 @@ $$\sum_{i=1}^{n-1} a_i\Bigl(\tfrac{a_{i+1}}{a_i}-1\Bigr)=\sum_{i=1}^{n-1}(a_{i+1
 
 <h3 id="s4-1">Гипотезы и контрпримеры <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=3058" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">50:58</a></h3>
 <ol>
-<li><strong>Сначала самые короткие.</strong> На примере выше сработает, но контрпример простой: $[1,5),\ [5,10),\ [4,6)$. Берём самую короткую $[4,6)$, и она пересекается с обеими другими: получаем $1$ лекцию вместо $2$ ($[1,5)$ и $[5,10)$).</li>
-<li><strong>Сначала те, что пересекаются с наименьшим числом других.</strong> На лекции здесь контрпример построить не удалось. <span style="opacity:.8">Развёрнутое объяснение:</span> известно, что эта стратегия тоже неверна (контрпример существует, но он заметно сложнее); поэтому «работает на примере» ничего не доказывает.</li>
+<li><strong>Сначала самые короткие.</strong> На примере выше сработает <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=3236" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">53:56</a>, но контрпример простой (на доске — схема без чисел: две лекции встык и одна короткая поперёк обеих): $[1,5),\ [5,10),\ [4,6)$. Берём самую короткую $[4,6)$, и она пересекается с обеими другими: получаем $1$ лекцию вместо $2$ ($[1,5)$ и $[5,10)$). <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=3300" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">55:00</a></li>
+<li><strong>Сначала те, что пересекаются с наименьшим числом других.</strong> <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=3436" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">57:16</a> Контрпример лектор набросала на доске: два длинных отрезка по краям (у каждого по одному пересечению) и между ними плотная группа коротких, пересекающихся друг с другом (у них пересечений больше). По этому правилу сначала берутся крайние отрезки, а всего можно взять, как оценила лектор, «условно три».</li>
 <li><strong>По возрастанию начала.</strong> Ломается сразу: на примере берём $[0,18)$, и она блокирует всё остальное — одна лекция вместо четырёх.</li>
 </ol>
+<div class="note"><span class="lbl">Исправление</span><br>Числа к первому контрпримеру лектор назвала вслух как 4–5, 5–10 и 4–6, но при них самой короткой окажется $[4,5)$, и стратегия даст верный ответ $2$. Поэтому в конспекте взяты $[1,5)$, $[5,10)$, $[4,6)$ — той же формы, что на рисунке. Набросок для второй стратегии на доске тоже схематичный: строго его не проверяли.</div>
+<figure class="viz"><svg viewBox="0 0 760 344" role="img" aria-label="Контрпримеры: самые короткие и по возрастанию начала" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="760" height="344" rx="14" fill="#141a24"/>
+<text x="32" y="34" text-anchor="start" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">Расписание: две неверные жадности</text>
+<text x="32" y="58" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">Полуинтервалы [s, f); лекции — отрезки на оси времени.</text>
+<text x="32" y="94" text-anchor="start" font-family="sans-serif" font-size="15" fill="#fc6255" font-weight="700">«сначала самые короткие»</text>
+<rect x="144.0" y="108.0" width="174.0" height="26.0" rx="5" fill="#58c4dd" stroke="#58c4dd" stroke-width="1" />
+<text x="231" y="126" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">[1, 5)</text>
+<rect x="320.0" y="108.0" width="218.0" height="26.0" rx="5" fill="#58c4dd" stroke="#58c4dd" stroke-width="1" />
+<text x="429" y="126" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">[5, 10)</text>
+<rect x="276.0" y="140.0" width="86.0" height="26.0" rx="5" fill="#fc6255" stroke="#fc6255" stroke-width="1" />
+<text x="319" y="158" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">[4, 6)</text>
+<text x="564" y="124" text-anchor="start" font-family="sans-serif" font-size="14" fill="#58c4dd">оптимум: 2 лекции</text>
+<text x="564" y="158" text-anchor="start" font-family="sans-serif" font-size="14" fill="#fc6255">берём короткую: 1</text>
+<line x1="276.0" y1="104.0" x2="276.0" y2="172.0" stroke="#9aa4b2" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="364.0" y1="104.0" x2="364.0" y2="172.0" stroke="#9aa4b2" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="32" y="216" text-anchor="start" font-family="sans-serif" font-size="15" fill="#fc6255" font-weight="700">«по возрастанию начала» (пример с доски)</text>
+<rect x="100.0" y="230.0" width="418.0" height="26.0" rx="5" fill="#fc6255" stroke="#fc6255" stroke-width="1" />
+<text x="309" y="248" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">[0, 18) — берём первой</text>
+<rect x="123.3" y="264.0" width="44.7" height="24.0" rx="5" fill="#83c167" stroke="#83c167" stroke-width="1" />
+<text x="146" y="281" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">[1,3)</text>
+<rect x="216.7" y="264.0" width="114.7" height="24.0" rx="5" fill="#83c167" stroke="#83c167" stroke-width="1" />
+<text x="274" y="281" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">[5,10)</text>
+<rect x="380.0" y="264.0" width="68.0" height="24.0" rx="5" fill="#83c167" stroke="#83c167" stroke-width="1" />
+<text x="414" y="281" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">[12,15)</text>
+<rect x="496.7" y="264.0" width="68.0" height="24.0" rx="5" fill="#83c167" stroke="#83c167" stroke-width="1" />
+<text x="531" y="281" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">[17,20)</text>
+<text x="589" y="282" text-anchor="start" font-family="sans-serif" font-size="14" fill="#83c167">4 лекции</text>
+<text x="532" y="247" text-anchor="start" font-family="sans-serif" font-size="14" fill="#fc6255">1 лекция, остальные мешают</text>
+<line x1="100.0" y1="306.0" x2="660.0" y2="306.0" stroke="#9aa4b2" stroke-width="2" />
+<line x1="100.0" y1="301.0" x2="100.0" y2="311.0" stroke="#9aa4b2" stroke-width="1.5" />
+<text x="100" y="327" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">0</text>
+<line x1="170.0" y1="301.0" x2="170.0" y2="311.0" stroke="#9aa4b2" stroke-width="1.5" />
+<text x="170" y="327" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">3</text>
+<line x1="240.0" y1="301.0" x2="240.0" y2="311.0" stroke="#9aa4b2" stroke-width="1.5" />
+<text x="240" y="327" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">6</text>
+<line x1="310.0" y1="301.0" x2="310.0" y2="311.0" stroke="#9aa4b2" stroke-width="1.5" />
+<text x="310" y="327" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">9</text>
+<line x1="380.0" y1="301.0" x2="380.0" y2="311.0" stroke="#9aa4b2" stroke-width="1.5" />
+<text x="380" y="327" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">12</text>
+<line x1="450.0" y1="301.0" x2="450.0" y2="311.0" stroke="#9aa4b2" stroke-width="1.5" />
+<text x="450" y="327" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">15</text>
+<line x1="520.0" y1="301.0" x2="520.0" y2="311.0" stroke="#9aa4b2" stroke-width="1.5" />
+<text x="520" y="327" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">18</text>
+<line x1="590.0" y1="301.0" x2="590.0" y2="311.0" stroke="#9aa4b2" stroke-width="1.5" />
+<text x="590" y="327" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">21</text>
+<line x1="660.0" y1="301.0" x2="660.0" y2="311.0" stroke="#9aa4b2" stroke-width="1.5" />
+<text x="660" y="327" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">24</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=3300" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">55:00</a> Доска (перерисовано): контрпримеры — «самые короткие» (схема с доски, числа подобраны) и «по возрастанию начала» (пример лекции: берём [0, 18) — и больше ничего).</figcaption></figure>
+
 
 <h3 id="s4-2">Верное решение: сортировка по концу <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=3562" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">59:22</a></h3>
 <p>Сортируем лекции по возрастанию $f_i$. Храним $R$ — границу, раньше которой начинаться уже нельзя (конец последней выбранной лекции). Идём по лекциям: если $s_i\ge R$ — берём её и обновляем $R=f_i$, иначе пропускаем.</p>
@@ -925,10 +1029,51 @@ $$\sum_{i=1}^{n-1} a_i\Bigl(\tfrac{a_{i+1}}{a_i}-1\Bigr)=\sum_{i=1}^{n-1}(a_{i+1
     }
     <span class="k">return</span> ans;
 }</code></pre></div>
+<div class="note"><span class="lbl">Исправление</span><br>В коде на доске написано <code>R = s_i</code>, но граница <code>R</code> должна становиться концом выбранной лекции, <code>R = f_i</code> (как и сказано словами и как в коде выше). <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=3880" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:04:40</a></div>
 <p>На примере: берём $[1,3)$, пропускаем $[2,7)$, берём $[5,10)$ ($R=10$), пропускаем $[9,11)$, берём $[12,15)$ ($R=15$), пропускаем $[10,17),[0,18),[6,18)$, берём $[17,20)$ ($R=20$), пропускаем $[13,23)$. Итого $4$. Сложность — $O(n\log n)$ на сортировку.</p>
 
 <h3 id="s4-3">Доказательство <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=3842" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:04:02</a></h3>
 <p>Рассмотрим оптимальный набор лекций и упорядочим его по концам. Пусть наш жадный набор и оптимальный совпадают в первых $k$ лекциях, а на $(k+1)$-й различаются. Наша лекция выбрана как лекция с наименьшим концом среди тех, что не конфликтуют с первыми $k$, поэтому <strong>её конец не позже</strong> конца лекции оптимального набора. Заменим в оптимальном наборе $(k+1)$-ю лекцию нашей: так как наша заканчивается не позже, все лекции после неё по-прежнему ей не мешают. Размер набора не изменился (он остался оптимальным), а совпадение стало на одну лекцию длиннее. Повторяя, получаем, что жадный набор не хуже оптимального.</p>
+
+<figure class="viz"><svg viewBox="0 0 760 376" role="img" aria-label="Замена третьей лекции оптимального набора нашей, которая заканчивается раньше" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="760" height="376" rx="14" fill="#141a24"/>
+<text x="32" y="34" text-anchor="start" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">Доказательство: заменяем лекцию оптимального набора нашей</text>
+<text x="32" y="58" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">Первые k лекций совпадают; (k+1)-я наша заканчивается не позже оптимальной.</text>
+<text x="32" y="98" text-anchor="start" font-family="sans-serif" font-size="14" fill="#ff8c1a" font-weight="700">оптимальный набор</text>
+<rect x="60.0" y="108.0" width="98.0" height="26.0" rx="5" fill="#9aa4b2" stroke="#9aa4b2" stroke-width="1" />
+<text x="109" y="126" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">1</text>
+<rect x="175.0" y="108.0" width="98.0" height="26.0" rx="5" fill="#9aa4b2" stroke="#9aa4b2" stroke-width="1" />
+<text x="224" y="126" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">2</text>
+<rect x="290.0" y="108.0" width="188.0" height="26.0" rx="5" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="1" />
+<text x="384" y="126" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">3</text>
+<rect x="500.0" y="108.0" width="88.0" height="26.0" rx="5" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="1" />
+<text x="544" y="126" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">4</text>
+<rect x="605.0" y="108.0" width="93.0" height="26.0" rx="5" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="1" />
+<text x="652" y="126" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">5</text>
+<text x="32" y="178" text-anchor="start" font-family="sans-serif" font-size="14" fill="#83c167" font-weight="700">наш выбор</text>
+<rect x="60.0" y="188.0" width="98.0" height="26.0" rx="5" fill="#9aa4b2" stroke="#9aa4b2" stroke-width="1" />
+<text x="109" y="206" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">1</text>
+<rect x="175.0" y="188.0" width="98.0" height="26.0" rx="5" fill="#9aa4b2" stroke="#9aa4b2" stroke-width="1" />
+<text x="224" y="206" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">2</text>
+<rect x="290.0" y="188.0" width="108.0" height="26.0" rx="5" fill="#83c167" stroke="#83c167" stroke-width="1" />
+<text x="344" y="206" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">3</text>
+<line x1="400.0" y1="100.0" x2="400.0" y2="224.0" stroke="#83c167" stroke-width="1.5" stroke-dasharray="4 4"/>
+<line x1="480.0" y1="100.0" x2="480.0" y2="150.0" stroke="#ff8c1a" stroke-width="1.5" stroke-dasharray="4 4"/>
+<text x="445" y="250" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#9aa4b2"></text>
+<text x="32" y="266" text-anchor="start" font-family="sans-serif" font-size="14" fill="#ffff00" font-weight="700">после замены</text>
+<rect x="60.0" y="276.0" width="98.0" height="26.0" rx="5" fill="#9aa4b2" stroke="#9aa4b2" stroke-width="1" />
+<text x="109" y="294" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">1</text>
+<rect x="175.0" y="276.0" width="98.0" height="26.0" rx="5" fill="#9aa4b2" stroke="#9aa4b2" stroke-width="1" />
+<text x="224" y="294" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">2</text>
+<rect x="290.0" y="276.0" width="108.0" height="26.0" rx="5" fill="#83c167" stroke="#83c167" stroke-width="1" />
+<text x="344" y="294" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">3</text>
+<rect x="500.0" y="276.0" width="88.0" height="26.0" rx="5" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="1" />
+<text x="544" y="294" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">4</text>
+<rect x="605.0" y="276.0" width="93.0" height="26.0" rx="5" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="1" />
+<text x="652" y="294" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#141a24" font-weight="700">5</text>
+<text x="32" y="330" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1">Наша лекция заканчивается раньше, поэтому лекции 4, 5, … по-прежнему ей не мешают:</text>
+<text x="32" y="352" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1">размер набора не изменился, а совпадение с нашим стало на одну лекцию длиннее.</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=3911" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:05:11</a> Доска (перерисовано): доказательство обменом: наша (k+1)-я лекция заканчивается раньше оптимальной, её подстановка ничего не ломает.</figcaption></figure>
 
 <h2 id="s5">5. Максимизация суммы попарных произведений <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=4076" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:07:56</a></h2>
 <p><strong>Условие.</strong> Даны два массива положительных целых $a$ и $b$ одинаковой длины $n$. Разрешено переставлять элементы внутри каждого массива. Нужно максимизировать $\sum_{i=1}^n a_i b_i$ (это скалярное произведение). Чтобы <em>минимизировать</em>, применяют противоположный порядок (самое большое — с самым маленьким).</p>
@@ -958,7 +1103,80 @@ $$(a_ib_j+a_jb_i)-(a_ib_i+a_jb_j)=(a_j-a_i)(b_i-b_j)>0,$$
 
 <h2 id="s7">7. Очередь на циклическом буфере <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=5179" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:26:19</a></h2>
 <p>Заводим массив фиксированной вместимости <code>cap</code> и два указателя: <code>head</code> — индекс первого элемента очереди, <code>tail</code> — индекс первой <strong>свободной</strong> ячейки (куда добавляем). Добавляем в <code>tail</code>, удаляем из <code>head</code>. Оба указателя только <strong>двигаются вправо на единицу</strong>, а если вышли за границу массива — возвращаются в начало: <code>i = (i + 1) % cap</code>. Это и называется «циклический буфер». Очередь как бы «ползёт» по массиву и, дойдя до конца, продолжает в освободившихся ячейках начала.</p>
-<figure class="viz"><svg viewBox="0 0 760 450" role="img" xmlns="http://www.w3.org/2000/svg"><defs><marker id="zh4-ar0" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#83c167"/></marker><marker id="zh4-ar1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ff8c1a"/></marker></defs><rect x="0" y="0" width="760" height="450" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Циклический буфер: cap = 4</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">head — первый элемент очереди, tail — первая свободная ячейка; оба двигаются только вправо по кругу.</text><text x="40" y="106" fill="#dfe7f1" font-size="15.5" font-weight="700" text-anchor="start">очередь 10, 20, 30</text><rect x="100" y="146" width="76" height="46" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="138.0" y="174.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">10</text><text x="138.0" y="140" fill="#9aa4b2" font-size="13" text-anchor="middle">0</text><rect x="184" y="146" width="76" height="46" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="222.0" y="174.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">20</text><text x="222.0" y="140" fill="#9aa4b2" font-size="13" text-anchor="middle">1</text><rect x="268" y="146" width="76" height="46" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="306.0" y="174.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">30</text><text x="306.0" y="140" fill="#9aa4b2" font-size="13" text-anchor="middle">2</text><rect x="352" y="146" width="76" height="46" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><text x="390.0" y="140" fill="#9aa4b2" font-size="13" text-anchor="middle">3</text><line x1="138.0" y1="224" x2="138.0" y2="198" stroke="#83c167" stroke-width="2.5" marker-end="url(#zh4-ar0)" stroke-linecap="round"/><text x="138.0" y="244" fill="#83c167" font-size="15" font-weight="700" text-anchor="middle">head</text><line x1="390.0" y1="224" x2="390.0" y2="198" stroke="#ff8c1a" stroke-width="2.5" marker-end="url(#zh4-ar1)" stroke-linecap="round"/><text x="390.0" y="244" fill="#ff8c1a" font-size="15" font-weight="700" text-anchor="middle">tail</text><text x="448" y="176" fill="#c2cdde" font-size="15" text-anchor="start">cnt = 3</text><text x="40" y="282" fill="#dfe7f1" font-size="15.5" font-weight="700" text-anchor="start">после push 40, pop ×2 (10 и 20), push 50, 60 — очередь 30, 40, 50, 60 полна</text><rect x="100" y="322" width="76" height="46" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="138.0" y="350.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">50</text><text x="138.0" y="316" fill="#9aa4b2" font-size="13" text-anchor="middle">0</text><rect x="184" y="322" width="76" height="46" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="222.0" y="350.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">60</text><text x="222.0" y="316" fill="#9aa4b2" font-size="13" text-anchor="middle">1</text><rect x="268" y="322" width="76" height="46" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="306.0" y="350.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">30</text><text x="306.0" y="316" fill="#9aa4b2" font-size="13" text-anchor="middle">2</text><rect x="352" y="322" width="76" height="46" rx="6" fill="#1e2836" stroke="#33415a" stroke-width="1.5"/><text x="390.0" y="350.76" fill="#dfe7f1" font-size="16" font-weight="700" text-anchor="middle">40</text><text x="390.0" y="316" fill="#9aa4b2" font-size="13" text-anchor="middle">3</text><line x1="292.0" y1="400" x2="292.0" y2="374" stroke="#83c167" stroke-width="2.5" marker-end="url(#zh4-ar0)" stroke-linecap="round"/><line x1="320.0" y1="400" x2="320.0" y2="374" stroke="#ff8c1a" stroke-width="2.5" marker-end="url(#zh4-ar1)" stroke-linecap="round"/><text x="306.0" y="420" fill="#c2cdde" font-size="14.5" font-weight="700" text-anchor="middle">head = tail</text><text x="448" y="352" fill="#c2cdde" font-size="15" text-anchor="start">cnt = 4</text></svg><figcaption>Указатели движутся по кругу: после последней ячейки следующая — нулевая. Пустую и полную очередь различаем по счётчику <code>cnt</code>.</figcaption></figure>
+<figure class="viz"><svg viewBox="0 0 760 604" role="img" aria-label="Циклический буфер на четыре ячейки: четыре состояния" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="rb-h" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#83c167"/></marker><marker id="rb-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ff8c1a"/></marker></defs>
+<rect x="0" y="0" width="760" height="604" rx="14" fill="#141a24"/>
+<text x="32" y="34" text-anchor="start" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">Циклический буфер: cap = 4</text>
+<text x="32" y="58" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">head — первый элемент очереди, tail — первая свободная ячейка; оба двигаются только вправо по кругу.</text>
+<text x="32" y="120" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1" font-weight="700">очередь 10, 20, 30</text>
+<rect x="330.0" y="92.0" width="70.0" height="44.0" rx="6" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="365" y="121" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#dfe7f1" font-weight="700">10</text>
+<text x="365" y="86" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">0</text>
+<rect x="406.0" y="92.0" width="70.0" height="44.0" rx="6" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="441" y="121" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#dfe7f1" font-weight="700">20</text>
+<text x="441" y="86" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">1</text>
+<rect x="482.0" y="92.0" width="70.0" height="44.0" rx="6" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="517" y="121" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#dfe7f1" font-weight="700">30</text>
+<text x="517" y="86" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">2</text>
+<rect x="558.0" y="92.0" width="70.0" height="44.0" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" />
+<text x="593" y="86" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">3</text>
+<line x1="365.0" y1="174.0" x2="365.0" y2="142.0" stroke="#83c167" stroke-width="2.5" marker-end="url(#rb-h)" stroke-linecap="round"/>
+<text x="365" y="190" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167" font-weight="700">head</text>
+<line x1="593.0" y1="174.0" x2="593.0" y2="142.0" stroke="#ff8c1a" stroke-width="2.5" marker-end="url(#rb-t)" stroke-linecap="round"/>
+<text x="593" y="190" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" font-weight="700">tail</text>
+<text x="648" y="121" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">cnt = 3</text>
+<text x="32" y="250" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1">pop (10), push 40</text>
+<text x="32" y="272" text-anchor="start" font-family="sans-serif" font-size="13" fill="#9aa4b2">tail вышел за край и вернулся в 0</text>
+<rect x="330.0" y="222.0" width="70.0" height="44.0" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" />
+<text x="365" y="216" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">0</text>
+<rect x="406.0" y="222.0" width="70.0" height="44.0" rx="6" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="441" y="251" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#dfe7f1" font-weight="700">20</text>
+<text x="441" y="216" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">1</text>
+<rect x="482.0" y="222.0" width="70.0" height="44.0" rx="6" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="517" y="251" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#dfe7f1" font-weight="700">30</text>
+<text x="517" y="216" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">2</text>
+<rect x="558.0" y="222.0" width="70.0" height="44.0" rx="6" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="593" y="251" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#dfe7f1" font-weight="700">40</text>
+<text x="593" y="216" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">3</text>
+<line x1="441.0" y1="304.0" x2="441.0" y2="272.0" stroke="#83c167" stroke-width="2.5" marker-end="url(#rb-h)" stroke-linecap="round"/>
+<text x="441" y="320" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167" font-weight="700">head</text>
+<line x1="365.0" y1="304.0" x2="365.0" y2="272.0" stroke="#ff8c1a" stroke-width="2.5" marker-end="url(#rb-t)" stroke-linecap="round"/>
+<text x="365" y="320" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" font-weight="700">tail</text>
+<text x="648" y="251" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">cnt = 3</text>
+<text x="32" y="380" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1">pop (20), pop (30)</text>
+<rect x="330.0" y="352.0" width="70.0" height="44.0" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" />
+<text x="365" y="346" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">0</text>
+<rect x="406.0" y="352.0" width="70.0" height="44.0" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" />
+<text x="441" y="346" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">1</text>
+<rect x="482.0" y="352.0" width="70.0" height="44.0" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" />
+<text x="517" y="346" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">2</text>
+<rect x="558.0" y="352.0" width="70.0" height="44.0" rx="6" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="593" y="381" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#dfe7f1" font-weight="700">40</text>
+<text x="593" y="346" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">3</text>
+<line x1="593.0" y1="434.0" x2="593.0" y2="402.0" stroke="#83c167" stroke-width="2.5" marker-end="url(#rb-h)" stroke-linecap="round"/>
+<text x="593" y="450" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167" font-weight="700">head</text>
+<line x1="365.0" y1="434.0" x2="365.0" y2="402.0" stroke="#ff8c1a" stroke-width="2.5" marker-end="url(#rb-t)" stroke-linecap="round"/>
+<text x="365" y="450" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" font-weight="700">tail</text>
+<text x="648" y="381" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">cnt = 1</text>
+<text x="32" y="510" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1">push 50, push 60</text>
+<rect x="330.0" y="482.0" width="70.0" height="44.0" rx="6" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="365" y="511" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#dfe7f1" font-weight="700">50</text>
+<text x="365" y="476" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">0</text>
+<rect x="406.0" y="482.0" width="70.0" height="44.0" rx="6" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="441" y="511" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#dfe7f1" font-weight="700">60</text>
+<text x="441" y="476" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">1</text>
+<rect x="482.0" y="482.0" width="70.0" height="44.0" rx="6" fill="#151f30" stroke="#33415a" stroke-width="1.5" />
+<text x="517" y="476" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">2</text>
+<rect x="558.0" y="482.0" width="70.0" height="44.0" rx="6" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="593" y="511" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#dfe7f1" font-weight="700">40</text>
+<text x="593" y="476" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2">3</text>
+<line x1="593.0" y1="564.0" x2="593.0" y2="532.0" stroke="#83c167" stroke-width="2.5" marker-end="url(#rb-h)" stroke-linecap="round"/>
+<text x="593" y="580" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167" font-weight="700">head</text>
+<line x1="517.0" y1="564.0" x2="517.0" y2="532.0" stroke="#ff8c1a" stroke-width="2.5" marker-end="url(#rb-t)" stroke-linecap="round"/>
+<text x="517" y="580" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" font-weight="700">tail</text>
+<text x="648" y="511" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">cnt = 3</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=5250" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:27:30</a> Доска (перерисовано): массив на 4 ячейки; указатели двигаются только вправо и по краю возвращаются в 0. Пустую и полную очередь различаем по счётчику <code>cnt</code>.</figcaption></figure>
+
 <p>Размер массива — это максимальный размер очереди: если очередь может содержать $5$ элементов, то и массив должен быть не меньше $5$ (иначе начнём затирать ещё не удалённые элементы).</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="k">struct</span> Ring {
     <span class="t">vector</span>&lt;<span class="t">int</span>&gt; a;
@@ -997,10 +1215,35 @@ $$(a_ib_j+a_jb_i)-(a_ib_i+a_jb_j)=(a_j-a_i)(b_i-b_j)>0,$$
     <span class="k">return</span> st.<span class="f">empty</span>();
 }</code></pre></div>
 <div class="warn"><span class="lbl">Типичная ошибка</span><br>
-Нельзя «сопоставлять первую скобку с последней»: парной к первой открывающей может быть не последняя закрывающая, например в <code>()()</code> или <code>(())()</code>.</div>
+Нельзя «сопоставлять первую скобку с последней»: парной к первой открывающей может быть не последняя закрывающая, например в <code>[[]]()</code> (пример с доски): первой скобке <code>[</code> соответствует четвёртая, а не последняя.</div>
 
 <h3 id="s8-2">B. Постфиксная запись <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=6421" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:47:01</a></h3>
 <p>В <strong>постфиксной записи</strong> сначала идут числа, затем операция, которая применяется к двум последним числам. Например, <code>8 9 + 1 7 - *</code> означает: $8+9=17$, затем $1-7=-6$, затем $17\cdot(-6)=-102$. Запись гарантированно корректна, нужно вычислить значение.</p>
+<figure class="viz"><svg viewBox="0 0 760 280" role="img" aria-label="Разбор постфиксной записи 8 9 + 1 7 - *" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="760" height="280" rx="14" fill="#141a24"/>
+<text x="32" y="34" text-anchor="start" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">Постфиксная запись: 8 9 + 1 7 - *</text>
+<text x="32" y="58" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">Операция применяется к двум последним числам; результат снова становится числом.</text>
+<rect x="126.0" y="120.0" width="48.0" height="44.0" rx="6" fill="#1d2d3d" stroke="#58c4dd" stroke-width="1.5" />
+<text x="150" y="150" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#dfe7f1" font-weight="700">8</text>
+<rect x="196.0" y="120.0" width="48.0" height="44.0" rx="6" fill="#1d2d3d" stroke="#58c4dd" stroke-width="1.5" />
+<text x="220" y="150" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#dfe7f1" font-weight="700">9</text>
+<rect x="266.0" y="120.0" width="48.0" height="44.0" rx="6" fill="#33250f" stroke="#ff8c1a" stroke-width="1.5" />
+<text x="290" y="150" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#dfe7f1" font-weight="700">+</text>
+<rect x="336.0" y="120.0" width="48.0" height="44.0" rx="6" fill="#1d2d3d" stroke="#58c4dd" stroke-width="1.5" />
+<text x="360" y="150" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#dfe7f1" font-weight="700">1</text>
+<rect x="406.0" y="120.0" width="48.0" height="44.0" rx="6" fill="#1d2d3d" stroke="#58c4dd" stroke-width="1.5" />
+<text x="430" y="150" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#dfe7f1" font-weight="700">7</text>
+<rect x="476.0" y="120.0" width="48.0" height="44.0" rx="6" fill="#33250f" stroke="#ff8c1a" stroke-width="1.5" />
+<text x="500" y="150" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#dfe7f1" font-weight="700">−</text>
+<rect x="546.0" y="120.0" width="48.0" height="44.0" rx="6" fill="#33250f" stroke="#ff8c1a" stroke-width="1.5" />
+<text x="570" y="150" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#dfe7f1" font-weight="700">*</text>
+<path d="M150.0,112 Q220.0,72 290.0,112" fill="none" stroke="#83c167" stroke-width="2.5"/>
+<text x="220" y="82" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#83c167">8 + 9 = 17</text>
+<path d="M360.0,112 Q430.0,72 500.0,112" fill="none" stroke="#ffff00" stroke-width="2.5"/>
+<text x="430" y="82" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ffff00">1 − 7 = −6</text>
+<path d="M150.0,172 Q360.0,232 570.0,172" fill="none" stroke="#c78bff" stroke-width="2.5"/>
+<text x="360" y="254" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#c78bff" font-weight="700">17 · (−6) = −102</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=6490" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:48:10</a> Доска (перерисовано): 8 9 + 1 7 - *: 8+9=17, 1−7=−6, 17·(−6)=−102.</figcaption></figure>
 <p><strong>Решение — стек чисел.</strong> Читаем токены как строки. Если токен — число, кладём его в стек. Если операция — снимаем два верхних числа $x$ (более раннее) и $y$ (более позднее), применяем операцию ($x+y$, $x-y$, $x\cdot y$) и кладём результат обратно.</p>
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">stack</span>&lt;<span class="t">long</span> <span class="t">long</span>&gt; st;
 <span class="t">string</span> t;
@@ -1022,15 +1265,119 @@ cout &lt;&lt; st.<span class="f">top</span>();</code></pre></div>
 <h3 id="s8-3">C. Гистограмма <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=6785" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:53:05</a></h3>
 <p>Дан массив высот столбиков. Из подряд идущих столбиков надо составить прямоугольник максимальной площади (прямоугольник не может быть выше самого низкого столбика в нём). Разбиралась на лекции 4.</p>
 <p><strong>Идея.</strong> В оптимальном прямоугольнике есть столбик, вошедший <em>на всю свою высоту</em> (иначе все столбики выше прямоугольника, и его можно нарастить вверх). Зафиксируем такой столбик $i$. Чтобы площадь была наибольшей, нужно взять как можно больше столбиков слева и справа, не ниже $h_i$. Границы — ближайшие <strong>меньшие</strong> столбики слева и справа: $l_i$ и $r_i$. Площадь $h_i\cdot(r_i-l_i-1)$. Ближайшие меньшие находятся стеком за один проход слева направо и один — справа налево; общее время $O(n)$ (при желании можно считать ответ уже во втором проходе, итого два прохода).</p>
+<figure class="viz"><svg viewBox="0 0 760 362" role="img" aria-label="Гистограмма с высотами 1 3 2 1 7: столбик i и границы L и R" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="760" height="362" rx="14" fill="#141a24"/>
+<text x="32" y="34" text-anchor="start" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">Гистограмма: фиксируем столбик i, вошедший на всю высоту</text>
+<text x="32" y="58" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">Высоты слева направо: 1, 3, 2, 1, 7, …</text>
+<rect x="150.0" y="230.0" width="64.0" height="20.0" rx="3" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2" />
+<text x="182" y="270" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" font-weight="700">1</text>
+<rect x="220.0" y="190.0" width="64.0" height="60.0" rx="3" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2" />
+<text x="252" y="270" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" font-weight="700">3</text>
+<rect x="290.0" y="210.0" width="64.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2" />
+<text x="322" y="270" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" font-weight="700">2</text>
+<rect x="360.0" y="230.0" width="64.0" height="20.0" rx="3" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2" />
+<text x="392" y="270" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" font-weight="700">1</text>
+<rect x="430.0" y="110.0" width="64.0" height="140.0" rx="3" fill="#3a3a10" stroke="#ffff00" stroke-width="2" />
+<text x="462" y="270" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#ffff00" font-weight="700">7</text>
+<text x="530" y="270" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#9aa4b2">…</text>
+<line x1="140.0" y1="250.0" x2="590.0" y2="250.0" stroke="#9aa4b2" stroke-width="2" />
+<text x="462" y="294" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#ffff00" font-weight="700">i</text>
+<path d="M154.0,306 Q285.0,334 416.0,306" fill="none" stroke="#83c167" stroke-width="2"/>
+<text x="290" y="344" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#83c167">налево, пока столбики не ниже h[i]  (до L)</text>
+<path d="M438.0,306 Q509.0,334 580.0,306" fill="none" stroke="#ff8c1a" stroke-width="2"/>
+<text x="520" y="344" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a">направо (до R)</text>
+<text x="290" y="140" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#c78bff" font-weight="700">площадь = h[i] · (R − L + 1)</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=6925" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:55:25</a> Доска (перерисовано): столбики 1, 3, 2, 1, 7, …; фиксируем столбик i и растём влево и вправо.</figcaption></figure>
+<p>На доске площадь записана как $h[i]\cdot(R-L+1)$, где $L$ и $R$ — крайние столбики прямоугольника (включительно); выше то же самое через ближайшие меньшие, $r_i-l_i-1$.</p>
 
 <h3 id="s8-4">D. Большой белый очень прямоугольный <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=7109" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:58:29</a></h3>
 <p>В матрице из нулей и единиц нужно найти подпрямоугольник максимальной площади, состоящий из нулей.</p>
 <p><strong>Сведение к гистограмме.</strong> Зафиксируем строку $i$ как <em>нижнюю</em> строку прямоугольника. Для каждой клетки считаем $up_{i,j}$ — длину столбика из нулей, который заканчивается в клетке $(i,j)$ и растёт вверх: $up_{i,j}=0$, если $a_{i,j}=1$, иначе $up_{i-1,j}+1$. Тогда для нижней строки $i$ прямоугольники — это в точности прямоугольники в гистограмме высот $up_{i,\cdot}$, и её максимум ищем задачей C. Ответ — максимум по всем $i$. Время $O(nm)$: каждая строка — линейная работа, $up$ обновляется за один проход.</p>
+<figure class="viz"><svg viewBox="0 0 760 290" role="img" aria-label="Матрица 4 на 5 из нулей и единиц, выбранная строка i" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="d-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#fc6255"/></marker></defs>
+<rect x="0" y="0" width="760" height="290" rx="14" fill="#141a24"/>
+<text x="32" y="34" text-anchor="start" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">D: таблица нулей и единиц, фиксируем нижнюю строку i</text>
+<text x="32" y="58" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">up[i][j] — сколько нулей подряд идёт от клетки (i, j) вверх.</text>
+<rect x="120.0" y="90.0" width="56.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="148" y="117" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">0</text>
+<rect x="176.0" y="90.0" width="56.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="204" y="117" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">0</text>
+<rect x="232.0" y="90.0" width="56.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="260" y="117" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">1</text>
+<rect x="288.0" y="90.0" width="56.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="316" y="117" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">1</text>
+<rect x="344.0" y="90.0" width="56.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="372" y="117" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">0</text>
+<rect x="120.0" y="130.0" width="56.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="148" y="157" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">0</text>
+<rect x="176.0" y="130.0" width="56.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="204" y="157" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">1</text>
+<rect x="232.0" y="130.0" width="56.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="260" y="157" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">1</text>
+<rect x="288.0" y="130.0" width="56.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="316" y="157" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">1</text>
+<rect x="344.0" y="130.0" width="56.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="372" y="157" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">0</text>
+<rect x="120.0" y="170.0" width="56.0" height="40.0" rx="3" fill="#1d3a24" stroke="#83c167" stroke-width="1.5" />
+<text x="148" y="197" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#83c167" font-weight="700">0</text>
+<rect x="176.0" y="170.0" width="56.0" height="40.0" rx="3" fill="#1d3a24" stroke="#83c167" stroke-width="1.5" />
+<text x="204" y="197" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#83c167" font-weight="700">0</text>
+<rect x="232.0" y="170.0" width="56.0" height="40.0" rx="3" fill="#1d3a24" stroke="#83c167" stroke-width="1.5" />
+<text x="260" y="197" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#83c167" font-weight="700">0</text>
+<rect x="288.0" y="170.0" width="56.0" height="40.0" rx="3" fill="#1d3a24" stroke="#83c167" stroke-width="1.5" />
+<text x="316" y="197" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#83c167" font-weight="700">0</text>
+<rect x="344.0" y="170.0" width="56.0" height="40.0" rx="3" fill="#1d3a24" stroke="#83c167" stroke-width="1.5" />
+<text x="372" y="197" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#83c167" font-weight="700">0</text>
+<rect x="120.0" y="210.0" width="56.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="148" y="237" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">1</text>
+<rect x="176.0" y="210.0" width="56.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="204" y="237" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">1</text>
+<rect x="232.0" y="210.0" width="56.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="260" y="237" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">1</text>
+<rect x="288.0" y="210.0" width="56.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="316" y="237" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">1</text>
+<rect x="344.0" y="210.0" width="56.0" height="40.0" rx="3" fill="#1f2a3a" stroke="#33415a" stroke-width="1.5" />
+<text x="372" y="237" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">1</text>
+<text x="90" y="117" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#9aa4b2">0</text>
+<text x="90" y="197" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#83c167" font-weight="700">i</text>
+<text x="82" y="237" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#9aa4b2">n−1</text>
+<text x="90" y="160" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#9aa4b2">⋮</text>
+<line x1="50" y1="96" x2="50" y2="240" stroke="#fc6255" stroke-width="2.5" marker-end="url(#d-r)"/>
+<text x="420" y="197" text-anchor="start" font-family="sans-serif" font-size="14" fill="#83c167">← i</text>
+<text x="500" y="128" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1">up[i][j] = up[i−1][j] + 1,  если a[i][j] = 0</text>
+<text x="500" y="152" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1">up[i][j] = 0,  если a[i][j] = 1</text>
+<text x="500" y="196" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">Для каждой строки i массив up[i][·] —</text>
+<text x="500" y="216" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">гистограмма; ищем в ней наибольший</text>
+<text x="500" y="236" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">прямоугольник (задача C).</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=7110" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:58:30</a> Доска (перерисовано): матрица из нулей и единиц, выбранная нижняя строка i и формула для up.</figcaption></figure>
+
 <div class="note"><span class="lbl">Приём: перебрать и зафиксировать</span><br>
 Если нужно найти оптимум, часто полезно перебрать что-то в нём и зафиксировать (в задаче C — столбик, входящий полностью; здесь — нижнюю строку): с зафиксированным элементом задача становится проще. Для скорости удобно хранить одну строку массива $up$, а не всю таблицу, и обновлять ответ сразу при подсчёте высот.</div>
 
 <h3 id="s8-5">E. Сортировка вагонов <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=7497" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:04:57</a></h3>
 <p>Есть путь 1 с поездом (вагоны пронумерованы), тупик и путь 2. Вагоны можно переводить с пути 1 в тупик (в порядке, в котором они стоят) и из тупика на путь 2 (с вершины). Нужно, чтобы на пути 2 вагоны встали в порядке $1,2,\dots,n$.</p>
+<figure class="viz"><svg viewBox="0 0 760 392" role="img" aria-label="Путь 1, тупик и путь 2 с вагонами" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="760" height="392" rx="14" fill="#141a24"/>
+<text x="32" y="34" text-anchor="start" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">E: пути, тупик и вагоны</text>
+<text x="32" y="58" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">Пример: на пути 1 стоят вагоны 2, 1, 3, 4. Показано состояние после перегона 2 и 1 в тупик.</text>
+<text x="540" y="96" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#9aa4b2" font-weight="700">Путь 1 (откуда гоним)</text>
+<rect x="480.0" y="108.0" width="52.0" height="40.0" rx="6" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2" />
+<text x="506" y="135" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">3</text>
+<rect x="542.0" y="108.0" width="52.0" height="40.0" rx="6" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2" />
+<text x="568" y="135" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">4</text>
+<text x="480" y="168" text-anchor="start" font-family="sans-serif" font-size="13" fill="#9aa4b2">← дальше первым стоит 3</text>
+<text x="150" y="96" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#9aa4b2" font-weight="700">Путь 2 (куда нужно)</text>
+<text x="60" y="135" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">пока пусто</text>
+<text x="330" y="205" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#9aa4b2" font-weight="700">Тупик (стек)</text>
+<rect x="300.0" y="215.0" width="60.0" height="100.0" rx="4" fill="#151f30" stroke="#9aa4b2" stroke-width="2" />
+<rect x="306.0" y="270.0" width="48.0" height="38.0" rx="6" fill="#1f2a3a" stroke="#ff8c1a" stroke-width="2" />
+<text x="330" y="295" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#dfe7f1" font-weight="700">2</text>
+<rect x="306.0" y="226.0" width="48.0" height="38.0" rx="6" fill="#1f2a3a" stroke="#ff8c1a" stroke-width="2" />
+<text x="330" y="251" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#dfe7f1" font-weight="700">1</text>
+<text x="372" y="250" text-anchor="start" font-family="sans-serif" font-size="13" fill="#ff8c1a">← 1 сверху: сразу уходит на путь 2</text>
+<text x="32" y="345" text-anchor="start" font-family="sans-serif" font-size="14" fill="#dfe7f1">Дальше: 1 на путь 2 → 2 на путь 2 → 3 в тупик → 3 на путь 2 → … (в конце на пути 2: 1, 2, 3, 4).</text>
+<text x="32" y="368" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">Нужный вагон в тупике, но не сверху, — ответ «невозможно» (−1).</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=7530" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:05:30</a> Доска (перерисовано): путь 1, тупик и путь 2 (пример вагонов 2, 1, 3, 4).</figcaption></figure>
 <p><strong>Решение.</strong> Путь 1 — очередь, тупик — стек (в него кладём и снимаем сверху). Для каждого нужного номера $k=1,2,\dots,n$:</p>
 <ul>
 <li>если вагон $k$ ещё на пути 1 — перегоняем вагоны в тупик, пока не перегнали $k$; он оказывается сверху и сразу уходит на путь 2;</li>
@@ -1047,6 +1394,33 @@ cout &lt;&lt; st.<span class="f">top</span>();</code></pre></div>
 <li><code>+</code>: <code>right.push_back(x)</code>, затем при $|right|>|left|$ переносим первый из <code>right</code> в конец <code>left</code>;</li>
 <li><code>*</code>: <code>right.push_front(x)</code> — это ровно середина; затем то же выравнивание.</li>
 </ul>
+<figure class="viz"><svg viewBox="0 0 760 364" role="img" aria-label="Два дека left и right и операции минус, плюс и звёздочка" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="dq-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#83c167"/></marker><marker id="dq-o" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ff8c1a"/></marker><marker id="dq-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#fc6255"/></marker><marker id="dq-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#58c4dd"/></marker></defs>
+<rect x="0" y="0" width="760" height="364" rx="14" fill="#141a24"/>
+<text x="32" y="34" text-anchor="start" font-family="sans-serif" font-size="18" fill="#dfe7f1" font-weight="700">F: очередь как два дека</text>
+<text x="32" y="58" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">left — первая (большая) половина, right — вторая; |left| = |right| или |right| + 1.</text>
+<rect x="40.0" y="150.0" width="66.0" height="44.0" rx="4" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2" />
+<rect x="112.0" y="150.0" width="66.0" height="44.0" rx="4" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2" />
+<rect x="184.0" y="150.0" width="66.0" height="44.0" rx="4" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2" />
+<rect x="256.0" y="150.0" width="66.0" height="44.0" rx="4" fill="#1f2a3a" stroke="#58c4dd" stroke-width="2" />
+<rect x="360.0" y="150.0" width="66.0" height="44.0" rx="4" fill="#1f2a3a" stroke="#c78bff" stroke-width="2" />
+<rect x="432.0" y="150.0" width="66.0" height="44.0" rx="4" fill="#1f2a3a" stroke="#c78bff" stroke-width="2" />
+<rect x="504.0" y="150.0" width="66.0" height="44.0" rx="4" fill="#1f2a3a" stroke="#c78bff" stroke-width="2" />
+<text x="181" y="216" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#58c4dd" font-weight="700">left</text>
+<text x="465" y="216" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#c78bff" font-weight="700">right</text>
+<line x1="325.0" y1="142.0" x2="325.0" y2="202.0" stroke="#9aa4b2" stroke-width="1.5" stroke-dasharray="3 4"/>
+<line x1="73.0" y1="136.0" x2="73.0" y2="90.0" stroke="#fc6255" stroke-width="2.5" marker-end="url(#dq-r)" stroke-linecap="round"/>
+<text x="73" y="80" text-anchor="start" font-family="sans-serif" font-size="14" fill="#fc6255">−  left.pop_front()</text>
+<line x1="393.0" y1="90.0" x2="393.0" y2="136.0" stroke="#ff8c1a" stroke-width="2.5" marker-end="url(#dq-o)" stroke-linecap="round"/>
+<text x="393" y="80" text-anchor="start" font-family="sans-serif" font-size="14" fill="#ff8c1a">*  right.push_front(x)</text>
+<line x1="616.0" y1="172.0" x2="572.0" y2="172.0" stroke="#83c167" stroke-width="2.5" marker-end="url(#dq-g)" stroke-linecap="round"/>
+<text x="622" y="164" text-anchor="start" font-family="sans-serif" font-size="16" fill="#83c167" font-weight="700">+</text>
+<text x="622" y="190" text-anchor="start" font-family="sans-serif" font-size="13" fill="#83c167">right.push_back(x)</text>
+<path d="M393,230 Q344.0,300 288,202" fill="none" stroke="#58c4dd" stroke-width="2.5" marker-end="url(#dq-b)" stroke-dasharray="7 5"/>
+<text x="380" y="290" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#58c4dd">если |left| &lt; |right|: первый из right → в конец left</text>
+<text x="32" y="340" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2">После каждой операции вызываем это выравнивание; на каждый запрос — O(1) работы с деками.</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=7871" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:11:11</a> Доска (перерисовано): два дека left и right; операции «−», «+», «*» и выравнивание.</figcaption></figure>
+
 <div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="k">struct</span> Goblins {
     <span class="t">deque</span>&lt;<span class="t">int</span>&gt; L, R;                       <span class="c">// L — первая половина (не меньше R), R — вторая</span>
     <span class="t">void</span> <span class="f">fix</span>() {                           <span class="c">// восстанавливаем |L| = |R| или |L| = |R| + 1</span>
@@ -1056,7 +1430,7 @@ cout &lt;&lt; st.<span class="f">top</span>();</code></pre></div>
     <span class="t">void</span> <span class="f">star</span>(<span class="t">int</span> x)  { R.<span class="f">push_front</span>(x); <span class="f">fix</span>(); }   <span class="c">// в середину</span>
     <span class="t">int</span>  <span class="f">minus</span>()      { <span class="t">int</span> x = L.<span class="f">front</span>(); L.<span class="f">pop_front</span>(); <span class="f">fix</span>(); <span class="k">return</span> x; }  <span class="c">// первый уходит</span>
 };</code></pre></div>
-<p>Каждый запрос — $O(1)$, всё решение линейно. Встроенная операция вставки в середину вектора работала бы за $O(n)$ на запрос. (Развёрнутое объяснение: в записи занятия при разборе вставки «в конец» оговорка про <code>push front</code>/<code>push back</code> была сказана мимоходом; правильный вариант — для конца <code>push_back</code> в <code>right</code>, для середины <code>push_front</code> в <code>right</code>, как выше.)</p>
+<p>Каждый запрос — $O(1)$, всё решение линейно. Встроенная операция вставки в середину вектора работала бы за $O(n)$ на запрос. (При разборе вставки «в конец» лектор сначала оговорилась и тут же поправилась: для «+» — <code>right.push_back</code>, для «*» — <code>right.push_front</code>, как выше. <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=8160" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:16:00</a>)</p>
 
 <h3 id="s8-7">G. Реализация очереди <a class="ts" href="https://youtu.be/bwD2dCAW9BE?t=8195" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:16:35</a></h3>
 <p>Задача — реализовать очередь самостоятельно, <strong>не используя</strong> готовую <code>queue</code>/<code>deque</code> из STL. Тесты пройдёт и решение на STL, но оно не пройдёт ревью. Подходят очередь на двух стеках или циклический буфер из этого занятия.</p>
