@@ -1,3 +1,8 @@
 name = "conspectus-bots"
 main = "src/index.js"
 compatibility_date = "2024-11-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "conspectus-stats"
+database_id = "da23ae20-7ae3-401e-8b3c-8b2ea20f1eaa"

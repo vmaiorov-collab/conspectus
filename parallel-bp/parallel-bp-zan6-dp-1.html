@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="../favicon-v2.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<title>Занятие 6. Параллель B' — ДП 1</title>
-<meta name="description" content="Конспект лекции «Занятие 6. Параллель B' — ДП 1» — олимпиадное программирование, Яндекс Кружок.">
+<title>Занятие 6. Параллель B&#x27; — ДП 1</title>
+<meta name="description" content="Конспект лекции «Занятие 6. Параллель B&#x27; — ДП 1» — олимпиадное программирование, Яндекс Кружок. Автономный офлайн-конспект с формулами и SVG-иллюстрациями.">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Конспекты лекций">
-<meta property="og:title" content="Занятие 6. Параллель B' — ДП 1">
+<meta property="og:title" content="Занятие 6. Параллель B&#x27; — ДП 1">
 <meta property="og:description" content="Автономный офлайн-конспект лекции по олимпиадному программированию (Яндекс Кружок).">
 <meta property="og:image" content="https://vmaiorov-collab.github.io/conspectus/og-parallel-bp.png">
 <meta property="og:url" content="https://vmaiorov-collab.github.io/conspectus/parallel-bp/parallel-bp-zan6-dp-1.html">
 <meta property="og:locale" content="ru_RU">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Занятие 6. Параллель B' — ДП 1">
+<meta name="twitter:title" content="Занятие 6. Параллель B&#x27; — ДП 1">
 <meta name="twitter:description" content="Автономный офлайн-конспект лекции по олимпиадному программированию (Яндекс Кружок).">
 <meta name="twitter:image" content="https://vmaiorov-collab.github.io/conspectus/og-parallel-bp.png">
 <script>(function(){try{var t=localStorage.getItem("conspectusTheme");if(!t){t=(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";localStorage.setItem("conspectusTheme",t)}document.documentElement.setAttribute("data-theme",t)}catch(e){}})();</script>
@@ -493,6 +493,7 @@ html[data-theme] .secbtn, html[data-theme] .secpanel{display:none !important}
 </style>
 <script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".code .copy");if(!b)return;var pre=b.closest(".code").querySelector("pre"),t=pre.innerText;function ok(){b.textContent="скопировано ✓";setTimeout(function(){b.textContent="копировать"},1600)}function sel(){var r=document.createRange();r.selectNodeContents(pre);var x=getSelection();x.removeAllRanges();x.addRange(r);b.textContent="выделено — нажмите ⌘C"}if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "82e3760401a547558cc1d22198113255"}'></script>
+<script>try{if(location.protocol.indexOf('http')===0&&navigator.sendBeacon)navigator.sendBeacon('https://conspectus-bots.d6544559.workers.dev/hit?p='+encodeURIComponent(location.pathname))}catch(e){}</script>
 <script data-goatcounter="https://vmaiorov.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>(function(){try{var l="book";document.documentElement.setAttribute("data-look",l)}catch(e){document.documentElement.setAttribute("data-look","book")}})();</script>
 <style>.sitelink{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--rule-hard,var(--line));border-radius:6px;background:none;color:var(--ink)!important;font-weight:500;font-size:.8rem;text-decoration:none!important}.sitelink:hover{border-color:var(--ink);background:var(--hover,transparent)}.top .sitelink{margin-right:8px}@media print{.sitelink{display:none}}</style>
@@ -802,8 +803,8 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
 <div class="top"><a class="sitelink" href="index.html">← Параллель B'</a><a class="back" href="../index.html">Все параллели</a><a class="back dl" href="parallel-bp-zan6-dp-1.html" download="parallel-bp-zan6-dp-1.html" title="Скачать конспект одним HTML-файлом, откроется без интернета">⬇ Скачать конспект</a><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button></div>
 
 <header class="hero">
-  <h1>Занятие 6. Параллель B' — ДП 1</h1>
-  <div class="sub">Динамическое программирование: как формулировать состояние и переход, порядок пересчёта, восстановление ответа. Задачи о рюкзаке (булев вариант, со стоимостями, с ограниченным числом копий, дробный), оптимизация памяти, bitset для рюкзака. ДП по деревьям: размеры поддеревьев, сумма расстояний, перенос корня, максимальное паросочетание. Во второй половине — разбор контеста по DFS (мосты, компоненты, конденсация).</div>
+  <h1>Занятие 6. Параллель B&#x27; — ДП 1</h1>
+  <div class="sub">Как думать о динамике: шесть вопросов, динамика назад, вперёд и ленивая. Рюкзаки: без стоимостей и со стоимостями, одномерная память, восстановление ответа, ограниченное число предметов, непрерывный рюкзак, ускорение битсетом. ДП по поддеревьям: сумма длин путей, переподвешивание, паросочетание. Затем — разбор контеста DFS 2.</div>
   <div class="meta">
     <span class="chip">Лекция + разбор контеста</span><span class="chip">≈ 4 ч 12 мин</span><span class="chip">Язык кода: C++</span>
   </div>
@@ -812,144 +813,506 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
 <nav class="toc">
   <h2>Содержание</h2>
   <ol>
-    <li><a href="#s1">Что такое динамическое программирование</a></li><li><a href="#s2">Задача «кузнечик» и пять шагов ДП</a></li><li><a href="#s3">Три способа считать ДП и мемоизация</a></li><li><a href="#s4">Рюкзак без стоимостей (булев ДП)</a></li><li><a href="#s5">Оптимизация памяти и восстановление ответа</a></li><li><a href="#s6">Рюкзак со стоимостями, ограниченные копии, дробный рюкзак</a></li><li><a href="#s7">Рюкзак на bitset</a></li><li><a href="#s8">ДП по деревьям: размеры поддеревьев и сумма расстояний</a></li><li><a href="#s9">Перенос корня (второй обход)</a></li><li><a href="#s10">Максимальное паросочетание на дереве</a></li><li><a href="#s11">Разбор контеста по DFS</a></li>
+    <li><a href="#s1">Что такое динамическое программирование</a></li><li><a href="#s2">Шесть вопросов к любой динамике</a></li><li><a href="#s3">Динамика назад, вперёд и ленивая</a></li><li><a href="#s4">Рюкзак без стоимостей</a></li><li><a href="#s5">Рюкзак в одномерном массиве</a></li><li><a href="#s6">Рюкзак со стоимостями</a></li><li><a href="#s7">Ограниченное количество предметов и непрерывный рюкзак</a></li><li><a href="#s8">Битсет и рюкзак за $O(nW/64)$</a></li><li><a href="#s9">ДП по поддеревьям</a></li><li><a href="#s10">Сумма длин всех путей в дереве</a></li><li><a href="#s11">Переподвешивание: сумма расстояний от каждой вершины</a></li><li><a href="#s12">Максимальное паросочетание в дереве</a></li><li><a href="#s13">Разбор контеста DFS 2</a></li>
   </ol>
 </nav>
 
-<h2 id="s1">1. Что такое динамическое программирование <a class="ts" href="https://youtu.be/9or5qD-HI70?t=0" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">0:00</a></h2>
-<p>Динамическое программирование (ДП) — это способ решать задачу, которую сразу не понятно как решить, через решение маленьких версий той же задачи. Если задача с $n\le 10$ решается перебором на бумаге, значит, можно начать с малых значений и постепенно «наращивать» область, которую мы умеем решать. Аналогия — математическая индукция: есть база, и есть переход от уже доказанных (посчитанных) значений к следующему.</p>
-<p>Главная трудность ДП не в коде, а в том, чтобы придумать состояние и переход. Поэтому полезно каждый раз проговаривать пять вопросов, а шестой — по необходимости.</p>
+<h2 id="s1">1. Что такое динамическое программирование <a class="ts" href="https://youtu.be/9or5qD-HI70?t=9" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">0:09</a></h2>
+<p><strong>Динамическое программирование (ДП, динамика)</strong> — подход к решению задач. Большую задачу мы не знаем, как решать, зато умеем решать её для маленьких значений, хоть вручную на бумажке. Тогда начинаем с маленьких подзадач и постепенно наращиваем область, которую умеем решать: либо добавляем по одному шагу, либо объединяем ответы нескольких подзадач.</p>
+<p>Это очень похоже на <strong>математическую индукцию</strong>: есть база (маленькие значения) и переход (зная ответы для всех меньших, получаем ответ для следующего).</p>
+<p><strong>Пример: кузнечик на кочках</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=192" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:12</a>. Кочки пронумерованы $1, \dots, n$. На $i$-й растёт трава вкусности $a_i$, она может быть и отрицательной (гнилая трава). Кузнечик стартует с первой кочки и прыгает вперёд на $1$, $3$ или $5$ кочек. Какое максимальное удовольствие он получит, дойдя до кочки $n$?</p>
+<p>Перебирать пути бессмысленно: их экспоненциально много. Посчитаем по шагам. До первой кочки удовольствие $a_1$. До второй можно попасть только с первой, получаем $a_1+a_2$. В общем случае в кочку $i$ кузнечик пришёл прыжком на $1$, $3$ или $5$. Если для предыдущих кочек ответ уже посчитан, достаточно выбрать лучший вариант:</p>
+$$dp_i=a_i+\max\bigl(dp_{i-1},\ dp_{i-3},\ dp_{i-5}\bigr),$$
+<p>где несуществующие и недостижимые кочки дают $-\infty$.</p>
+<figure class="viz"><svg viewBox="0 0 760 262" role="img" aria-label="Кузнечик на кочках: прыжки на 1, 3 и 5" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="262" rx="14" fill="#141a24"/>
+  <line x1="50.0" y1="150.0" x2="700.0" y2="150.0" stroke="#9aa4b2" stroke-width="2" />
+  <circle cx="80" cy="150" r="5" fill="#dfe7f1"/>
+  <text x="80" y="175" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >1</text>
+  <text x="80" y="198" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >a<tspan dy="4" font-size="11">1</tspan><tspan dy="-4"></tspan></text>
+  <circle cx="160" cy="150" r="5" fill="#dfe7f1"/>
+  <text x="160" y="175" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >2</text>
+  <text x="160" y="198" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >a<tspan dy="4" font-size="11">2</tspan><tspan dy="-4"></tspan></text>
+  <circle cx="240" cy="150" r="5" fill="#dfe7f1"/>
+  <text x="240" y="175" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >3</text>
+  <text x="240" y="198" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >a<tspan dy="4" font-size="11">3</tspan><tspan dy="-4"></tspan></text>
+  <circle cx="320" cy="150" r="5" fill="#dfe7f1"/>
+  <text x="320" y="175" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >4</text>
+  <text x="320" y="198" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >a<tspan dy="4" font-size="11">4</tspan><tspan dy="-4"></tspan></text>
+  <circle cx="400" cy="150" r="5" fill="#dfe7f1"/>
+  <text x="400" y="175" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >5</text>
+  <text x="400" y="198" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >a<tspan dy="4" font-size="11">5</tspan><tspan dy="-4"></tspan></text>
+  <circle cx="480" cy="150" r="5" fill="#dfe7f1"/>
+  <text x="480" y="175" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >6</text>
+  <text x="480" y="198" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >a<tspan dy="4" font-size="11">6</tspan><tspan dy="-4"></tspan></text>
+  <circle cx="560" cy="150" r="5" fill="#dfe7f1"/>
+  <text x="560" y="175" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >7</text>
+  <text x="560" y="198" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >a<tspan dy="4" font-size="11">7</tspan><tspan dy="-4"></tspan></text>
+  <circle cx="640" cy="150" r="5" fill="#dfe7f1"/>
+  <text x="640" y="175" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >8</text>
+  <text x="640" y="198" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >a<tspan dy="4" font-size="11">8</tspan><tspan dy="-4"></tspan></text>
+  <text x="710" y="175" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >… n</text>
+  <path d="M160.0,145 Q200.0,105 240.0,145" fill="none" stroke="#83c167" stroke-width="2.5"/>
+  <text x="200" y="100" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#83c167" >+1</text>
+  <path d="M160.0,145 Q280.0,55 400.0,145" fill="none" stroke="#58c4dd" stroke-width="2.5"/>
+  <text x="280" y="70" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#58c4dd" >+3</text>
+  <path d="M160.0,145 Q360.0,5 560.0,145" fill="none" stroke="#ff8c1a" stroke-width="2.5"/>
+  <text x="360" y="40" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#ff8c1a" >+5</text>
+  <text x="80" y="135" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffff00" >старт</text>
+  <text x="380" y="240" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >dp<tspan dy="4" font-size="11">i</tspan><tspan dy="-4"></tspan> = a<tspan dy="4" font-size="11">i</tspan><tspan dy="-4"></tspan> + max( dp<tspan dy="4" font-size="11">i−1</tspan><tspan dy="-4"></tspan>, dp<tspan dy="4" font-size="11">i−3</tspan><tspan dy="-4"></tspan>, dp<tspan dy="4" font-size="11">i−5</tspan><tspan dy="-4"></tspan> )</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/9or5qD-HI70?t=192" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:12</a> Доска (перерисовано): кочки 1…n, из кочки можно прыгнуть на 1, 3 или 5 вперёд; в кочку i приходят из i−1, i−3, i−5.</figcaption></figure>
 
-<h2 id="s2">2. Задача «кузнечик» и пять шагов ДП <a class="ts" href="https://youtu.be/9or5qD-HI70?t=60" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:00</a></h2>
-<p>Условие-пример: кузнечик стоит на кочке $1$ и может прыгать на $+1$, $+3$ или $+5$ кочек вперёд. На каждой кочке растёт трава с некоторой вкусностью (возможно, отравленная). Нужно найти максимальную суммарную «вкусность» маршрута от первой кочки до последней. Перебор всех путей экспоненциален, поэтому разбираем пошагово.</p>
+<h2 id="s2">2. Шесть вопросов к любой динамике <a class="ts" href="https://youtu.be/9or5qD-HI70?t=375" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">6:15</a></h2>
+<p>Динамику нельзя выучить как готовый алгоритм обхода графа: её нужно придумывать, а это приходит только с решёнными задачами. Помогает каждый раз явно отвечать на пять обязательных вопросов и один опциональный.</p>
 <ol>
-  <li><strong>Что считаем.</strong> Пусть $dp_i$ — максимальная сумма, которую можно собрать, дойдя до кочки $i$. Если в задаче просят вспомогательную величину, считаем её, а ответ выражаем через неё.</li>
-  <li><strong>База.</strong> Начальные значения, которые считаются руками: $dp_1 = a_1$.</li>
-  <li><strong>Формула перехода.</strong> $dp_i = a_i + \max(dp_{i-1},\ dp_{i-3},\ dp_{i-5})$ (с учётом того, что соответствующие кочки существуют). Это то, что напишется в коде.</li>
-  <li><strong>Порядок пересчёта.</strong> Чтобы значения, от которых зависит $dp_i$, уже были посчитаны, идём по $i$ от меньших к большим.</li>
-  <li><strong>Где ответ.</strong> Здесь — $dp_n$ (последняя кочка), но в других задачах ответ может быть максимумом по слою, по всем состояниям или одной «единичкой» в таблице.</li>
-  <li><strong>Восстановление ответа (по желанию).</strong> Если нужен не только ответ, но и маршрут или набор предметов, нужно уметь идти от ответа назад по тем переходам, которые дали максимум.</li>
+<li><strong>Что считаем?</strong> Смысл $dp$. В простых задачах это и есть ответ ($dp_i$ — максимальное удовольствие при условии, что мы допрыгали до кочки $i$), в сложных — вспомогательная величина.</li>
+<li><strong>База</strong> (начальные значения): всё, что считается руками, плюс «удобства». Например, первую строку и первый столбец таблицы заполняют нулями, а остальное — бесконечностями. Такая рамка позволяет обращаться к $i-1$, $j-1$, не думая о выходе за границы.</li>
+<li><strong>Формула пересчёта</strong> — ровно то, что будет написано в коде.</li>
+<li><strong>Порядок пересчёта.</strong> Обновляться нужно только от уже полностью посчитанных значений. У кузнечика это просто цикл по $i$ от $2$ до $n$. Бывают динамики, где таблицу проходят, например, по диагоналям, — это будет на следующих лекциях.</li>
+<li><strong>Где ответ?</strong> В $dp_n$, в максимуме по последнему слою, в последней true в таблице — зависит от того, что именно считается.</li>
+<li><strong>Восстановление ответа</strong> (не всегда нужно) — например, сам маршрут кузнечика, а не только удовольствие.</li>
 </ol>
 
-<h2 id="s3">3. Три способа считать ДП и мемоизация <a class="ts" href="https://youtu.be/9or5qD-HI70?t=720" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">12:00</a></h2>
-<p>Есть три эквивалентных по смыслу способа организовать вычисления:</p>
+<h2 id="s3">3. Динамика назад, вперёд и ленивая <a class="ts" href="https://youtu.be/9or5qD-HI70?t=863" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">14:23</a></h2>
 <ul>
-  <li><strong>Назад (pull).</strong> Стоим в состоянии $i$ и смотрим, из каких состояний в него можно прийти: $dp_i$ выражаем через $dp_{i-1}, dp_{i-3}, dp_{i-5}$.</li>
-  <li><strong>Вперёд (push).</strong> Стоим в уже посчитанном $i$ и «толкаем» значение в состояния, куда можно попасть: обновляем $dp_{i+1}, dp_{i+3}, dp_{i+5}$.</li>
-  <li><strong>Ленивый (мемоизация).</strong> Пишем рекурсию, которая запоминает уже посчитанные значения. Считаются только те состояния, которые реально понадобились, и порядок пересчёта не нужно продумывать.</li>
+<li><strong>Динамика назад</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=925" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">15:25</a>: стоим в $i$ и смотрим, <em>откуда</em> в неё можно прийти: $dp_i$ считается из $dp_{i-1}, dp_{i-3}, dp_{i-5}$.</li>
+<li><strong>Динамика вперёд</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=987" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">16:27</a>: $dp_i$ уже посчитано, и мы обновляем тех, <em>куда</em> из $i$ можно попасть: $dp_{i+1}=\max(dp_{i+1},\ dp_i+a_{i+1})$, аналогично для $i+3$ и $i+5$.</li>
 </ul>
-<p>Иллюстрация мемоизации — числа Фибоначчи. Наивная рекурсия $f(n) = f(n-1) + f(n-2)$ пересчитывает одни и те же значения экспоненциально много раз. Если запомнить результат каждого вызова и не пересчитывать его повторно, время становится $O(n)$.</p>
-<pre><code class="language-cpp">int f(int n) {
-    if (n &lt;= 1) return 1;
-    int &amp;res = memo[n];
-    if (res != -1) return res;          // уже считали
-    return res = f(n - 1) + f(n - 2);
-}</code></pre>
+<p>По сути это одно и то же, выбирайте, как удобнее думать.</p>
+<p><strong>Ленивая динамика (мемоизация)</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=1047" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">17:27</a>. Пример — числа Фибоначчи: $F_0=F_1=1$, $F_i=F_{i-1}+F_{i-2}$. Наивная рекурсия <code>f(i) = f(i-1) + f(i-2)</code> работает экспоненциально: одни и те же значения пересчитываются много раз. Если запоминать уже посчитанное и не пересчитывать его, получается $O(n)$:</p>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">vector</span>&lt;<span class="t">long</span> <span class="t">long</span>&gt; <span class="f">dp</span>(N, -<span class="n">1</span>);           <span class="c">// -1 — «ещё не посчитано»</span>
+<span class="t">long</span> <span class="t">long</span> <span class="f">fib</span>(<span class="t">int</span> i) {
+    <span class="k">if</span> (i &lt;= <span class="n">1</span>) <span class="k">return</span> <span class="n">1</span>;                <span class="c">// база — выход из рекурсии</span>
+    <span class="k">if</span> (dp[i] != -<span class="n">1</span>) <span class="k">return</span> dp[i];       <span class="c">// уже считали — просто возвращаем</span>
+    <span class="k">return</span> dp[i] = <span class="f">fib</span>(i - <span class="n">1</span>) + <span class="f">fib</span>(i - <span class="n">2</span>);
+}</code></pre></div>
+<p>Такая динамика «ленивая»: она считает только нужные значения и ровно тогда, когда они нужны. Пункты «что считаем», «база» и «формула» остаются, а <strong>порядок пересчёта думать не нужно</strong>, рекурсия сама его обеспечит. Это полезно, когда порядок трудно придумать. Плата — накладные расходы и глубина рекурсии.</p>
 
-<h2 id="s4">4. Рюкзак без стоимостей (булев ДП) <a class="ts" href="https://youtu.be/9or5qD-HI70?t=1440" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">24:00</a></h2>
-<p>Задача: есть рюкзак вместимостью $W$ и предметы с весами $w_i$. Выбрать подмножество предметов с суммарным весом, не превосходящим $W$, и максимальным по весу.</p>
+<h2 id="s4">4. Рюкзак без стоимостей <a class="ts" href="https://youtu.be/9or5qD-HI70?t=1351" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">22:31</a></h2>
+<p><strong>Задача.</strong> Рюкзак вместимости $W$, $n$ предметов с весами $w_1,\dots,w_n$. Нужно выбрать подмножество с суммарным весом не больше $W$ и при этом как можно больше. Каждый предмет можно взять не более одного раза.</p>
+<p>Идём по шести пунктам. <a class="ts" href="https://youtu.be/9or5qD-HI70?t=1475" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">24:35</a></p>
 <ol>
-  <li><strong>Что считаем.</strong> $dp[i][g]$ — можно ли набрать ровно вес $g$, используя только первые $i$ предметов (булевый ответ).</li>
-  <li><strong>База.</strong> $dp[0][0] = \text{true}$, остальные $dp[0][g] = \text{false}$. Вес $0$ набрать можно всегда.</li>
-  <li><strong>Переход.</strong> Предмет $i$ либо не берём: $dp[i-1][g]$, либо берём: $dp[i-1][g - w_i]$ (если $g \ge w_i$). Итого $dp[i][g] = dp[i-1][g] \lor dp[i-1][g-w_i]$.</li>
-  <li><strong>Порядок.</strong> Строки по $i$ от меньших к большим.</li>
-  <li><strong>Ответ.</strong> Максимальный $g \le W$, для которого $dp[n][g] = \text{true}$.</li>
+<li><strong>Что считаем:</strong> $dp_{i,j}\in\{\text{true},\text{false}\}$ — можно ли набрать вес <em>ровно</em> $j$, используя только первые $i$ предметов.</li>
+<li><strong>База:</strong> без предметов набирается только вес $0$: $dp_{0,0}=\text{true}$, остальные false.</li>
+<li><strong>Переход.</strong> С $i$-м предметом можно сделать две вещи: не взять (тогда вес $j$ был набран первыми $i-1$) или взять (тогда до этого был рюкзак веса $j-w_i$):
+$$dp_{i,j}=dp_{i-1,j}\ \lor\ dp_{i-1,\,j-w_i}\quad(\text{второе — только при } j\ge w_i).$$</li>
+<li><strong>Порядок:</strong> строки по возрастанию $i$, ведь обращаемся только к предыдущей строке.</li>
+<li><strong>Ответ:</strong> наибольшее $j\le W$ с $dp_{n,j}=\text{true}$.</li>
 </ol>
-<p>Пример из занятия: $W = 13$, веса $3, 4, 5$. Таблица показывает, что вес $9$ набирается как $4 + 5$, вес $12$ как $3 + 4 + 5$, а $13$ набрать нельзя.</p>
+<figure class="viz">
+<svg viewBox="0 0 760 270" role="img" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="270" rx="14" fill="#141a24"/>
+  <g font-family="sans-serif" font-size="13" fill="#9aa4b2" text-anchor="middle">
+    <text x="120" y="34">0</text><text x="160" y="34">1</text><text x="200" y="34">2</text><text x="240" y="34">3</text><text x="280" y="34">4</text><text x="320" y="34">5</text><text x="360" y="34">6</text><text x="400" y="34">7</text><text x="440" y="34">8</text><text x="480" y="34">9</text><text x="520" y="34">10</text><text x="560" y="34">11</text><text x="600" y="34">12</text><text x="640" y="34">13</text>
+  </g>
+  <g font-family="sans-serif" font-size="14" fill="#dfe7f1" text-anchor="end">
+    <text x="90" y="66">нет</text><text x="90" y="106">w=3</text><text x="90" y="146">w=4</text><text x="90" y="186">w=5</text><text x="90" y="226">w=2</text>
+  </g>
+  <g id="rows" font-family="sans-serif" font-size="14" text-anchor="middle">
+    <!-- row 0: only 0 -->
+    <rect x="102" y="46" width="36" height="30" rx="5" fill="#83c167"/>
+    <!-- row 1: 0,3 -->
+    <rect x="102" y="86" width="36" height="30" rx="5" fill="#83c167"/><rect x="222" y="86" width="36" height="30" rx="5" fill="#83c167"/>
+    <!-- row 2: 0,3,4,7 -->
+    <rect x="102" y="126" width="36" height="30" rx="5" fill="#83c167"/><rect x="222" y="126" width="36" height="30" rx="5" fill="#83c167"/><rect x="262" y="126" width="36" height="30" rx="5" fill="#83c167"/><rect x="382" y="126" width="36" height="30" rx="5" fill="#83c167"/>
+    <!-- row 3: 0,3,4,5,7,8,9,12 -->
+    <rect x="102" y="166" width="36" height="30" rx="5" fill="#83c167"/><rect x="222" y="166" width="36" height="30" rx="5" fill="#83c167"/><rect x="262" y="166" width="36" height="30" rx="5" fill="#83c167"/><rect x="302" y="166" width="36" height="30" rx="5" fill="#83c167"/><rect x="382" y="166" width="36" height="30" rx="5" fill="#83c167"/><rect x="422" y="166" width="36" height="30" rx="5" fill="#83c167"/><rect x="462" y="166" width="36" height="30" rx="5" fill="#83c167"/><rect x="582" y="166" width="36" height="30" rx="5" fill="#83c167"/>
+    <!-- row 4: 0,2..12 ; 13 no -->
+    <rect x="102" y="206" width="36" height="30" rx="5" fill="#83c167"/><rect x="182" y="206" width="36" height="30" rx="5" fill="#83c167"/><rect x="222" y="206" width="36" height="30" rx="5" fill="#83c167"/><rect x="262" y="206" width="36" height="30" rx="5" fill="#83c167"/><rect x="302" y="206" width="36" height="30" rx="5" fill="#83c167"/><rect x="342" y="206" width="36" height="30" rx="5" fill="#83c167"/><rect x="382" y="206" width="36" height="30" rx="5" fill="#83c167"/><rect x="422" y="206" width="36" height="30" rx="5" fill="#83c167"/><rect x="462" y="206" width="36" height="30" rx="5" fill="#83c167"/><rect x="502" y="206" width="36" height="30" rx="5" fill="#83c167"/><rect x="542" y="206" width="36" height="30" rx="5" fill="#83c167"/><rect x="582" y="206" width="36" height="30" rx="5" fill="#ffff00"/>
+    <rect x="622" y="206" width="36" height="30" rx="5" fill="#1e2836" stroke="#fc6255"/>
+  </g>
+  <text x="700" y="226" font-family="sans-serif" font-size="13" fill="#ffff00" text-anchor="middle">ответ 12</text>
+  <text x="380" y="258" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2">зелёный — вес можно набрать; переход сверху (не берём) или по диагонали на w влево (берём)</text>
+</svg>
+<figcaption>Таблица $dp_{i,j}$ для $W=13$ и весов $3, 4, 5, 2$ (как на лекции): вес $13$ не набирается, ответ — $12$.</figcaption>
+</figure>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">vector</span>&lt;<span class="t">vector</span>&lt;<span class="t">char</span>&gt;&gt; <span class="f">dp</span>(n + <span class="n">1</span>, <span class="t">vector</span>&lt;<span class="t">char</span>&gt;(W + <span class="n">1</span>, <span class="k">false</span>));
+dp[<span class="n">0</span>][<span class="n">0</span>] = <span class="k">true</span>;                                   <span class="c">// база: без предметов — только вес 0</span>
+<span class="k">for</span> (<span class="t">int</span> i = <span class="n">1</span>; i &lt;= n; ++i)
+    <span class="k">for</span> (<span class="t">int</span> j = <span class="n">0</span>; j &lt;= W; ++j) {                 <span class="c">// вес перебираем с нуля!</span>
+        dp[i][j] = dp[i - <span class="n">1</span>][j];                   <span class="c">// не берём i-й предмет</span>
+        <span class="k">if</span> (j &gt;= w[i]) dp[i][j] |= dp[i - <span class="n">1</span>][j - w[i]];   <span class="c">// берём i-й предмет</span>
+    }
+<span class="t">int</span> best = W;
+<span class="k">while</span> (!dp[n][best]) --best;                       <span class="c">// последняя true в последней строке</span></code></pre></div>
+<p><strong>Сложность</strong>: $O(nW)$ по времени и памяти.</p>
+<p><strong>Восстановление ответа</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=2331" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">38:51</a>. Стоим в клетке $(n, \mathit{best})$. Мы пришли в неё либо сверху, либо по диагонали. Если $dp_{i-1,j}=\text{true}$, можно считать, что пришли сверху: вес $j$ набирается и без $i$-го предмета. Иначе точно пришли по диагонали, то есть предмет $i$ взят и $j$ уменьшается на $w_i$. Так идём, пока $j\ne0$ (на лекции из зала поправили, что условие цикла именно $j\ne0$).</p>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">vector</span>&lt;<span class="t">int</span>&gt; taken;
+<span class="k">for</span> (<span class="t">int</span> i = n, j = best; j != <span class="n">0</span>; --i) {
+    <span class="k">if</span> (dp[i - <span class="n">1</span>][j]) <span class="k">continue</span>;        <span class="c">// вес j набирался и без i-го — идём наверх</span>
+    taken.<span class="f">push_back</span>(i);                <span class="c">// иначе пришли по диагонали: i-й взят</span>
+    j -= w[i];
+}</code></pre></div>
+<p>Вопрос из чата: обязательно ли взятые предметы идут подряд? Нет: мы для каждого веса рассмотрели все варианты, а при обратном проходе ходим только по клеткам со значением true, поэтому восстанавливается произвольное подмножество.</p>
 
-<h2 id="s5">5. Оптимизация памяти и восстановление ответа <a class="ts" href="https://youtu.be/9or5qD-HI70?t=2520" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">42:00</a></h2>
-<p><strong>Одномерный массив.</strong> Строка $i$ зависит только от строки $i-1$, поэтому таблицу можно хранить одной строкой $dp[g]$. Но тогда порядок обхода весов важен. Если идти по весам от меньших к большим, предмет может попасть в набор дважды, а это уже задача с неограниченным числом копий. Для «каждый предмет один раз» веса перебираем в убывании:</p>
-<pre><code class="language-cpp">vector&lt;char&gt; dp(W + 1, 0);
-dp[0] = 1;
-for (int i = 0; i &lt; n; ++i)
-    for (int g = W; g &gt;= w[i]; --g)
-        dp[g] |= dp[g - w[i]];          // dp[g - w[i]] ещё старое
-int ans = W;
-while (!dp[ans]) --ans;                  // максимальный достижимый вес</code></pre>
-<p><strong>Восстановление.</strong> Один способ: хранить для каждого веса $g$ номер предмета $p[g]$, которым вес $g$ впервые стал достижимым. Тогда набор восстанавливается так: $g \leftarrow \text{ans}$; пока $g > 0$, берём предмет $p[g]$ и переходим к $g - w_{p[g]}$. Это работает, потому что предмет $p[g]$ использован впервые, значит, $g - w_{p[g]}$ достигался раньше него.</p>
-<div class="warn"><strong>Важно.</strong> При одномерном варианте восстановление через таблицу $dp[i][g]$ теряется, поэтому и вводят массив $p[g]$. Для двумерной таблицы восстановление идёт назад по строкам: если $dp[i-1][g]$ истинно, предмет $i$ не берём, иначе берём и переходим к $g - w_i$.</div>
+<h2 id="s5">5. Рюкзак в одномерном массиве <a class="ts" href="https://youtu.be/9or5qD-HI70?t=2764" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">46:04</a></h2>
+<p>Каждая строка считается только по предыдущей, причём значение «сверху» просто переносится. Хочется хранить одну строку $dp_j$ и писать <code>dp[j] |= dp[j - w[i]]</code>, получив $O(W)$ памяти.</p>
+<p><strong>Ловушка</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=2951" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">49:11</a>. Если перебирать $j$ по возрастанию, то при $w_i=3$ клетка $dp_3$ уже обновлена на этом же предмете, и от неё обновятся $dp_6$, $dp_9$, … Предмет фактически берётся много раз. Для задачи с <strong>неограниченным</strong> количеством каждого предмета это ровно то, что нужно, но для 0/1-рюкзака — ошибка.</p>
+<p><strong>Исправление</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=3011" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">50:11</a>: перебирать веса <strong>по убыванию</strong>. Тогда $dp_{j-w_i}$ к моменту чтения ещё не обновлено на $i$-м предмете, то есть остаётся значением с предыдущего слоя.</p>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">vector</span>&lt;<span class="t">char</span>&gt; <span class="f">dp</span>(W + <span class="n">1</span>, <span class="k">false</span>);
+<span class="t">vector</span>&lt;<span class="t">int</span>&gt; <span class="f">from</span>(W + <span class="n">1</span>, -<span class="n">1</span>);                 <span class="c">// предок: каким предметом вес впервые набран</span>
+dp[<span class="n">0</span>] = <span class="k">true</span>;
+<span class="k">for</span> (<span class="t">int</span> i = <span class="n">1</span>; i &lt;= n; ++i)
+    <span class="k">for</span> (<span class="t">int</span> j = W; j &gt;= w[i]; --j)          <span class="c">// по убыванию — каждый предмет не больше раза</span>
+        <span class="k">if</span> (!dp[j] &amp;&amp; dp[j - w[i]]) { dp[j] = <span class="k">true</span>; from[j] = i; }
+<span class="c">// неограниченное число предметов: тот же код, но for (int j = w[i]; j &lt;= W; ++j)</span></code></pre></div>
+<p><strong>Восстановление через предков</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=3134" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">52:14</a>. Когда клетка $dp_j$ впервые становится true, запоминаем, каким предметом это сделано. Позже клетку не перезаписываем, иначе можно сломать цепочку. Восстановление: пока $j\ne0$, берём предмет $\mathit{from}_j$ и делаем $j \mathrel{-}= w_{\mathit{from}_j}$. Например, для весов $3, 4, 5, 2$ вес $10$ раскладывается как $2+5+3$.</p>
+<div class="note"><span class="lbl">Развёрнутое объяснение</span><br>
+Почему предметы в цепочке не повторяются. Клетка $dp_j$ стала true на предмете $i$ из клетки $dp_{j-w_i}$, которая была true <em>до</em> обработки $i$-го предмета (веса идут по убыванию). Значит, $\mathit{from}_{j-w_i}&lt;i$. Индексы в цепочке строго убывают, и каждый предмет встречается не больше одного раза.</div>
 
-<h2 id="s6">6. Рюкзак со стоимостями, ограниченные копии, дробный рюкзак <a class="ts" href="https://youtu.be/9or5qD-HI70?t=3600" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">60:00</a></h2>
-<p><strong>Со стоимостями.</strong> У каждого предмета есть вес $w_i$ и стоимость $c_i$. Жадность по стоимости не работает (найдётся контрпример). Состояние: $dp[g]$ — максимальная стоимость при весе не больше $g$ (или ровно $g$, с $-\infty$ для недостижимых). Переход: $dp[g] = \max(dp[g],\ dp[g - w_i] + c_i)$, веса в убывании. Восстановление делается так же, через хранение выбора предмета.</p>
-<p><strong>Ограниченное число копий $k_i$.</strong> Предмет $i$ можно взять не более $k_i$ раз. Можно «размножить» предмет на $k_i$ копий и решать как обычный рюкзак с одинарными предметами. Для больших $k_i$ удобнее бинарная разбивка на степени двойки.</p>
-<p><strong>Дробный рюкзак.</strong> Если предмет можно резать, жадность работает: сортируем по цене за единицу веса $c_i / w_i$ по убыванию, берём предметы целиком, пока влезают, а последний режем. Для целых предметов так делать нельзя.</p>
+<h2 id="s6">6. Рюкзак со стоимостями <a class="ts" href="https://youtu.be/9or5qD-HI70?t=3380" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">56:20</a></h2>
+<p>У каждого предмета есть вес $w_i$ и цена $c_i$. Нужно выбрать подмножество с суммарным весом $\le W$ и максимальной суммарной ценой. Любая жадность здесь ломается на контрпримерах.</p>
+<ol>
+<li>$dp_{i,j}$ — максимальная стоимость, которую можно набрать среди первых $i$ предметов при весе ровно $j$.</li>
+<li>База: $dp_{0,0}=0$, остальные $-\infty$ (недостижимы).</li>
+<li>Переход — та же дилемма «брать или не брать»:
+$$dp_{i,j}=\max\bigl(dp_{i-1,j},\ dp_{i-1,\,j-w_i}+c_i\bigr).$$</li>
+<li>Порядок — по строкам.</li>
+<li>Ответ — <strong>максимум по последней строке</strong>, а не $dp_{n,W}$. Вопрос из зала: почему не $dp_{n,S}$? Потому что мы не знаем, какой вес выгодно набрать: маленький дорогой предмет может быть лучше большого дешёвого.</li>
+</ol>
+<p>Восстановление — как раньше: значение в клетке равно либо значению сверху, либо значению по диагонали плюс $c_i$.</p>
+<p><strong>Две строки вместо таблицы</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=3766" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:02:46</a>. Если восстанавливать ответ не нужно, достаточно хранить два слоя и обращаться к ним как <code>dp[i % 2]</code> и <code>dp[(i - 1) % 2]</code> (или менять местами два вектора через <code>swap</code>, как подсказали в чате). Память $O(W)$, время по-прежнему $O(nW)$.</p>
+<figure class="viz"><svg viewBox="0 0 760 305" role="img" aria-label="Две строки динамики рюкзака со стоимостями" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="305" rx="14" fill="#141a24"/>
+  <text x="380" y="24" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >два слоя: dp[i % 2] и dp[(i−1) % 2];  предметы (вес, цена): (3,5)  (4,4)  (5,1)</text>
+  <text x="119" y="52" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >0</text>
+  <text x="181" y="52" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >1</text>
+  <text x="243" y="52" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >2</text>
+  <text x="305" y="52" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >3</text>
+  <text x="367" y="52" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >4</text>
+  <text x="429" y="52" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >5</text>
+  <text x="491" y="52" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >6</text>
+  <text x="553" y="52" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >7</text>
+  <text x="615" y="52" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >8</text>
+  <text x="40" y="52" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j</text>
+  <text x="380" y="80" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#58c4dd" >после предмета (3,5)</text>
+  <text x="78" y="113" text-anchor="end" font-family="sans-serif" font-size="13" fill="#58c4dd" >слой 0</text>
+  <rect x="90" y="88" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="119" y="113" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >0</text>
+  <rect x="152" y="88" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="181" y="113" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >−∞</text>
+  <rect x="214" y="88" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="243" y="113" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >−∞</text>
+  <rect x="276" y="88" width="58" height="38" rx="6" fill="#27431f" stroke="#9aa4b2"/>
+  <text x="305" y="113" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#83c167" >5</text>
+  <rect x="338" y="88" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="367" y="113" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >−∞</text>
+  <rect x="400" y="88" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="429" y="113" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >−∞</text>
+  <rect x="462" y="88" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="491" y="113" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >−∞</text>
+  <rect x="524" y="88" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="553" y="113" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >−∞</text>
+  <rect x="586" y="88" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="615" y="113" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >−∞</text>
+  <text x="380" y="150" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" >после предмета (4,4) — пишем поверх слоя 0</text>
+  <text x="78" y="183" text-anchor="end" font-family="sans-serif" font-size="13" fill="#ff8c1a" >слой 1</text>
+  <rect x="90" y="158" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="119" y="183" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >0</text>
+  <rect x="152" y="158" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="181" y="183" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >−∞</text>
+  <rect x="214" y="158" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="243" y="183" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >−∞</text>
+  <rect x="276" y="158" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="305" y="183" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >5</text>
+  <rect x="338" y="158" width="58" height="38" rx="6" fill="#27431f" stroke="#9aa4b2"/>
+  <text x="367" y="183" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#83c167" >4</text>
+  <rect x="400" y="158" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="429" y="183" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >−∞</text>
+  <rect x="462" y="158" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="491" y="183" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >−∞</text>
+  <rect x="524" y="158" width="58" height="38" rx="6" fill="#27431f" stroke="#9aa4b2"/>
+  <text x="553" y="183" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#83c167" >9</text>
+  <rect x="586" y="158" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="615" y="183" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >−∞</text>
+  <text x="380" y="220" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#c78bff" >после предмета (5,1) — пишем поверх слоя 1</text>
+  <text x="78" y="253" text-anchor="end" font-family="sans-serif" font-size="13" fill="#c78bff" >слой 0</text>
+  <rect x="90" y="228" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="119" y="253" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >0</text>
+  <rect x="152" y="228" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="181" y="253" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >−∞</text>
+  <rect x="214" y="228" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="243" y="253" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >−∞</text>
+  <rect x="276" y="228" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="305" y="253" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >5</text>
+  <rect x="338" y="228" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="367" y="253" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >4</text>
+  <rect x="400" y="228" width="58" height="38" rx="6" fill="#27431f" stroke="#9aa4b2"/>
+  <text x="429" y="253" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#83c167" >1</text>
+  <rect x="462" y="228" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="491" y="253" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >−∞</text>
+  <rect x="524" y="228" width="58" height="38" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="553" y="253" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >9</text>
+  <rect x="586" y="228" width="58" height="38" rx="6" fill="#27431f" stroke="#9aa4b2"/>
+  <text x="615" y="253" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#83c167" >6</text>
+  <text x="380" y="290" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >зелёные клетки — новые на этом шаге; прошлый слой больше не нужен, его перезаписывают</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/9or5qD-HI70?t=4027" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:07:07</a> Доска (перерисовано): два слоя для предметов (вес, цена) = (3,5), (4,4), (5,1); каждый новый предмет пишется поверх ненужного слоя.</figcaption></figure>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="k">const</span> <span class="t">long</span> <span class="t">long</span> NEG = LLONG_MIN / <span class="n">4</span>;
+<span class="t">vector</span>&lt;<span class="t">vector</span>&lt;<span class="t">long</span> <span class="t">long</span>&gt;&gt; <span class="f">dp</span>(<span class="n">2</span>, <span class="t">vector</span>&lt;<span class="t">long</span> <span class="t">long</span>&gt;(W + <span class="n">1</span>, NEG));
+dp[<span class="n">0</span>][<span class="n">0</span>] = <span class="n">0</span>;
+<span class="k">for</span> (<span class="t">int</span> i = <span class="n">1</span>; i &lt;= n; ++i) {
+    <span class="k">auto</span> &amp;cur = dp[i % <span class="n">2</span>], &amp;prv = dp[(i - <span class="n">1</span>) % <span class="n">2</span>];
+    <span class="k">for</span> (<span class="t">int</span> j = <span class="n">0</span>; j &lt;= W; ++j) {
+        cur[j] = prv[j];                                          <span class="c">// не берём</span>
+        <span class="k">if</span> (j &gt;= w[i] &amp;&amp; prv[j - w[i]] != NEG)
+            cur[j] = <span class="f">max</span>(cur[j], prv[j - w[i]] + c[i]);            <span class="c">// берём</span>
+    }
+}
+<span class="t">long</span> <span class="t">long</span> ans = *<span class="f">max_element</span>(dp[n % <span class="n">2</span>].<span class="f">begin</span>(), dp[n % <span class="n">2</span>].<span class="f">end</span>());</code></pre></div>
+<div class="note"><span class="lbl">Развёрнутое объяснение</span><br>
+На лекции оставили упражнение: можно ли сделать рюкзак со стоимостями одним массивом с обратным порядком, как в §5? <strong>Посчитать ответ — да</strong>: <code>for (j = W; j &gt;= w[i]; --j) dp[j] = max(dp[j], dp[j - w[i]] + c[i]);</code>. По той же причине, что в §5, справа читаются ещё не обновлённые значения прошлого слоя. <strong>Восстановить набор</strong> «по первому предку» здесь нельзя: значение клетки может улучшиться позже, и предок поменяется вместе с ним, а цепочка для меньших весов уже другая. Нужно либо хранить всю таблицу, либо для каждого предмета хранить битовую строку «на этом шаге клетка $j$ улучшилась» ($nW$ бит) и восстанавливать с конца.</div>
 
-<h2 id="s7">7. Рюкзак на bitset <a class="ts" href="https://youtu.be/9or5qD-HI70?t=4680" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">78:00</a></h2>
-<p><code>std::bitset&lt;N&gt;</code> хранит $N$ бит, размер задаётся константой времени компиляции. Поддерживаются побитовые операции <code>|</code>, <code>&amp;</code>, <code>^</code>, <code>~</code>, сдвиги <code>&lt;&lt;</code>, <code>&gt;&gt;</code>. Внутри это массив машинных слов, поэтому операция над битсетом стоит примерно $N/64$.</p>
-<p>Рюкзак с булевым ДП переписывается одной строкой: $dp \mathrel{|}= dp \ll w_i$. Вся работа $O(n \cdot W / 64)$. Для $W$ порядка нескольких миллионов и $n$ порядка тысяч это уже приемлемо.</p>
-<pre><code class="language-cpp">const int MAXW = 3'000'000;
-bitset&lt;MAXW + 1&gt; dp;
-dp[0] = 1;
-for (int wi : w)
-    dp |= dp &lt;&lt; wi;                     // за O(MAXW / 64)
-// ответ: максимальный g &lt;= W, для которого dp[g] == 1</code></pre>
-<p><strong>Восстановление на bitset.</strong> Перед сдвигом сохраняем старую версию. Новые единицы получаем как <code>new_bits = dp_after &amp; ~dp_before</code>. Для каждой новой единицы запоминаем предмет, которым она впервые появилась. Итерировать по единицам помогают <code>_Find_first()</code> и <code>_Find_next(idx)</code> (расширения GCC/libstdc++). Суммарная стоимость восстановления остаётся $O(n \cdot W / 64 + W)$.</p>
-<div class="warn"><strong>Замечание.</strong> Вариант с переставленным порядком обхода (с хранением двух строк вместо одной) обсуждался на занятии как упражнение, его разбор в конспекте не приводится.</div>
+<h2 id="s7">7. Ограниченное количество предметов и непрерывный рюкзак <a class="ts" href="https://youtu.be/9or5qD-HI70?t=4318" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:11:58</a></h2>
+<p><strong>Каждый предмет не более $k_i$ раз.</strong> Самое простое — сделать вид, что предметов больше: «размножить» $i$-й предмет в $k_i$ копий и решить обычный 0/1-рюкзак. Время $O(W\cdot\sum k_i)$.</p>
+<div class="note"><span class="lbl">Важное дополнение</span><br>
+Если $k_i$ большие, используют <strong>двоичное разбиение</strong>: вместо $k_i$ копий берут «пачки» из $1, 2, 4, \dots, 2^{t}$ предметов и остаток $k_i-(2^{t+1}-1)$. Из таких пачек складывается любое количество от $0$ до $k_i$, а пачек всего $O(\log k_i)$. Время $O\bigl(W\sum\log k_i\bigr)$.</div>
+<p><strong>Непрерывный рюкзак</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=4447" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:14:07</a>. Если предметы можно резать (слитки золота, сыпучие товары) и взять долю $x_i\in[0,1]$ каждого с ценой $c_i x_i$ и весом $w_i x_i$, то работает <strong>жадность</strong>. Сортируем по «плотности» $c_i/w_i$ по убыванию и берём предметы целиком, пока влезают. От последнего берём ровно ту часть, которая влезает.</p>
 
-<h2 id="s8">8. ДП по деревьям: размеры поддеревьев и сумма расстояний <a class="ts" href="https://youtu.be/9or5qD-HI70?t=5760" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">96:00</a></h2>
-<p>Корневое дерево удобно для ДП: база — листья, переход — собрать значение вершины из значений её детей. Простейший пример — размер поддерева: $sz[v] = 1 + \sum_{u \in \text{дети}(v)} sz[u]$.</p>
-<p>Далее задача «сумма длин всех путей». Перебор пар вершин даёт $O(n^2)$. Вместо этого считаем, какой вклад в ответ вносит каждое ребро. Ребро $(v, u)$, где $u$ — ребёнок, разделяет дерево на две части размеров $sz[u]$ и $n - sz[u]$. Каждый путь, пересекающий это ребро, идёт между частями. Значит, ребро входит в $sz[u] \cdot (n - sz[u])$ путей. Для взвешенного дерева вклад равен $w \cdot sz[u] \cdot (n - sz[u])$, а ответ — сумма по всем рёбрам.</p>
-<pre><code class="language-cpp">// вход: дерево на n вершинах, sz посчитан DFS-ом от корня
-long long ans = 0;
-function&lt;void(int, int)&gt; dfs = [&amp;](int v, int p) {
-    sz[v] = 1;
-    for (auto [u, w] : g[v]) if (u != p) {
-        dfs(u, v);
+<h2 id="s8">8. Битсет и рюкзак за $O(nW/64)$ <a class="ts" href="https://youtu.be/9or5qD-HI70?t=4630" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:17:10</a></h2>
+<p><code>std::bitset&lt;N&gt;</code> из лекции про C++ — массив бит фиксированного размера. Размер должен быть <strong>константой времени компиляции</strong>: <code>bitset&lt;n&gt;</code> с размером, введённым во время работы программы, не скомпилируется.</p>
+<ul>
+<li>конструируется из числа: <code>bitset&lt;10&gt; b(6);</code> — биты 1 и 2;</li>
+<li>при выводе через <code>cout</code> печатается от старших битов к младшим, то есть «задом наперёд»;</li>
+<li><code>b[i]</code>, <code>b.set(i)</code>, <code>b.reset(i)</code>, <code>b.count()</code>;</li>
+<li>побитовые <code>&amp;</code>, <code>|</code>, <code>^</code>, <code>~</code> и сдвиги <code>&lt;&lt;</code>, <code>&gt;&gt;</code>: биты, вышедшие за границу, пропадают, освободившиеся места заполняются нулями.</li>
+</ul>
+<p>Внутри это массив 64-битных слов, поэтому все операции работают за $O(N/64)$ — на современных 64-битных компиляторах.</p>
+<p><strong>Рюкзак</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=5028" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:23:48</a>. Строка <code>dp[j] |= dp[j - w]</code> по всем $j$ сразу — это «к битсету прибавить его же, сдвинутый на $w$ влево»:</p>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">bitset</span>&lt;MAXW + <span class="n">1</span>&gt; dp;
+dp[<span class="n">0</span>] = <span class="n">1</span>;
+<span class="k">for</span> (<span class="t">int</span> i = <span class="n">0</span>; i &lt; n; ++i)
+    dp |= dp &lt;&lt; w[i];        <span class="c">// все веса j + w[i] становятся достижимыми; O(W / 64)</span>
+<span class="c">// можно ли набрать вес x: dp[x]</span></code></pre></div>
+<p>Итого $O(nW/64)$: при $n=3000$ и $W=3\cdot10^6$ это около $1{,}4\cdot10^8$ простых операций над словами — проходит.</p>
+<p><strong>Восстановление с битсетом</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=5316" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:28:36</a>. Нужно для каждого веса запомнить предмет, на котором вес <em>впервые</em> стал достижимым. Новые биты — это <code>diff = nw ^ dp</code>, где <code>nw = dp | (dp &lt;&lt; w[i])</code>. По единицам <code>diff</code> удобно пройти расширениями GCC <code>_Find_first()</code> и <code>_Find_next(pos)</code>: их нет в стандарте и на cppreference, но в libstdc++ они есть. Если позиции нет, обе функции возвращают размер битсета.</p>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="k">for</span> (<span class="t">int</span> i = <span class="n">0</span>; i &lt; n; ++i) {
+    <span class="k">auto</span> nw = dp | (dp &lt;&lt; w[i]);
+    <span class="k">auto</span> diff = nw ^ dp;                               <span class="c">// веса, впервые ставшие достижимыми</span>
+    <span class="k">for</span> (<span class="t">size_t</span> j = diff.<span class="f">_Find_first</span>(); j &lt; diff.<span class="f">size</span>(); j = diff.<span class="f">_Find_next</span>(j))
+        from[j] = i;                                   <span class="c">// предок, как в §5</span>
+    dp = nw;
+}</code></pre></div>
+<p>Каждый вес попадает в <code>diff</code> ровно один раз за всё время, поэтому итог — $O(nW/64+W)$.</p>
+
+<h2 id="s9">9. ДП по поддеревьям <a class="ts" href="https://youtu.be/9or5qD-HI70?t=5883" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:38:03</a></h2>
+<p>Типичная схема: дерево (часто некорневое) подвешиваем за какую-нибудь вершину. Для вершины сначала считаем динамику в детях, потом собираем из них значение в самой вершине. Порядок обеспечивает DFS: значение вершины вычисляется после возврата из всех детей. Если дерево некорневое и ответ нужен для каждой вершины, потом приходится учитывать ещё и «всё, что выше», — это переподвешивание (§11).</p>
+<p><strong>Самый простой пример</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=6010" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:40:10</a> — размеры поддеревьев. База: у листа размер $1$. Переход: $\mathit{sz}_v=1+\sum_{u\text{ — ребёнок } v}\mathit{sz}_u$.</p>
+
+<h2 id="s10">10. Сумма длин всех путей в дереве <a class="ts" href="https://youtu.be/9or5qD-HI70?t=6151" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:42:31</a></h2>
+<p><strong>Задача.</strong> Дано невзвешенное дерево. Найти $\sum_{\{u,v\}}\mathrm{dist}(u,v)$ по всем неупорядоченным парам вершин. За $O(n^2)$ решается BFS/DFS из каждой вершины, хочется за $O(n)$.</p>
+<h3 id="s10-1">Способ 1: «честная» динамика</h3>
+<p>Пути, у которых самая высокая вершина — $v$, бывают двух видов: заканчиваются в $v$ (красные) или проходят через $v$ из одного поддерева ребёнка в другое (синие). Заводим три величины <a class="ts" href="https://youtu.be/9or5qD-HI70?t=6470" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:47:50</a>:</p>
+<ul>
+<li>$\mathit{sz}_v$ — размер поддерева;</li>
+<li>$\mathit{root}_v$ — сумма расстояний от всех вершин поддерева до $v$ (красные пути). Каждая вершина поддерева ребёнка $u$ проходит ещё одно ребро $(u, v)$:
+$$\mathit{root}_v=\sum_{u}\bigl(\mathit{root}_u+\mathit{sz}_u\bigr);$$</li>
+<li>$\mathit{ans}_v$ — сумма длин всех путей внутри поддерева $v$.</li>
+</ul>
+<div class="note"><span class="lbl">Обозначения на доске</span><br>На доске величины назывались иначе: $dp\_root[v]$ — это $\mathit{root}_v$, $dp\_t[v]$ — суммы длин путей, проходящих через $v$ (синие), $dp[v]$ — ответ для поддерева $v$ (в конспекте $\mathit{ans}_v$).</div>
+<p><strong>Синие пути</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=6841" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:54:01</a>. Для двух детей $u$ и $w$ путь из поддерева $u$ в поддерево $w$ состоит из куска до $u$, рёбер $u\!-\!v\!-\!w$ и куска от $w$. Обозначим $R_u=\mathit{root}_u+\mathit{sz}_u$ — сумму расстояний от вершин поддерева $u$ до $v$. Каждое такое расстояние участвует в $\mathit{sz}_w$ путях, и наоборот, поэтому сумма длин путей между поддеревьями равна $R_u\cdot\mathit{sz}_w+R_w\cdot\mathit{sz}_u$. На лекции то же самое записали как $\mathit{root}_u\mathit{sz}_w+\mathit{root}_w\mathit{sz}_u+2\,\mathit{sz}_u\mathit{sz}_w$: каждый путь проходит два «средних» ребра.</p>
+<figure class="viz"><svg viewBox="0 0 760 340" role="img" aria-label="Путь из поддерева u в поддерево w через вершину v" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="340" rx="14" fill="#141a24"/>
+  <text x="380" y="24" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >пути, проходящие через v: из поддерева ребёнка u в поддерево ребёнка w</text>
+  <line x1="380.0" y1="60.0" x2="190.0" y2="130.0" stroke="#9aa4b2" stroke-width="2" />
+  <line x1="380.0" y1="60.0" x2="380.0" y2="130.0" stroke="#9aa4b2" stroke-width="2" />
+  <line x1="380.0" y1="60.0" x2="570.0" y2="130.0" stroke="#9aa4b2" stroke-width="2" />
+  <polygon points="190,130 115.0,230 265.0,230" fill="#1e2836" stroke="#9aa4b2" stroke-width="2"/>
+  <polygon points="380,130 305.0,230 455.0,230" fill="#1e2836" stroke="#9aa4b2" stroke-width="2"/>
+  <polygon points="570,130 495.0,230 645.0,230" fill="#1e2836" stroke="#9aa4b2" stroke-width="2"/>
+  <circle cx="380" cy="60" r="8" fill="#141a24" stroke="#ffff00" stroke-width="2"/>
+  <text x="400" y="56" text-anchor="start" font-family="sans-serif" font-size="15" fill="#ffff00" >v</text>
+  <circle cx="190" cy="130" r="6" fill="#141a24" stroke="#58c4dd" stroke-width="2"/>
+  <text x="170" y="126" text-anchor="end" font-family="sans-serif" font-size="15" fill="#58c4dd" >u</text>
+  <circle cx="570" cy="130" r="6" fill="#141a24" stroke="#ff8c1a" stroke-width="2"/>
+  <text x="590" y="126" text-anchor="start" font-family="sans-serif" font-size="15" fill="#ff8c1a" >w</text>
+  <circle cx="150" cy="215" r="6" fill="#58c4dd" stroke="#58c4dd" stroke-width="2"/>
+  <circle cx="610" cy="215" r="6" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="2"/>
+  <line x1="150.0" y1="215.0" x2="190.0" y2="130.0" stroke="#58c4dd" stroke-width="3" />
+  <line x1="190.0" y1="130.0" x2="380.0" y2="60.0" stroke="#58c4dd" stroke-width="3" />
+  <line x1="380.0" y1="60.0" x2="570.0" y2="130.0" stroke="#ff8c1a" stroke-width="3" />
+  <line x1="570.0" y1="130.0" x2="610.0" y2="215.0" stroke="#ff8c1a" stroke-width="3" />
+  <text x="150" y="245" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#58c4dd" >a</text>
+  <text x="610" y="245" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ff8c1a" >b</text>
+  <text x="120" y="170" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#58c4dd" >root<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan></text>
+  <text x="640" y="170" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" >root<tspan dy="4" font-size="11">w</tspan><tspan dy="-4"></tspan></text>
+  <text x="190" y="255" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >sz<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan> вершин</text>
+  <text x="570" y="255" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >sz<tspan dy="4" font-size="11">w</tspan><tspan dy="-4"></tspan> вершин</text>
+  <text x="380" y="282" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >длина пути a–b = root<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan> + 1 + 1 + root<tspan dy="4" font-size="11">w</tspan><tspan dy="-4"></tspan></text>
+  <text x="380" y="308" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >сумма по всем парам (a, b):  root<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan>·sz<tspan dy="4" font-size="11">w</tspan><tspan dy="-4"></tspan> + root<tspan dy="4" font-size="11">w</tspan><tspan dy="-4"></tspan>·sz<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan> + 2·sz<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan>·sz<tspan dy="4" font-size="11">w</tspan><tspan dy="-4"></tspan></text>
+</svg><figcaption><a class="ts" href="https://youtu.be/9or5qD-HI70?t=6720" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:52:00</a> Доска (перерисовано): путь из вершины $a$ поддерева $u$ в вершину $b$ поддерева $w$ идёт через $v$; длина — $\mathit{root}_u+1+1+\mathit{root}_w$.</figcaption></figure>
+<p>Если детей много <a class="ts" href="https://youtu.be/9or5qD-HI70?t=7596" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:06:36</a>, перебор пар даёт квадрат. Нужно раскрыть сумму по парам и вынести множители. На лекции это сделали по слагаемым, ниже — тот же приём в сжатом виде (Развёрнутое объяснение). Пусть $S=\sum_u\mathit{sz}_u=\mathit{sz}_v-1$. Тогда</p>
+$$\sum_{\{u,w\}}\bigl(R_u\,\mathit{sz}_w+R_w\,\mathit{sz}_u\bigr)=\sum_u R_u\sum_{w\ne u}\mathit{sz}_w=\sum_u R_u\,(S-\mathit{sz}_u),$$
+<p>и всё считается за один проход по детям:</p>
+$$\mathit{ans}_v=\sum_u\mathit{ans}_u+\mathit{root}_v+\sum_u R_u\,(S-\mathit{sz}_u).$$
+<div class="warn"><span class="lbl">Важное дополнение</span><br>
+На лекции в этом месте фигурировало $\mathit{sz}_v-\mathit{sz}_u$. Будьте внимательны, включает ли $\mathit{sz}_v$ саму вершину $v$: «все остальные поддеревья детей» — это $\mathit{sz}_v-1-\mathit{sz}_u$. Формулы выше (с $S=\mathit{sz}_v-1$) проверены сравнением с перебором на случайных деревьях.</div>
+<h3 id="s10-2">Способ 2: вклад каждого ребра</h3>
+<p><a class="ts" href="https://youtu.be/9or5qD-HI70?t=8868" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:27:48</a> Сумма длин путей — это сумма по рёбрам числа путей, проходящих через ребро. Путь проходит через ребро $(p, u)$, где $p$ — родитель $u$, тогда и только тогда, когда один его конец в поддереве $u$, а другой вне его. Таких пар $\mathit{sz}_u\cdot(n-\mathit{sz}_u)$, поэтому <a class="ts" href="https://youtu.be/9or5qD-HI70?t=9236" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:33:56</a></p>
+$$\sum_{\{u,v\}}\mathrm{dist}(u,v)=\sum_{u\ne\text{корень}}\mathit{sz}_u\,(n-\mathit{sz}_u).$$
+<figure class="viz"><svg viewBox="0 0 760 325" role="img" aria-label="Каждый путь через ребро (p,u) соединяет вершину в поддереве u и вершину вне него" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="325" rx="14" fill="#141a24"/>
+  <text x="380" y="24" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >вклад ребра (p, u) в сумму длин путей</text>
+  <ellipse cx="180" cy="150" rx="130" ry="85" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/>
+  <text x="190" y="100" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" >вне поддерева u</text>
+  <text x="190" y="125" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#ff8c1a" >n − sz<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan> вершин</text>
+  <circle cx="340" cy="150" r="6" fill="#ff8c1a" stroke="#ff8c1a" stroke-width="2"/>
+  <text x="340" y="134" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#ff8c1a" >p</text>
+  <line x1="340.0" y1="150.0" x2="600.0" y2="150.0" stroke="#ffff00" stroke-width="4" />
+  <circle cx="600" cy="150" r="6" fill="#ffff00" stroke="#ffff00" stroke-width="2"/>
+  <text x="618" y="142" text-anchor="start" font-family="sans-serif" font-size="15" fill="#ffff00" >u</text>
+  <polygon points="600,150 525.0,250 675.0,250" fill="#1e2836" stroke="#58c4dd" stroke-width="2"/>
+  <text x="600" y="225" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#58c4dd" >sz<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan> вершин</text>
+  <text x="380" y="275" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >путей через ребро: sz<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan> · (n − sz<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan>)</text>
+  <text x="380" y="305" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#83c167" >ответ = сумма по всем рёбрам (p, u):  Σ sz<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan>·(n − sz<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan>)</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/9or5qD-HI70?t=9120" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:32:00</a> Доска (перерисовано): ребро $(p,u)$: пути через него — это пары «вершина в поддереве $u$» и «вершина вне него».</figcaption></figure>
+<p>Один DFS — и задача решена. Для взвешенного дерева каждое слагаемое умножается на вес ребра. Полезный приём: не перебирать пары вершин, а считать вклад объекта (здесь — ребра) через размеры «половинок».</p>
+<p><a class="ts" href="https://youtu.be/9or5qD-HI70?t=9428" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:37:08</a> Попутно: число путей из двух разных вершин равно $\binom n2=\frac{n(n-1)}2$, а с путями из одной вершины — $\frac{n(n+1)}2$.</p>
+
+<h2 id="s11">11. Переподвешивание: сумма расстояний от каждой вершины <a class="ts" href="https://youtu.be/9or5qD-HI70?t=9549" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:39:09</a></h2>
+<p><strong>Задача.</strong> Дано взвешенное дерево. Найти вершину $v$, у которой сумма расстояний до всех остальных минимальна. Идея из зала «середина диаметра» для взвешенного дерева не работает. Решение — два DFS.</p>
+<p><strong>DFS 1</strong> из корня $0$ считает $\mathit{sz}_v$ и $dp_v$ — сумму расстояний от вершин поддерева до $v$ (это $\mathit{root}_v$ из §10, но с весами):</p>
+$$dp_v=\sum_{(v\to u,\ w)}\bigl(dp_u+w\cdot\mathit{sz}_u\bigr).$$
+<p>В корне это уже сумма расстояний до <em>всех</em> вершин: $\mathit{res}_0=dp_0$.</p>
+<p><strong>DFS 2</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=9798" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:43:18</a>. Перейдём из $v$ в ребёнка $u$ по ребру веса $w$. До $\mathit{sz}_u$ вершин поддерева $u$ расстояние уменьшилось на $w$, до остальных $n-\mathit{sz}_u$ — увеличилось на $w$:</p>
+$$\mathit{res}_u=\mathit{res}_v-w\cdot\mathit{sz}_u+w\cdot(n-\mathit{sz}_u).$$
+<figure class="viz"><svg viewBox="0 0 760 330" role="img" aria-label="Переподвешивание: при переходе v→u расстояния меняются на плюс-минус w" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="330" rx="14" fill="#141a24"/>
+  <text x="380" y="24" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >переход из v в ребёнка u по ребру веса w</text>
+  <ellipse cx="160" cy="150" rx="125" ry="85" fill="#1e2836" stroke="#ff8c1a" stroke-width="2"/>
+  <text x="160" y="115" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" >остальные вершины</text>
+  <text x="160" y="138" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#ff8c1a" >n − sz<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan></text>
+  <text x="160" y="162" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#ff8c1a" >расстояние +w</text>
+  <circle cx="310" cy="150" r="7" fill="#fc6255" stroke="#fc6255" stroke-width="2"/>
+  <text x="310" y="132" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#fc6255" >v</text>
+  <line x1="310.0" y1="150.0" x2="570.0" y2="150.0" stroke="#ffff00" stroke-width="4" />
+  <circle cx="570" cy="150" r="7" fill="#ffff00" stroke="#ffff00" stroke-width="2"/>
+  <text x="588" y="142" text-anchor="start" font-family="sans-serif" font-size="16" fill="#ffff00" >u</text>
+  <text x="440" y="140" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#ffff00" >w</text>
+  <polygon points="570,150 495.0,250 645.0,250" fill="#1e2836" stroke="#58c4dd" stroke-width="2"/>
+  <text x="570" y="215" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#58c4dd" >sz<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan> вершин</text>
+  <text x="570" y="238" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#58c4dd" >расстояние −w</text>
+  <text x="380" y="285" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >res<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan> = res<tspan dy="4" font-size="11">v</tspan><tspan dy="-4"></tspan> − w·sz<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan> + w·(n − sz<tspan dy="4" font-size="11">u</tspan><tspan dy="-4"></tspan>)</text>
+  <text x="380" y="312" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >res<tspan dy="4" font-size="11">v</tspan><tspan dy="-4"></tspan> — сумма расстояний от всех вершин до v</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/9or5qD-HI70?t=9870" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:44:30</a> Доска (перерисовано): переход из $v$ в ребёнка $u$ по ребру веса $w$: расстояния до поддерева $u$ уменьшаются, до остальных вершин увеличиваются.</figcaption></figure>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">void</span> <span class="f">dfs1</span>(<span class="t">int</span> v, <span class="t">int</span> p) {                 <span class="c">// sz[v] и dp[v] — сумма расстояний из поддерева до v</span>
+    sz[v] = <span class="n">1</span>; dp[v] = <span class="n">0</span>;
+    <span class="k">for</span> (<span class="k">auto</span> [u, w] : g[v]) <span class="k">if</span> (u != p) {
+        <span class="f">dfs1</span>(u, v);
         sz[v] += sz[u];
-        ans += (long long)w * sz[u] * (n - sz[u]);
+        dp[v] += dp[u] + w * sz[u];       <span class="c">// все вершины поддерева u проходят ещё ребро (v,u)</span>
     }
-};
-dfs(0, -1);
-// ans — сумма длин всех путей (без учёта путей длины 0)</code></pre>
-<p>Количество всех путей в дереве — $n(n-1)/2$. Вопрос «какая вершина минимизирует сумму расстояний до всех остальных» решается двумя обходами: первый считает $sz$ и суммы в поддеревьях, второй переносит корень (см. следующий раздел).</p>
+}
+<span class="t">void</span> <span class="f">dfs2</span>(<span class="t">int</span> v, <span class="t">int</span> p, <span class="t">long</span> <span class="t">long</span> cur) {  <span class="c">// cur — сумма расстояний от всех вершин до v</span>
+    res[v] = cur;
+    <span class="k">for</span> (<span class="k">auto</span> [u, w] : g[v]) <span class="k">if</span> (u != p)
+        <span class="f">dfs2</span>(u, v, cur - w * sz[u] + w * (n - sz[u]));
+}
+<span class="c">// dfs1(0, -1); dfs2(0, -1, dp[0]); ответ — вершина с минимальным res[v]</span></code></pre></div>
+<p>Итого $O(n)$. Этот приём — посчитать ответ для корня и затем «перекатывать» его в соседей за $O(1)$ — называется <strong>переподвешиванием</strong> (rerooting).</p>
 
-<h2 id="s9">9. Перенос корня (второй обход) <a class="ts" href="https://youtu.be/9or5qD-HI70?t=9360" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">156:00</a></h2>
-<p>После перерыва разбирается перенос корня. Пусть $S(v)$ — сумма расстояний от $v$ до всех вершин. Если перейти по ребру из $v$ в ребёнка $c$ (вес $w$), то для вершин поддерева $c$ расстояния уменьшаются на $w$, а для остальных увеличиваются на $w$. Поэтому
-$$S(c) = S(v) + w\cdot\bigl(n - 2\,sz[c]\bigr)$$
-для невзвешенного дерева ($w = 1$) и $S(c) = S(v) + w\,(n - 2\,sz[c])$ в общем случае. Значит, первый обход даёт $S$ корня, а второй — $S$ для всех вершин за $O(n)$.</p>
-
-<h2 id="s10">10. Максимальное паросочетание на дереве <a class="ts" href="https://youtu.be/9or5qD-HI70?t=10440" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">174:00</a></h2>
-<p>Паросочетание — набор рёбер, никакие два из которых не касаются общей вершины. Для дерева состояние вершины $v$ — два значения: $dp_0[v]$ (вершина $v$ свободна) и $dp_1[v]$ (вершина $v$ занята ребром, ведущим в её поддерево). Пусть $S = \sum_{u} \max(dp_0[u], dp_1[u])$ по всем детям $u$. Тогда:</p>
+<h2 id="s12">12. Максимальное паросочетание в дереве <a class="ts" href="https://youtu.be/9or5qD-HI70?t=10237" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:50:37</a></h2>
+<p><strong>Паросочетание</strong> — набор рёбер, никакие два из которых не имеют общей вершины. Нужно найти максимальное по размеру паросочетание в дереве. Идея из чата «число рёбер пополам» неверна: в звезде можно взять только одно ребро.</p>
+<p><strong>Состояние</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=10417" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:53:37</a>: $dp_{v,f}$ — максимальное паросочетание в поддереве $v$, где $f=1$, если $v$ покрыта ребром паросочетания (ребром к одному из детей), и $f=0$ иначе.</p>
 <ul>
-  <li>$dp_0[v] = S$ (ни одно ребро вниз не выбрано);</li>
-  <li>$dp_1[v] = \max_{u}\bigl(S - \max(dp_0[u], dp_1[u]) + dp_0[u] + 1\bigr)$ — выбираем ребро $(v, u)$ и считаем, что $u$ свободна.</li>
+<li>$dp_{v,0}$: ни одно ребро из $v$ к детям не взято, и каждому ребёнку безразлично, покрыт он или нет:
+$$dp_{v,0}=S,\qquad S=\sum_{u}\max(dp_{u,0},\,dp_{u,1}).$$</li>
+<li>$dp_{v,1}$: перебираем ребёнка $t$, с которым $v$ сматчена. Он должен быть свободен ($dp_{t,0}$), остальным всё равно, и добавляется само ребро $(v,t)$. На лекции сначала забыли «$+1$», потом поправили:
+$$dp_{v,1}=\max_{t}\Bigl(dp_{t,0}+1+\sum_{u\ne t}\max(dp_{u,0},dp_{u,1})\Bigr).$$</li>
 </ul>
-<p>Наивный перебор $u$ с пересчётом суммы даёт квадратичное время. Сумму $S$ считают один раз, а для каждого ребёнка вычитают его вклад, поэтому весь переход линейный.</p>
-<pre><code class="language-cpp">// dp0[v], dp1[v] — максимальное паросочетание в поддереве v
-// без вершины v / с вершиной v, занятой ребром вниз
-void dfs(int v, int p) {
-    long long S = 0;
-    for (int u : g[v]) if (u != p) {
-        dfs(u, v);
-        S += max(dp0[u], dp1[u]);
-    }
-    dp0[v] = S;
-    dp1[v] = NEG;                       // NEG = -inf: без детей вершину занять нельзя
-    for (int u : g[v]) if (u != p) {
-        long long cand = S - max(dp0[u], dp1[u]) + dp0[u] + 1;
-        dp1[v] = max(dp1[v], cand);
-    }
-}</code></pre>
-<div class="warn"><strong>Замечание.</strong> Код выше — конспект идеи с занятия, он не компилировался и не проверялся на тестах. Для листа $dp_1 = -\infty$ (занять вершину нельзя без детей), $dp_0 = 0$. Перед использованием в контесте код нужно проверить.</div>
+<p><strong>Ускорение до $O(n)$</strong> <a class="ts" href="https://youtu.be/9or5qD-HI70?t=10661" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:57:41</a>. Сумма «по всем, кроме $t$» равна $S-\max(dp_{t,0},dp_{t,1})$:</p>
+$$dp_{v,1}=\max_t\bigl(S-\max(dp_{t,0},dp_{t,1})+dp_{t,0}+1\bigr).$$
+<figure class="viz"><svg viewBox="0 0 760 350" role="img" aria-label="Паросочетание в дереве: v сочетается с ребёнком t" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="350" rx="14" fill="#141a24"/>
+  <text x="380" y="24" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >dp<tspan dy="4" font-size="11">v,1</tspan><tspan dy="-4"></tspan>: v сочетается с ребёнком t</text>
+  <circle cx="380" cy="70" r="8" fill="#141a24" stroke="#ffff00" stroke-width="2"/>
+  <text x="402" y="66" text-anchor="start" font-family="sans-serif" font-size="16" fill="#ffff00" >v</text>
+  <line x1="380.0" y1="70.0" x2="130.0" y2="140.0" stroke="#9aa4b2" stroke-width="2" />
+  <path d="M85,215 Q85,135 130,135 Q175,135 175,215 Z" fill="#1e2836" stroke="#9aa4b2" stroke-width="2"/>
+  <circle cx="130" cy="140" r="6" fill="#141a24" stroke="#9aa4b2" stroke-width="2"/>
+  <line x1="380.0" y1="70.0" x2="300.0" y2="140.0" stroke="#9aa4b2" stroke-width="2" />
+  <path d="M255,215 Q255,135 300,135 Q345,135 345,215 Z" fill="#1e2836" stroke="#9aa4b2" stroke-width="2"/>
+  <circle cx="300" cy="140" r="6" fill="#141a24" stroke="#9aa4b2" stroke-width="2"/>
+  <line x1="380.0" y1="70.0" x2="470.0" y2="140.0" stroke="#fc6255" stroke-width="4" />
+  <path d="M425,215 Q425,135 470,135 Q515,135 515,215 Z" fill="#1e2836" stroke="#83c167" stroke-width="2"/>
+  <circle cx="470" cy="140" r="6" fill="#141a24" stroke="#83c167" stroke-width="2"/>
+  <line x1="380.0" y1="70.0" x2="640.0" y2="140.0" stroke="#9aa4b2" stroke-width="2" />
+  <path d="M595,215 Q595,135 640,135 Q685,135 685,215 Z" fill="#1e2836" stroke="#9aa4b2" stroke-width="2"/>
+  <circle cx="640" cy="140" r="6" fill="#141a24" stroke="#9aa4b2" stroke-width="2"/>
+  <text x="470" y="105" text-anchor="start" font-family="sans-serif" font-size="16" fill="#fc6255" >+1</text>
+  <text x="470" y="245" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#83c167" >t</text>
+  <text x="470" y="268" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#83c167" >dp<tspan dy="4" font-size="11">t,0</tspan><tspan dy="-4"></tspan></text>
+  <text x="130" y="245" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >max(dp<tspan dy="4" font-size="11">u,0</tspan><tspan dy="-4"></tspan>, dp<tspan dy="4" font-size="11">u,1</tspan><tspan dy="-4"></tspan>)</text>
+  <text x="300" y="245" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >max(dp<tspan dy="4" font-size="11">u,0</tspan><tspan dy="-4"></tspan>, dp<tspan dy="4" font-size="11">u,1</tspan><tspan dy="-4"></tspan>)</text>
+  <text x="640" y="245" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >max(dp<tspan dy="4" font-size="11">u,0</tspan><tspan dy="-4"></tspan>, dp<tspan dy="4" font-size="11">u,1</tspan><tspan dy="-4"></tspan>)</text>
+  <text x="380" y="305" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >S = Σ max(dp<tspan dy="4" font-size="11">u,0</tspan><tspan dy="-4"></tspan>, dp<tspan dy="4" font-size="11">u,1</tspan><tspan dy="-4"></tspan>) по всем детям u</text>
+  <text x="380" y="332" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >dp<tspan dy="4" font-size="11">v,1</tspan><tspan dy="-4"></tspan> = max по t ( S − max(dp<tspan dy="4" font-size="11">t,0</tspan><tspan dy="-4"></tspan>, dp<tspan dy="4" font-size="11">t,1</tspan><tspan dy="-4"></tspan>) + dp<tspan dy="4" font-size="11">t,0</tspan><tspan dy="-4"></tspan> + 1 )</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/9or5qD-HI70?t=10560" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:56:00</a> Доска (перерисовано): $v$ сочетается с ребёнком $t$; остальные дети берутся с лучшим из $dp_{u,0},dp_{u,1}$.</figcaption></figure>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">void</span> <span class="f">dfs</span>(<span class="t">int</span> v, <span class="t">int</span> p) {
+    <span class="t">long</span> <span class="t">long</span> S = <span class="n">0</span>;
+    <span class="k">for</span> (<span class="t">int</span> u : g[v]) <span class="k">if</span> (u != p) { <span class="f">dfs</span>(u, v); S += <span class="f">max</span>(dp[u][<span class="n">0</span>], dp[u][<span class="n">1</span>]); }
+    dp[v][<span class="n">0</span>] = S;
+    dp[v][<span class="n">1</span>] = LLONG_MIN / <span class="n">4</span>;                         <span class="c">// у листа нет детей — f = 1 невозможно</span>
+    <span class="k">for</span> (<span class="t">int</span> t : g[v]) <span class="k">if</span> (t != p)
+        dp[v][<span class="n">1</span>] = <span class="f">max</span>(dp[v][<span class="n">1</span>], S - <span class="f">max</span>(dp[t][<span class="n">0</span>], dp[t][<span class="n">1</span>]) + dp[t][<span class="n">0</span>] + <span class="n">1</span>);
+}
+<span class="c">// ответ — max(dp[root][0], dp[root][1])</span></code></pre></div>
+<p>Код проверен сравнением с полным перебором на случайных деревьях.</p>
 
-<h2 id="s11">11. Разбор контеста по DFS <a class="ts" href="https://youtu.be/9or5qD-HI70?t=10800" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">180:00</a></h2>
-<p>Вторая половина занятия — разбор задач контеста DFS (дедлайн 8 ноября). Ниже кратко перечислены идеи; подробнее — на записи.</p>
+<h2 id="s13">13. Разбор контеста DFS 2 <a class="ts" href="https://youtu.be/9or5qD-HI70?t=11288" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:08:08</a></h2>
+<p>Задачи A, C, H и J входят в дедлайн (до 8 ноября вместе с контестами «Линейные алгоритмы» и «DFS 1»). Во всех используется материал лекций: конденсация, мосты, точки сочленения.</p>
+
+<h3 id="s13-1">A. Станции скорой помощи</h3>
+<p>В ориентированном графе нужно отметить минимум вершин так, чтобы из любой вершины можно было дойти до отмеченной. Строим <strong>конденсацию</strong> — сжимаем каждую компоненту сильной связности (КСС) в вершину и получаем ацикличный граф (DAG). В каждом <strong>стоке</strong> конденсации станция обязательна: из стока никуда не уйти. А станций во всех стоках достаточно: из любой вершины DAG можно дойти до какого-то стока. Ответ — число стоков конденсации, по одной вершине из каждого.</p>
+
+<h3 id="s13-2">B. Водостоки <a class="ts" href="https://youtu.be/9or5qD-HI70?t=11469" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:11:09</a></h3>
+<p>Прямоугольная карта высот, вода из клетки стекает в соседнюю (по стороне) с не большей высотой. Нужно поставить минимум водостоков, чтобы вся вода куда-то стекала. Проводим ребро из клетки в соседнюю, если высота соседа $\le$ высоты клетки, — это направление течения. Строим конденсацию: области равной высоты склеятся в одну КСС. Вода в итоге собирается в КСС, из которых течь некуда, — в стоки. Ответ — число стоков. На лекции рёбра направили «вверх» и считали истоки, это то же самое для перевёрнутого графа.</p>
+
+<h3 id="s13-3">C. Конденсация</h3>
+<p>Просто построить конденсацию графа — алгоритм с лекции.</p>
+
+<h3 id="s13-4">D. Ориентация в сильно связный граф <a class="ts" href="https://youtu.be/9or5qD-HI70?t=11774" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:16:14</a></h3>
+<p>Связный неориентированный граф нужно ориентировать так, чтобы получилась одна КСС, или сказать, что это невозможно.</p>
 <ul>
-  <li><strong>Задача A (станции скорой помощи).</strong> Ориентированный граф, нужно отметить минимальное число вершин, из любой достижимо хотя бы одно отмеченное. Строим конденсацию (компоненты сильной связности сжимаем) и отмечаем по одной вершине в каждом стоке. Ответ — число стоков конденсации.</li>
-  <li><strong>Задача B (водостоки).</strong> Сетка высот, вода стекает в соседнюю более низкую клетку. Строим ориентированный граф «из клетки в соседнюю не выше» и считаем число источников/стоков его конденсации; ответ — минимальное число стоков по условию задачи.</li>
-  <li><strong>Задача D (ориентация).</strong> Неориентированный граф нужно ориентировать так, чтобы он стал сильно связным. Невозможно, если есть мост (в том числе в любом дереве). Если мостов нет, ориентируем древесные рёбра DFS вниз, обратные — вверх; тогда из любой вершины можно дойти до корня и обратно.</li>
-  <li><strong>Задача E (мост + ровно одно ребро).</strong> Добавить одно ребро так, чтобы число мостов стало минимальным. Удаляем все мосты, сжимаем 2-рёберно-связные компоненты: получаем дерево. Добавляем ребро между концами диаметра этого дерева; оно «закрывает» максимальное число мостов. Для леса берём максимум по диаметрам компонент.</li>
-  <li><strong>Задача F (магнитные подушки).</strong> Каждая подушка соединяет три вершины. Удаление подушки — удаление её трёх рёбер. Переход: завести по вершине на каждую подушку и соединить её с тремя небоскрёбами. Тогда ответом будут точки сочленения построенного графа, относящиеся к вершинам-подушкам.</li>
-  <li><strong>Задача G (вершинное покрытие мостов).</strong> Нужно покрасить минимум вершин так, чтобы при удалении любого ребра каждая белая вершина была связана с чёрной. Удаляем мосты, сжимаем, получаем дерево из компонент. Минимальное число чёрных вершин — число листьев; количество способов — произведение размеров компонент-листьев.</li>
-  <li><strong>Задача H (точки сочленения).</strong> Классическая задача, разобранная на занятии.</li>
-  <li><strong>Задача I (обновления серверов).</strong> Для каждого клиента нужно, чтобы его серверы не обновлялись в один час. Строим граф зависимостей: если обновление одного сервера требует обновления другого, проводим ребро. Минимальное множество серверов, которые надо сдвинуть, — минимальный набор стоков конденсации этого графа; выбираем самый маленький сток.</li>
-  <li><strong>Задача J (транзитивная редукция).</strong> Построить ориентированный граф с минимальным числом рёбер и той же достижимостью. Для каждой компоненты сильной связности строим цикл; для рёбер между компонентами строим конденсацию, сортируем вершины топсортировкой и удаляем рёбра, которые дублируют путь, обходом DFS в порядке топсорта.</li>
+<li>Если есть <strong>мост</strong>, то нельзя: как бы его ни ориентировать, обратно по нему не пройти. Дерево — частный случай: в нём все рёбра мосты.</li>
+<li>Если мостов нет, то можно. Запускаем DFS: <strong>рёбра дерева DFS направляем вниз</strong>, <strong>обратные рёбра — вверх</strong>, то есть каждое ребро — в ту сторону, в которую DFS прошёл по нему впервые. Без мостов из поддерева любой вершины есть обратное ребро выше неё, поэтому из любой вершины можно подняться до корня. А из корня вниз достижимо всё. Значит, любая вершина достижима из любой.</li>
 </ul>
-<div class="warn"><strong>Замечание.</strong> Разбор задач на занятии шёл кратко, часть решений проговаривалась «на пальцах» и не доводилась до кода. Формулировки выше — конспект идеи, без проверки на тестах.</div>
+
+<h3 id="s13-5">E. Добавить ребро, чтобы мостов стало меньше <a class="ts" href="https://youtu.be/9or5qD-HI70?t=12078" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:21:18</a></h3>
+<p>Найдём все мосты и удалим их. Получатся <strong>компоненты рёберной двусвязности</strong>: внутри них мостов нет, и проводить ребро внутри компоненты бессмысленно. Сожмём каждую компоненту в вершину и вернём мосты. Получится дерево (лес), все рёбра которого — мосты. Новое ребро между вершинами $a$ и $b$ этого дерева замыкает цикл, и все мосты на пути $a\to b$ перестают быть мостами. Значит, соединяем концы <strong>диаметра</strong> дерева мостов. Если деревьев несколько, ребро между ними само станет мостом: берём лучший диаметр.</p>
+<p>Компоненты рёберной двусвязности — очень полезная конструкция: между любыми двумя вершинами одной компоненты есть два пути без общих рёбер.</p>
+
+<h3 id="s13-6">F. Магнитные подушки <a class="ts" href="https://youtu.be/9or5qD-HI70?t=12569" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:29:29</a></h3>
+<p>$n$ небоскрёбов, $m$ подушек. Подушка $i$ соединяет тройку $a_i, b_i, c_i$ (то есть три ребра). Граф связен. Нужно найти подушки, удаление которых делает граф несвязным.</p>
+<p><strong>Преобразование графа.</strong> Каждой подушке заводим новую вершину $n+i$ и соединяем её с $a_i$, $b_i$, $c_i$. Переход «$a\to b$ по подушке» становится $a\to n+i\to b$, связность сохраняется. Удаление подушки — это удаление вершины $n+i$. Значит, ответ — подушки, вершины которых являются <strong>точками сочленения</strong> нового графа на $n+m$ вершинах. Рёбра «подушка—подушка» проводить не нужно: их было бы квадратично много.</p>
+
+<h3 id="s13-7">G. Надёжное хранение данных <a class="ts" href="https://youtu.be/9or5qD-HI70?t=13241" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:40:41</a></h3>
+<p>Нужно покрасить минимум вершин в чёрный, чтобы после удаления <em>любого</em> ребра каждая вершина оставалась в одной компоненте с чёрной. Также нужно посчитать число способов.</p>
+<p>Снова сжимаем компоненты рёберной двусвязности и получаем дерево мостов. Данные нужны в каждом <strong>листе</strong> этого дерева: если в листе их нет, режем мост к листу. И листьев достаточно: после удаления любого моста в каждой половине дерева остаётся лист. Минимальное число — <strong>количество листьев</strong>, число способов — <strong>произведение размеров</strong> (числа исходных вершин) компонент-листьев.</p>
+<div class="warn"><span class="lbl">Важное дополнение</span><br>
+Крайний случай, не разобранный на лекции: если мостов нет вовсе (дерево из одной вершины-компоненты), листьев «нет», но одна чёрная вершина нужна. Ответ — $1$ вершина и $n$ способов. Проверьте также, требует ли условие считать количество способов по модулю.</div>
+
+<h3 id="s13-8">H. Точки сочленения</h3>
+<p>Алгоритм с лекции DFS 2 (уже применялся в задаче F).</p>
+
+<h3 id="s13-9">I. Обновление дата-центров <a class="ts" href="https://youtu.be/9or5qD-HI70?t=13794" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:49:54</a></h3>
+<p>Сервер $v$ обновляется в час $a_v$ из $h$ часов в сутках. Каждый клиент хранит данные на двух серверах, и изначально у пары часы обновления различны. Нужно выбрать непустое множество серверов минимального размера и сдвинуть их обновление на час вперёд ($a_v\to(a_v+1)\bmod h$) так, чтобы ни у одного клиента оба сервера не стали обновляться одновременно.</p>
+<p><strong>Граф зависимостей.</strong> Если у клиента серверы $v, u$ и $(a_v+1)\bmod h=a_u$, то, сдвинув $v$, обязательно сдвигаем и $u$: проводим ребро $v\to u$ (и симметрично проверяем $u\to v$). Выбрав вершину, мы обязаны взять всё достижимое из неё. Строим конденсацию. Брать нужно КСС-<strong>сток</strong> (иначе потащим за собой ещё что-то), причём <strong>самый маленький</strong> по числу серверов. Циклы — например, $h=5$ и пять серверов по кругу — склеиваются в одну КСС.</p>
+
+<h3 id="s13-10">J. Мосты</h3>
+<p>Алгоритм с лекции.</p>
+
+<h3 id="s13-11">K. Минимальный граф с той же достижимостью <a class="ts" href="https://youtu.be/9or5qD-HI70?t=14531" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:02:11</a></h3>
+<p>Дан орграф ($n\le3000$). Нужно построить граф с минимальным числом рёбер и с той же достижимостью: из $a$ можно попасть в $b$ тогда и только тогда, когда это возможно в исходном.</p>
+<ol>
+<li><strong>Внутри каждой КСС</strong> размера $k\ge2$ достаточно $k$ рёбер — простого цикла по её вершинам.</li>
+<li><strong>Между КСС</strong> работаем с конденсацией (DAG) и убираем «короткие» рёбра, которые дублируются путями. Идём по вершинам конденсации; для текущей $v$ сортируем её соседей <strong>в порядке топологической сортировки</strong> и заводим чистый массив <code>used</code>. Идём по соседям в этом порядке: если сосед $u$ ещё не посещён, добавляем ребро $v\to u$ в ответ и запускаем из $u$ DFS, помечая всё достижимое. Если посещён — он достижим через ранее добавленного соседа, и ребро лишнее.</li>
+</ol>
+<p>Порядок топсорта гарантирует, что первыми рассматриваются «ближайшие» соседи, до которых нет обходного пути. Время $O(n\cdot m)$, для $n\le3000$ этого достаточно.</p>
 
 <footer>
-  Конспект подготовлен по записи занятия Яндекс кружка. Таймкоды соответствуют исходной видеозаписи. Код на C++ приведён в виде, эквивалентном разобранному на занятии.
+  Конспект подготовлен по записи занятия Яндекс кружка. Таймкоды соответствуют исходной видеозаписи.
 </footer>
+<nav class="pager" aria-label="Соседние занятия"><a class="prev" href="../parallel-bp/parallel-bp-zan5-dfs-2.html"><small>← занятие 5</small><b>DFS 2</b></a><a class="next" href="../parallel-bp/parallel-bp-zan7-teoriya-chisel-kombinatorika.html"><small>занятие 7 →</small><b>Теория чисел и комбинаторика</b></a></nav>
 </div>
 
 <button class="toplink" id="topBtn">↑ наверх</button>
@@ -985,206 +1348,9 @@ void dfs(int v, int p) {
 
 
 
-<script>
-(function(){
-  function h(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
-  function bubbleF(a){var n=a.length,ids=[],v=a.slice(),F=[],i;for(i=0;i<n;i++)ids.push(i);function val(p){return v[ids[p]];}
-    for(var pass=0;pass<n-1;pass++){var mv=false;for(i=0;i<n-1-pass;i++){F.push({ids:ids.slice(),cmp:[i,i+1],done:pass});if(val(i)>val(i+1)){var t=ids[i];ids[i]=ids[i+1];ids[i+1]=t;mv=true;F.push({ids:ids.slice(),cmp:[i,i+1],done:pass,swap:true});}}if(!mv)break;}
-    F.push({ids:ids.slice(),cmp:[],done:n});return F;}
-  function selF(a){var n=a.length,ids=[],v=a.slice(),F=[],i,j;for(i=0;i<n;i++)ids.push(i);function val(p){return v[ids[p]];}
-    for(i=0;i<n-1;i++){var m=i;for(j=i+1;j<n;j++){F.push({ids:ids.slice(),cmp:[m,j],done:i});if(val(j)<val(m))m=j;}
-      if(m!==i){var t=ids[i];ids[i]=ids[m];ids[m]=t;F.push({ids:ids.slice(),cmp:[i,m],done:i,swap:true});}F.push({ids:ids.slice(),cmp:[],done:i+1});}
-    F.push({ids:ids.slice(),cmp:[],done:n});return F;}
-  function insF(a){var n=a.length,ids=[],v=a.slice(),F=[],i;for(i=0;i<n;i++)ids.push(i);function val(p){return v[ids[p]];}
-    for(i=1;i<n;i++){var j=i;while(j>0){F.push({ids:ids.slice(),cmp:[j-1,j],done:0});if(val(j)<val(j-1)){var t=ids[j];ids[j]=ids[j-1];ids[j-1]=t;F.push({ids:ids.slice(),cmp:[j-1,j],done:0,swap:true});j--;}else break;}}
-    F.push({ids:ids.slice(),cmp:[],done:n});return F;}
-  function buildSort(cont,kind,a){var n=a.length,mx=Math.max.apply(null,a),W=48,G=16,H=170;
-    var stage=h('div','stage');stage.style.width=(n*(W+G)-G)+'px';stage.style.height=(H+40)+'px';
-    var idEl=[],id;for(id=0;id<n;id++){var b=h('div','bar'),hh=18+(a[id]/mx)*(H-18);b.style.width=W+'px';b.style.height=hh+'px';b.style.left=(id*(W+G))+'px';b.appendChild(h('span','v',a[id]));stage.appendChild(b);idEl.push(b);}
-    cont.appendChild(stage);
-    var F=kind==='selection'?selF(a):kind==='insertion'?insF(a):bubbleF(a);
-    var ctl=h('div','ctl'),play=h('button',null,'\u25B6');play.type='button';
-    var range=h('input');range.type='range';range.min=0;range.max=F.length-1;range.value=0;
-    var lbl=h('span','lbl');ctl.appendChild(play);ctl.appendChild(range);ctl.appendChild(lbl);cont.appendChild(ctl);
-    function draw(k){var f=F[k],pos={};f.ids.forEach(function(x,i){pos[x]=i;});
-      for(var id=0;id<n;id++){var b=idEl[id],p=pos[id];b.style.left=(p*(W+G))+'px';b.classList.remove('cmp','swap','done');
-        if(f.cmp&&f.cmp.indexOf(p)>=0)b.classList.add(f.swap?'swap':'cmp');else if(p>=n-(f.done||0))b.classList.add('done');}
-      lbl.textContent=(k+1)+'/'+F.length;}
-    draw(0);
-    var tm=null;function stop(){if(tm){clearInterval(tm);tm=null;play.textContent='\u25B6';}}
-    range.addEventListener('input',function(){stop();draw(+range.value);});
-    play.addEventListener('click',function(){if(tm){stop();return;}if(+range.value>=F.length-1)range.value=0;play.textContent='\u23F8';tm=setInterval(function(){var k=+range.value+1;if(k>F.length-1){stop();return;}range.value=k;draw(k);},550);});
-  }
-  function buildBS(cont,a,t){var n=a.length,row=h('div','bsrow'),cells=[];
-    for(var i=0;i<n;i++){var c=h('div','bscell',a[i]);row.appendChild(c);cells.push(c);}
-    cont.appendChild(row);var msg=h('div','bslbl');cont.appendChild(msg);
-    var F=[],L=0,R=n;while(R-L>1){var m=(L+R)>>1;F.push({L:L,R:R,m:m,msg:'mid = '+m+', a['+m+'] = '+a[m]+(a[m]<=t?' \u2264 ':' > ')+t});if(a[m]<=t)L=m;else R=m;}
-    F.push({L:L,R:R,m:L,found:true,msg:'\u043d\u0430\u0448\u043b\u0438 '+t+' \u0432 \u043f\u043e\u0437\u0438\u0446\u0438\u0438 '+L});
-    var ctl=h('div','ctl'),play=h('button',null,'\u25B6');play.type='button';var range=h('input');range.type='range';range.min=0;range.max=F.length-1;range.value=0;var lbl=h('span','lbl');
-    ctl.appendChild(play);ctl.appendChild(range);ctl.appendChild(lbl);cont.appendChild(ctl);
-    function draw(k){var f=F[k];cells.forEach(function(c,i){c.className='bscell';});
-      if(f.R<n)cells[f.R].classList.add('R');cells[f.L].classList.add('L');cells[f.m].classList.add('mid');
-      if(f.found)cells[f.L].classList.add('found');msg.textContent=f.msg;lbl.textContent=(k+1)+'/'+F.length;}
-    draw(0);
-    var tm=null;function stop(){if(tm){clearInterval(tm);tm=null;play.textContent='\u25B6';}}
-    range.addEventListener('input',function(){stop();draw(+range.value);});
-    play.addEventListener('click',function(){if(tm){stop();return;}if(+range.value>=F.length-1)range.value=0;play.textContent='\u23F8';tm=setInterval(function(){var k=+range.value+1;if(k>F.length-1){stop();return;}range.value=k;draw(k);},700);});
-  }
-  Array.prototype.forEach.call(document.querySelectorAll('.algo'),function(cont){
-    var kind=cont.getAttribute('data-algo'),arr=(cont.getAttribute('data-arr')||'').split(',').map(Number);
-    if(kind==='sort')buildSort(cont,cont.getAttribute('data-kind'),arr);
-    else if(kind==='binsearch')buildBS(cont,arr,Number(cont.getAttribute('data-target')));
-  });
-})();
-</script>
 
-<script>
-(function(){
-  function h(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
-  function mkrow(vals,w){var r=h('div','bsrow');vals.forEach(function(v){var c=h('div','bscell small',v);r.appendChild(c);});return r;}
-  var NS='http://www.w3.org/2000/svg';
-  function el(n,at){var e=document.createElementNS(NS,n);for(var k in at)e.setAttribute(k,at[k]);return e;}
-  function ctl(range,max,lbl){var c=h('div','ctl'),rr=range||h('input');if(!range){rr.type='range';}c.appendChild(rr);c.appendChild(lbl);return {ctl:c,range:rr};}
-
-  function buildCounting(cont,a){
-    var k=Math.max.apply(null,a),F=[],cnt=[],out=[],i,v,t;
-    for(i=0;i<=k;i++)cnt.push(0);
-    for(i=0;i<a.length;i++){cnt[a[i]]++;F.push({i:i,cnt:cnt.slice(),out:out.slice()});}
-    for(v=0;v<=k;v++)for(t=0;t<cnt[v];t++){out.push(v);F.push({i:-1,cnt:cnt.slice(),out:out.slice(),ov:v});}
-    cont.appendChild(h('div','albl','массив')); var arr=mkrow(a); cont.appendChild(arr);
-    cont.appendChild(h('div','albl','cnt  (сколько раз встретилось)')); var cr=mkrow(cnt); cont.appendChild(cr);
-    cont.appendChild(h('div','albl','вывод')); var ocont=h('div','bsrow'); cont.appendChild(ocont);
-    var r=h('input');r.type='range';r.min=0;r.max=F.length-1;r.value=0;var lbl=h('span','lbl');
-    var c=h('div','ctl');var play=h('button',null,'\u25B6');play.type='button';c.appendChild(play);c.appendChild(r);c.appendChild(lbl);cont.appendChild(c);
-    function draw(kk){var f=F[kk],ac=arr.children;for(var q=0;q<ac.length;q++)ac[q].className='bscell small'+(q===f.i?' mid':'');
-      var cc=cr.children;for(q=0;q<cc.length;q++)cc[q].textContent=f.cnt[q];
-      for(q=0;q<cc.length;q++)cc[q].className='bscell small'+(q===(f.i>=0?a[f.i]:f.ov)?' mid':'');
-      ocont.innerHTML='';for(q=0;q<f.out.length;q++){var e=h('div','bscell small'+(q===f.out.length-1?' L':''),f.out[q]);ocont.appendChild(e);}
-      lbl.textContent=(kk+1)+'/'+F.length;}
-    draw(0);
-    var tm=null;function stop(){if(tm){clearInterval(tm);tm=null;play.textContent='\u25B6';}}
-    r.addEventListener('input',function(){stop();draw(+r.value);});
-    play.addEventListener('click',function(){if(tm){stop();return;}if(+r.value>=F.length-1)r.value=0;play.textContent='\u23F8';tm=setInterval(function(){var x=+r.value+1;if(x>F.length-1){stop();return;}r.value=x;draw(x);},600);});
-  }
-
-  function buildMerge(cont,a,b){
-    var i=0,j=0,out=[],F=[];
-    while(i<a.length&&j<b.length){F.push({a:i,b:j,out:out.slice()});if(a[i]<=b[j])out.push(a[i++]);else out.push(b[j++]);F.push({a:i,b:j,out:out.slice()});}
-    while(i<a.length){out.push(a[i++]);F.push({a:i,b:j,out:out.slice()});}
-    while(j<b.length){out.push(b[j++]);F.push({a:i,b:j,out:out.slice()});}
-    cont.appendChild(h('div','albl','a')); var ar=mkrow(a); cont.appendChild(ar);
-    cont.appendChild(h('div','albl','b')); var br=mkrow(b); cont.appendChild(br);
-    cont.appendChild(h('div','albl','результат')); var oc=h('div','bsrow'); cont.appendChild(oc);
-    var r=h('input');r.type='range';r.min=0;r.max=F.length-1;r.value=0;var lbl=h('span','lbl');
-    var c=h('div','ctl');var play=h('button',null,'\u25B6');play.type='button';c.appendChild(play);c.appendChild(r);c.appendChild(lbl);cont.appendChild(c);
-    function draw(kk){var f=F[kk],q;for(q=0;q<ar.children.length;q++)ar.children[q].className='bscell small'+(q===f.a?' L':(q<f.a?' done':''));for(q=0;q<br.children.length;q++)br.children[q].className='bscell small'+(q===f.b?' R':(q<f.b?' done':''));
-      oc.innerHTML='';for(q=0;q<f.out.length;q++)oc.appendChild(h('div','bscell small'+(q===f.out.length-1?' L':''),f.out[q]));
-      lbl.textContent=(kk+1)+'/'+F.length;}
-    draw(0);
-    var tm=null;function stop(){if(tm){clearInterval(tm);tm=null;play.textContent='\u25B6';}}
-    r.addEventListener('input',function(){stop();draw(+r.value);});
-    play.addEventListener('click',function(){if(tm){stop();return;}if(+r.value>=F.length-1)r.value=0;play.textContent='\u23F8';tm=setInterval(function(){var x=+r.value+1;if(x>F.length-1){stop();return;}r.value=x;draw(x);},600);});
-  }
-
-  function buildSlope(cont){
-    var brk=[3,5],xmin=0,xmax=8,N=200,fmax=0,t;
-    function f(x){var s=0;for(var q=0;q<brk.length;q++)s+=Math.abs(x-brk[q]);return s;}
-    for(t=0;t<=N;t++)fmax=Math.max(fmax,f(xmin+(xmax-xmin)*t/N));
-    var W=760,Hh=300,x0=64,x1=700,y0=248,y1=54;
-    function px(x){return x0+(x-xmin)/(xmax-xmin)*(x1-x0);}
-    function py(y){return y0-(y/fmax)*(y0-y1);}
-    var svg=el('svg',{viewBox:'0 0 '+W+' '+Hh,role:'img',xmlns:NS});
-    svg.style.width='100%';svg.style.height='auto';svg.style.display='block';svg.style.borderRadius='14px';
-    svg.appendChild(el('rect',{x:0,y:0,width:W,height:Hh,rx:14,fill:'#141a24'}));
-    for(var gy=y1;gy<y0;gy+=32)svg.appendChild(el('line',{x1:x0,y1:gy,x2:x1,y2:gy,stroke:'rgba(255,255,255,.05)'}));
-    svg.appendChild(el('line',{x1:x0,y1:y0,x2:x1+6,y2:y0,stroke:'#9aa4b2','stroke-width':1.5}));
-    svg.appendChild(el('line',{x1:x0,y1:y0,x2:x0,y2:y1,stroke:'#9aa4b2','stroke-width':1.5}));
-    var pts='';for(t=0;t<=N;t++){var xx=xmin+(xmax-xmin)*t/N;pts+=px(xx)+','+py(f(xx))+' ';}
-    svg.appendChild(el('polyline',{points:pts,fill:'none',stroke:'#58c4dd','stroke-width':3,'stroke-linejoin':'round'}));
-    brk.forEach(function(b){svg.appendChild(el('circle',{cx:px(b),cy:py(f(b)),r:6,fill:'#ffff00',stroke:'#141a24','stroke-width':3}));});
-    var vline=el('line',{x1:px(4),y1:y1,x2:px(4),y2:y0,stroke:'#fc6255','stroke-width':1.6,'stroke-dasharray':'5 5'});
-    var dot=el('circle',{cx:px(4),cy:py(f(4)),r:7,fill:'#fc6255',stroke:'#141a24','stroke-width':3});
-    svg.appendChild(vline);svg.appendChild(dot);
-    var t1=el('text',{x:x0+8,y:y1-4,fill:'#dfe7f1','font-size':15,'font-weight':700});t1.textContent='slope trick: выпуклая dp(x)';
-    var t2=el('text',{x:x0+8,y:y0+24,fill:'#c2cdde','font-size':13});
-    svg.appendChild(t1);svg.appendChild(t2);
-    cont.appendChild(svg);
-    var r=h('input');r.type='range';r.min=0;r.max=N;r.value=110;var lbl=h('span','lbl');
-    var c=h('div','ctl');c.appendChild(r);c.appendChild(lbl);cont.appendChild(c);
-    function draw(v){var x=xmin+(xmax-xmin)*v/N,y=f(x);vline.setAttribute('x1',px(x));vline.setAttribute('x2',px(x));dot.setAttribute('cx',px(x));dot.setAttribute('cy',py(y));t2.textContent='x = '+x.toFixed(2)+'    dp(x) = '+y.toFixed(2)+'    (жёлтые точки — изломы)';lbl.textContent='x = '+x.toFixed(1);}
-    r.addEventListener('input',function(){draw(+r.value);});draw(+r.value);
-  }
-
-  Array.prototype.forEach.call(document.querySelectorAll('.algo'),function(cont){
-    var k=cont.getAttribute('data-algo');
-    if(k==='counting')buildCounting(cont,(cont.getAttribute('data-arr')||'').split(',').map(Number));
-    else if(k==='merge')buildMerge(cont,(cont.getAttribute('data-a')||'').split(',').map(Number),(cont.getAttribute('data-b')||'').split(',').map(Number));
-    else if(k==='slope')buildSlope(cont);
-  });
-})();
-</script>
 <footer style="text-align:center;padding:24px 16px 32px;font-size:14px;opacity:.75"><a href="https://yandex.ru/yaintern/olympiads/kruzhok" style="color:inherit">yandex.ru/yaintern/olympiads/kruzhok</a></footer>
 
-<script>
-(function(){
-  function h(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
-  var NS='http://www.w3.org/2000/svg';
-  function s(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
-  var P={1:[380,110],2:[230,180],3:[150,260],4:[260,270],5:[330,330],6:[200,340],7:[530,180],8:[600,270]};
-  var E=[[1,2],[2,3],[2,4],[4,5],[5,6],[1,7],[7,8],[6,2],[8,1]];
-  function key(a,b){return a<b?a+'-'+b:b+'-'+a;}
-  function frames(){
-    var adj={},i;for(i=1;i<=8;i++)adj[i]=[];
-    E.forEach(function(e){adj[e[0]].push(e[1]);adj[e[1]].push(e[0]);});
-    for(i=1;i<=8;i++)adj[i].sort(function(a,b){return a-b;});
-    var color={},tree={},skip={},F=[];
-    for(i=1;i<=8;i++)color[i]=0;
-    function snap(cur,ecur,msg){F.push({color:JSON.parse(JSON.stringify(color)),tree:JSON.parse(JSON.stringify(tree)),skip:JSON.parse(JSON.stringify(skip)),cur:cur,ecur:ecur,msg:msg});}
-    function dfs(v,p){
-      color[v]=1;snap(v,null,'Входим в вершину '+v+' и красим её.');
-      adj[v].forEach(function(u){
-        if(u===p&&!skip[key(v,u)]){return;}
-        if(color[u]===0){tree[key(v,u)]=1;snap(v,key(v,u),'Из '+v+' идём в '+u+': она не покрашена.');dfs(u,v);snap(v,null,'Вернулись в '+v+'.');}
-        else if(!tree[key(v,u)]){skip[key(v,u)]=1;snap(v,key(v,u),'Ребро '+v+'–'+u+': вершина '+u+' уже покрашена — не идём.');}
-      });
-      color[v]=2;snap(v,null,'У вершины '+v+' не осталось непокрашенных соседей — выходим из неё.');
-    }
-    dfs(1,0);
-    snap(null,null,'Обход закончен: побывали во всех вершинах компоненты.');
-    return F;
-  }
-  function build(cont){
-    cont.classList.add('dd');
-    var F=frames();
-    var svg=s('svg',{viewBox:'90 70 600 300',role:'img'});
-    var edgeEl={};
-    E.forEach(function(e){var a=P[e[0]],b=P[e[1]];var l=s('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],'class':'dd-e'});svg.appendChild(l);edgeEl[key(e[0],e[1])]=l;});
-    var nodeEl={};
-    for(var v=1;v<=8;v++){var c=s('circle',{cx:P[v][0],cy:P[v][1],r:19,'class':'dd-n'});svg.appendChild(c);var t=s('text',{x:P[v][0],y:P[v][1]+5,'class':'dd-t'});t.textContent=v;svg.appendChild(t);nodeEl[v]=c;}
-    cont.appendChild(svg);
-    var msg=h('div','dd-msg');cont.appendChild(msg);
-    var ctl=h('div','ctl'),play=h('button',null,'▶');play.type='button';
-    var range=h('input');range.type='range';range.min=0;range.max=F.length-1;range.value=0;
-    var lbl=h('span','lbl');ctl.appendChild(play);ctl.appendChild(range);ctl.appendChild(lbl);cont.appendChild(ctl);
-    function draw(k){
-      var f=F[k];
-      for(var v=1;v<=8;v++){var c='dd-n';if(f.cur===v)c+=' cur';else if(f.color[v]===1)c+=' g1';else if(f.color[v]===2)c+=' g2';nodeEl[v].setAttribute('class',c);}
-      for(var kk in edgeEl){var c2='dd-e';if(f.tree[kk])c2+=' tree';if(f.skip[kk])c2+=' skip';if(f.ecur===kk)c2+=' cur';edgeEl[kk].setAttribute('class',c2);}
-      msg.textContent=f.msg;lbl.textContent=(k+1)+'/'+F.length;
-    }
-    draw(0);
-    var tm=null;function stop(){if(tm){clearInterval(tm);tm=null;play.textContent='▶';}}
-    range.addEventListener('input',function(){stop();draw(+range.value);});
-    play.addEventListener('click',function(){
-      if(tm){stop();return;}
-      if(+range.value>=F.length-1)range.value=0;
-      play.textContent='⏸';
-      tm=setInterval(function(){var k=+range.value+1;if(k>F.length-1){stop();return;}range.value=k;draw(k);},800);
-    });
-  }
-  Array.prototype.forEach.call(document.querySelectorAll('.algo[data-algo="dfsdemo"]'),build);
-})();
-</script>
 
 <script>(function(){var b=document.getElementById("look-toggle");if(!b)return;var h=document.documentElement;function label(){b.textContent=h.getAttribute("data-look")==="book"?"↩ старый вид":"↪ новый вид"}label();b.addEventListener("click",function(){var next=h.getAttribute("data-look")==="book"?"paper":"book";h.setAttribute("data-look",next);try{localStorage.setItem("conspectusLook",next)}catch(e){}label()});})();</script>
 <script id="reader">

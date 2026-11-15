@@ -6,7 +6,7 @@
 <link rel="icon" type="image/png" href="../favicon-v2.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <title>Занятие 5. Параллель A' — Оптимизации ДП</title>
-<meta name="description" content="Конспект лекции «Занятие 5. Параллель A' — Оптимизации ДП» — олимпиадное программирование, Яндекс Кружок. Автономный офлайн-конспект лекции.">
+<meta name="description" content="Конспект лекции «Занятие 5. Параллель A' — Оптимизации ДП» — олимпиадное программирование, Яндекс Кружок. Автономный офлайн-конспект с формулами и SVG-иллюстрациями.">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Конспекты лекций">
 <meta property="og:title" content="Занятие 5. Параллель A' — Оптимизации ДП">
@@ -493,6 +493,7 @@ html[data-theme] .secbtn, html[data-theme] .secpanel{display:none !important}
 </style>
 <script>document.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("#theme-toggle")){var h=document.documentElement;h.classList.add("theme-anim");setTimeout(function(){h.classList.remove("theme-anim")},350)}},true);document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".code .copy");if(!b)return;var pre=b.closest(".code").querySelector("pre"),t=pre.innerText;function ok(){b.textContent="скопировано ✓";setTimeout(function(){b.textContent="копировать"},1600)}function sel(){var r=document.createRange();r.selectNodeContents(pre);var x=getSelection();x.removeAllRanges();x.addRange(r);b.textContent="выделено — нажмите ⌘C"}if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "82e3760401a547558cc1d22198113255"}'></script>
+<script>try{if(location.protocol.indexOf('http')===0&&navigator.sendBeacon)navigator.sendBeacon('https://conspectus-bots.d6544559.workers.dev/hit?p='+encodeURIComponent(location.pathname))}catch(e){}</script>
 <script data-goatcounter="https://vmaiorov.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>(function(){try{var l="book";document.documentElement.setAttribute("data-look",l)}catch(e){document.documentElement.setAttribute("data-look","book")}})();</script>
 <style>.sitelink{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--rule-hard,var(--line));border-radius:6px;background:none;color:var(--ink)!important;font-weight:500;font-size:.8rem;text-decoration:none!important}.sitelink:hover{border-color:var(--ink);background:var(--hover,transparent)}.top .sitelink{margin-right:8px}@media print{.sitelink{display:none}}</style>
@@ -777,197 +778,457 @@ html[data-look="paper"] .look-toggle{border-radius:6px}
 
 <header class="hero">
   <h1>Занятие 5. Параллель A' — Оптимизации ДП</h1>
-  <div class="sub">Неравенство четырёхугольника и монотонность оптимума, оптимизации Кнута и разделяй и властвуй, выпуклая оболочка прямых (CHT) и дерево Ли Чао, разбор контеста «Структуры данных 2».</div>
+  <div class="sub">Общая задача разбиения на отрезки, неравенство четырёхугольника и монотонность оптимума, оптимизация Кнута и «разделяй и властвуй» для ДП, структура данных внутри стоимости, затем Convex Hull Trick и дерево Ли Чао. В конце — разбор контеста по структурам данных 2.</div>
   <div class="meta">
-    <span class="chip">Лекция + разбор контеста</span><span class="chip">≈ 4 ч 45 мин</span><span class="chip">Язык кода: C++</span>
+    <span class="chip">Лекция + разбор контеста</span><span class="chip">≈ 4 ч 46 мин</span><span class="chip">Язык кода: C++</span>
   </div>
 </header>
 
 <nav class="toc">
   <h2>Содержание</h2>
   <ol>
-    <li><a href="#s1">Постановка задачи и обычная динамика</a></li><li><a href="#s2">Неравенство четырёхугольника и монотонность оптимума</a></li><li><a href="#s3">Оптимизация Кнута</a></li><li><a href="#s4">Динамика по подотрезкам: код с сохранением порядка</a></li><li><a href="#s5">Разделяй и властвуй</a></li><li><a href="#s6">Станции и медиана: трюк в духе Мо на разделяй и властвуй</a></li><li><a href="#s7">Выпуклая оболочка прямых (CHT)</a></li><li><a href="#s8">Динамический CHT и дерево Ли Чао</a></li><li><a href="#s9">Задачи 6–8: CHT с префиксными суммами и Ли Чао с многочленами</a></li><li><a href="#s10">Разбор контеста «Структуры данных 2»</a></li>
+    <li><a href="#s1">Общая постановка: разбиение на $k$ отрезков</a></li><li><a href="#s2">Неравенство четырёхугольника</a></li><li><a href="#s3">Монотонность оптимума</a></li><li><a href="#s4">Оптимизация Кнута: $O(n^2)$</a></li><li><a href="#s5">ДП по подотрезкам: оптимальное префиксное кодирование (Хаффман с порядком)</a></li><li><a href="#s6">Разделяй и властвуй для ДП: $O(nk\log n)$</a></li><li><a href="#s7">Сложная стоимость через структуру данных (приём «Мо в разделяйке»)</a></li><li><a href="#s8">Convex Hull Trick (CHT)</a></li><li><a href="#s9">Динамический CHT и дерево Ли Чао</a></li><li><a href="#s10">Задачи на CHT и Ли Чао</a></li><li><a href="#s11">Разбор контеста по структурам данных 2</a></li>
   </ol>
 </nav>
+<h2 id="s1">1. Общая постановка: разбиение на $k$ отрезков <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=31" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">0:31</a></h2>
+<p>Дан массив длины $n$ и <strong>весовая функция</strong> $w(l,r)$ — стоимость того, что отрезок $[l,r]$ входит в разбиение. Нужно разбить массив на ровно $k$ непересекающихся подряд идущих отрезков $[z_t+1,\,z_{t+1}]$ ($0=z_0&lt;z_1&lt;\dots&lt;z_k=n$) так, чтобы суммарная стоимость $\sum_t w(z_t+1,z_{t+1})$ была минимальна. Стоимость разбиения — сумма стоимостей отрезков; никакого дополнительного «взаимодействия» между отрезками нет.</p>
+<p><strong>Пример.</strong> Разбить массив на $k$ отрезков и минимизировать $S_1^2+\dots+S_k^2$, где $S_t$ — сумма на $t$-м отрезке. Здесь $w(l,r)=(\text{сумма на }[l,r])^2$ — не квадрат суммы всех чисел, а сумма квадратов частей.</p>
+<h3 id="s1-1">Базовое ДП <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=339" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">5:39</a></h3>
+<p>Пусть $dp_{i,j}$ — минимальная стоимость разбиения префикса длины $j$ на $i$ отрезков. База: $dp_{0,0}=0$, а $dp_{0,j}=+\infty$ при $j>0$. Переход — перебор последнего отрезка:
+$$dp_{i,j}=\min_{0\le p&lt;j}\bigl(dp_{i-1,p}+w(p+1,\,j)\bigr).$$
+Состояний $nk$, на каждое $O(n)$ — всего $O(n^2k)$; это не зависит от вида $w$. ДП удобно считать <strong>послойно</strong> (внешний цикл по $i$, внутренний по $j$): так память и кэш работают лучше, и дальше все оптимизации тоже идут по слоям.</p>
+<p>Введём $opt_{i,j}$ — <em>наибольшее</em> $p$, на котором достигается минимум в переходе. Это обычный «массив предков», но выбирается конкретный (самый правый) предок. Оптимизации ниже основаны на свойствах $opt$.</p>
 
-<h2 id="s1">1. Постановка задачи и обычная динамика <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=11" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">0:00:11</a></h2>
-<p>Дан массив $a_1,\dots,a_n$ с неотрицательными элементами и функция $w(l,r)$ — стоимость включения отрезка $[l,r]$ в разбиение. Нужно разбить массив на $k$ непересекающихся отрезков так, чтобы сумма их стоимостей была минимальна.</p>
-<p>Разбиение задаётся границами $0=z_0&lt;z_1&lt;\dots&lt;z_k=n$, а стоимость разбиения — суммой по отрезкам:</p>
-$$\mathrm{cost}(T)=\sum_{t=0}^{k-1} w(z_t+1,\;z_{t+1}).$$
-<p>Важно, что стоимость не обязана быть суммой по отрезкам независимо: в общем случае $\mathrm{cost}$ может зависеть от взаимодействия отрезков (например, от их максимума), и тогда он не «суммируется» по отрезкам. Дальше лекция рассматривает случай, когда $\mathrm{cost}$ — сумма $w$ по отрезкам.</p>
-<p>Обычная динамика: $dp[i][j]$ — минимальная стоимость разбиения префикса длины $j$ на $i$ отрезков.</p>
-$$dp[0][0]=0,\qquad dp[0][j]=+\infty\ (j>0),\qquad dp[i][j]=\min_{0\le t<j}\bigl(dp[i-1][t]+w(t+1,\,j)\bigr).$$
-<p>Ответ — $dp[k][n]$. Каждое состояние перебирает предыдущую границу, поэтому сложность $O(k\,n^2)$. Лектор советует считать слоями (внешний цикл по $i$) — так массив пишется «по строкам», это лучше для кэша и удобнее для будущих оптимизаций. Пример: $w(l,r)=\bigl(\sum_{i=l}^{r}a_i\bigr)^2$, то есть стоимость разбиения — сумма квадратов сумм отрезков. Это не то же самое, что квадрат общей суммы.</p>
-
-<div class="note"><span class="lbl">Развёрнутое объяснение</span> Для восстановления ответа хранят $opt[i][j]$ — граница, на которой достигается минимум. Лектор вводит его как <em>максимальный</em> подходящий предыдущий индекс: $opt[i][j]=\max\{\,t\mid dp[i-1][t]+w(t+1,j)=dp[i][j]\,\}$. Максимум важен для доказательств ниже.</div>
-
-<h2 id="s2">2. Неравенство четырёхугольника и монотонность оптимума <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=917" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">0:15:17</a></h2>
-<p><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=917" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">0:15:17</a> Класс весовых функций задаётся <b>неравенством четырёхугольника</b>: для всех $a\le b\le c\le d$</p>
-$$w(a,c)+w(b,d)\;\le\;w(a,d)+w(b,c).$$
-<p>По смыслу: если есть большой отрезок и внутри него меньший, то выгоднее заменить вложенную пару на пересекающуюся. Пример, на котором лектор проверял это на доске: $w(l,r)=(r-l)^2$. Тогда разность правой и левой частей равна $(d-c)(2b-2a)\ge 0$, то есть неравенство выполнено.</p>
-
-<figure class="viz"><svg viewBox="0 0 760 210" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="210" rx="14" fill="#141a24"/><text x="32" y="34" fill="#dfe7f1" font-size="17" font-weight="700">Неравенство четырёхугольника на точках a ≤ b ≤ c ≤ d</text><line x1="60" y1="150" x2="700" y2="150" stroke="#9aa4b2" stroke-width="2"/><text x="52" y="176" fill="#9aa4b2" font-size="15">a</text><text x="200" y="176" fill="#9aa4b2" font-size="15">b</text><text x="400" y="176" fill="#9aa4b2" font-size="15">c</text><text x="600" y="176" fill="#9aa4b2" font-size="15">d</text><path d="M 60 130 Q 130 60 200 130" fill="none" stroke="#58c4dd" stroke-width="3"/><path d="M 200 130 Q 300 60 400 130" fill="none" stroke="#83c167" stroke-width="3"/><path d="M 400 130 Q 500 60 600 130" fill="none" stroke="#fc6255" stroke-width="3"/><path d="M 60 110 Q 330 20 600 110" fill="none" stroke="#ffff00" stroke-width="2" stroke-dasharray="6 5"/><text x="60" y="198" fill="#dfe7f1" font-size="14">w(a,c)+w(b,d) — пересекающиеся: синий + зелёный отрезки</text></svg><figcaption>Схема (не в масштабе): вложенная пара $[a,d]$, $[b,c]$ (жёлтым) дороже пересекающейся пары.</figcaption></figure>
-
-<p>Классы функций, которые удовлетворяют этому неравенству (перечислены на доске):</p>
+<h2 id="s2">2. Неравенство четырёхугольника <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=875" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">14:35</a></h2>
+<p>Весовая функция удовлетворяет <strong>неравенству четырёхугольника</strong>, если для всех $a\le b\le c\le d$
+$$w(a,c)+w(b,d)\ \le\ w(a,d)+w(b,c).$$
+Смысл: вложенные отрезки $[a,d]\supset[b,c]$ всегда не дешевле, чем два пересекающихся $[a,c],[b,d]$ с теми же концами.</p>
+<figure class="viz"><svg viewBox="0 0 760 370" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="370" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Неравенство четырёхугольника: пересекающиеся отрезки дешевле вложенных</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Для a ≤ b ≤ c ≤ d:   w(a,c) + w(b,d)  ≤  w(a,d) + w(b,c).</text><line x1="80" y1="150" x2="680" y2="150" stroke="#7c8aa0" stroke-width="2" stroke-linecap="round"/><line x1="120" y1="144" x2="120" y2="156" stroke="#7c8aa0" stroke-width="2" stroke-linecap="round"/><text x="120" y="176" fill="#c2cdde" font-size="15" font-weight="700" text-anchor="middle">a</text><line x1="260" y1="144" x2="260" y2="156" stroke="#7c8aa0" stroke-width="2" stroke-linecap="round"/><text x="260" y="176" fill="#c2cdde" font-size="15" font-weight="700" text-anchor="middle">b</text><line x1="480" y1="144" x2="480" y2="156" stroke="#7c8aa0" stroke-width="2" stroke-linecap="round"/><text x="480" y="176" fill="#c2cdde" font-size="15" font-weight="700" text-anchor="middle">c</text><line x1="640" y1="144" x2="640" y2="156" stroke="#7c8aa0" stroke-width="2" stroke-linecap="round"/><text x="640" y="176" fill="#c2cdde" font-size="15" font-weight="700" text-anchor="middle">d</text><path d="M120,140 H480" stroke="#83c167" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M260,118 H640" stroke="#83c167" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="60" y="104" fill="#83c167" font-size="15" font-weight="700" text-anchor="start">пересекающиеся: w(a,c) + w(b,d)</text><line x1="80" y1="280" x2="680" y2="280" stroke="#7c8aa0" stroke-width="2" stroke-linecap="round"/><line x1="120" y1="274" x2="120" y2="286" stroke="#7c8aa0" stroke-width="2" stroke-linecap="round"/><text x="120" y="306" fill="#c2cdde" font-size="15" font-weight="700" text-anchor="middle">a</text><line x1="260" y1="274" x2="260" y2="286" stroke="#7c8aa0" stroke-width="2" stroke-linecap="round"/><text x="260" y="306" fill="#c2cdde" font-size="15" font-weight="700" text-anchor="middle">b</text><line x1="480" y1="274" x2="480" y2="286" stroke="#7c8aa0" stroke-width="2" stroke-linecap="round"/><text x="480" y="306" fill="#c2cdde" font-size="15" font-weight="700" text-anchor="middle">c</text><line x1="640" y1="274" x2="640" y2="286" stroke="#7c8aa0" stroke-width="2" stroke-linecap="round"/><text x="640" y="306" fill="#c2cdde" font-size="15" font-weight="700" text-anchor="middle">d</text><path d="M120,270 H640" stroke="#ff8c1a" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M260,248 H480" stroke="#ff8c1a" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="60" y="234" fill="#ff8c1a" font-size="15" font-weight="700" text-anchor="start">вложенные: w(a,d) + w(b,c)</text><text x="32" y="352" fill="#c2cdde" font-size="14.5" text-anchor="start">Любые два вложенных отрезка выгодно заменить двумя пересекающимися с теми же концами.</text></svg><figcaption>Неравенство четырёхугольника: пересекающиеся отрезки не дороже вложенных с теми же концами.</figcaption></figure>
+<p>Примеры функций (лектор не доказывает их подробно — полезно проверить самостоятельно):</p>
 <ul>
-  <li>$w(l,r)=f\bigl(S_r-S_{l}\bigr)$, где $f$ выпукла, $S$ — префиксные суммы;</li>
-  <li>$w(l,r)=(S_r-S_{l})(T_r-T_{l})$, где $S$ и $T$ не убывают (например, $T_i=i$ даёт «сумма на отрезке, умноженная на длину»);</li>
-  <li>сумма по всем парам $l\le i&lt;j\le r$ неотрицательной функции $c(i,j)$ — например, число инверсий или число пар равных элементов.</li>
+<li>$w(l,r)=(r-l)^2$ (квадрат длины); $w(l,r)=f(\text{сумма на }[l,r])$, где $f$ <em>выпукла</em> (при неотрицательных элементах массива); в частности $(\text{сумма})^2$;</li>
+<li>$w(l,r)=(S_r-S_{l-1})\cdot(T_r-T_{l-1})$ для неубывающих последовательностей $S$ и $T$: например, «сумма на отрезке $\times$ длина отрезка» ($S$ — префиксные суммы, $T_i=i$);</li>
+<li>сумма по всем парам элементов отрезка $\sum_{l\le i&lt;j\le r}g(a_i,a_j)$ с неотрицательной $g$ — сюда входят число инверсий и число пар равных элементов.</li>
 </ul>
+<p>На практике рассуждают наоборот: смотрят на свою задачу и проверяют, выполняется ли неравенство для её $w$.</p>
 
-<div class="warn"><span class="lbl">Важное дополнение</span> Лектор не доказывает, что для произвольной $c(i,j)$ сумма по парам удовлетворяет неравенству; он говорит, что примеры «подходят». Для инверсий и пар равных это проверяется напрямую, для общей $c$ — проверять отдельно.</div>
+<h2 id="s3">3. Монотонность оптимума <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=1608" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">26:48</a></h2>
+<div class="good"><span class="lbl">Теорема</span><br>
+Если $w$ удовлетворяет неравенству четырёхугольника, то для любых $i,j$
+$$opt_{i-1,j}\ \le\ opt_{i,j}\ \le\ opt_{i,j+1}.$$
+Оптимум для клетки лежит между оптимумами соседа сверху (меньше слоёв) и соседа справа (больший префикс).</div>
+<figure class="viz"><svg viewBox="0 0 760 340" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="340" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Монотонность оптимума: opt(i−1, j) ≤ opt(i, j) ≤ opt(i, j+1)</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Таблица ДП: строки — число отрезков i, столбцы — длина префикса j. Стрелки — границы поиска.</text><text x="294" y="84" fill="#9aa4b2" font-size="14" text-anchor="middle">j  →</text><text x="92" y="130" fill="#9aa4b2" font-size="14" text-anchor="end">i−1</text><rect x="114" y="104" width="84" height="46" rx="8" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><rect x="206" y="104" width="84" height="46" rx="8" fill="#1e2836" stroke="#58c4dd" stroke-width="2.5"/><text x="248.0" y="132" fill="#58c4dd" font-size="14" font-weight="700" text-anchor="middle">opt(i−1, j)</text><rect x="298" y="104" width="84" height="46" rx="8" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><rect x="390" y="104" width="84" height="46" rx="8" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><text x="92" y="184" fill="#9aa4b2" font-size="14" text-anchor="end">i</text><rect x="114" y="158" width="84" height="46" rx="8" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><rect x="206" y="158" width="84" height="46" rx="8" fill="#1e2836" stroke="#ffff00" stroke-width="2.5"/><text x="248.0" y="186" fill="#ffff00" font-size="14" font-weight="700" text-anchor="middle">opt(i, j)</text><rect x="298" y="158" width="84" height="46" rx="8" fill="#1e2836" stroke="#83c167" stroke-width="2.5"/><text x="340.0" y="186" fill="#83c167" font-size="14" font-weight="700" text-anchor="middle">opt(i, j+1)</text><rect x="390" y="158" width="84" height="46" rx="8" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><text x="92" y="238" fill="#9aa4b2" font-size="14" text-anchor="end">i+1</text><rect x="114" y="212" width="84" height="46" rx="8" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><rect x="206" y="212" width="84" height="46" rx="8" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><rect x="298" y="212" width="84" height="46" rx="8" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><rect x="390" y="212" width="84" height="46" rx="8" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><text x="496" y="130" fill="#58c4dd" font-size="13.5" text-anchor="start">нижняя граница поиска</text><text x="496" y="184" fill="#ffff00" font-size="13.5" text-anchor="start">искомый оптимум</text><text x="496" y="208" fill="#83c167" font-size="13.5" text-anchor="start">верхняя граница поиска</text><text x="32" y="320" fill="#c2cdde" font-size="14.5" text-anchor="start">Порядок обхода: i по возрастанию, j по убыванию — тогда обе границы к нужному моменту уже посчитаны.</text></svg><figcaption>Границы поиска оптимума для клетки $(i,j)$ лежат в двух уже посчитанных клетках.</figcaption></figure>
+<p>Интуиция для правого неравенства: если префикс стал длиннее, то оптимальный последний отрезок не станет «сильно левее»; для левого — если слоёв стало больше, последний отрезок не должен начинаться левее.</p>
+<h3 id="s3-1">Доказательство правого неравенства $opt_{i,j}\le opt_{i,j+1}$ <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=1678" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">27:58</a></h3>
+<p>Пусть $r=opt_{i,j}$. Нужно показать, что любое $q&lt;r$ <em>не лучше</em> $r$ для клетки $(i,j+1)$:
+$$dp_{i-1,q}+w(q+1,j+1)\ \ge\ dp_{i-1,r}+w(r+1,j+1).$$
+Раз $r$ оптимален для $(i,j)$, имеем $dp_{i-1,q}-dp_{i-1,r}\ \ge\ w(r+1,j)-w(q+1,j)$. Применим неравенство четырёхугольника к $q+1\le r+1\le j\le j+1$:
+$$w(q+1,j)+w(r+1,j+1)\le w(q+1,j+1)+w(r+1,j),$$
+то есть $w(r+1,j+1)-w(q+1,j+1)\le w(r+1,j)-w(q+1,j)\le dp_{i-1,q}-dp_{i-1,r}$. Это и есть нужное неравенство.</p>
+<h3 id="s3-2">Доказательство левого неравенства $opt_{i-1,j}\le opt_{i,j}$ <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=2182" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">36:22</a></h3>
+<p>Нужна <strong>лемма о слоях</strong>: для $q&lt;r$ выполнено
+$$dp_{m+1,r}+dp_{m,q}\ \le\ dp_{m,r}+dp_{m+1,q}.$$
+Смысл: если есть два префикса, более длинному выгоднее отдать больше отрезков. <em>Идея доказательства.</em> Пусть $X$ — оптимальное разбиение префикса $r$ на $m$ частей, $Y$ — оптимальное разбиение префикса $q$ на $m+1$ частей (правая часть неравенства). Так как $X_0=0&lt;Y_1$, а $X_m=r>q=Y_{m+1}$, существует минимальный индекс $s$ с $X_s\ge Y_{s+1}$, и тогда $X_{s-1}&lt;Y_s&lt;Y_{s+1}\le X_s$: отрезки $[Y_s,Y_{s+1}]\subset[X_{s-1},X_s]$ вложены. Составим два новых разбиения «перекрёстным» способом: первое использует $Y_0,\dots,Y_s,X_s,X_{s+1},\dots,X_m$ — разбиение префикса $r$ на $m+1$ отрезок; второе — $X_0,\dots,X_{s-1},Y_{s+1},\dots,Y_{m+1}$ — разбиение префикса $q$ на $m$ отрезков. От замены вложенных отрезков на пересекающиеся суммарная стоимость по неравенству четырёхугольника не растёт, а оптимальные значения ДП не больше стоимости любых разбиений — отсюда лемма.</p>
+<p><strong>Вывод левого неравенства.</strong> Пусть $r=opt_{i-1,j}$ и $q&lt;r$. Оптимальность $r$ в слое $i-1$: $dp_{i-2,q}-dp_{i-2,r}\ge w(r+1,j)-w(q+1,j)$. По лемме о слоях $dp_{i-1,q}-dp_{i-1,r}\ge dp_{i-2,q}-dp_{i-2,r}$. Склеивая, получаем $dp_{i-1,q}+w(q+1,j)\ge dp_{i-1,r}+w(r+1,j)$: никакое $q&lt;r$ не лучше $r$ в слое $i$, значит $opt_{i,j}\ge r$.</p>
 
-<p>Из неравенства четырёхугольника следует <b>монотонность оптимума</b>:</p>
-$$opt[i-1][j]\;\le\;opt[i][j]\;\le\;opt[i][j+1].$$
-<p>Доказательство (набросок по записи лектора, детали опущены). Сначала лемма: для $q&lt;r$ выполнено</p>
-$$dp[m+1][r]+dp[m][q]\;\le\;dp[m][r]+dp[m+1][q],$$
-<p>то есть более длинному префиксу выгодно дать больше отрезков. Затем для оптимума: нужно показать, что при $q&lt;r=opt[i][j]$ префикс $q$ не даёт лучшего значения. Это сводится к лемме и неравенству четырёхугольника, применённому к вложенным отрезкам. Вторая часть монотонности лектор выводит по тому же принципу, через «дискретную непрерывность»: знак разности меняется, и берётся первая точка смены знака.</p>
-
-<h2 id="s3">3. Оптимизация Кнута <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=3416" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">0:56:56</a></h2>
-<p><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=3416" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">0:56:56</a> Из монотонности оптимума следует, что при вычислении ячейки $(i,j)$ достаточно перебрать $t$ из отрезка</p>
-$$\bigl[\,opt[i-1][j],\;\min(opt[i][j+1],\,j-1)\,\bigr].$$
-<p>Чтобы $opt[i][j+1]$ уже было посчитано, порядок обхода такой: $i$ по возрастанию, $j$ по убыванию. Лектор советует запоминать это как «первый индекс по возрастанию, второй по убыванию»: тогда соседи ячейки справа (в этом же слое) и сверху (в предыдущем слое) уже готовы.</p>
-<p>Оценка. Сумма числа переборов равна</p>
-$$\sum_{i,j}\bigl(opt[i][j+1]-opt[i-1][j]+1\bigr).$$
-<p>Слагаемые $opt[i][j+1]$ и $opt[i-1][j]$ лежат на одной диагонали $j-i$, поэтому сумма по диагонали телескопически сворачивается в $O(n)$, а диагоналей $O(n)$. Итог: $O(n^2)$ на всю динамику, без множителя $k$.</p>
-<pre class="hl"><code>// dp[i][j], opt[i][j]; w(l, r) — стоимость отрезка (префиксы 0..n)
-// opt[0][j] := 0; opt[i][n+1] := n
-for (int i = 1; i &lt;= k; ++i)
-  for (int j = n; j &gt;= i; --j) {
-    int lo = opt[i - 1][j];
-    int hi = min(opt[i][j + 1], j - 1);
-    dp[i][j] = INF;
-    for (int t = lo; t &lt;= hi; ++t) {          // идём слева направо: при равенстве берём правый
-      ll val = dp[i - 1][t] + w(t + 1, j);
-      if (val &lt;= dp[i][j]) { dp[i][j] = val; opt[i][j] = t; }
+<h2 id="s4">4. Оптимизация Кнута: $O(n^2)$ <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=3426" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">57:06</a></h2>
+<p>Для клетки $(i,j)$ ищем оптимум только между $opt_{i-1,j}$ и $opt_{i,j+1}$. Чтобы к моменту обработки клетки обе границы уже были посчитаны, идём <strong>по $i$ возрастая и по $j$ убывая</strong>. Запомнить Кнута просто: одно измерение перебираем по возрастанию, другое — по убыванию, чтобы левая и правая границы оптимума были готовы. Левая граница также не меньше $i-1$ (нужно хватить на пустые отрезки), правая — не больше $j-1$. Чтобы оптимум был самым правым, сравнение нестрогое ($\le$).</p>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// dp[i][j] — минимальная стоимость разбиения префикса длины j на i отрезков</span>
+<span class="c">// opt[i][j] — самый правый оптимальный последний «разрез» p</span>
+<span class="k">template</span>&lt;<span class="k">class</span> W&gt; <span class="t">vector</span>&lt;<span class="t">vector</span>&lt;<span class="t">ll</span>&gt;&gt; <span class="f">knuth</span>(<span class="t">int</span> n, <span class="t">int</span> K, W w) {
+    <span class="t">vector</span>&lt;<span class="t">vector</span>&lt;<span class="t">ll</span>&gt;&gt; <span class="f">dp</span>(K + <span class="n">1</span>, <span class="t">vector</span>&lt;<span class="t">ll</span>&gt;(n + <span class="n">2</span>, INF)), <span class="f">opt</span>(K + <span class="n">1</span>, <span class="t">vector</span>&lt;<span class="t">ll</span>&gt;(n + <span class="n">2</span>, <span class="n">0</span>));
+    dp[<span class="n">0</span>][<span class="n">0</span>] = <span class="n">0</span>;
+    <span class="k">for</span> (<span class="t">int</span> j = <span class="n">1</span>; j &lt;= n; j++) { dp[<span class="n">1</span>][j] = <span class="f">w</span>(<span class="n">1</span>, j); opt[<span class="n">1</span>][j] = <span class="n">0</span>; }   <span class="c">// слой 1: один отрезок</span>
+    <span class="k">for</span> (<span class="t">int</span> i = <span class="n">2</span>; i &lt;= K; i++) {
+        opt[i][n + <span class="n">1</span>] = n - <span class="n">1</span>;                          <span class="c">// правая граница для j = n</span>
+        <span class="k">for</span> (<span class="t">int</span> j = n; j &gt;= i; j--) {                  <span class="c">// i по возрастанию, j по убыванию</span>
+            <span class="t">int</span> lo = max&lt;<span class="t">ll</span>&gt;(opt[i - <span class="n">1</span>][j], i - <span class="n">1</span>), hi = min&lt;<span class="t">ll</span>&gt;(opt[i][j + <span class="n">1</span>], j - <span class="n">1</span>);
+            <span class="k">for</span> (<span class="t">int</span> p = lo; p &lt;= hi; p++) {
+                <span class="t">ll</span> v = dp[i - <span class="n">1</span>][p] + <span class="f">w</span>(p + <span class="n">1</span>, j);
+                <span class="k">if</span> (v &lt;= dp[i][j]) { dp[i][j] = v; opt[i][j] = p; }   <span class="c">// нестрого: самый правый оптимум</span>
+            }
+        }
     }
-  }
-</code></pre>
-<div class="note"><span class="lbl">Примечание</span> Код набросан по записи и не проверялся компилятором. Диапазон $[lo,hi]$ может оказаться пустым, тогда ячейка остаётся $INF$; для аккуратной работы нужно проверять это в коде.</div>
+    <span class="k">return</span> dp;
+}</code></pre></div>
+<h3 id="s4-1">Почему $O(n^2)$ <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=3662" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:01:02</a></h3>
+<p>Сумма длин перебираемых отрезков по всем клеткам равна $nk+\sum_{i,j}\bigl(opt_{i,j+1}-opt_{i-1,j}\bigr)$. Слагаемые вида $opt_{i,j+1}-opt_{i-1,j}$ вдоль диагонали $(i-1,j)\to(i,j+1)$ «телескопически» схлопываются: на каждой диагонали остаётся не более $O(n)$ суммарного вклада, а диагоналей $O(n)$. Итого $O(n^2)$ вместо $O(n^2k)$.</p>
+<figure class="viz"><svg viewBox="0 0 760 320" role="img" aria-label="Сетка dp: диагонали (i−1,j)→(i,j+1), по которым сумма opt схлопывается" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="320" rx="14" fill="#141a24"/>
+  <text x="380" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >Оценка O(n²): сумма Σ (opt[i][j+1] − opt[i−1][j]) схлопывается вдоль диагоналей</text>
+  <text x="25" y="78" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >слой i</text>
+  <text x="56" y="85" text-anchor="end" font-family="sans-serif" font-size="13" fill="#9aa4b2" >1</text>
+  <rect x="70" y="60" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="128" y="60" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="186" y="60" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="244" y="60" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="302" y="60" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="360" y="60" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="418" y="60" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="476" y="60" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <text x="56" y="125" text-anchor="end" font-family="sans-serif" font-size="13" fill="#9aa4b2" >2</text>
+  <rect x="70" y="100" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="128" y="100" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="186" y="100" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="244" y="100" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="302" y="100" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="360" y="100" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="418" y="100" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="476" y="100" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <text x="56" y="165" text-anchor="end" font-family="sans-serif" font-size="13" fill="#9aa4b2" >3</text>
+  <rect x="70" y="140" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="128" y="140" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="186" y="140" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="244" y="140" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="302" y="140" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="360" y="140" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="418" y="140" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="476" y="140" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <text x="56" y="205" text-anchor="end" font-family="sans-serif" font-size="13" fill="#9aa4b2" >4</text>
+  <rect x="70" y="180" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="128" y="180" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="186" y="180" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="244" y="180" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="302" y="180" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="360" y="180" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="418" y="180" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="476" y="180" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <text x="56" y="245" text-anchor="end" font-family="sans-serif" font-size="13" fill="#9aa4b2" >5</text>
+  <rect x="70" y="220" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="128" y="220" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="186" y="220" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="244" y="220" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="302" y="220" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="360" y="220" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="418" y="220" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <rect x="476" y="220" width="54" height="36" rx="5" fill="#1e2836" stroke="#3a4658"/>
+  <text x="97" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=1</text>
+  <text x="155" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=2</text>
+  <text x="213" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=3</text>
+  <text x="271" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=4</text>
+  <text x="329" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=5</text>
+  <text x="387" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=6</text>
+  <text x="445" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=7</text>
+  <text x="503" y="276" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >j=8</text>
+  <line x1="107.0" y1="84.0" x2="151.0" y2="112.0" stroke="#58c4dd" stroke-width="2.5" />
+  <line x1="165.0" y1="124.0" x2="209.0" y2="152.0" stroke="#58c4dd" stroke-width="2.5" />
+  <line x1="223.0" y1="164.0" x2="267.0" y2="192.0" stroke="#58c4dd" stroke-width="2.5" />
+  <line x1="281.0" y1="204.0" x2="325.0" y2="232.0" stroke="#58c4dd" stroke-width="2.5" />
+  <circle cx="97.0" cy="78.0" r="5" fill="#58c4dd"/>
+  <circle cx="155.0" cy="118.0" r="5" fill="#58c4dd"/>
+  <circle cx="213.0" cy="158.0" r="5" fill="#58c4dd"/>
+  <circle cx="271.0" cy="198.0" r="5" fill="#58c4dd"/>
+  <circle cx="329.0" cy="238.0" r="5" fill="#58c4dd"/>
+  <line x1="223.0" y1="84.0" x2="267.0" y2="112.0" stroke="#83c167" stroke-width="2.5" />
+  <line x1="281.0" y1="124.0" x2="325.0" y2="152.0" stroke="#83c167" stroke-width="2.5" />
+  <line x1="339.0" y1="164.0" x2="383.0" y2="192.0" stroke="#83c167" stroke-width="2.5" />
+  <line x1="397.0" y1="204.0" x2="441.0" y2="232.0" stroke="#83c167" stroke-width="2.5" />
+  <circle cx="213.0" cy="78.0" r="5" fill="#83c167"/>
+  <circle cx="271.0" cy="118.0" r="5" fill="#83c167"/>
+  <circle cx="329.0" cy="158.0" r="5" fill="#83c167"/>
+  <circle cx="387.0" cy="198.0" r="5" fill="#83c167"/>
+  <circle cx="445.0" cy="238.0" r="5" fill="#83c167"/>
+  <line x1="339.0" y1="84.0" x2="383.0" y2="112.0" stroke="#ff8c1a" stroke-width="2.5" />
+  <line x1="397.0" y1="124.0" x2="441.0" y2="152.0" stroke="#ff8c1a" stroke-width="2.5" />
+  <line x1="455.0" y1="164.0" x2="499.0" y2="192.0" stroke="#ff8c1a" stroke-width="2.5" />
+  <circle cx="329.0" cy="78.0" r="5" fill="#ff8c1a"/>
+  <circle cx="387.0" cy="118.0" r="5" fill="#ff8c1a"/>
+  <circle cx="445.0" cy="158.0" r="5" fill="#ff8c1a"/>
+  <circle cx="503.0" cy="198.0" r="5" fill="#ff8c1a"/>
+  <line x1="455.0" y1="84.0" x2="499.0" y2="112.0" stroke="#c78bff" stroke-width="2.5" />
+  <circle cx="445.0" cy="78.0" r="5" fill="#c78bff"/>
+  <circle cx="503.0" cy="118.0" r="5" fill="#c78bff"/>
+  <text x="650" y="90" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >диагональ</text>
+  <text x="650" y="112" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#dfe7f1" >(i−1, j) → (i, j+1):</text>
+  <text x="650" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#83c167" >+opt[i][j+1] в одной клетке</text>
+  <text x="650" y="160" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#fc6255" >−opt[i−1][j] в следующей</text>
+  <text x="650" y="190" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ffff00" >→ вклад диагонали ≤ n</text>
+  <text x="650" y="214" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ffff00" >диагоналей O(n)</text>
+  <text x="380" y="298" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >Σ 1 + opt[i][j+1] − opt[i−1][j] = n·k + Σ(…) = O(n²)</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=3930" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:05:30</a> Доска (перерисовано): сетка dp и диагонали (i−1, j) → (i, j+1): слагаемые opt[i][j+1] − opt[i−1][j] телескопически схлопываются.</figcaption></figure>
 
-<h2 id="s4">4. Динамика по подотрезкам: код с сохранением порядка <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=3967" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:06:07</a></h2>
-<p><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=3967" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:06:07</a> Лектор называет вторую задачу «про код Хаффмана»: есть частоты символов $a_1,\dots,a_n$ в упорядоченном виде, нужно сопоставить им бинарные коды без префиксов друг друга, сохраняя порядок (код $C_1&lt;C_2&lt;\dots$ в лексикографическом порядке), и минимизировать $\sum_i \ell_i a_i$, где $\ell_i$ — длина кода.</p>
-<p>Коды без префиксов образуют бинарное дерево, листья которого идут в порядке символов. Каждый внутренний узел делит свой отрезок символов на левую и правую части: $[L,k]$ уходит влево, $[k+1,R]$ вправо. Каждый лист поддерева получает глубину $+1$ при подъёме на уровень, поэтому стоимость узла равна сумме $a$ по всему отрезку. Получается</p>
-$$dp[L][R]=\min_{L\le k&lt;R}\bigl(dp[L][k]+dp[k+1][R]\bigr)+\sum_{i=L}^{R}a_i,\qquad dp[i][i]=0.$$
-<p>Сумма по отрезку удовлетворяет неравенству четырёхугольника (с равенством), значит, оптимум по $k$ монотонен, и применяется обход Кнута по отрезкам: $R$ по возрастанию, $L$ по убыванию. Это даёт $O(n^2)$. Лектор отмечает, что такой обход лучше «по длине отрезка», потому что при нём Кнут применим естественно.</p>
-<div class="warn"><span class="lbl">Важное дополнение</span> Задача в том виде, как её сформулировал лектор, — это оптимальный алфавитный (order-preserving) префиксный код. Эффективный алгоритм для неё — Ху–Такер ($O(n\log n)$); именно это упоминание — мой комментарий, на лекции его не было. Динамика выше остаётся корректной.</div>
+<p>Для $w(l,r)=(\text{сумма})^2$ и $w=\text{длина}\cdot\text{сумма}$ код проверен на случайных данных против наивного ДП.</p>
 
-<h2 id="s5">5. Разделяй и властвуй <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=4743" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:19:03</a></h2>
-<p><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=4743" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:19:03</a> Для метода «разделяй и властвуй» нужно только одно из двух неравенств: монотонность оптимума по $j$ внутри одного слоя. Если $opt$ неубывает по $j$, то для слоя $level$ можно вычислять $dp[level][mid]$ в середине отрезка и сужать диапазоны поиска для левой и правой половин.</p>
-<p>Порядок: для $mid$ перебираем $t\in[\max(optL,\,level-1),\,\min(optR,\,mid-1)]$; берём лучшее $t$ (при равенстве — правое), пишем $dp$ и $opt$, рекурсивно идём влево с $[optL,opt_{mid}]$ и вправо с $[opt_{mid},optR]$. На каждом уровне рекурсии диапазоны $t$ не пересекаются по сумме больше чем на $O(n)$, отсюда $O(n\log n)$ на слой и $O(k\,n\log n)$ всего.</p>
-<pre class="hl"><code>// dp[level][j], opt[level][j]; dp[level-1] уже посчитан; INF по умолчанию
-void calc(int L, int R, int optL, int optR, int level) {
-    if (L &gt; R) return;
-    int mid = (L + R) / 2;
-    ll best = INF; int bestT = optL;
-    for (int t = max(optL, level - 1); t &lt;= min(optR, mid - 1); ++t) {
-        ll val = dp[level - 1][t] + w(t + 1, mid);
-        if (val &lt;= best) { best = val; bestT = t; }   // при равенстве — правый
+<h2 id="s5">5. ДП по подотрезкам: оптимальное префиксное кодирование (Хаффман с порядком) <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=3956" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:05:56</a></h2>
+<p>Даны частоты $a_1,\dots,a_n$ символов; нужно присвоить символам двоичные коды без префиксов (бор), сохранив порядок (коды возрастают вместе с индексом), и минимизировать $\sum l_ia_i$ ($l_i$ — длина кода). Код в двоичном бору с сохранением порядка означает: корень делит массив на префикс (ветка «0») и суффикс (ветка «1»). Поэтому
+$$dp_{l,r}=\min_{l\le k&lt;r}\bigl(dp_{l,k}+dp_{k+1,r}\bigr)+\sum_{t=l}^{r}a_t,\qquad dp_{l,l}=0:$$
+к каждому символу отрезка приписывается один бит, что даёт его суммарную частоту. Функция $w(l,r)=\sum_{l}^{r}a_t$ удовлетворяет неравенству четырёхугольника, поэтому для ДП по подотрезкам тоже верно $opt_{l,r-1}\le opt_{l,r}\le opt_{l+1,r}$, и применим Кнут.</p>
+<figure class="viz"><svg viewBox="0 0 760 415" role="img" aria-label="Дерево кода: корень делит отрезок на префикс (бит 0) и суффикс (бит 1)" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="415" rx="14" fill="#141a24"/>
+  <text x="380" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >Код с сохранением порядка: корень делит массив на префикс и суффикс</text>
+  <text x="380" y="60" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >dp[l][r] — минимальная стоимость закодированного отрезка [l, r]</text>
+  <rect x="190" y="95" width="60" height="40" rx="6" fill="#1d4257" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="220" y="120" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >a_l</text>
+  <rect x="254" y="95" width="60" height="40" rx="6" fill="#1d4257" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="284" y="120" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >…</text>
+  <rect x="318" y="95" width="60" height="40" rx="6" fill="#1d4257" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="348" y="120" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >a_k</text>
+  <rect x="382" y="95" width="60" height="40" rx="6" fill="#3a2858" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="412" y="120" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >a_{k+1}</text>
+  <rect x="446" y="95" width="60" height="40" rx="6" fill="#3a2858" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="476" y="120" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >…</text>
+  <rect x="510" y="95" width="60" height="40" rx="6" fill="#3a2858" stroke="#9aa4b2" stroke-width="1"/>
+  <text x="540" y="120" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#dfe7f1" >a_r</text>
+  <line x1="380.0" y1="88.0" x2="380.0" y2="142.0" stroke="#ffff00" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="380" y="82" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#ffff00" >разрез после k</text>
+  <circle cx="380" cy="220" r="10" fill="#141a24" stroke="#dfe7f1" stroke-width="2"/>
+  <text x="380" y="247" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#9aa4b2" >корень</text>
+  <line x1="373.0" y1="227.0" x2="290.0" y2="290.0" stroke="#58c4dd" stroke-width="2.5" />
+  <line x1="387.0" y1="227.0" x2="470.0" y2="290.0" stroke="#c78bff" stroke-width="2.5" />
+  <text x="318" y="250" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#58c4dd" >бит 0</text>
+  <text x="450" y="250" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#c78bff" >бит 1</text>
+  <rect x="215" y="292" width="150" height="40" rx="8" fill="#1d4257" stroke="#58c4dd"/>
+  <text x="290" y="317" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#58c4dd" >dp[l][k]</text>
+  <rect x="395" y="292" width="150" height="40" rx="8" fill="#3a2858" stroke="#c78bff"/>
+  <text x="470" y="317" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#c78bff" >dp[k+1][r]</text>
+  <text x="380" y="372" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#ffff00" >dp[l][r] = min  ( dp[l][k] + dp[k+1][r] ) + (a_l + … + a_r)</text>
+  <text x="380" y="396" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >l ≤ k &lt; r;   каждому символу отрезка добавился один бит</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=4230" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:10:30</a> Доска (перерисовано): корень двоичного кода с сохранением порядка делит отрезок на префикс (бит 0) и суффикс (бит 1) — отсюда формула для dp[l][r].</figcaption></figure>
+<p>Для ДП по подотрезкам порядок обхода — <strong>$r$ по возрастанию, $l$ по убыванию</strong> (так левая граница $opt_{l,r-1}$ и правая $opt_{l+1,r}$ уже готовы). Это же стандартный удобный способ писать любое ДП по подотрезкам (лучше, чем цикл по длине); он эффективнее по кэшу и открывает путь к Кнуту.</p>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// dp[l][r] — стоимость кодирования отрезка частот [l, r]; S(l, r) — сумма частот</span>
+<span class="k">for</span> (<span class="t">int</span> r = <span class="n">1</span>; r &lt;= n; r++) {
+    opt[r][r] = r; dp[r][r] = <span class="n">0</span>;
+    <span class="k">for</span> (<span class="t">int</span> l = r - <span class="n">1</span>; l &gt;= <span class="n">1</span>; l--) {                 <span class="c">// r по возрастанию, l по убыванию</span>
+        <span class="t">ll</span> best = LLONG_MAX; <span class="t">int</span> bo = -<span class="n">1</span>;
+        <span class="k">for</span> (<span class="t">int</span> k = opt[l][r - <span class="n">1</span>]; k &lt;= min&lt;<span class="t">ll</span>&gt;(opt[l + <span class="n">1</span>][r], r - <span class="n">1</span>); k++) {
+            <span class="t">ll</span> v = dp[l][k] + dp[k + <span class="n">1</span>][r] + <span class="f">S</span>(l, r);
+            <span class="k">if</span> (v &lt; best) { best = v; bo = k; }
+        }
+        dp[l][r] = best; opt[l][r] = bo;
     }
-    dp[level][mid] = best; opt[level][mid] = bestT;
-    calc(L, mid - 1, optL, bestT, level);
-    calc(mid + 1, R, bestT, optR, level);
+}</code></pre></div>
+<p>Версия с Кнутом сверена с обычным $O(n^3)$ ДП. (В записи лектор поначалу путался в обозначениях: изменение вида ДП от «по слоям» к «по подотрезкам» меняет роль измерений — в ДП по подотрезкам роль «числа отрезков» играет правая граница $r$.)</p>
+
+<h2 id="s6">6. Разделяй и властвуй для ДП: $O(nk\log n)$ <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=4755" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:19:15</a></h2>
+<p>Нужна только одна половина монотонности: $opt_{i,j}\le opt_{i,j+1}$ <em>внутри одного слоя</em>. Тогда слой считается рекурсивно: функция <code>calc(l, r, optL, optR, level)</code> считает $dp_{level,j}$ для всех $j\in[l,r]$, зная, что оптимумы лежат в $[optL,optR]$. Берём середину $m=\lfloor (l+r)/2\rfloor$, перебираем оптимум для неё только в $[\max(optL, level-1),\ \min(optR, m-1)]$, находим $best$ и рекурсивно считаем левую половину с границами $[optL,best]$, а правую — с $[best,optR]$.</p>
+<figure class="viz"><svg viewBox="0 0 760 410" role="img" aria-label="Пример сужения отрезков поиска оптимума в разделяй и властвуй" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="410" rx="14" fill="#141a24"/>
+  <text x="380" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >Пример: 10 индексов, слой 2, известно opt[2][5] = 2</text>
+  <rect x="60" y="60" width="58" height="36" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="89" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=1</text>
+  <rect x="124" y="60" width="58" height="36" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="153" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=2</text>
+  <rect x="188" y="60" width="58" height="36" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="217" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=3</text>
+  <rect x="252" y="60" width="58" height="36" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="281" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=4</text>
+  <rect x="316" y="60" width="58" height="36" rx="6" fill="#4d4d00" stroke="#ffff00"/>
+  <text x="345" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ffff00" >j=5</text>
+  <rect x="380" y="60" width="58" height="36" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="409" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=6</text>
+  <rect x="444" y="60" width="58" height="36" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="473" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=7</text>
+  <rect x="508" y="60" width="58" height="36" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="537" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=8</text>
+  <rect x="572" y="60" width="58" height="36" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="601" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=9</text>
+  <rect x="636" y="60" width="58" height="36" rx="6" fill="#1e2836" stroke="#9aa4b2"/>
+  <text x="665" y="84" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >j=10</text>
+  <text x="345" y="118" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ffff00" >opt = 2</text>
+  <text x="150" y="155" text-anchor="start" font-family="sans-serif" font-size="16" fill="#83c167" >j = 1  →  p ∈ [0, 0]</text>
+  <text x="420" y="155" text-anchor="start" font-family="sans-serif" font-size="13" fill="#9aa4b2" >слева от 5, но p &lt; j</text>
+  <text x="150" y="189" text-anchor="start" font-family="sans-serif" font-size="16" fill="#58c4dd" >j = 4  →  p ∈ [0, 2]</text>
+  <text x="420" y="189" text-anchor="start" font-family="sans-serif" font-size="13" fill="#9aa4b2" >левее 5: p ≤ opt[2][5] = 2</text>
+  <text x="150" y="223" text-anchor="start" font-family="sans-serif" font-size="16" fill="#ff8c1a" >j = 6  →  p ∈ [2, 5]</text>
+  <text x="420" y="223" text-anchor="start" font-family="sans-serif" font-size="13" fill="#9aa4b2" >правее 5: p ≥ 2</text>
+  <line x1="50.0" y1="262.0" x2="710.0" y2="262.0" stroke="#3a4658" stroke-width="1" />
+  <text x="380" y="292" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >calc на [l, r]:  m = ⌊(l + r)/2⌋,  считаем opt[·][m]</text>
+  <line x1="380.0" y1="305.0" x2="260.0" y2="345.0" stroke="#58c4dd" stroke-width="2.5" />
+  <line x1="380.0" y1="305.0" x2="500.0" y2="345.0" stroke="#ff8c1a" stroke-width="2.5" />
+  <text x="260" y="368" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#58c4dd" >[l, m−1]</text>
+  <text x="500" y="368" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#ff8c1a" >[m+1, r]</text>
+  <text x="260" y="390" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#58c4dd" >корректировка сверху</text>
+  <text x="500" y="390" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" >корректировка снизу</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=5220" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:27:00</a> Доска (перерисовано): пример на 10 индексах: зная opt[2][5] = 2 (лектор сначала оговорился «три», на доске 2), сужаем отрезки поиска для j = 1, 4, 6; затем рекурсия по [l, m−1] и [m+1, r].</figcaption></figure>
+
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// prev — значения предыдущего слоя, cur — текущего слоя; w — стоимость отрезка</span>
+<span class="t">void</span> <span class="f">calc</span>(<span class="t">int</span> l, <span class="t">int</span> r, <span class="t">int</span> optl, <span class="t">int</span> optr, <span class="t">int</span> lvl) {
+    <span class="k">if</span> (l &gt; r) <span class="k">return</span>;
+    <span class="t">int</span> m = (l + r) / <span class="n">2</span>, best = -<span class="n">1</span>; <span class="t">ll</span> bv = INF;
+    <span class="t">int</span> lo = <span class="f">max</span>(optl, lvl - <span class="n">1</span>), hi = <span class="f">min</span>(optr, m - <span class="n">1</span>);
+    <span class="k">for</span> (<span class="t">int</span> p = lo; p &lt;= hi; p++) <span class="k">if</span> (prev[p] &lt; INF) {
+        <span class="t">ll</span> v = prev[p] + <span class="f">w</span>(p + <span class="n">1</span>, m);
+        <span class="k">if</span> (v &lt;= bv) { bv = v; best = p; }
+    }
+    cur[m] = bv;
+    <span class="f">calc</span>(l, m - <span class="n">1</span>, optl, best, lvl);
+    <span class="f">calc</span>(m + <span class="n">1</span>, r, best, optr, lvl);
 }
-// для каждого слоя: for (level = 1; level &lt;= k; ++level) calc(1, n, 0, n - 1, level);
-</code></pre>
-<p>Пример на доске: $w(L,R)=(R-L+1)\,(S_R-S_{L-1})$, где $S$ — префиксные суммы, $a_i&gt;0$. Произведение двух неубывающих функций длины и суммы даёт неравенство четырёхугольника. Прямой DP даёт $O(n^2)$ на каждый слой (то есть $O(kn^2)$ всего), разделяй и властвуй — $O(kn\log n)$.</p>
-<div class="note"><span class="lbl">Примечание</span> Тривиальное ограничение $t\ge level-1$ лектор объяснил так: разбиение префикса на меньше чем $level-1$ отрезков не нужно рассматривать, потому что его можно улучшить. Лектор отметил, что это ограничение можно и не писать — на корректность это не влияет, только на скорость.</div>
+<span class="c">// для каждого слоя: calc(lvl, n, lvl - 1, n - 1, lvl)</span></code></pre></div>
+<p><strong>Сложность.</strong> Рекурсия имеет глубину $\log n$, а на каждом уровне отрезки перебора оптимума почти не пересекаются (их общая длина $\le 2n$) — всего $O(n\log n)$ на слой и $O(nk\log n)$ на всё ДП. Нижняя граница $\max(optL, lvl-1)$ необязательна: можно показать, что $p&lt;lvl-1$ бессмысленно — префикс короче числа отрезков не разбить.</p>
+<p>Разделяй и властвуй встречается чаще, чем Кнут, и пишется проще (лектор писал его «на ладошке»); на Codeforces хорошие задачи на него бывают. Если $w(l,r)=(r-l+1)\cdot(S_r-S_{l-1})$ при неотрицательных $a_i$ (длина × сумма), неравенство четырёхугольника выполнено, и годится любой из методов — ответ за $O(n^2)$ (Кнут) или $O(nk\log n)$.</p>
 
-<h2 id="s6">6. Станции и медиана: трюк в духе Мо на разделяй и властвуй <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=6074" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:41:14</a></h2>
-<p><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=6074" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:41:14</a> Задача: на прямой заданы $n$ пар $(l_i,r_i)$. Нужно поставить $k$ станций в точках $x$ и каждую пару обслужить одной станцией; стоимость пары со станцией $x$ — $\max(r-l,\;2|x-c|)$, где $c=\frac{l+r}{2}$. Минимизировать суммарную стоимость.</p>
-<p>Ключевое тождество: $\max(r-l,\,2|x-c|)=|x-l|+|x-r|$. Проверка: при $x\in[l,r]$ обе части равны $r-l$; при $x&lt;l$ правая часть равна $(l-x)+(r-x)=2(c-x)$, и $2(c-x)\ge r-l$ — совпадает с левой. Симметрично для $x&gt;r$.</p>
-<p>Поэтому стоимость группы пар со станцией $x$ — это сумма $|x-p|$ по всем концам $p$ пар. Оптимум по $x$ — медиана всех концов группы. Пары сортируются по $c$, группы становятся отрезками в этом порядке — лектор показывает это обменным аргументом, без полного доказательства. Тогда задача сводится к разбиению на отрезки с $w(L,R)=\min_x\sum|x-p|$ по всем концам отрезка.</p>
-<p>Считать $w$ сложно: нужно добавлять и удалять концы и находить медиану. Лектор предлагает два Фенвика — по количеству и по сумме значений — и спуск по Фенвику для нахождения $k$-го элемента. Тогда медиана находится за $O(\log n)$, а сумма $\sum|x-p|$ считается через префиксы количеств и сумм.</p>
-<div class="note"><span class="lbl">Трюк в духе Мо</span> Структура данных не пересоздаётся при каждом вызове. Текущее окно (набор концов в Фенвике) переводится к нужному отрезку $[L,R]$ как в Мо: четыре цикла добавлений и удалений концов. По записи лектора, порядок обхода D&amp;C близок к порядку Мо, поэтому суммарно за один слой выполняется $O(n\log n)$ добавлений и удалений, каждое за $O(\log n)$.</div>
-<p>Оценка: $O(n\log n)$ операций с структурой, каждая за $O(\log n)$, то есть $O(n\log^2 n)$ на слой. Лектор называет эту оценку, но проговаривает её невнятно; здесь она восстановлена по его рассуждению.</p>
+<h2 id="s7">7. Сложная стоимость через структуру данных (приём «Мо в разделяйке») <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=6049" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:40:49</a></h2>
+<p><strong>Задача (в общих чертах, как рассказал лектор).</strong> На прямой даны $m$ пар $(L_i,R_i)$; нужно поставить $k$ «станций» в точки $x$ и распределить пары между ними, минимизируя суммарный штраф. Для пары и точки $x$ штраф равен $|L-x|+|R-x|=\max\bigl(R-L,\ 2\,|x-c|\bigr)$, где $c=\tfrac{L+R}{2}$ — центр пары. Утверждение лектора: если отсортировать пары по центру $c$, то задача сводится к разбиению на $k$ подряд идущих групп, а станцию в группе оптимально ставить в <strong>медиану</strong> всех концов (сумма модулей минимизируется медианой). Тогда $w(a,b)=\sum_{t=a}^{b}\bigl(|L_t-med|+|R_t-med|\bigr)$ — по всем концам группы.</p>
+<figure class="viz"><svg viewBox="0 0 760 275" role="img" aria-label="График штрафа пары: плоский участок R−L между L и R, затем 2|x−c|" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="275" rx="14" fill="#141a24"/>
+  <text x="250" y="30" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >штраф пары (L, R) при станции в точке x</text>
+  <line x1="60.0" y1="230.0" x2="430.0" y2="230.0" stroke="#9aa4b2" stroke-width="2" />
+  <text x="445" y="235" text-anchor="start" font-family="sans-serif" font-size="14" fill="#9aa4b2" >x</text>
+  <line x1="190.0" y1="224.0" x2="190.0" y2="236.0" stroke="#9aa4b2" stroke-width="2" />
+  <text x="190" y="254" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >L</text>
+  <line x1="260.0" y1="224.0" x2="260.0" y2="236.0" stroke="#9aa4b2" stroke-width="2" />
+  <text x="260" y="254" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >c</text>
+  <line x1="330.0" y1="224.0" x2="330.0" y2="236.0" stroke="#9aa4b2" stroke-width="2" />
+  <text x="330" y="254" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >R</text>
+  <polyline points="90,60 190,150 330,150 430,60" fill="none" stroke="#58c4dd" stroke-width="3.5"/>
+  <line x1="190.0" y1="150.0" x2="190.0" y2="230.0" stroke="#9aa4b2" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="330.0" y1="150.0" x2="330.0" y2="230.0" stroke="#9aa4b2" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="260" y="140" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#ffff00" >R − L</text>
+  <text x="110" y="50" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ff8c1a" >2·|x − c|</text>
+  <text x="405" y="50" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#ff8c1a" >2·|x − c|</text>
+  <text x="590" y="70" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#ffff00" >c = (L + R) / 2</text>
+  <text x="590" y="110" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >|L − x| + |R − x|</text>
+  <text x="590" y="134" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#58c4dd" >= max( R − L,  2·|x − c| )</text>
+  <text x="590" y="180" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#dfe7f1" >сортируем пары по c:</text>
+  <text x="590" y="202" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#83c167" >c₁ ≤ c₂ ≤ … ≤ c_n</text>
+  <text x="590" y="226" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#83c167" >→ разбиение на k отрезков</text>
+  <text x="590" y="250" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >(оптимум станции — медиана)</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=6480" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:48:00</a> Доска (перерисовано): штраф пары точек при станции в точке x — плоский участок R − L между L и R, дальше растёт как 2·|x − c|; пары сортируются по центру c.</figcaption></figure>
+<p>Проблема: $w(a,b)$ нетривиально считать. Решение «в лоб» — предподсчёт всех $w$ за $O(n^2\log n)$ и ДП за $O(n^2k)$. Но можно быстрее.</p>
+<h3 id="s7-1">Медиана и сумма модулей на Фенвике <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=6785" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">1:53:05</a></h3>
+<p>Нужна структура, поддерживающая множество чисел: добавить, удалить, найти медиану и $\sum|x-med|$. Сожмём координаты и заведём два дерева Фенвика (или дерева отрезков): по количеству чисел и по их сумме (по значению). Медиану находим <strong>спуском по Фенвику</strong> (поиск $\lceil c/2\rceil$-го числа). Если $med$ — медиана, $cnt_{\le}$ и $sum_{\le}$ — количество и сумма чисел $\le med$, $cnt$ и $sum$ — по всему множеству, то
+$$\sum|x-med|=(med\cdot cnt_{\le}-sum_{\le})+\bigl((sum-sum_{\le})-med\cdot(cnt-cnt_{\le})\bigr).$$
+Одна операция — $O(\log n)$.</p>
+<h3 id="s7-2">Передвижение границ как в алгоритме Мо <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=7231" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:00:31</a></h3>
+<p>Разделяй и властвуй обходит рекурсию в порядке DFS, поэтому последовательные запросы $w(p+1,m)$ мало отличаются друг от друга. Поэтому в <code>cost(l, r)</code> достаточно <em>двигать текущие границы</em> $(curL,curR)$ к $(l,r)$ четырьмя циклами «как в Мо», добавляя и удаляя элементы в структуре. Суммарно на одном слое делается $O(n\log n)$ операций добавления/удаления, каждая за $O(\log n)$ — итого $O(nk\log^2 n)$.</p>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="t">ll</span> <span class="f">cost</span>(<span class="t">int</span> l, <span class="t">int</span> r) {                      <span class="c">// структура хранит ровно концы пар curL..curR</span>
+    <span class="k">while</span> (curL &gt; l) { curL--; <span class="f">add</span>(pr[curL]); }
+    <span class="k">while</span> (curR &lt; r) { curR++; <span class="f">add</span>(pr[curR]); }
+    <span class="k">while</span> (curL &lt; l) { <span class="f">del</span>(pr[curL]); curL++; }
+    <span class="k">while</span> (curR &gt; r) { <span class="f">del</span>(pr[curR]); curR--; }
+    <span class="c">// здесь: медиана спуском по Фенвику и формула суммы модулей</span>
+    <span class="k">return</span> <span class="f">sumAbsDeviations</span>();
+}</code></pre></div>
+<p>Эта схема сверена с полным перебором: стоимость группы совпала с минимумом по $x$, а разделяй и властвуй дал тот же ответ, что и наивное ДП (то есть монотонность оптимума в этой задаче выполнена). Общая идея: если стоимость считается структурой с операциями «добавить/удалить», то в разделяйке её можно обновлять сдвигом границ.</p>
 
-<h2 id="s7">7. Выпуклая оболочка прямых (CHT) <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=8037" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:13:57</a></h2>
-<p><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=8037" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:13:57</a> Пятая задача — «шар». В $i$-ю секунду можно надуть шар на $a_i$; после надувания радиус каждую секунду уменьшается на $b_i$ до следующего надувания. Нужно максимизировать радиус в конце.</p>
-<p>Динамика по моментам надувания. $t_i$ — момент $i$-го надувания, $dp_i$ — максимальный радиус непосредственно перед $i$-м надуванием. Тогда</p>
-$$dp_i=\max_{0\le j&lt;i}\bigl(dp_j+a_j-b_j\,(t_i-t_j)\bigr),\qquad dp_0=0,\;t_0=0.$$
-<p>Формально динамика может давать отрицательные значения. Лектор отмечает, что это не ломает ответ: путь без единого надувания даёт радиус $0$, поэтому максимум всё равно не меньше $0$, а «нечестные» отрицательные переходы никогда не лучше честных.</p>
-<p>Подпункт a) — $O(n^2)$ наивно. Подпункт b): $b_i$ возрастают. Перепишем переход как прямые:</p>
-$$dp_i=\max_j\bigl(K_j-b_j\,t_i\bigr),\qquad K_j=dp_j+a_j+b_j\,t_j.$$
-<p>Каждое $j$ даёт прямую $f_j(x)=K_j-b_j\,x$ с угловым коэффициентом $-b_j$. Замена $x=-t$ даёт $f_j(-t)=K_j+b_j\,t$, где наклоны $b_j$ возрастают с ростом $j$ — стек выпуклой оболочки подходит. Прямые добавляются в порядке возрастания наклона; при добавлении новой прямой с хвоста стека выталкиваются прямые, которые больше нигде не дают максимум.</p>
+<h2 id="s8">8. Convex Hull Trick (CHT) <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=8029" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:13:49</a></h2>
+<h3 id="s8-1">Задача про воздушный шар <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=8029" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:13:49</a></h3>
+<p>Есть $n$ действий; для действия $i$ заданы $a_i,b_i$ и момент $t_i$ ($t_1&lt;t_2&lt;\dots$). В момент $t_i$ можно «надуть» шар: радиус увеличивается на $a_i$, после чего он убывает со скоростью $b_i$ (до следующего надувания, когда значения заменяются). Нужно максимизировать радиус в конце. Если $dp_i$ — максимальный радиус перед $i$-м действием, считая его самого ещё не сделанным, то при предыдущем действии $j$:
+$$dp_i=\max_{j&lt;i}\bigl(dp_j+a_j-b_j\,(t_i-t_j)\bigr).$$
+Наивное ДП — $O(n^2)$. (Отрицательность радиуса можно не учитывать: способ «не делать ничего» даёт $0$ и не хуже нечестного.)</p>
+<figure class="viz"><svg viewBox="0 0 760 262" role="img" aria-label="Шар: надувание a_j, затем убывание на b_j до следующего действия i" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="760" height="262" rx="14" fill="#141a24"/>
+  <text x="380" y="28" text-anchor="middle" font-family="sans-serif" font-size="15" fill="#dfe7f1" >Шар: действие j надувает на a_j, затем радиус убывает на b_j в секунду</text>
+  <text x="70" y="84" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#58c4dd" >действие j</text>
+  <rect x="105" y="62" width="70" height="38" rx="6" fill="#1d4257" stroke="#58c4dd"/>
+  <text x="140" y="87" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#83c167" >+a_j</text>
+  <rect x="185" y="62" width="64" height="38" rx="6" fill="#1e2836" stroke="#fc6255"/>
+  <text x="217" y="87" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#fc6255" >−b_j</text>
+  <rect x="255" y="62" width="64" height="38" rx="6" fill="#1e2836" stroke="#fc6255"/>
+  <text x="287" y="87" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#fc6255" >−b_j</text>
+  <rect x="325" y="62" width="64" height="38" rx="6" fill="#1e2836" stroke="#fc6255"/>
+  <text x="357" y="87" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#fc6255" >−b_j</text>
+  <rect x="395" y="62" width="64" height="38" rx="6" fill="#1e2836" stroke="#fc6255"/>
+  <text x="427" y="87" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#fc6255" >−b_j</text>
+  <rect x="465" y="62" width="70" height="38" rx="6" fill="#1d4257" stroke="#ff8c1a"/>
+  <text x="500" y="87" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#83c167" >+a_i</text>
+  <text x="545" y="87" text-anchor="start" font-family="sans-serif" font-size="18" fill="#9aa4b2" >…</text>
+  <text x="500" y="56" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#ff8c1a" >действие i</text>
+  <text x="285" y="130" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >пропуск: радиус убывает на b_j в каждую секунду</text>
+  <path d="M190.0,112 Q322.5,90 455.0,112" fill="none" stroke="#ffff00" stroke-width="2"/>
+  <text x="380" y="182" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#ffff00" >dp_i = max_{j&lt;i} ( dp_j + a_j − b_j · (t_i − t_j) )</text>
+  <text x="380" y="212" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >dp_i — максимальный радиус перед i-м действием;   t₁ &lt; t₂ &lt; … &lt; t_n</text>
+  <text x="380" y="240" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#9aa4b2" >b₁ &lt; b₂ &lt; …  (скорость сдутия возрастает)</text>
+</svg><figcaption><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=8520" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:22:00</a> Доска (перерисовано): шар: действие j надувает на a_j, потом радиус убывает на b_j в секунду до следующего действия i; отсюда переход dp_i.</figcaption></figure>
 
-<figure class="viz"><svg viewBox="0 0 760 320" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="320" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="17" font-weight="700">Верхняя огибающая: максимум прямых</text><line x1="60" y1="280" x2="720" y2="280" stroke="#9aa4b2" stroke-width="2"/><line x1="60" y1="60" x2="60" y2="280" stroke="#9aa4b2" stroke-width="2"/><line x1="60" y1="250" x2="720" y2="110" stroke="#58c4dd" stroke-width="2"/><line x1="60" y1="150" x2="720" y2="200" stroke="#83c167" stroke-width="2"/><line x1="60" y1="300" x2="720" y2="60" stroke="#ff8c1a" stroke-width="2"/><path d="M 60 110 L 250 150 L 380 180 L 720 60" fill="none" stroke="#ffff00" stroke-width="4"/><text x="560" y="96" fill="#58c4dd" font-size="14">F_0</text><text x="620" y="222" fill="#83c167" font-size="14">F_1</text><text x="650" y="78" fill="#ff8c1a" font-size="14">F_2</text><text x="260" y="130" fill="#ffff00" font-size="14">огибающая</text></svg><figcaption>Схема: огибающая — кусочно-линейная выпуклая функция. Каждый кусок — одна прямая, её отрезок задаётся точками разрыва.</figcaption></figure>
+<p><strong>Важное дополнение.</strong> Чтобы получить ответ в конце, добавим фиктивное действие в конце процесса (время $T_{end}$, $a=0$, $b=0$): его $dp$ и есть итог.</p>
+<h3 id="s8-2">Сведение к прямым <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=9091" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:31:31</a></h3>
+<p>Перепишем: $dp_i=\max_j\bigl(\underbrace{dp_j+a_j+b_jt_j}_{K_j}-b_j\,t_i\bigr)$. Каждому $j$ соответствует <strong>прямая</strong> $f_j(x)=K_j-b_jx$, и $dp_i=\max_jf_j(t_i)$. Прямые добавляются по одной ($f_0,f_1,\dots$), после каждого добавления делается запрос «максимум в точке $x$». Если все прямые известны заранее — это базовый CHT.</p>
+<h3 id="s8-3">Верхняя огибающая <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=9648" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:40:48</a></h3>
+<p>Функция $F(x)=\max_if_i(x)$ — <strong>верхняя огибающая</strong>: выпуклая кусочно-линейная функция, на каждом звене которой «побеждает» одна прямая; коэффициент наклона победивших прямых растёт слева направо.</p>
+<figure class="viz"><svg viewBox="0 0 760 380" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="380" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Convex Hull Trick: верхняя огибающая прямых</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">Огибающая — выпуклая ломаная; на каждом её звене «побеждает» одна прямая.</text><line x1="60" y1="261.42857142857144" x2="620" y2="261.42857142857144" stroke="#7c8aa0" stroke-width="1.5" stroke-linecap="round"/><line x1="140.0" y1="80" x2="140.0" y2="336" stroke="#7c8aa0" stroke-width="1.5" stroke-linecap="round"/><polyline points="60.0,84.0 620.0,312.9" stroke="#58c4dd" stroke-width="1.6" fill="none" opacity="0.45" stroke-linejoin="round" stroke-linecap="round"/><polyline points="60.0,165.4 620.0,237.4" stroke="#83c167" stroke-width="1.6" fill="none" opacity="0.45" stroke-linejoin="round" stroke-linecap="round"/><polyline points="60.0,239.1 620.0,131.1" stroke="#ff8c1a" stroke-width="1.6" fill="none" opacity="0.45" stroke-linejoin="round" stroke-linecap="round"/><polyline points="60.0,336.0 620.0,84.0" stroke="#c78bff" stroke-width="1.6" fill="none" opacity="0.45" stroke-linejoin="round" stroke-linecap="round"/><polyline points="81.0,81.9 82.4,82.5 83.8,83.1 85.2,83.7 86.6,84.3 88.0,84.9 89.4,85.5 90.8,86.1 92.2,86.7 93.6,87.3 95.0,87.9 96.4,88.5 97.8,89.1 99.2,89.7 100.6,90.3 102.0,90.9 103.4,91.5 104.8,92.1 106.2,92.7 107.6,93.3 109.0,93.9 110.4,94.5 111.8,95.1 113.2,95.7 114.6,96.3 116.0,96.9 117.4,97.5 118.8,98.1 120.2,98.7 121.6,99.3 123.0,99.9 124.4,100.5 125.8,101.1 127.2,101.7 128.6,102.3 130.0,102.9 131.4,103.5 132.8,104.1 134.2,104.7 135.6,105.3 137.0,105.9 138.4,106.5 139.8,107.1 141.2,107.7 142.6,108.3 144.0,108.9 145.4,109.5 146.8,110.1 148.2,110.7 149.6,111.3 151.0,111.9 152.4,112.5 153.8,113.1 155.2,113.7 156.6,114.3 158.0,114.9 159.4,115.5 160.8,116.1 162.2,116.7 163.6,117.3 165.0,117.9 166.4,118.5 167.8,119.1 169.2,119.7 170.6,120.3 172.0,120.9 173.4,121.5 174.8,122.1 176.2,122.7 177.6,123.3 179.0,123.9 180.4,124.5 181.8,125.1 183.2,125.7 184.6,126.3 186.0,126.9 187.4,127.5 188.8,128.1 190.2,128.7 191.6,129.3 193.0,129.9 194.4,130.5 195.8,131.1 197.2,131.7 198.6,132.3 200.0,132.9 201.4,133.5 202.8,134.1 204.2,134.7 205.6,135.3 207.0,135.9 208.4,136.5 209.8,137.1 211.2,137.7 212.6,138.3 214.0,138.9 215.4,139.5 216.8,140.1 218.2,140.7 219.6,141.3 221.0,141.9 222.4,142.5 223.8,143.1 225.2,143.7 226.6,144.3 228.0,144.9 229.4,145.5 230.8,146.1 232.2,146.7 233.6,147.3 235.0,147.9 236.4,148.5 237.8,149.1 239.2,149.7 240.6,150.3 242.0,150.9 243.4,151.5 244.8,152.1 246.2,152.7 247.6,153.3 249.0,153.9 250.4,154.5 251.8,155.1 253.2,155.7 254.6,156.3 256.0,156.9 257.4,157.5 258.8,158.1 260.2,158.7 261.6,159.3 263.0,159.9 264.4,160.5 265.8,161.1 267.2,161.7 268.6,162.3 270.0,162.9 271.4,163.5 272.8,164.1 274.2,164.7 275.6,165.3 277.0,165.9 278.4,166.5 279.8,167.1 281.2,167.7 282.6,168.3 284.0,168.9 285.4,169.5 286.8,170.1 288.2,170.7 289.6,171.3 291.0,171.9 292.4,172.5 293.8,173.1 295.2,173.7 296.6,174.3 298.0,174.9 299.4,175.5 300.8,176.1 302.2,176.7 303.6,177.3 305.0,177.9 306.4,178.5 307.8,179.1 309.2,179.7 310.6,180.3 312.0,180.9 313.4,181.5 314.8,182.1 316.2,182.7 317.6,183.3 319.0,183.9 320.4,184.5 321.8,185.1 323.2,185.7 324.6,186.3 326.0,186.9 327.4,187.5 328.8,187.3 330.2,187.0 331.6,186.8 333.0,186.5 334.4,186.2 335.8,186.0 337.2,185.7 338.6,185.4 340.0,185.1 341.4,184.9 342.8,184.6 344.2,184.3 345.6,184.1 347.0,183.8 348.4,183.5 349.8,183.3 351.2,183.0 352.6,182.7 354.0,182.4 355.4,182.2 356.8,181.9 358.2,181.6 359.6,181.4 361.0,181.1 362.4,180.8 363.8,180.6 365.2,180.3 366.6,180.0 368.0,179.7 369.4,179.5 370.8,179.2 372.2,178.9 373.6,178.7 375.0,178.4 376.4,178.1 377.8,177.9 379.2,177.6 380.6,177.3 382.0,177.0 383.4,176.8 384.8,176.5 386.2,176.2 387.6,176.0 389.0,175.7 390.4,175.4 391.8,175.2 393.2,174.9 394.6,174.6 396.0,174.3 397.4,174.1 398.8,173.8 400.2,173.5 401.6,173.3 403.0,173.0 404.4,172.7 405.8,172.5 407.2,172.2 408.6,171.9 410.0,171.6 411.4,171.4 412.8,171.1 414.2,170.8 415.6,170.6 417.0,170.3 418.4,170.0 419.8,169.8 421.2,169.5 422.6,169.2 424.0,168.9 425.4,168.7 426.8,168.4 428.2,168.1 429.6,167.9 431.0,167.6 432.4,167.3 433.8,167.1 435.2,166.8 436.6,166.5 438.0,166.0 439.4,165.3 440.8,164.6 442.2,163.9 443.6,163.2 445.0,162.5 446.4,161.8 447.8,161.2 449.2,160.5 450.6,159.8 452.0,159.1 453.4,158.4 454.8,157.7 456.2,157.0 457.6,156.3 459.0,155.6 460.4,154.9 461.8,154.3 463.2,153.6 464.6,152.9 466.0,152.2 467.4,151.5 468.8,150.8 470.2,150.1 471.6,149.4 473.0,148.7 474.4,148.0 475.8,147.4 477.2,146.7 478.6,146.0 480.0,145.3 481.4,144.6 482.8,143.9 484.2,143.2 485.6,142.5 487.0,141.8 488.4,141.1 489.8,140.5 491.2,139.8 492.6,139.1 494.0,138.4 495.4,137.7 496.8,137.0 498.2,136.3 499.6,135.6 501.0,134.9 502.4,134.2 503.8,133.6 505.2,132.9 506.6,132.2 508.0,131.5 509.4,130.8 510.8,130.1 512.2,129.4 513.6,128.7 515.0,128.0 516.4,127.3 517.8,126.7 519.2,126.0 520.6,125.3 522.0,124.6 523.4,123.9 524.8,123.2 526.2,122.5 527.6,121.8 529.0,121.1 530.4,120.4 531.8,119.8 533.2,119.1 534.6,118.4 536.0,117.7 537.4,117.0 538.8,116.3 540.2,115.6 541.6,114.9 543.0,114.2 544.4,113.5 545.8,112.9 547.2,112.2 548.6,111.5 550.0,110.8 551.4,110.1 552.8,109.4 554.2,108.7 555.6,108.0 557.0,107.3 558.4,106.6 559.8,106.0 561.2,105.3 562.6,104.6 564.0,103.9 565.4,103.2 566.8,102.5 568.2,101.8 569.6,101.1 571.0,100.4 572.4,99.7 573.8,99.1 575.2,98.4 576.6,97.7 578.0,97.0 579.4,96.3 580.8,95.6 582.2,94.9 583.6,94.2 585.0,93.5 586.4,92.8 587.8,92.2 589.2,91.5 590.6,90.8 592.0,90.1 593.4,89.4 594.8,88.7 596.2,88.0 597.6,87.3 599.0,86.6 600.4,85.9 601.8,85.3 603.2,84.6 604.6,83.9 606.0,83.2 607.4,82.5 608.8,81.8" stroke="#ffff00" stroke-width="3.6" fill="none" stroke-linejoin="round" stroke-linecap="round"/><text x="644" y="110" fill="#58c4dd" font-size="13" font-weight="700" text-anchor="start">y = −2x + 9</text><text x="644" y="134" fill="#83c167" font-size="13" font-weight="700" text-anchor="start">y = −0.6x + 5</text><text x="644" y="158" fill="#ff8c1a" font-size="13" font-weight="700" text-anchor="start">y = 0.9x + 2.2</text><text x="644" y="182" fill="#c78bff" font-size="13" font-weight="700" text-anchor="start">y = 2.3x + −3</text><text x="32" y="366" fill="#c2cdde" font-size="14" text-anchor="start">При добавлении прямой с бо́льшим наклоном она «съедает» хвост огибающей — как в алгоритме выпуклой оболочки.</text></svg><figcaption>Верхняя огибающая набора прямых — выпуклая кусочно-линейная функция.</figcaption></figure>
+<p>Хранить огибающую удобно <strong>стеком пар</strong> $(x_t,f_t)$: прямая $f_t$ побеждает на $[x_t,x_{t+1})$, $x_1=-\infty$. Запрос в точке $x$: найти последнюю $x_t\le x$ (бинарный поиск <code>upper_bound</code>) и вычислить $f_t(x)$.</p>
+<h3 id="s8-4">Построение <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=10033" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:47:13</a></h3>
+<p>Отсортируем прямые по возрастанию наклона (при равных — по свободному члену) и будем добавлять в этом порядке. Новая прямая имеет наклон не меньше всех предыдущих, поэтому на $+\infty$ она побеждает; значит, она «отрезает» суффикс огибающей — совсем как в алгоритме построения выпуклой оболочки. Пока стек не пуст: берём последнее звено $(x_n,f_n)$ и считаем $x^*$ — точку пересечения новой прямой $\ell$ с $f_n$. Если $x^*\le x_n$ — звено целиком хуже $\ell$, делаем <code>pop_back</code>; иначе добавляем в стек звено $(x^*,\ell)$ и останавливаемся. Амортизированное время всех добавлений — $O(n)$.</p>
+<p><strong>Параллельные прямые.</strong> Если при равных наклонах свободные члены сортируются по возрастанию, то новая прямая выше, и считаем точку пересечения равной $-\infty$ — последнее звено удаляется. Если порядок по свободному члену не гарантирован, нужно явно сравнить: нижнюю из двух параллельных выбросить.</p>
+<h3 id="s8-5">Точность: вещественные и целые <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=10475" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">2:54:35</a></h3>
+<ul>
+<li><strong>Вещественные координаты.</strong> Можно считать точки пересечения в <code>double</code> и «забить»: ошибка может привести лишь к выбору не того из двух соседних звеньев в окрестности точки пересечения, а там значения этих двух прямых почти равны, поэтому ответ меняется незначительно.</li>
+<li><strong>Целочисленные запросы.</strong> Храним $x_t$ как <em>целые</em> и считаем точку пересечения делением целых <strong>с округлением вверх</strong> (не «вещественное деление, потом ceil», а целочисленная формула). Инвариант: звено $(x_t,f_t)$ означает «прямая побеждает на целых точках $x_t,\dots,x_{t+1}-1$».</li>
+</ul>
+<h3 id="s8-6">Применение к шару и линейное время <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=10943" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:02:23</a></h3>
+<p>Наши прямые $f_j(x)=K_j-b_jx$ имеют наклон $-b_j$, а условие в задаче — $b_j$ возрастает, то есть наклоны <em>убывают</em>. Это решается заменой знака: считаем прямые $g_j(x)=K_j+b_jx$ (наклон $b_j$ растёт) и спрашиваем значение в точке $-t_i$. Получаем $O(n\log n)$: стек строится за $O(n)$, а логарифм — от бинарного поиска в запросах.</p>
+<p><strong>$O(n)$ с указателем.</strong> Точки запросов $-t_i$ <em>монотонно убывают</em>. Если огибающая фиксирована, вместо бинарного поиска достаточно держать указатель на текущее звено и двигать его монотонно. Огибающая меняется только в конце: если изменение произошло правее указателя — ничего не меняется; если удалены звенья, включая то, на которое указывал указатель, — он переставляется на конец стека. Итого $O(n)$ (это эквивалентно жадности, которую предлагали из зала).</p>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="k">struct</span> Line { <span class="t">ll</span> k, b; <span class="t">ll</span> <span class="f">at</span>(<span class="t">ll</span> x) <span class="k">const</span> { <span class="k">return</span> k * x + b; } };
+<span class="k">struct</span> CHT {                              <span class="c">// минимум; наклоны добавляются по убыванию, запросы x по возрастанию</span>
+    <span class="t">vector</span>&lt;Line&gt; h; <span class="t">size_t</span> ptr = <span class="n">0</span>;
+    <span class="t">bool</span> <span class="f">bad</span>(<span class="k">const</span> Line&amp; a, <span class="k">const</span> Line&amp; b, <span class="k">const</span> Line&amp; c) {     <span class="c">// средняя прямая b лишняя</span>
+        <span class="k">return</span> (<span class="t">__int128</span>)(c.b - a.b) * (a.k - b.k) &lt;= (<span class="t">__int128</span>)(b.b - a.b) * (a.k - c.k);
+    }
+    <span class="t">void</span> <span class="f">add</span>(Line l) {
+        <span class="k">while</span> (h.<span class="f">size</span>() &gt;= <span class="n">2</span> &amp;&amp; <span class="f">bad</span>(h[h.<span class="f">size</span>() - <span class="n">2</span>], h.<span class="f">back</span>(), l)) h.<span class="f">pop_back</span>();
+        h.<span class="f">push_back</span>(l);
+        <span class="k">if</span> (ptr &gt;= h.<span class="f">size</span>()) ptr = h.<span class="f">size</span>() - <span class="n">1</span>;
+    }
+    <span class="t">ll</span> <span class="f">get</span>(<span class="t">ll</span> x) {
+        <span class="k">while</span> (ptr + <span class="n">1</span> &lt; h.<span class="f">size</span>() &amp;&amp; h[ptr + <span class="n">1</span>].<span class="f">at</span>(x) &lt;= h[ptr].<span class="f">at</span>(x)) ptr++;
+        <span class="k">return</span> h[ptr].<span class="f">at</span>(x);
+    }
+};</code></pre></div>
+<p>Максимум, а не минимум, получается заменой знака всех функций. Код (минимум, убывающие наклоны, возрастающие запросы) сверен с наивным ДП в задаче ниже.</p>
 
-<p>Для запроса в точке $x$ нужно найти кусок огибающей, в который попадает $x$: это lower bound по точкам разрыва. Это даёт $O(\log n)$ на запрос и $O(n)$ амортизированно на построение. Если запросы монотонны (здесь $-t_i$ убывает), можно вести указатель, и тогда весь подпункт b) работает за $O(n)$ — так лектор и заключает.</p>
-<div class="warn"><span class="lbl">Точность</span> Точки пересечения прямых — дроби. Лектор предлагает либо работать с целочисленной арифметикой, округляя пересечения вверх, либо с <code>double</code>: при ошибке запрос попадёт не в тот отрезок, но в точке пересечения значения прямых совпадают, поэтому ответ не меняется. Оговорка лектора: этот аргумент верен, если запрос попадает именно в точку пересечения.</div>
-
-<h2 id="s8">8. Динамический CHT и дерево Ли Чао <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=11349" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:09:09</a></h2>
-<p><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=11349" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:09:09</a> Если наклоны не монотонны, нужна структура, которая добавляет произвольные прямые и отвечает на максимум в точке. Лектор упоминает вариант на <code>set</code> (хранить оболочку как набор отрезков, отсортированных по наклону) — но его труднее написать, поэтому основным выбирается дерево Ли Чао.</p>
-<p><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=11760" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:16:00</a> Дерево Ли Чао: дерево отрезков по координатам запроса (после сжатия, либо неявное). В каждой вершине хранится одна прямая; инвариант: для любой точки $x$ максимум среди прямых на пути от корня до листа $x$ совпадает с истинным максимумом.</p>
-<p>Добавление прямой $F$ в вершину $v$ с отрезком $[L,R]$ и серединой $M$:</p>
+<h2 id="s9">9. Динамический CHT и дерево Ли Чао <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=11366" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:09:26</a></h2>
+<p>Если гарантий на порядок наклонов нет (пункт «C» задачи), нужна структура, позволяющая добавлять <em>произвольную</em> прямую и спрашивать максимум/минимум в точке. Можно хранить огибающую в <code>set</code>, отсортированном по наклону: новая прямая вставляется в середину, а соседние звенья удаляются влево и вправо. Это возможно, но писать неприятно (на практике — копировать готовую реализацию из тимбука). Проще и надёжнее — <strong>дерево Ли Чао</strong>.</p>
+<h3 id="s9-1">Идея <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=11579" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:12:59</a></h3>
+<p>Пусть все запросы заранее известны и сжаты в точки $0,\dots,n-1$. Строим дерево отрезков по ним; <strong>в каждой вершине хранится одна прямая</strong> (одна и та же прямая может быть записана в нескольких вершинах). Инвариант: ответ в точке $x$ — это максимум значений <em>только по прямым на пути от листа $x$ до корня</em> ($O(\log n)$ прямых).</p>
+<p><strong>Добавление прямой $f$ в вершину $v$</strong> (отрезок $[l,r)$ с серединой $m$, в вершине хранится $q_v$):</p>
 <ol>
-  <li>Если $F$ хуже прямой $G$ из вершины на обоих концах — выходим, $F$ не нужна.</li>
-  <li>Если $F$ лучше $G$ на обоих концах — заменяем $G$ на $F$ и выходим.</li>
-  <li>Иначе прямые пересекаются внутри $[L,R]$. Сравниваем в середине $M$: если $F(M)&gt;G(M)$, меняем их местами (в вершине оставляем лучшую в середине). Теперь «пропихиваем» проигравшую прямую вниз: в ту половину, где она может победить в одном из концов.</li>
+<li>Если $f$ <em>не лучше</em> $q_v$ в середине $m$, поменяем $f$ и $q_v$ местами — теперь в $m$ побеждает $q_v$.</li>
+<li>Если $f$ лучше $q_v$ в левом конце $x_l$ — «неясная» часть слева, спускаемся с $f$ в левого сына. Иначе, если $f$ лучше $q_v$ в правом конце $x_{r-1}$ — спускаемся в правого сына. Иначе $f$ нигде не лучше — останавливаемся.</li>
 </ol>
-<pre class="hl"><code>// Прямая f(x) = k*x + b; xs[0..n-1] — отсортированные координаты запросов
-// Вершина v отвечает отрезку индексов [L, R]; в tr[v] изначально «пустая» прямая: -INF
-void add(int v, int L, int R, Line f) {
-    int M = (L + R) / 2;
-    bool lef = f(xs[L]) &gt; tr[v](xs[L]);      // сравнения на концах и в середине
-    bool mid = f(xs[M]) &gt; tr[v](xs[M]);
-    if (mid) swap(tr[v], f);                 // в вершине остаётся лучшая в середине
-    if (L == R) return;
-    if (lef != mid) add(2*v,   L,   M, f);   // проигравшая может победить слева
-    else            add(2*v+1, M+1, R, f);   // иначе — справа
+<figure class="viz"><svg viewBox="0 0 760 390" role="img" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="760" height="390" rx="14" fill="#141a24"/><text x="32" y="36" fill="#dfe7f1" font-size="18" font-weight="700" text-anchor="start">Дерево Ли Чао: сравниваем в середине, спускаемся в одну половину</text><text x="32" y="62" fill="#9aa4b2" font-size="14.5" text-anchor="start">В вершине хранится прямая; новая прямая f проигрывает или выигрывает — и «лишняя» уходит вниз.</text><rect x="50" y="100" width="350" height="230" rx="8" fill="#151f30" stroke="#33415a" stroke-width="1.5"/><line x1="225.0" y1="100" x2="225.0" y2="330" stroke="#7c8aa0" stroke-width="1.5" stroke-dasharray="5 5" stroke-linecap="round"/><text x="225.0" y="352" fill="#c2cdde" font-size="15" font-weight="700" text-anchor="middle">m</text><text x="50" y="352" fill="#9aa4b2" font-size="14" text-anchor="middle">x_l</text><text x="400" y="352" fill="#9aa4b2" font-size="14" text-anchor="middle">x_r</text><polyline points="50.0,150.6 400.0,279.4" stroke="#58c4dd" stroke-width="3.4" fill="none" stroke-linejoin="round" stroke-linecap="round"/><polyline points="50.0,249.5 400.0,127.6" stroke="#ff8c1a" stroke-width="3.4" fill="none" stroke-linejoin="round" stroke-linecap="round"/><text x="57.0" y="133.4" fill="#58c4dd" font-size="14" font-weight="700" text-anchor="start">q — в вершине</text><text x="242.50000000000003" y="133.4" fill="#ff8c1a" font-size="14" font-weight="700" text-anchor="start">f — новая</text><circle cx="225.0" cy="215.0" r="6" fill="#ffff00"/><text x="430" y="118" fill="#c2cdde" font-size="14" text-anchor="start">1. Если f хуже q в середине m —</text><text x="430" y="146" fill="#c2cdde" font-size="14" text-anchor="start">    меняем f и q местами.</text><text x="430" y="174" fill="#c2cdde" font-size="14" text-anchor="start">2. Теперь в m побеждает q;</text><text x="430" y="202" fill="#c2cdde" font-size="14" text-anchor="start">    смотрим на концы отрезка:</text><text x="430" y="230" fill="#c2cdde" font-size="14" text-anchor="start">    f лучше слева → в левого сына,</text><text x="430" y="258" fill="#c2cdde" font-size="14" text-anchor="start">    f лучше справа → в правого,</text><text x="430" y="286" fill="#c2cdde" font-size="14" text-anchor="start">    нигде лучше → выходим.</text><text x="430" y="314" fill="#ffff00" font-size="14" font-weight="700" text-anchor="start">Один спуск: O(log n).</text></svg><figcaption>Шаг добавления прямой в дерево Ли Чао: сравнение в середине, затем спуск в одну половину.</figcaption></figure>
+<p>Только одна из двух половин может быть «неясной» (прямые пересекаются не более одного раза), поэтому спуск идёт по одному пути — $O(\log n)$. Ключевая деталь: после обмена мы продвигаем вниз ту прямую, которая раньше стояла в вершине, — прямые «сдвигаются» вниз. <strong>Пересечения прямых не нужны</strong> — только сравнения значений в трёх точках. Запрос: спуститься от корня до листа $x$ и взять минимум по прямым на пути.</p>
+<div class="code"><div class="code-head"><span>C++</span><button class="copy" type="button">копировать</button></div><pre class="hl"><code><span class="c">// минимум; xs — сжатые точки запросов; F — функция-прямая (или любая «подходящая» функция)</span>
+<span class="t">void</span> <span class="f">add</span>(<span class="t">int</span> v, <span class="t">int</span> l, <span class="t">int</span> r, F f) {                       <span class="c">// полуинтервал [l, r)</span>
+    <span class="k">if</span> (!has[v]) { t[v] = f; has[v] = <span class="n">1</span>; <span class="k">return</span>; }
+    <span class="t">int</span> m = (l + r) / <span class="n">2</span>;
+    <span class="k">if</span> (<span class="f">f</span>(xs[m]) &lt; t[v](xs[m])) <span class="f">swap</span>(f, t[v]);            <span class="c">// в середине побеждает t[v]</span>
+    <span class="k">if</span> (r - l == <span class="n">1</span>) <span class="k">return</span>;
+    <span class="k">if</span> (<span class="f">f</span>(xs[l]) &lt; t[v](xs[l])) <span class="f">add</span>(<span class="n">2</span> * v, l, m, f);       <span class="c">// слева f лучше — идём влево</span>
+    <span class="k">else</span> <span class="k">if</span> (<span class="f">f</span>(xs[r - <span class="n">1</span>]) &lt; t[v](xs[r - <span class="n">1</span>])) <span class="f">add</span>(<span class="n">2</span> * v + <span class="n">1</span>, m, r, f);
 }
-ll query(int v, int L, int R, int pos) {     // максимум по пути от корня до листа pos
-    ll res = tr[v](xs[pos]);
-    if (L == R) return res;
-    int M = (L + R) / 2;
-    ll sub = pos &lt;= M ? query(2*v, L, M, pos) : query(2*v+1, M+1, R, pos);
-    return max(res, sub);
-}
-</code></pre>
-<div class="note"><span class="lbl">Примечание</span> Код набросан по записи лектора и не проверялся компилятором. Правило «в какую половину спускаться» — то же, что в записи: сравниваются значения на левом конце и в середине. Если прямая хуже на обоих концах, она не спускается ниже (отдельного отбрасывания не нужно). Инвариант и сложность $O(\log n)$ на операцию от этого не меняются.</div>
-<p>Лектор подчёркивает: в Ли Чао не нужны пересечения прямых, только сравнения значений. Если координаты запросов заранее неизвестны, делают неявное дерево: дети создаются при спуске.</p>
+<span class="t">ll</span> <span class="f">get</span>(<span class="t">int</span> v, <span class="t">int</span> l, <span class="t">int</span> r, <span class="t">int</span> i) {                       <span class="c">// значение в точке xs[i]</span>
+    <span class="t">ll</span> res = has[v] ? t[v](xs[i]) : INF;
+    <span class="k">if</span> (r - l == <span class="n">1</span>) <span class="k">return</span> res;
+    <span class="t">int</span> m = (l + r) / <span class="n">2</span>;
+    <span class="k">return</span> <span class="f">min</span>(res, i &lt; m ? <span class="f">get</span>(<span class="n">2</span> * v, l, m, i) : <span class="f">get</span>(<span class="n">2</span> * v + <span class="n">1</span>, m, r, i));
+}</code></pre></div>
+<p>Если запросы заранее неизвестны, дерево Ли Чао пишется <em>неявным</em>: вершины создаются по мере надобности (при спуске в ещё не существующего сына — создать его). Больше ничего не меняется.</p>
 
-<h2 id="s9">9. Задачи 6–8: CHT с префиксными суммами и Ли Чао с многочленами <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=12779" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:32:59</a></h2>
-<p><b>Задача 6.</b> $w(L,R)=\sum_{i=L}^{R}a_i\,(i-L+1)$, разбить на ровно $K$ отрезков. Пусть $P_1$ — префиксные суммы $a_i$, $P_2$ — префиксные суммы $i\,a_i$. Тогда</p>
-$$w(g+1,i)=P_2[i]-P_2[g]-g\bigl(P_1[i]-P_1[g]\bigr),$$
-<p>и переход $dp_k[i]=\min_g\bigl(dp_{k-1}[g]+w(g+1,i)\bigr)$ принимает вид</p>
-$$dp_k[i]=P_2[i]+\min_g\bigl(C_g-g\,P_1[i]\bigr),\qquad C_g=dp_{k-1}[g]-P_2[g]+g\,P_1[g].$$
-<p>Прямые с наклонами $-g$ (убывают при росте $g$) и запросы в точках $P_1[i]$ (возрастают, так как $a_i\ge 0$). Для минимума нужны убывающие наклоны, а монотонные запросы дают указатель. Итог: $O(nK)$. Лектор в какой-то момент сказал «максимум», но для минимума всё выше работает, как написано.</p>
+<h2 id="s10">10. Задачи на CHT и Ли Чао <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=12784" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:33:04</a></h2>
+<p>Рецепт один и тот же: записать наивное ДП, внимательно посмотреть на формулу и выделить слагаемые, зависящие <em>только от $j$</em>, <em>только от $i$</em> и <em>от обоих</em> (в виде произведения); если получается «прямая с параметром $j$ в точке, зависящей от $i$», применяем CHT.</p>
+<h3 id="s10-1">Задача 6: сумма $a_l\cdot1+a_{l+1}\cdot2+\dots$ <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=12784" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:33:04</a></h3>
+<p>Вес отрезка $w(l,r)=\sum_{t=l}^{r}a_t\,(t-l+1)$, нужно разбить на $k$ отрезков с минимальной суммой весов за $O(nk)$; $a_i>0$. Пусть $P_1[i]=\sum_{t\le i}a_t$ и $P_2[i]=\sum_{t\le i}a_t\cdot t$. Тогда $w(j+1,i)=(P_2[i]-P_2[j])-j\,(P_1[i]-P_1[j])$, и
+$$dp_{k,i}=\min_{j}\Bigl(\underbrace{dp_{k-1,j}-P_2[j]+jP_1[j]}_{\text{свободный член}}\ -\ j\cdot P_1[i]\Bigr)+P_2[i].$$
+Это прямые с наклоном $-j$ в точке $P_1[i]$: наклоны <strong>убывают</strong> с ростом $j$, а запросы $P_1[i]$ <strong>возрастают</strong> (элементы положительны). Подходит CHT со стеком и указателем — слой за $O(n)$, всё решение $O(nk)$.</p>
+<h3 id="s10-2">Задача 7: $\min$ по произвольному числу отрезков, $w=(\text{сумма})^2+\alpha$ <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=13405" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:43:25</a></h3>
+<p>Число отрезков не фиксировано: $dp_i=\min_{j&lt;i}\bigl(dp_j+(P_i-P_j)^2+\alpha\bigr)=P_i^2+\alpha+\min_j\bigl(\underbrace{dp_j+P_j^2}_{\text{св. член}}-2P_j\cdot P_i\bigr)$. Прямые с наклоном $-2P_j$ в точке $P_i$; в массиве могут быть отрицательные числа, поэтому $P_j$ ведут себя произвольно — гарантий на монотонность нет, берём дерево Ли Чао на сжатых префиксных суммах: $O(n\log n)$. Код проверен на случайных данных с отрицательными числами.</p>
+<h3 id="s10-3">Задача 8: прыжки по небоскрёбам, штраф $(h_i-h_j)^4+\alpha$ <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=13785" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">3:49:45</a></h3>
+<p>$dp_j=\min_{i&lt;j}\bigl(dp_i+(h_j-h_i)^4+\alpha\bigr)$. Раскрытие скобок не даёт прямых: после выделения общего $x^4$ остаётся многочлен третьей степени со «сложными» коэффициентами. Но дерево Ли Чао не требует прямых — достаточно, чтобы любые две функции семейства <strong>пересекались не более одного раза</strong> (слева одна лучше, справа другая), и чтобы значение в точке считалось быстро. Семейство $f_i(x)=(x-h_i)^4+c_i$ — это просто сдвиги одной «гиперпараболы» $x^4$.</p>
+<p><strong>Почему пересекаются не более одного раза.</strong> Для $h_1&lt;h_2$ производная разности равна $4(x-h_1)^3-4(x-h_2)^3=4(h_2-h_1)\bigl[(x-h_1)^2+(x-h_1)(x-h_2)+(x-h_2)^2\bigr]$, а выражение в скобках — положительно определённая квадратичная форма. Поэтому разность монотонна и обращается в ноль не более одного раза. Для кубов $(x-h)^3$ это уже неверно (там две точки пересечения могут быть), и дерево Ли Чао неприменимо.</p>
+<p>Реализация — тот же Ли Чао, только функции считаются как $(x-h_i)^4+c_i$ (четыре умножения). Проверено на случайных данных против наивного ДП.</p>
 
-<p><b>Задача 7.</b> $w(L,R)=\bigl(\sum_{i=L}^{R}a_i\bigr)^2+\alpha$, число отрезков не фиксировано. Пусть $P$ — префиксные суммы. Тогда</p>
-$$dp_i=\min_{j&lt;i}\bigl(dp_j+(P_i-P_j)^2+\alpha\bigr)=P_i^2+\alpha+\min_{j&lt;i}\bigl((dp_j+P_j^2)-2P_j\,P_i\bigr).$$
-<p>Прямые $y=-2P_j\cdot x+(dp_j+P_j^2)$ и запросы в точках $x=P_i$ — без монотонности, так как $a_i$ могут быть отрицательными. Нужна Ли Чао по сжатым значениям $P$. Итог: $O(n\log n)$.</p>
-
-<p><b>Задача 8.</b> Небоскрёбы с высотами $h_1,\dots,h_n$. Прыжок с $i$ на $j$ стоит $(h_i-h_j)^4+\alpha$, нужно минимизировать стоимость пути от $1$ до $n$. Тогда</p>
-$$dp_j=\min_{i&lt;j}\bigl(dp_i+(h_i-h_j)^4+\alpha\bigr)=\min_{i&lt;j}f_i(h_j),\qquad f_i(x)=(x-h_i)^4+dp_i+\alpha.$$
-<p>Функции четвёртой степени: лектор показывает, что для любых двух таких функций с центрами $a,b$ разность</p>
-$$(x-a)^4-(x-b)^4=(b-a)(2x-a-b)\bigl((x-a)^2+(x-b)^2\bigr)$$
-<p>меняет знак ровно один раз (в точке $x=\frac{a+b}{2}$). Этого достаточно для Ли Чао — она работает, потому что одна из двух функций всегда побеждает в целой половине отрезка. Лектор отмечает, что для третьей степени это свойство не выполняется: два многочлена могут пересекаться дважды, и тогда Ли Чао применять нельзя.</p>
-<div class="warn"><span class="lbl">Важное дополнение</span> Лектор говорит, что разность «монотонна». Точнее — она <em>меняет знак один раз</em>, а не монотонна: $(b-a)(2x-a-b)$ умножается на положительную функцию, которая не постоянна. Для работы Ли Чао нужно именно «меняет знак один раз».</div>
-
-<h2 id="s10">10. Разбор контеста «Структуры данных 2» <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=14562" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:02:42</a></h2>
-<p><a class="ts" href="https://youtu.be/7A7FcU1W58o?t=14562" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:02:42</a> Разбор предыдущего тематического контеста. Часть задач была на лекции и в разборе пропущена. Ниже — что разбирал лектор по каждой букве.</p>
+<h2 id="s11">11. Разбор контеста по структурам данных 2 <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=14580" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:03:00</a></h2>
 <ul>
-  <li><b>A</b> — RMQ: разреженная таблица (sparse table).</li>
-  <li><b>B</b> — пересечение прямоугольников: по левым границам берём максимум, по правым — минимум; четыре запроса RMQ в четырёх 2D-матрицах, то есть 2D sparse table.</li>
-  <li><b>C</b> — трёхмерная сумма в параллелепипеде с обновлениями: трёхмерный Фенвик.</li>
-  <li><b>D</b> — $k$-й ноль на отрезке с обновлениями: дерево отрезков со спуском по $c_i=[a_i=0]$; альтернативы — декартово дерево или order set.</li>
-  <li><b>E</b> — количество чисел на отрезке $[L,R]$ со значениями в $[X,Y]$: merge sort tree.</li>
-  <li><b>F</b> — школьники садятся на места перестановки; считаем тех, кому позавидуют: двумерный Фенвик по $(a,b)$ в реальном времени.</li>
-  <li><b>G</b> — добавление числа и сумма на $[L,R]$: декартово дерево с суммами в поддереве, сплиты по $L$ и $R$.</li>
-  <li><b>H</b> — переворот отрезка и минимум на отрезке: неявное декартово дерево.</li>
-  <li><b>I</b> — логи: вставка блока однотипных записей, удаление подотрезка, количество различных типов на $[L,R]$. Типов 26, поэтому храним битовую маску и объединяем её через OR. Блоки одинаковых значений — отдельные «отрезки» в неявном дереве, при вставке/удалении отрезки разрезаются.</li>
-  <li><b>J</b> — минимальная натуральная сумма, которую нельзя набрать из весов на отрезке. Жадный факт: отсортируем веса и идём по ним, накапливая сумму $S$; как только встречается вес $v&gt;S+1$, ответ — $S+1$. На отрезке храним «важные» веса (их не больше $O(\log)$) и сливаем их как в merge sort tree. Лектор не довёл до быстрого слияния: сумма предыдущих для каждого элемента пересчитывается честно через дерево, решение получилось за $O(\log^3)$, но с ранней остановкой.</li>
-  <li><b>K</b> — автоматизация склада: порядок открытия комнат моделируется стеком, из которого элемент вставляется после максимальной позиции, где стоит элемент, который нужно открыть раньше. Реализация — неявное дерево с минимумом на суффиксе; есть и $O(n)$-вариант с порядком, построенным стеком, и подсчётом различных значений на подотрезке (sweep с Фенвиком).</li>
-  <li><b>L</b> — магазин в трёхмерном пространстве: открытые точки задают минимальный параллелепипед; запрос проверяется добавлением точки и подсчётом закрытых точек внутри (offline, sweep по $x$ и Фенвик по $y,z$) — $O(\log^2)$ на запрос. Лектор отмечает возможность $O(\log)$, так как все параллелепипеды пересекаются в опорной точке и задача делится на восемь квадрантов.</li>
-  <li><b>M</b> — задача из листка, на лекции не разбиралась.</li>
+<li><strong>A. RMQ</strong> — разреженная таблица (sparse table).</li>
+<li><strong>B. Прямоугольники на матрице <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=14602" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:03:22</a>.</strong> Пересечение прямоугольников подматрицы: по левым границам берём максимум, по правым — минимум. Нужно четыре запроса RMQ на разных матрицах — двумерная sparse table.</li>
+<li><strong>C. Трёхмерный Фенвик <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=14646" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:04:06</a>.</strong> Обновление элемента массива $n\times n\times n$ и сумма в параллелепипеде — трёхмерное дерево Фенвика.</li>
+<li><strong>D. $k$-й ноль на отрезке <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=14666" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:04:26</a>.</strong> Дерево отрезков со спуском: $c_i=1$ при $a_i=0$. Находим число нулей до начала отрезка и ищем $(k+\text{это})$-й ноль во всём массиве спуском. Альтернативы — декартово дерево по позициям нулей или <code>order_set</code>.</li>
+<li><strong>E. Числа из $[x,y]$ на отрезке <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=14754" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:05:54</a>.</strong> Merge sort tree.</li>
+<li><strong>F. Зависть <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=14777" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:06:17</a>.</strong> Школьники с парами $(A_i,B_i)$ садятся по очереди; нужно посчитать число уже севших с $A_j&lt;A_i$ и $B_j>B_i$. Двумерный Фенвик: по $A$ — префикс, во внутреннем Фенвике по $B$ — количество больших.</li>
+<li><strong>G. Сумма на отрезке значений в множестве <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=14886" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:08:06</a>.</strong> Явное декартово дерево с суммой в поддереве: добавление числа; чтобы получить сумму от $L$ до $R$, делаем <code>split</code> по $L$ и по $R$, берём сумму средней части и склеиваем обратно.</li>
+<li><strong>H. Перевороты <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=14907" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:08:27</a>.</strong> Неявное декартово дерево с минимумом в поддереве и флагом переворота.</li>
+<li><strong>I. Логи <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=14970" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:09:30</a>.</strong> Операции: вставить подряд $\ell$ записей одного типа перед индексом, удалить подряд идущие записи, найти число различных типов на отрезке. Типы — 26 букв, поэтому для каждого элемента храним <em>маску</em> и берём <code>OR</code> масок на отрезке; число различных — число единичных битов. Декартово дерево по неявному ключу хранит не элементы, а <em>блоки подряд идущих одинаковых значений</em> с длиной; на границах операций блоки расщепляются (<code>split</code>), в середине удаляется лишнее. Число удалений не превосходит числа вставок, поэтому амортизированно всё быстро.</li>
+<li><strong>J. Минимальная невычислимая сумма на отрезке <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=15248" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:14:08</a>.</strong> Для множества весов: отсортировать по возрастанию и найти первый вес $v_i>1+\sum_{j&lt;i}v_j$; ответ — $1+\sum_{j&lt;i}v_j$. Для запросов на отрезке храним в вершине merge-sort-подобного дерева «кандидатов» — элементов, превосходящих сумму предыдущих плюс единица (их $O(\log C)$: при каждом таком элементе префиксная сумма хотя бы удваивается). Слияние двух списков делается с последующей фильтрацией; точное значение суммы меньших для кандидата находится по merge sort tree. Лектор честно оценил такое решение как $O(\log^3)$ с быстрым выходом при первом найденном ответе и не нашёл более изящного за время занятия.</li>
+<li><strong>K. Склад <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=16167" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:29:27</a>.</strong> Нужно просимулировать открытие комнат в заданном порядке за минимум действий. Жадность: если комната уже открывалась, её можно каждый раз возвращать так, чтобы она оказывалась сверху нужный раз. Вставляем вынутую комнату $X$ <em>сразу после</em> последней позиции среди комнат, которые понадобятся раньше следующего появления $X$. В неявном декартовом дереве храним следующую позицию вхождения каждой комнаты в массив $A$ и минимум в поддереве; нужный индекс находится спуском (максимальный суффикс, где минимум не меньше $p$). Альтернативно порядок вынимания строится стеком за линейное время, а позицию вставки задаёт число различных комнат на отрезке (сканлайн + дерево отрезков).</li>
+<li><strong>L. Магазин в трёхмерном пространстве <a class="ts" href="https://youtu.be/7A7FcU1W58o?t=16724" target="_blank" rel="noopener" title="Смотреть лекцию с этого момента">4:38:44</a>.</strong> Неизвестный параллелепипед содержит все «открытые» наблюдения и ни одного «закрытого». Берём минимальный по включению параллелепипед, накрывающий открытые точки; если в него попала закрытая — противоречие. Для запроса: внутри минимального параллелепипеда магазин точно открыт; иначе проверяем, есть ли закрытая точка в параллелепипеде, расширенном запросной точкой — если есть, магазин точно закрыт, иначе ответ «неизвестно». Проверки оффлайн: сканлайн по $x$ и двумерный Фенвик по $y,z$ — $O(\log^2)$ на запрос; можно и $O(\log)$, разбив пространство на восемь октантов относительно общей открытой точки.</li>
 </ul>
-
-<p>Подвести итог лекции: все три техники — Кнут, разделяй и властвуй, CHT с Ли Чао — опираются на монотонность оптимума или на структуру прямых. Прежде чем применять технику, лектор советует проверить условие на выпуклость, монотонность или «одно пересечение» конкретной формулы.</p>
 
 <footer>
-  Конспект подготовлен по записи занятия Яндекс кружка. Таймкоды соответствуют исходной видеозаписи. Код на C++ приведён в виде, эквивалентном разобранному на занятии.
+  Конспект подготовлен по записи занятия Яндекс кружка. Таймкоды соответствуют исходной видеозаписи.
 </footer>
-<nav class="pager" aria-label="Соседние занятия"><a class="prev" href="parallel-ap-zan4-struktury-2.html"><small>← занятие 4</small><b>Структуры данных 2</b></a><a class="next" href="parallel-ap-zan6-grafy-1.html"><small>занятие 6 →</small><b>Графы 1</b></a></nav>
+<nav class="pager" aria-label="Соседние занятия"><a class="prev" href="../parallel-ap/parallel-ap-zan4-struktury-2.html"><small>← занятие 4</small><b>Структуры данных 2</b></a><a class="next" href="../parallel-ap/parallel-ap-zan6-grafy-1.html"><small>занятие 6 →</small><b>Графы 1</b></a></nav>
 </div>
 
 <button class="toplink" id="topBtn">↑ наверх</button>

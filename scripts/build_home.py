@@ -60,7 +60,8 @@ TOTAL = sum(len(v) for v in LESSONS.values())
 
 THEME_INIT = ('<script>(function(){try{var t=localStorage.getItem("conspectusTheme");'
               'document.documentElement.setAttribute("data-theme",t||"light")}catch(e){document.documentElement.setAttribute("data-theme","light")}})();</script>')
-TRACK = ('<script data-goatcounter="https://vmaiorov.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>\n'
+TRACK = ("<script>try{if(location.protocol.indexOf('http')===0&&navigator.sendBeacon)navigator.sendBeacon('https://conspectus-bots.d6544559.workers.dev/hit?p='+encodeURIComponent(location.pathname))}catch(e){}</script>\n"
+         '<script data-goatcounter="https://vmaiorov.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>\n'
          '<script defer src=\'https://static.cloudflareinsights.com/beacon.min.js\' '
          'data-cf-beacon=\'{"token": "82e3760401a547558cc1d22198113255"}\'></script>')
 TOGGLE = '<button type="button" id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">тёмная тема</button>'

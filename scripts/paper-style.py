@@ -655,6 +655,10 @@ THEME_ANIM_JS = (
     'if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,sel)}else{sel()}});</script>'
 )
 
+# Собственный счётчик уникальных посетителей (воркер conspectus-bots, D1).
+HIT_BEACON = ("<script>try{if(location.protocol.indexOf('http')===0&&navigator.sendBeacon)"
+    "navigator.sendBeacon('https://conspectus-bots.d6544559.workers.dev/hit?p='+encodeURIComponent(location.pathname))}catch(e){}</script>\n")
+
 # Основной счётчик (стоял только на index.html — на страницах лекций не было
 # вообще никакого GoatCounter-тега, поэтому заходы на них не считались).
 GOATCOUNTER_BEACON = (
@@ -880,6 +884,8 @@ def apply(path: Path) -> str:
         s = s.replace("</head>", block + "</head>", 1)
     if "data-goatcounter" not in s:
         s = s.replace("</head>", GOATCOUNTER_BEACON + "</head>", 1)
+    if "conspectus-bots.d6544559" not in s:
+        s = s.replace("</head>", HIT_BEACON + "</head>", 1)
     if "cloudflareinsights.com" not in s:
         s = s.replace("</head>", CF_BEACON + "</head>", 1)
     s = s.replace(OLD_TOP, NEW_TOP, 1)
